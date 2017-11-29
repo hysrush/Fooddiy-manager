@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans   
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    
+	<!-- url 패턴 중 /를 인식하기 위해서 설정 -->
+	<mvc:default-servlet-handler />
+	
+	<!-- resources 파일 쓰려고 설정해 둔 것 -->  
+	<mvc:resources location="/resources/" mapping="/resources/**"></mvc:resources>
+	
+	<!-- 객체 생성을 선언해 주는 태그 & annotation 사용 가능하게 할 태그 -->
+	<context:component-scan base-package="kr.co.bit"/>
+	
+	
+	<!-- aop annotation으로 이용 -->
+	<aop:aspectj-autoproxy/>
+	
+	<!-- java에서 db 접속할 때 필요로 하는 사용자 정보를 저장하는 클래스 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="username" value="hr"/>
+		<property name="password" value="hr"/>
+	
+	</bean>
+	
+	<!-- java에서 db접속을 가능하게 해 주는 클래스 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 접속할 DB의 사용자 정보 -->
+		<property name="dataSource" ref="dataSource"/>
+		
+		<!-- mybatis 기본 설정 -->
+		<property name="configLocation" value="classpath:config/mybatis/mybatis-config.xml"/>
+		
+		<!-- sql문 => mapper파일은 여러개 쓸 수 있으므로 s 붙임 -->
+		<property name="mapperLocations" value="classpath:config/sqlmap/oracle/*.xml"/>
+	</bean>
+	
+	<!-- spring에서는 sqlSessionFactory 객체를 직접 사용할 수 없어서 대체해서 사용하는 객체  -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"/>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 첨부 파일 관리를 위한 객체-->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<!-- 최대 업로드 파일 사이즈: 10MB -->
+    		<property name="maxUploadSize" value="10485760"/>
+    </bean>
+    
+	<!-- 메일 인증  -->
+	<!-- 메일보내기 -->
+	<bean id="mailSender" class = "org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="skdml132@gmail.com" />
+		<property name="password" value="tkfkdgo931008" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- spring 프로젝트에 mvc 패턴 도입하기 위한 설정 -->
+	<mvc:annotation-driven>
+	
+	<!-- 전달하는 data가 깨지지 않도록 하게 해 주는 설정 -->
+    <mvc:message-converters>
+    	<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+    	<property name="supportedMediaTypes">
+    		<list>
+    			<value>text/html; charset=UTF-8</value>
+    		</list>
+    	</property>
+    	</bean>
+    	
+    	<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+    	<property name="supportedMediaTypes">
+			<list>
+				<value>text/html; charset=UTF-8</value>
+				<value>application/json; charset=UTF-8</value>
+			</list>
+    	</property>
+    	</bean>
+    	
+    </mvc:message-converters>
+    
+    </mvc:annotation-driven>
+    
+    <!-- controller에서 요청에 대한 응답을 보여 줄 jsp의 위치를 공통적으로 설정 -->
+    <mvc:view-resolvers>
+		<mvc:jsp prefix="/WEB-INF/" suffix=".jsp" /><!-- 주소는 prefix를 시작으로 하고, 확장자는 꼭 .jsp여야 함 -->
+	</mvc:view-resolvers>
+	
+</beans>
