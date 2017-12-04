@@ -6,5 +6,6 @@
 
 <configuration>
 	<typeAliases>
+		<typeAlias type="kr.co.bit.menu.vo.MenuVO" alias="menuVO"/>
 	</typeAliases>
 </configuration>

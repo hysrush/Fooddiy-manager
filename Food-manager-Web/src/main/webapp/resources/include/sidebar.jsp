@@ -34,17 +34,17 @@
 			</div>
 			<div class="logo-element" id="logo"><span id="fooddiy">Fooddiy-Order</span> Admin+</div>
 		</li>
-		<li class="active"><a href="index.html"><i
+		<li class="active"><a href="FirstPage.jsp"><i
 				class="fa fa-th-large"></i> <span class="nav-label">Main</span></a></li>
 		<li><a href="css_animation.html"><i class="fa fa-magic"></i>
 				<span class="nav-label">메인페이지 관리</span><span
 				class="label label-info pull-right">NEW</span></a></li>
-		<li><a href="mailbox.html"><i class="fa fa-sitemap"></i> <span
+		<li><a href="#"><i class="fa fa-sitemap"></i> <span
 				class="nav-label">메뉴 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="mailbox.html">메뉴 리스트</a></li>
-				<li><a href="mail_detail.html">메뉴 등록</a></li>
-				<li><a href="mail_compose.html">품절 메뉴 관리</a></li>
+				<li><a href="menu/menuAll.do">메뉴 리스트</a></li>
+				<li><a href="menu/menuBoard.do">메뉴 관리</a></li>
+				<li><a href="menu/menuRegister.do">메뉴 등록</a></li>
 			</ul></li>
 		<li><a href="#"><i class="fa fa-shopping-cart"></i> <span
 				class="nav-label">주문 관리</span><span class="fa arrow"></span></a>
