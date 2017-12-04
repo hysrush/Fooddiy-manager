@@ -18,26 +18,7 @@
     <link href="${ pageContext.request.contextPath}/resources/css/animate.css" rel="stylesheet">
     <link href="${ pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
     
-    <!-- <script>
-    	$(function(){
-    		if(${menu.type == 'R'}){
-    			$('.text-muted').html("추천메뉴");}
-    		else if(${menu.type == 'P'}){
-    			$('.text-muted').html("프리미엄");}
-    		else if(${menu.type == 'B'}){
-    			$('.text-muted').html("베스트");}
-    		else if(${menu.type == 'C'}){
-    			$('.text-muted').html("클래식");}
-    		else if(${menu.type == 'M'}){
-    			$('.text-muted').html("아침식사");}
-    		else if(${menu.type == 'S'}){
-    			$('.text-muted').html("샐러드");}
-    		else if(${menu.type == 'N'}){
-    			$('.text-muted').html("추가메뉴");}
-    		else if(${menu.type == 'D'}){
-    			$('.text-muted').html("음료");}
-    	});
-    </script> -->
+
 </head>
 <body>
 
@@ -76,7 +57,7 @@
 	                <div class="col-md-3">
 	                    <div class="ibox">
 	                        <div class="ibox-content product-box">
-	
+								<div class = "menuType" style = "display: none">${ menu.type }</div>
 	                            <div class="product-imitation">
 	                                <img src="${ pageContext.request.contextPath }/upload/menu/${ menu.imgFileName }" style="width: 100%;">
 	                            </div>
@@ -131,6 +112,35 @@
 <!-- Custom and plugin javascript -->
 <script src="${ pageContext.request.contextPath}/resources/js/inspinia.js"></script>
 <script src="${ pageContext.request.contextPath}/resources/js/plugins/pace/pace.min.js"></script>
+    <script>
+    	$(document).ready(function() {
 
+    		
+    		for(var i = 0; i < $('.product-box').length; ++i) {
+    			
+    			var product  = $('.product-box').eq(i);
+    			
+    			
+	    		if( product.find('.menuType').text() == 'R'){
+	    			product.find('.text-muted').html("추천메뉴");}
+	    		else if(product.find('.menuType').text() == 'P'){
+	    			product.find('.text-muted').html("프리미엄");}
+	    		else if(product.find('.menuType').text() == 'B'){
+	    			product.find('.text-muted').html("베스트");}
+	    		else if(product.find('.menuType').text() == 'C'){
+	    			product.find('.text-muted').html("클래식");}
+	    		else if(product.find('.menuType').text() == 'M'){
+	    			product.find('.text-muted').html("아침식사");}
+	    		else if(product.find('.menuType').text() == 'S'){
+	    			product.find('.text-muted').html("샐러드");}
+	    		else if(product.find('.menuType').text() == 'N'){
+	    			product.find('.text-muted').html("추가메뉴");}
+	    		else if(product.find('.menuType').text() == 'D'){
+	    			product.find('.text-muted').html("음료");}
+    		}
+    		
+    		
+    	});
+    </script>
 </body>
 </html>

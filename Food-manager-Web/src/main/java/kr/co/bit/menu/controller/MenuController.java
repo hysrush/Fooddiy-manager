@@ -44,6 +44,21 @@ public class MenuController {
 		return mav;		
 	}
 	
+	@RequestMapping("/menuBoard.do")
+	public ModelAndView listAll2() {
+		
+		List<MenuVO> menuList = menuService.selectAllMenu();
+		
+		ModelAndView mav = new ModelAndView();
+		//setViewName : 어떤 페이지를 보여줄것인가
+		mav.setViewName("menu/menuBoard");
+		//addObject : key와 value를 담아 보내는 메서드
+		mav.addObject("menuList", menuList);
+		
+		return mav;		
+		
+	}
+	
 	// menu 새 글쓰기 폼
 	@RequestMapping(value="/menuWrite.do", method=RequestMethod.GET)
 	public String writeForm(Model model) {

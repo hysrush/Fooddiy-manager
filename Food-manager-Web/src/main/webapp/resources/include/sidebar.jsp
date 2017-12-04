@@ -42,9 +42,9 @@
 		<li><a href="#"><i class="fa fa-sitemap"></i> <span
 				class="nav-label">메뉴 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="menu/menuAll.do">메뉴 리스트</a></li>
-				<li><a href="menu/menuBoard.do">메뉴 관리</a></li>
-				<li><a href="menu/menuRegister.do">메뉴 등록</a></li>
+				<li><a href="${ pageContext.request.contextPath }/menu/menuAll.do">메뉴 리스트</a></li>
+				<li><a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴 관리</a></li>
+				<li><a href="${ pageContext.request.contextPath }/menu/menuRegister.do">메뉴 등록</a></li>
 			</ul></li>
 		<li><a href="#"><i class="fa fa-shopping-cart"></i> <span
 				class="nav-label">주문 관리</span><span class="fa arrow"></span></a>
