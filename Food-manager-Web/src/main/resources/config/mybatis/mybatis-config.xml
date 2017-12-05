@@ -7,5 +7,10 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="kr.co.bit.menu.vo.MenuVO" alias="menuVO"/>
+		 <typeAlias type="kr.co.bit.vo.CityVO"  alias="cityVO"/>
+	  	<typeAlias type="kr.co.bit.vo.locationVO"  alias="locationVO"/>
+	  	<typeAlias type="kr.co.bit.vo.StoreVO"  alias="storeVO"/>
+	  	<typeAlias type="kr.co.bit.vo.EventBoardVO" alias="eventVO"/>
+	  	<typeAlias type="kr.co.bit.vo.PagingVO" alias="pagingVO"/>
 	</typeAliases>
 </configuration>

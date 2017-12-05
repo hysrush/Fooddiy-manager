@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bit.dao.EventDAO">
+ 	
+  	<sql id="selectAll">
+		SELECT EVE_NO, STO_NAME, EVE_TITLE, EVE_CONTENT, EVE_FILENAME, TO_CHAR(EVE_START, 'YY-MM-DD') as EVE_START,
+		 TO_CHAR(EVE_FIN, 'YY-MM-DD') as EVE_FIN , TO_CHAR(REG_AT, 'YY-MM-DD') as REG_AT
+		FROM T_EVENT
+	</sql>
+  	
+  	<!-- t_board의 view_cnt와 reg_date와 BoardVO의 변수와 맞지 않으므로 mapping  -->
+   	<resultMap type="eventVO" id="Map_EventVO"> 	
+   		<result column="eve_no" property="no"/>
+   		<result column="sto_name" property="storeName"/>
+  	 	<result column="eve_title" property="title"/>
+  		<result column="eve_content" property="content"/>
+  		<result column="eve_filename" property="imgFileName"/>
+  		<result column="eve_start" property="startDate"/>
+  		<result column="eve_fin" property="endDate"/> 
+  		<result column="reg_at" property="regDate"/>
+  	</resultMap> 
+  	
+  	<resultMap type ="storeVO" id="Map_StoreVO">
+  		<result column = "sto_no" property ="storeNo"/>
+  		<result column = "loc_no" property = "locationNo"/>
+  		<result column = "sto_name" property ="storeName"/>
+  		<result column = "sto_phone" property ="storePhone"/>
+  		<result column = "sto_addr" property ="storeAddr"/>
+  		<result column = "reg_at" property ="regDate"/>
+  	</resultMap>
+  	
+  	<resultMap type = "cityVO" id="Map_CityVO">
+  		<result column = "city_no" property = "cityNo"/>
+  		<result column = "city_name" property = "cityName"/>
+  	</resultMap>
+  	
+  	<resultMap type ="locationVO" id="Map_LocationVO">
+  		<result column = "loc_no" property ="locationNo"/>
+  		<result column = "loc_name" property = "locationName"/> 
+  			
+  	</resultMap>
+	
+	
+	<!-- 진행중인 이벤트  조회 -->
+	<select id="selectAllEvent" resultMap="Map_EventVO">
+		SELECT EVE_NO, EVE_TITLE, EVE_CONTENT, EVE_FILENAME, TO_CHAR(EVE_START, 'YY-MM-DD') as EVE_START,
+		 TO_CHAR(EVE_FIN, 'YY-MM-DD') as EVE_FIN , TO_CHAR(REG_AT, 'YY-MM-DD') as REG_AT
+		FROM T_EVENT
+		where to_char( EVE_FIN, 'YY-MM-DD' ) > to_char( SYSDATE, 'YY-MM-DD')
+		ORDER BY EVE_NO DESC
+	</select>
+	
+	<!--  페이징 rownum 쿼리  -->
+		<select id= "selectPaging" parameterType ="pagingVO" resultMap="Map_EventVO">
+			SELECT *
+			FROM( SELECT ROWNUM RNUM, P.*
+			FROM( SELECT EVE_NO, EVE_TITLE, EVE_CONTENT, EVE_FILENAME, TO_CHAR(EVE_START, 'YY-MM-DD') as EVE_START,
+						 TO_CHAR(EVE_FIN, 'YY-MM-DD') as EVE_FIN , TO_CHAR(REG_AT, 'YY-MM-DD') as REG_AT
+			FROM T_EVENT 
+			WHERE TO_CHAR(EVE_FIN, 'YY-MM-DD') > TO_CHAR(SYSDATE, 'YY-MM-DD')
+			ORDER BY EVE_NO DESC) P )
+			WHERE RNUM BETWEEN #{start} AND #{last}
+		</select>
+	<!--  페이징 total 쿼리 -->
+	<select id ="selectTotalPaging" resultType ="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM T_EVENT
+	</select>
+	
+	<!--  종료된 이벤트 조회  -->
+		<select id="selectEndEvent" resultMap="Map_EventVO" parameterType ="pagingVO">
+		SELECT *
+			FROM( SELECT ROWNUM RNUM, P.*
+			FROM( SELECT EVE_NO, EVE_TITLE, EVE_CONTENT, EVE_FILENAME, TO_CHAR(EVE_START, 'YY-MM-DD') as EVE_START,
+						 TO_CHAR(EVE_FIN, 'YY-MM-DD') as EVE_FIN , TO_CHAR(REG_AT, 'YY-MM-DD') as REG_AT
+			FROM T_EVENT 
+			where to_char( SYSDATE, 'YY-MM-DD') > to_char( EVE_FIN, 'YY-MM-DD' )
+			ORDER BY EVE_NO DESC) P )
+			WHERE RNUM BETWEEN #{start} AND #{last}
+	</select>
+	
+	<!--  매장명으로 이벤트 조회  -->
+	<select id ="selectEventBystoreName" resultMap="Map_EventVO" parameterType = "String">
+		SELECT EVE_NO, EVE_TITLE , EVE_CONTENT, EVE_FILENAME, TO_CHAR(EVE_START, 'YY-MM-DD')as EVE_START
+		, TO_CHAR(EVE_FIN, 'YY-MM-DD') as EVE_FIN , TO_CHAR(REG_AT, 'YY-MM-DD') as REG_AT
+		FROM T_EVENT
+		WHERE STO_NAME = #{store}
+		ORDER BY EVE_NO DESC
+	</select>
+	
+	<!--  시 데이터 불러오기  -->
+		<select id ="selectCity" resultMap="Map_CityVO">
+			SELECT CITY_NO , CITY_NAME
+				FROM T_CITY
+				ORDER BY CITY_NO ASC			
+		</select>	
+		
+	<!--  구 데이터 불러오기  -->	
+		<select id ="selectLocation" resultType="hashmap" parameterType="String">
+			SELECT LOC_NO ,LOC_NAME
+			  FROM T_LOCATION
+			 WHERE CITY_NO = #{sido}
+			 ORDER BY LOC_NO ASC
+		</select>
+		
+	<!--  매장 데이터 불러오기  -->	
+		<select id = "selectStore" resultMap="Map_StoreVO" parameterType="String">
+			SELECT STO_NO, LOC_NO, STO_NAME, STO_PHONE, STO_ADDR 
+			FROM T_STORE
+			WHERE LOC_NO = #{gugun}
+			ORDER BY STO_NO ASC
+		</select>
+	
+	<select id="selectByNo" parameterType="int" resultMap="Map_EventVO" >
+		<include refid="selectAll"/>
+		WHERE EVE_NO = #{no}
+	</select>
+	
+	<!-- 구군 이름 불러오기 -->
+	<select id="locationName" parameterType="String" resultType="String">
+		SELECT LOC_NAME
+		FROM T_LOCATION
+		WHERE LOC_NO = #{gugun}
+	</select>
+	
+	<!-- 매장명 검색 vo 리스트 -->
+	<select id="searchStoreName" parameterType="java.lang.String" resultMap="Map_StoreVO">
+		SELECT STO_NO, LOC_NO, STO_NAME, STO_PHONE, STO_ADDR 
+		FROM T_STORE
+		WHERE STO_NAME LIKE '%${value}%'
+		ORDER BY STO_NO ASC
+	</select>
+	
+	<!-- 새글 등록  -->
+	<insert id="insertEvent" parameterType="eventVO">
+		
+		INSERT INTO T_EVENT( EVE_NO, STO_NAME, EVE_TITLE, EVE_CONTENT, EVE_FILENAME, EVE_START, EVE_FIN )
+					VALUES(SEQ_T_EVENT_NO.NEXTVAL, #{storeName} , #{title}, #{content},#{imgFileName}, #{startDate}, #{endDate})
+	</insert>
+	
+	
+
+</mapper>
