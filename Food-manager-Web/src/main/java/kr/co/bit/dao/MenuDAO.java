@@ -1,7 +1,7 @@
-package kr.co.bit.menu.dao;
+package kr.co.bit.dao;
 
 import java.util.List;
-import kr.co.bit.menu.vo.MenuVO;
+import kr.co.bit.vo.MenuVO;
 
 public interface MenuDAO {
 	

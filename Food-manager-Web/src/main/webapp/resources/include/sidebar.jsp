@@ -34,7 +34,7 @@
 			</div>
 			<div class="logo-element" id="logo"><span id="fooddiy">Fooddiy-Order</span> Admin+</div>
 		</li>
-		<li class="active"><a href="FirstPage.jsp"><i
+		<li class="active"><a href="${ pageContext.request.contextPath }/FirstPage.jsp"><i
 				class="fa fa-th-large"></i> <span class="nav-label">Main</span></a></li>
 		<li><a href="css_animation.html"><i class="fa fa-magic"></i>
 				<span class="nav-label">메인페이지 관리</span><span

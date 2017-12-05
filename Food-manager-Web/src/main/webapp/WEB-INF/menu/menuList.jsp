@@ -118,8 +118,7 @@
     		
     		for(var i = 0; i < $('.product-box').length; ++i) {
     			
-    			var product  = $('.product-box').eq(i);
-    			
+    			var product  = $('.product-box').eq(i);    			
     			
 	    		if( product.find('.menuType').text() == 'R'){
 	    			product.find('.text-muted').html("추천메뉴");}

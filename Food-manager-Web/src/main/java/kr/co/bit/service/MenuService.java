@@ -1,8 +1,8 @@
-package kr.co.bit.menu.service;
+package kr.co.bit.service;
 
 import java.util.List;
 
-import kr.co.bit.menu.vo.MenuVO;
+import kr.co.bit.vo.MenuVO;
 
 public interface MenuService {
 	

@@ -25,7 +25,7 @@
 
 <body>
 
-    <div id="wrapper">    
+   	<div id="wrapper">    
     <!-- sidebar -->
     <jsp:include page="/resources/include/sidebar.jsp"/>
     
@@ -56,7 +56,7 @@
         <div class="wrapper wrapper-content animated fadeInRight ecommerce">
 
 
-            <!-- <div class="ibox-content m-b-sm border-bottom">
+            <div class="ibox-content m-b-sm border-bottom">
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
@@ -87,7 +87,7 @@
                     </div>
                 </div>
 
-            </div> -->
+            </div>
 
             <div class="row">
                 <div class="col-lg-12">
@@ -112,18 +112,18 @@
                                 
                                 <c:forEach items="${ menuList }" var="menu">
                                 
-                                <tr>
+                                <tr class="boardList">
                                     <td>
                                        ${ menu.name }
                                     </td>
-                                    <td>
-                                       ${ menu.type }
+                                    <td class="convType">
+                                       TYPE
                                     </td>
                                     <td>
                                         ${ menu.detail }
                                     </td>
                                     <td>
-                                        ${ menu.price }
+                                        ${ menu.price }원
                                     </td>
                                     <!-- <td>
                                         1000
@@ -138,6 +138,7 @@
                                             <button class="btn-white btn btn-xs" id="view" onclick="btnClick(${menu.no})">View</button>
                                             <button class="btn-white btn btn-xs">Edit</button>
                                         </div>
+                                        <div class = "menuType" style = "display: none">${ menu.type }</div>
                                     </td>
                                 </tr>
                                 
@@ -192,6 +193,28 @@
         $(document).ready(function() {
 
             $('.footable').footable();
+            
+            
+			for(var i = 0; i < $('.boardList').length; ++i) {    			
+    			var product  = $('.boardList').eq(i);
+	    		if( product.find('.menuType').text() == 'R'){
+	    			product.find('.convType').html("추천메뉴");}
+	    		else if(product.find('.menuType').text() == 'P'){
+	    			product.find('.convType').html("프리미엄");}
+	    		else if(product.find('.menuType').text() == 'B'){
+	    			product.find('.convType').html("베스트");}
+	    		else if(product.find('.menuType').text() == 'C'){
+	    			product.find('.convType').html("클래식");}
+	    		else if(product.find('.menuType').text() == 'M'){
+	    			product.find('.convType').html("아침식사");}
+	    		else if(product.find('.menuType').text() == 'S'){
+	    			product.find('.convType').html("샐러드");}
+	    		else if(product.find('.menuType').text() == 'N'){
+	    			product.find('.convType').html("추가메뉴");}
+	    		else if(product.find('.menuType').text() == 'D'){
+	    			product.find('.convType').html("음료");}
+    		}
+			
 
         });
         

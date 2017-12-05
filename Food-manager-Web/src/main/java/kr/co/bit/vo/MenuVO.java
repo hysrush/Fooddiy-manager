@@ -1,4 +1,4 @@
-package kr.co.bit.menu.vo;
+package kr.co.bit.vo;
 
 public class MenuVO {
 

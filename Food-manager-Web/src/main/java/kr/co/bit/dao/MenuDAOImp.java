@@ -1,4 +1,4 @@
-package kr.co.bit.menu.dao;
+package kr.co.bit.dao;
 
 import java.util.List;
 
@@ -6,14 +6,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import kr.co.bit.menu.vo.MenuVO;
+import kr.co.bit.vo.MenuVO;
 
 @Repository
 public class MenuDAOImp implements MenuDAO {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	private String url = "kr.co.bit.menu.dao.MenuDAO.";
+	private String url = "kr.co.bit.dao.MenuDAO.";
 	
 	// <Menu DAO>
 	// 메뉴 전체보기
