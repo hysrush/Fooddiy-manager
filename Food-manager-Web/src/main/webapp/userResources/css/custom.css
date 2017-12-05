@@ -1,0 +1,400 @@
+/* Add here all your CSS customizations */
+
+
+.shop .cart-title {
+	margin : 10px;
+	margin-top: 20px;
+}
+
+.shop table.cart .product-bread {
+	width: 15%;
+	font-size: 9pt;
+	color: gray;
+}
+.shop table.cart .product-add-ingredient {
+	width: 15%;
+	font-size: 9pt;
+	color: gray;
+}
+.shop table.cart .product-sauce {
+	width: 15%;
+	font-size: 9pt;
+	color: gray;
+}
+.shop table.cart .product-quantity {
+	width: 15%;
+}
+.shop table.cart .product-subtotal {
+	width: 20%;
+}
+
+.shop table.cart td.price_info {
+	text-align: center;
+}
+	
+.shop table.cart td.price_info p.all_price {
+	font-size: 20px;	
+}
+
+.shop table.cart td.price_info p.all_price strong.price_all {
+	color: red;
+}
+
+.shop .actions-continue{
+	
+	text-align: center;
+}
+
+.shop .actions-continue .cart-submit,
+.shop .actions-continue .cart-button {
+		
+	width : 200px;
+	height: 50px;
+	
+}
+.body
+	{
+		min-width: 320px;
+	}
+ 	.shop table.cart th.product-bread, .shop table.cart td.product-bread
+	{
+		display: none;
+	}
+ 	.shop table.cart th.product-add-ingredient, .shop table.cart td.product-add-ingredient
+	{
+		display: none;
+	} 
+ 	.shop table.cart th.product-sauce, .shop table.cart td.product-sauce
+	{
+		display: none;
+	} 
+
+#lnb {
+    position: relative;
+    top: 0;
+    left: 0;
+    float: left;
+    width: 179px;
+    table-layout: fixed;
+    z-index: 2;
+}
+
+#lnb > nav {
+    /* display: block; */
+}
+#lnb > nav > ul {
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+#lnb > nav > ul > li {
+    border-bottom: 1px solid #cccccc;
+}
+li {
+    list-style: none;
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+#lnb > nav > ul > li > a {
+    display: block;
+    padding: 0 15px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 40px;
+    color: #222222;
+    
+}
+
+
+
+
+.plus-minus-circle-button {
+	font-size: .8em;
+    width: 1em;
+    border-radius: 3em;
+    padding: .1em  .2em;
+    line-height: 1.25em;
+    border: 1px solid #333;
+    display: inline-block;
+    text-align: center;
+	
+}
+
+
+.circle-button {
+	
+ width:40px;
+ height:40px;
+ border-radius:20px;
+ -moz-border-radius : 20px;
+ -webkit-border-radius : 20px;
+ -ms-border-radius :20px;
+ -khtml-border-radius : 20px;
+ -o-border-radius :20px;
+ background:#7aa93c;
+ font:normal 30px/40px "나눔고딕", "돋움", "굴림";
+ font-weight : bold;
+ color:#fff;
+ text-align:center;
+}
+.button-family .less , .button-family .more {
+	background-color: white;
+	color: #7aa93c;
+	border-color: #7aa93c;
+}
+	
+.button-family .nomal {
+	background-color: #7aa93c;
+	color: white;
+}
+
+
+@media (min-width : 992px) {
+	
+	.mobile-select-menu {
+		display: none;
+	}
+}
+
+/* Responsive */
+/* 991  */
+@media ( max-width : 991px) {
+		#heading-primary{
+		font-size: 10px;
+	}
+	
+	#lnb {
+		float: none;
+		width: auto;
+		border-bottom: 1px solid #ccc;
+	}
+	#lnb > nav {
+	    height: 40px;
+	    overflow: hidden;
+	}
+	#lnb > nav > ul {
+		margin: 0;
+	    padding: 0;
+	    display: -webkit-flex;
+	    display: flex;
+	    overflow-x: auto;
+	    overflow-y: hidden;
+	    /* list-style:none;
+	    padding-left: 0px; */
+	    /* padding-left: 0px; */
+	}
+	#lnb > nav > ul > li {
+	    position: relative;
+	    -webkit-flex: none;
+	    flex: none;
+	    border-bottom: 0 none;
+	}
+	#lnb > nav > ul > li > a:hover, #lnb > nav > ul > li.active > a {
+	    background: none;
+	    color: #7aa93c;
+	}
+	#lnb > nav > ul > li > a {
+	    font-size: 13px;
+	    display: block;
+	    padding: 0 15px;
+	    font-weight: 600;
+	    font-size: 14px;
+	    line-height: 40px;
+	    color: #222222;
+		}
+	#lnb > nav > ul > li:after {
+	    content: '';
+	    display: block;
+	    width: 1px;
+	    height: 40%;
+	    position: absolute;
+	    top: 30%;
+	    right: 0;
+	    background: #ddd;
+	}
+	
+	
+	
+	.shop .actions-continue {
+		float: none;
+	}
+	
+	.shop .cart-submit, .shop .cart-button {
+		width:100px;
+	}
+	
+ 	.shop table.cart td.product-bread
+	{
+		font-size: 6pt;
+	} 
+	
+ 	.shop table.cart td.product-add-ingredient
+	{
+		font-size: 6pt;
+	} 
+	
+ 	.shop table.cart td.product-sauce
+	{
+		font-size: 6pt;
+	} 
+	
+	.shop table.cart .product-name {
+		width: 169px;
+	}
+	
+	.shop table.cart td.price_info {
+		text-align: center;
+	}
+	
+	.shop table.cart td.price_info p.all_price {
+		font-size: 20px;
+	}
+	.shop table.cart td.price_info p.all_price strong.price_all {
+		color: red;
+	}
+	
+	.shop .actions-continue .cart-submit,
+	.shop .actions-continue .cart-button {
+		width : 150px;
+		height : 40px;
+	}
+	
+	
+	.tabs.tabs-simple .nav-tabs > li a, .tabs.tabs-simple .nav-tabs > li a:hover, .tabs.tabs-simple .nav-tabs > li a:focus {
+	padding: 0px 0px;
+	background: none;
+	border: 0;
+	border-bottom: 3px solid #eee;
+	border-radius: 0;
+	color: #777;
+	font-size: 14px;
+	width:85.5px;
+
+	}
+	
+	.featured-boxes-style-5 .featured-box .icon-featured, .featured-boxes-style-6 .featured-box .icon-featured, .featured-boxes-style-7 .featured-box .icon-featured {
+	display: inline-block;
+	font-size: 20px;
+	height: 33px;
+	padding: 0;
+	width: 33px;
+	margin-top: 0;
+	margin-bottom: 10px;
+	background: #FFF;
+	border: 1px solid #dfdfdf;
+	color: #777;
+	line-height: 35px;
+	}
+	
+	.tabs-center .nav-tabs {
+	margin: 15px auto;
+	text-align: center;	
+	}
+	
+	
+	.web{
+		display: none;
+	}
+	
+	.panel-group .panel {
+		display: block;
+	}
+	
+	/* seleect-topping-mobile */
+	table.topping-table td.topping-name, table.vegetable-table td.vegetable-name {
+		width: 50%;
+		font-size: 15px;
+	}
+	
+	table.sauce-table td.sauce-name {
+		width: 70%;
+		font-size: 15px;
+	
+	}
+	
+	strong.name , strong.eng_name{
+		color: gray;
+		font-size: 15px;
+		
+	}
+	
+	table.topping-table td.topping-price, table.vegetable-table td.vegetable-plus-minus {
+		width: 20%;
+		text-align: right;
+		color: red;
+		font-weight: bold;
+		font-size: 15px;
+	}
+	
+	.select-menu-button {
+		background-color: #0cc485; 
+		border: 0px; 
+		font-size: 12pt; 
+		font-weight: bold;
+		width: 200px;
+		height: 50px;
+	}	
+	
+	
+}
+
+
+.thumb-info .topping-price {
+		color: yellow;
+}
+
+.shop .cart-totals th, .shop .cart-totals td {
+	border-top: 1px solid #DCDCDC;
+	padding: 2px 0px;
+}
+
+
+.shop table.cart .product-name {
+	width: 33%;
+}
+
+.featured-box .box-content {
+	border-radius: 8px;
+	border-top: 1px solid #CCC;
+	border-top-width: 4px;
+	padding: 30px 31px 10px 13px;
+	position: relative;
+	top: -1px;
+}
+
+.shop table.cart td {
+	border-top: 1px solid #DCDCDC;
+	padding: 8px 0px;
+}
+
+.checkbox label, .radio label {
+    min-height: 20px;
+    padding-left: 37px;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.container {
+    padding-right: 16px;
+    padding-left: 14px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+
+
