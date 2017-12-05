@@ -242,5 +242,32 @@
 		
 		<!-- Theme Initialization Files -->
 		<script src="${ pageContext.request.contextPath}/userResources/js/theme.init.js"></script>
+		
+		
+			<script type="text/javascript">
+			function doAction(type) {
+				switch(type) {
+				case 'U' : 
+					if(confirm("수정 하시겠습니까?")) {
+						location.href="<%=request.getContextPath()%>/reWrite.do"+"?no=${ param.no }";
+					}
+					break;
+				case 'D' : 
+					if(confirm("삭제 하시겠습니까?")) {
+						location.href="<%=request.getContextPath()%>/delete.do"+"?no=${ param.no }";
+					}
+					break;
+				case 'L' : 
+					if(confirm("목록으로 돌아가시겠습니까?")) {
+						location.href = "<%=request.getContextPath()%>/tipList.do";
+					}
+					break;
+				}
+			}
+		</script>
+	
+		
+		
+		
 </body>
 </html>
