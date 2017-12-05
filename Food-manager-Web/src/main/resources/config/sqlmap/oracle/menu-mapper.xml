@@ -16,7 +16,7 @@
 	</sql>
 	
 	<!-- DB t_menu와 MenuVO의 변수가 맞지 않으므로 mapping -->
-	<resultMap type="menuVO" id="Map_menuVO">
+	<resultMap type="kr.co.bit.menu.vo.MenuVO" id="Map_menuVO">
 		<result column="menu_no" property="no"/>	
 		<result column="menu_name" property="name"/>
 		<result column="main_menu" property="mainmenu"/>
