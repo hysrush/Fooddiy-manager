@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bit.dao.StoreDAO">
+
+
+
+	<resultMap type ="storeVO" id="Map_StoreVO">
+  		<result column = "sto_no" property ="storeNo"/>
+  		<result column = "loc_no" property = "locationNo"/>
+  		<result column = "sto_name" property ="storeName"/>
+  		<result column = "sto_phone" property ="storePhone"/>
+  		<result column = "sto_addr" property ="storeAddr"/>
+  		<result column = "reg_at" property ="regDate"/>
+  	</resultMap>
+
+  	<resultMap type = "cityVO" id="Map_CityVO">
+  		<result column = "city_no" property = "cityNo"/>
+  		<result column = "city_name" property = "cityName"/>
+  	</resultMap>
+  	
+  	<resultMap type ="locationVO" id="Map_LocationVO">
+  		<result column = "loc_no" property ="locationNo"/>
+  		<result column = "loc_name" property = "locationName"/> 
+  			
+  	</resultMap>
+  	
+  	
+  	
+  	
+  	
+  	
+  	<!--  시 데이터 불러오기  -->
+		<select id ="selectCity" resultMap="Map_CityVO">
+			SELECT CITY_NO , CITY_NAME
+				FROM T_CITY
+				ORDER BY CITY_NO ASC			
+		</select>	
+		
+	<!--  구 데이터 불러오기  -->	
+		<select id ="selectLocation" resultType="hashmap" parameterType="String">
+			SELECT LOC_NO ,LOC_NAME
+			  FROM T_LOCATION
+			 WHERE CITY_NO = #{sido}
+			 ORDER BY LOC_NO ASC
+		</select>
+		
+	<!--  매장 데이터 구군 정보로  불러오기  -->	
+		<select id = "selectStore" resultMap="Map_StoreVO" parameterType="String">
+			SELECT STO_NO, LOC_NO, STO_NAME, STO_PHONE, STO_ADDR 
+			FROM T_STORE
+			WHERE LOC_NO = #{gugun}
+			ORDER BY STO_NO ASC
+		</select>
+		<!--  매장데이터 주소정보로 불러오기  -->
+		<select id = "selectStoreAddr" resultMap="Map_StoreVO" parameterType="java.lang.String">
+			SELECT STO_NO, LOC_NO, STO_NAME, STO_PHONE, STO_ADDR 
+			FROM T_STORE
+			WHERE STO_ADDR = #{store}
+			ORDER BY STO_NO ASC
+		
+		</select>
+		
+		
+		
+	<!--  매장데이터 전체 불러오기  -->		
+		<select id = "selectStoreAll" resultMap="Map_StoreVO">
+			SELECT STO_NO, STO_NAME, STO_PHONE, STO_ADDR 
+			FROM T_STORE
+			
+		
+		</select>
+		
+		
+		
+		
+</mapper>
