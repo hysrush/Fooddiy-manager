@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bit.dao.QnaDAO">
+  	
+	<!-- ||| QnA 게시글 쿼리문 ||| -->
+	
+	<!-- sql 저장 : 전체 조회 -->
+  	<sql id="selectAll_qna">
+		SELECT qna_no, qna_q, qna_a, qna_type, to_char(reg_at, 'yy-mm-dd') as reg_at
+		FROM t_qna
+	</sql>
+	
+  	<!-- DB t_qna와 QnaBoardVO의 변수와 맞지 않으므로 mapping  -->
+  	<resultMap type="qnaVO" id="Map_qnaVO">
+  		<result column="qna_no" property="no"/>
+  		<result column="qna_q" property="question"/>
+  		<result column="qna_a" property="answer"/>
+  		<result column="qna_type" property="type"/>
+  		<result column="reg_at" property="regDate"/>
+  	</resultMap>
+	
+	<!-- 전체 QnA 게시글 조회 -->
+	<select id="selectAllQnA" resultMap="Map_qnaVO">
+		<include refid="selectAll_qna"/>
+		ORDER BY qna_no DESC
+	</select>
+	
+	<!-- 글번호별 QnA 게시글 조회 -->
+	<select id="selectOneQnA" parameterType="int" resultMap="Map_qnaVO" >
+		<include refid="selectAll_qna"/>
+		WHERE qna_no = #{no}
+	</select>
+	
+	<!-- QnA 글 등록 -->
+	<insert id="insertQnA" parameterType="qnaVO">
+		INSERT INTO t_qna(qna_no, qna_q, qna_a, qna_type)
+		VALUES(seq_t_qna_no.nextval, #{question}, #{answer}, #{type})
+	</insert>
+	
+	<!-- QnA 글 수정 -->
+	<update id="modifyQnA" parameterType="qnaVO">
+		UPDATE t_qna
+		SET qna_q = #{question}, qna_a = #{answer}, qna_type = #{type}
+		WHERE qna_no = #{no}
+	</update>
+	
+	<!-- QnA 글 삭제 -->
+	<delete id="removeQnA" parameterType="int" >
+		DELETE FROM t_qna
+		WHERE qna_no = #{no}
+	</delete>
+	
+</mapper>

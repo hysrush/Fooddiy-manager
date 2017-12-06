@@ -12,5 +12,7 @@
 	  	<typeAlias type="kr.co.bit.vo.StoreVO"  alias="storeVO"/>
 	  	<typeAlias type="kr.co.bit.vo.EventBoardVO" alias="eventVO"/>
 	  	<typeAlias type="kr.co.bit.vo.PagingVO" alias="pagingVO"/>
+	  	<!-- Community -->
+	  	<typeAlias type="kr.co.bit.vo.QnaBoardVO" alias="qnaVO"/>
 	</typeAliases>
 </configuration>

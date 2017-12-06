@@ -71,7 +71,7 @@
 		<li><a href="#"><i class="fa fa-desktop"></i> <span
 				class="nav-label">커뮤니티 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="contacts.html">자주묻는질문 관리</a></li>
+				<li><a href="${ pageContext.request.contextPath }/community/qna/qnaList.do">자주묻는질문 관리</a></li>
 				<li><a href="profile.html">공지사항 관리</a></li>
 				<li><a href="profile_2.html">보도자료 관리</a></li>
 				<li><a href="contacts_2.html">1:1문의 관리</a></li>
@@ -104,6 +104,15 @@
 			<i class="fa fa-home"></i><span class="nav-label">Fooddiy-Order</span></a>
 		</li>
 	</ul>
-
 </div>
 </nav>
+<script src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js">
+$(document).ready(function() {
+	
+	$('li').click(function() {
+		 $('li').removeClass('active');
+		 $(this).addClass('active');
+	});
+
+});
+</script>
