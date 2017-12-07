@@ -16,6 +16,8 @@
 
     <link href="${ pageContext.request.contextPath}/resources/css/animate.css" rel="stylesheet">
     <link href="${ pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
 </head>
 <body>
 
@@ -46,6 +48,7 @@
 
             </div>
         </div>
+        
 
         <div class="wrapper wrapper-content animated fadeInRight">
             
@@ -119,8 +122,9 @@
                                     </dl>
                                     <div class="text-right">
                                         <div class="btn-group">
-                                            <button class="btn btn-white btn-sm"><i class="fa fa-star"></i> Add to wishlist </button>
-                                            <button class="btn btn-white btn-sm"><i class="fa fa-envelope"></i> Contact with author </button>
+                                            <button class="btn btn-danger btn-sm demo4" onclick="del(${ menuDetailVO.no })">삭제</button>
+                                            <!-- <button class="btn btn-white btn-sm"><i class="fa fa-star"></i> Add to wishlist </button>
+                                            <button class="btn btn-white btn-sm"><i class="fa fa-envelope"></i> Contact with author </button> -->
                                         </div>
                                     </div>
 
@@ -171,16 +175,44 @@
 <!-- slick carousel-->
 <script src="${ pageContext.request.contextPath}/resources/js/plugins/slick/slick.min.js"></script>
 
+<!-- sweetalert js & css -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
+
+
+
 <script>
+
     $(document).ready(function(){
 
 
         $('.product-images').slick({
             dots: true
-        });
+        });        
+        
+        
+        
+        $('.demo4').click(function () {
+		    swal({
+		        title: "정말 삭제하시겠습니까?",
+		        type: "warning",
+		        showCancelButton: true,
+		        cancelButtonText: "취소",
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "삭제",
+		        closeOnConfirm: false
+		    }, function () {
+		        swal("삭제되었습니다!", "", "success");
+		        // OK 누르면 삭제 실행
+		        $('.confirm').click(function () {
+		        	location.href = '${ pageContext.request.contextPath}/menu/menuBoard.do?no=' + ${ menuDetailVO.no};
+				});
+		    });
+		});       
+        
 
     });
 
+	
 </script>
 
 </body>

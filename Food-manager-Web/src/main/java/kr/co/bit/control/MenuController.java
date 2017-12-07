@@ -125,6 +125,15 @@ public class MenuController {
 		return mav;
 	}
 	
+	// menu 삭제
+	@RequestMapping(value="/menuDelete.do", method=RequestMethod.GET)
+	public String delete(@RequestParam("no") int no) {
+		
+		menuService.removeMenu(no);		
+		
+		return "redirect:/menu/menuBoard.do";
+		
+	}
 	
 	
 /*	// '주문하기'선택 후 매장화면으로	

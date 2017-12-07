@@ -77,10 +77,10 @@
 
                                         <fieldset class="form-horizontal">
                                             <div class="form-group"><label class="col-sm-2 control-label">메뉴 이름:</label>
-                                                <div class="col-sm-10"><form:input path="name" type="text" class="form-control" placeholder="Menu name" name="max"/></div>
+                                                <div class="col-sm-10"><form:input path="name" type="text" class="form-control" placeholder="Menu name" name="name"/></div>
                                             </div>
                                             <div class="form-group"><label class="col-sm-2 control-label">주 재료:</label>
-                                                <div class="col-sm-10"><form:input path="mainmenu" type="text" class="form-control" placeholder="Main ingredients"/></div>
+                                                <div class="col-sm-10"><form:input path="mainmenu" type="text" class="form-control" placeholder="Main ingredients" name="mainmenu"/></div>
                                             </div>
                                             <div class="form-group"><label class="col-sm-2 control-label">타입:</label>
                                                 <div class="col-sm-10">
@@ -98,11 +98,11 @@
                                                 </div>
                                             </div>
                                             <div class="form-group"><label class="col-sm-2 control-label">가격:</label>
-                                                <div class="col-sm-10"><form:input path="price" type="text" class="form-control" placeholder="Price"/></div>
+                                                <div class="col-sm-10"><form:input path="price" type="text" class="form-control" placeholder="Price" name="price"/></div>
                                             </div>
                                             <div class="form-group"><label class="col-sm-2 control-label">메뉴 상세내용:</label>
                                                 <div class="col-sm-10">                                                    
-                                                	<form:input path="detail" type="text" class="form-control" placeholder="내용을 입력해 주세요."/>
+                                                	<form:input path="detail" type="text" class="form-control" placeholder="내용을 입력해 주세요." name="detail"/>
                                                 	<br>
                                                 </div>
                                             </div>                                            
@@ -115,28 +115,27 @@
 
                                         <fieldset class="form-horizontal">
                                             <div class="form-group"><label class="col-sm-2 control-label">제공량:</label>
-                                                <div class="col-sm-10"><form:input path="serviceSize" type="text" class="form-control" placeholder="Service size"/></div>
+                                                <div class="col-sm-10"><form:input path="serviceSize" type="text" class="form-control" placeholder="Service size" name="serviceSize"/></div>
                                             </div>
                                             <div class="form-group"><label class="col-sm-2 control-label">칼로리:</label>
-                                                <div class="col-sm-10"><form:input path="calorie" type="text" class="form-control" placeholder="Calorie"/></div>
+                                                <div class="col-sm-10"><form:input path="calorie" type="text" class="form-control" placeholder="Calorie" name="calorie"/></div>
                                             </div>
                                             <div class="form-group"><label class="col-sm-2 control-label">단백질:</label>
-                                                <div class="col-sm-10"><form:input path="protein" type="text" class="form-control" placeholder="Protein"/></div>
+                                                <div class="col-sm-10"><form:input path="protein" type="text" class="form-control" placeholder="Protein" name="protein"/></div>
                                             </div>
                                             <div class="form-group"><label class="col-sm-2 control-label">나트륨:</label>
-                                                <div class="col-sm-10"><form:input path="natrium" type="text" class="form-control" placeholder="Natrium"/></div>
+                                                <div class="col-sm-10"><form:input path="natrium" type="text" class="form-control" placeholder="Natrium" name="natrium"/></div>
                                             </div>
                                             <div class="form-group"><label class="col-sm-2 control-label">당:</label>
-                                                <div class="col-sm-10"><form:input path="sugar" type="text" class="form-control" placeholder="Sugar"/></div>
+                                                <div class="col-sm-10"><form:input path="sugar" type="text" class="form-control" placeholder="Sugar" name="sugar"/></div>
                                             </div>
                                             <div class="form-group"><label class="col-sm-2 control-label">지방:</label>
-                                                <div class="col-sm-10"><form:input path="fat" type="text" class="form-control" placeholder="Fat"/></div>
+                                                <div class="col-sm-10"><form:input path="fat" type="text" class="form-control" placeholder="Fat" name="fat"/></div>
                                             </div>
                                             <div class="form-group"><label class="col-sm-2 control-label">알레르기:</label>
-                                                <div class="col-sm-10"><form:input path="allergy" type="text" class="form-control" placeholder="Allergy"/></div>
+                                                <div class="col-sm-10"><form:input path="allergy" type="text" class="form-control" placeholder="Allergy" name="allergy"/></div>
                                             </div>                                            
                                         </fieldset>
-
 
                                     </div>
                                 </div>                                
@@ -151,7 +150,7 @@
 										    <span class="input-group-addon btn btn-default btn-file">
 										        <span class="fileinput-new">Select file</span>
 										        <span class="fileinput-exists">Change</span>
-										        <form:input path="imgFileName" type="file" name="..."/>
+										        <form:input path="imgFileName" type="file" name="img"/>
 										    </span>
 										    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 										</div>
@@ -211,6 +210,11 @@
 <script src="${ pageContext.request.contextPath }/resources/js/plugins/validate/jquery.validate.min.js"></script>
 <script>
     $(document).ready(function(){
+    	
+    	// sidebar li & ul 클래스 active
+		$('.menuLI').addClass("active");
+		$('.menuLI > ul').addClass("in");
+		$('.menuRegister').addClass("active");
 		
         $('.summernote').summernote();
 
@@ -236,29 +240,59 @@
         //유효성검사
         $("#form").validate({
             rules: {
-                password: {
+            	name: {
                     required: true,
-                    minlength: 3
+                    maxlength: 16
                 },
-                url: {
+            	mainmenu: {
                     required: true,
-                    url: true
+                    maxlength: 33
                 },
-                number: {
+            	type: {
+                    required: true,
+                },
+            	price: {
                     required: true,
                     number: true
                 },
-                min: {
+            	detail: {
                     required: true,
-                    minlength: 6
+                    maxlength: 333
                 },
-                max: {
+                serviceSize: {
                     required: true,
-                    maxlength: 4
+                    number: true
+                },
+            	calorie: {
+                    required: true,
+                    number: true
+                },
+            	protein: {
+                    required: true,
+                    number: true
+                },
+            	natrium: {
+                    required: true,
+                    number: true
+                },
+            	sugar: {
+                    required: true,
+                    number: true
+                },
+            	fat: {
+                    required: true,
+                    number: true
+                },
+            	allergy: {
+                    required: true,
+                    maxlength: 33
+                },
+            	img: {
+                    required: true
                 }
             }
         });
-
+        
     });    
 </script>
 
