@@ -34,7 +34,7 @@
 			</div>
 			<div class="logo-element" id="logo"><span id="fooddiy">Fooddiy-Order</span> Admin+</div>
 		</li>
-		<li class="active"><a href="${ pageContext.request.contextPath }/FirstPage.jsp"><i
+		<li class="mainLI"><a href="${ pageContext.request.contextPath }/FirstPage.jsp"><i
 				class="fa fa-th-large"></i> <span class="nav-label">Main</span></a></li>
 		<li><a href="css_animation.html"><i class="fa fa-magic"></i>
 				<span class="nav-label">메인페이지 관리</span><span
@@ -66,10 +66,10 @@
 				<li><a href="lockscreen.html">매장별 이벤트 관리</a></li>
 				<li><a href="login_two_columns.html">매장 찾기 관리</a></li>
 			</ul></li>
-		<li><a href="#"><i class="fa fa-desktop"></i> <span
+		<li class="communityLI"><a href="#"><i class="fa fa-desktop"></i> <span
 				class="nav-label">커뮤니티 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="${ pageContext.request.contextPath }/community/qna/qnaList.do">자주묻는질문 관리</a></li>
+				<li class="qnaLI"><a href="${ pageContext.request.contextPath }/community/qna/qnaList.do">자주묻는질문 관리</a></li>
 				<li><a href="profile.html">공지사항 관리</a></li>
 				<li><a href="profile_2.html">보도자료 관리</a></li>
 				<li><a href="contacts_2.html">1:1문의 관리</a></li>
@@ -104,13 +104,3 @@
 	</ul>
 </div>
 </nav>
-<script src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js">
-$(document).ready(function() {
-	
-	$('li').click(function() {
-		 $('li').removeClass('active');
-		 $(this).addClass('active');
-	});
-
-});
-</script>

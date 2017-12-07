@@ -178,13 +178,17 @@
     <script type="text/javascript">
 		$(document).ready(function() {
 			
-		    $('.footable').footable();
+			// sidebar li & ul 클래스 active
+			$('.communityLI').addClass("active");
+			$('.communityLI > ul').addClass("in");
+			$('.qnaLI').addClass("active");
 		    
+			// footable 시작
+			$('.footable').footable();
+		    
+			// QnA 타입별 라벨 클래스명 & 텍스트 변경
 			for(var i = 0; i < $('.qnaList').length; ++i) {    	
-				
 				var qnaType  = $('.qnaList').eq(i).find('.label');
-				
-				// 타입별 라벨 클래스명 & 텍스트 변경
 				if(qnaType.text() == 'F'){
 					qnaType.attr("class","label label-primary");
 					qnaType.html("푸디오더");
@@ -216,8 +220,8 @@
                 buttons: [
                     {extend: 'copy'},
                     {extend: 'csv'},
-                    {extend: 'excel', title: 'ExampleFile'},
-                    {extend: 'pdf', title: 'ExampleFile'},
+                    {extend: 'excel', title: 'ExcelFile'},
+                    {extend: 'pdf', title: 'PdfFile'},
                     {extend: 'print',
                      customize: function (win){
                             $(win.document.body).addClass('white-bg');
@@ -227,6 +231,7 @@
                     }
                 ]
             });
+			
 		});
 		
 		// QnA 디테일 모달
