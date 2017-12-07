@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <head>
 <style type="text/css">
 	#logo {
@@ -56,10 +56,8 @@
 		<li><a href="#"><i class="fa fa-user-circle"></i> <span
 				class="nav-label">회원 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="form_basic.html">회원 리스트</a></li>
-				<li><a href="form_advanced.html">회원 등록</a></li>
-				<li><a href="form_wizard.html">등급 관리</a></li>
-				<li><a href="form_editors.html">포인트 관리</a></li>
+				<li><a href="${ pageContext.request.contextPath }/member/memberList">회원 리스트</a></li>
+				<li><a href="${ pageContext.request.contextPath }/member/memberRank">회원 랭킹</a></li>
 			</ul></li>
 		<li><a href="#"><i class="fa fa-star"></i> <span
 				class="nav-label">이벤트 관리</span><span class="fa arrow"></span></a>
