@@ -114,8 +114,7 @@
 	                                <c:forEach items="${ qnaList }" var="qna">
 		                                <tr class="qnaList">
 		                                    <td class="convType" width="100px;">
-			                                    <span class="label label-primary">type</span>
-		                                        <div class="qnaType" style = "display: none">${ qna.type }</div>
+			                                    <span class="label label-primary">${ qna.type }</span>
 		                                    </td>
 		                                    <td>
 		                                        ${ qna.question }
@@ -128,9 +127,9 @@
 		                                    </td>
 		                                    <td class="text-right">
 		                                        <div class="btn-group" width="10%" nowrap>
-		                                            <button class="btn-white btn btn-xs" id="view" onclick="btnClick(${qna.no})"><i class="fa fa-search"></i></button>
+		                                            <button class="btn-white btn btn-xs" id="view" onclick="modal(${qna.no})"><i class="fa fa-search"></i></button>
 		                                            <button class="btn-white btn btn-xs"><i class="fa fa-edit"></i></button>
-		                                            <button class="btn-white btn btn-xs"><i class="fa fa-trash"></i></button>
+		                                            <button class="btn-white btn btn-xs delete"><i class="fa fa-trash"></i></button>
 		                                        </div>
 		                                    </td>
 		                                </tr>
@@ -149,8 +148,17 @@
         </div>
         </div>
         </div>
+        
+        <!-- 모달들 -->
+		<div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content animated fadeIn">
+					<!-- 모달내용 -->
+				</div>
+			</div>
+		</div>
 
-    <!-- Mainly scripts -->
+	<!-- Mainly scripts -->
     <script src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
@@ -172,32 +180,30 @@
 			
 		    $('.footable').footable();
 		    
-			$('.dataTables_empty').html("해당 단어로 검색한 결과가 없습니다.");
-
 			for(var i = 0; i < $('.qnaList').length; ++i) {    	
 				
-				var qnaType  = $('.qnaList').eq(i);
+				var qnaType  = $('.qnaList').eq(i).find('.label');
 				
-				// 타입별 클래스명 & 텍스트 변경
-				if(qnaType.find('.qnaType').text() == 'F'){
-					qnaType.find('.label').attr("class","label label-primary");
-					qnaType.find('.label').html("푸디오더");
+				// 타입별 라벨 클래스명 & 텍스트 변경
+				if(qnaType.text() == 'F'){
+					qnaType.attr("class","label label-primary");
+					qnaType.html("푸디오더");
 				}
-				else if(qnaType.find('.qnaType').text() == 'P'){
-					qnaType.find('.label').attr("class","label label-danger");
-					qnaType.find('.label').html("포인트");
+				else if(qnaType.text() == 'P'){
+					qnaType.attr("class","label label-danger");
+					qnaType.html("포인트");
 				}
-				else if(qnaType.find('.qnaType').text() == 'O'){
-					qnaType.find('.label').attr("class","label label-warning");
-					qnaType.find('.label').html("주문");
+				else if(qnaType.text() == 'O'){
+					qnaType.attr("class","label label-warning");
+					qnaType.html("주문");
 				}
-				else if(qnaType.find('.qnaType').text() == 'M'){
-					qnaType.find('.label').attr("class","label label-success");
-					qnaType.find('.label').html("회원정보");
+				else if(qnaType.text() == 'M'){
+					qnaType.attr("class","label label-success");
+					qnaType.html("회원정보");
 				}
-				else if(qnaType.find('.qnaType').text() == 'X'){
-					qnaType.find('.label').attr("class","label label-plain");
-					qnaType.find('.label').html("기타");
+				else if(qnaType.text() == 'X'){
+					qnaType.attr("class","label label-plain");
+					qnaType.html("기타");
 				}
 			}
 			
@@ -222,15 +228,14 @@
                 ]
             });
 		});
-	
-		function btnClick(no) {
-			location.href = '${ pageContext.request.contextPath}/community/qna/qnaDetail.do?no=' + no;
-		} 
 		
-		function submit() {
-			document.getElementById("dForm").submit();
-		}
-	
+		// QnA 디테일 모달
+		function modal(no) {
+	        $('div.modal').modal().removeData();
+	        var url = '${ pageContext.request.contextPath}/community/qna/qnaDetail.do?no=' + no;
+	        $('div.modal').modal({ remote : url   });
+	    }
+		
 	</script>
 	</body>
 </html>

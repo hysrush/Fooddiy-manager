@@ -63,20 +63,38 @@ public class QnaController {
 		
 		return "redirect:/community/qna/qnaList.do";
 	}
-	// QnA 글 상세내용 조회 & 게시글 조회수 증가 처리
-	// ex) community/qnaDetail.do?no=15
+	// QnA 글 상세내용 조회
+	// ex) community/qna/qnaDetail.do?no=15
 	@RequestMapping(value="/qnaDetail.do", method=RequestMethod.GET)
-	public ModelAndView detail(@RequestParam("no") int no, HttpSession session) {
+	public ModelAndView detail(@RequestParam("no") int no) {
 
 		QnaBoardVO qnaVO = qnaService.selectOneQnA(no);
+		
+		int qnaLength = qnaVO.getQuestion().length();
+		System.out.println(qnaLength);
 		
 		ModelAndView mav = new ModelAndView();
 		//setViewName : 어떤 페이지를 보여줄것인가
 		mav.setViewName("community/qna/qnaDetail");
 		//addObject : key 와 value 를 담아 보내는 메서드 
 		mav.addObject("qnaVO", qnaVO);
+		// 줄바꿈 
+		mav.addObject("br", "<br/>");
+		mav.addObject("cn", "\n");
+		
+		mav.addObject("qnaLength", qnaLength);
 		
 		return mav;
+	}
+	
+	// QnA 글 삭제
+	@RequestMapping(value="/qnaDelete.do", method=RequestMethod.GET)
+	public String delete(@RequestParam("no") int no) {
+		
+		// 번호에 해당하는 QnA 글 삭제
+		qnaService.removeQnA(no);
+		
+		return "redirect:/community/qna/qnaList.do";
 	}
 
 }
