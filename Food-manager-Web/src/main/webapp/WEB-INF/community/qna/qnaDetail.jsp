@@ -32,10 +32,6 @@
 	<button class="btn btn-default delete" type="button"><i class="fa fa-trash"></i>&nbsp;&nbsp;삭제</button>
 </div>
 
-<!-- sweetalert js & css -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
-<link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
-
 <!-- Page-Level Scripts -->
 <script type="text/javascript">
 	$(document).ready(function() {
