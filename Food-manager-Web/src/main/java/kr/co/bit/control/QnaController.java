@@ -71,7 +71,6 @@ public class QnaController {
 		QnaBoardVO qnaVO = qnaService.selectOneQnA(no);
 		
 		int qnaLength = qnaVO.getQuestion().length();
-		System.out.println(qnaLength);
 		
 		ModelAndView mav = new ModelAndView();
 		//setViewName : 어떤 페이지를 보여줄것인가
@@ -81,7 +80,7 @@ public class QnaController {
 		// 줄바꿈 
 		mav.addObject("br", "<br/>");
 		mav.addObject("cn", "\n");
-		
+		// 질문 문자열 길이
 		mav.addObject("qnaLength", qnaLength);
 		
 		return mav;
