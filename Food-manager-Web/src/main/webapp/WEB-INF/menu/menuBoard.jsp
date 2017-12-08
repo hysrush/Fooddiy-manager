@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -21,6 +21,11 @@
 <link href="${ pageContext.request.contextPath }/resources/css/animate.css" rel="stylesheet">
 <link href="${ pageContext.request.contextPath }/resources/css/style.css" rel="stylesheet">
 
+<style type="text/css">
+	.convType > span {
+		width: 60px;
+	}
+</style>
 
 </head>
 
@@ -64,24 +69,28 @@
 							<div class="form-group">
 								<label class="control-label" for="type">타입</label>
 								<select	name="type" id="type" class="form-control">
-									<option value="F" selected>푸디오더</option>
-									<option value="P">포인트</option>
-									<option value="O">주문</option>
-									<option value="M">회원정보</option>
-									<option value="X">기타</option>
+									<option value="" selected>타입선택</option>
+									<option value="R">추천메뉴</option>
+									<option value="P">프리미엄</option>
+									<option value="B">베스트</option>
+									<option value="C">클래식</option>
+									<option value="M">아침식사</option>
+									<option value="S">샐러드</option>
+									<option value="N">추가메뉴</option>
+									<option value="D">음료</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-sm-4">
 							<div class="form-group">
-								<label class="control-label" for="question">Q</label>
-								<input type="text" id="question" name="question" value="" placeholder="질문" class="form-control">
+								<label class="control-label" for="menuname">이름</label>
+								<input type="text" id="menuname" name="menuname" value="" placeholder="메뉴 이름" class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-4">
 							<div class="form-group">
-								<label class="control-label" for="answer">A</label>
-								<input type="text" id="answer" name="answer" value="" placeholder="답변"	class="form-control">
+								<label class="control-label" for="price">가격</label>
+								<input type="text" id="price" name="price" value="" placeholder="가격"	class="form-control">
 							</div>
 						</div>
 						<div class="col-sm-2">
@@ -98,20 +107,20 @@
 						<div class="ibox">
 							<div class="ibox-content">
 								<div class="table-responsive">
-									<table
-										class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="25">
+									<table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="25">
 										<thead>
 											<tr>
 												<th data-hide="phone" data-sort-ignore="true">타입</th>
 												<th data-toggle="true" data-sort-ignore="true">이름</th>
-												<th data-hide="all" data-sort-ignore="true">가격</th>
+												<th data-hide="all" data-sort-ignore="true">메뉴소개</th>
+												<th data-hide="phone" data-sort-ignore="true">가격</th>
 												<th data-hide="phone" data-sort-ignore="true">등록일</th>
 												<th class="text-right" data-sort-ignore="true">Action</th>
 											</tr>
 										</thead>
 										<tbody>
 
-										<c:forEach items="${ menuList }" var="menu">
+										<c:forEach items="${ menuList2 }" var="menu">
 
 											<tr class="boardList">
 												<td class="convType" width="100px;">
@@ -121,8 +130,11 @@
 												<td style="word-break:keep-all;">
 													${ menu.detail }
 												</td>
+												<td>
+		                                        	${ menu.price }원
+		                                   		</td>
 												<td width="10%" nowrap>
-													${ menu.price }원
+													${ menu.regDate }
 												</td>												
 												<td class="text-right">
 													<div class="btn-group" width="10%" nowrap>
@@ -136,7 +148,7 @@
 
 										</c:forEach>
 
-									</tbody>
+										</tbody>
 									</table>
 								</div>
 							</div>
@@ -178,35 +190,42 @@
 			$('.menuLI > ul').addClass("in");
 			$('.menuBoard').addClass("active");
 
-            $('.footable').footable();
-            
+            $('.footable').footable();            
             
 			for(var i = 0; i < $('.boardList').length; ++i) {    			
     			var product  = $('.boardList').eq(i).find('.label');
 	    		if( product.text() == 'R'){
 	    			product.attr("class","label label-danger");
-	    			product.html("추천메뉴");}
+	    			product.html("추천메뉴");
+	    		}
 	    		else if(product.text() == 'P'){
 	    			product.attr("class","label label-success");
-	    			product.html("프리미엄");}
+	    			product.html("프리미엄");
+	    		}
 	    		else if(product.text() == 'B'){
 	    			product.attr("class","label label-primary");
-	    			product.html("베스트");}
+	    			product.html("베스트");
+	    		}
 	    		else if(product.text() == 'C'){
 	    			product.attr("class","label label-information");
-	    			product.html("클래식");}
+	    			product.html("클래식");
+	    		}
 	    		else if(product.text() == 'M'){
 	    			product.attr("class","label label-warning");
-	    			product.html("아침식사");}
+	    			product.html("아침식사");
+	    		}	    		
 	    		else if(product.text() == 'S'){
 	    			product.attr("class","label label-information");
-	    			product.html("샐러드");}
+	    			product.html("샐러드");
+	    		}
 	    		else if(product.text() == 'N'){
 	    			product.attr("class","label label-plain");
-	    			product.html("추가메뉴");}
+	    			product.html("추가메뉴");
+	    		}
 	    		else if(product.text() == 'D'){
 	    			product.attr("class","label label-plain");
-	    			product.html("음료");}
+	    			product.html("음료");
+	    		}
     		}
 			
 			
