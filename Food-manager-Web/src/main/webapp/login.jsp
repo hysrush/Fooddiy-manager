@@ -22,12 +22,20 @@
 
     <link href="${ pageContext.request.contextPath }/resources/css/animate.css" rel="stylesheet">
     <link href="${ pageContext.request.contextPath }/resources/css/style.css" rel="stylesheet">
-
+	
+	<!-- alert창 -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
 <style type="text/css">
 	#logo {
 		font-size: 100px;
 	}
 </style>
+
+<script>
+	if("${msg}"){
+		swal("${msg}");
+	}
+</script>
 </head>
 <body class="gray-bg">
 
@@ -41,12 +49,12 @@
                 <!--Continually expanded and constantly improved Inspinia Admin Them (IN+)-->
             </p>
             <p>Login in. To see it in action.</p>
-            <form class="m-t" role="form" action="index.html">
+            <form class="m-t" role="form" action="${ pageContext.request.contextPath }/manager/login" method="post">
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Username" required="">
+                    <input type="email" name="id" class="form-control" placeholder="Username" required="required">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password" required="">
+                    <input type="password" name="pw" class="form-control" placeholder="Password" required="required">
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
 

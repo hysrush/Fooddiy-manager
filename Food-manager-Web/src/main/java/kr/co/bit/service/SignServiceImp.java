@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import kr.co.bit.dao.SignDAO;
 import kr.co.bit.vo.MailKey;
 import kr.co.bit.vo.MailVO;
-import kr.co.bit.vo.UserVO;
+import kr.co.bit.vo.ManagerVO;
 
 @Service
 public class SignServiceImp implements SignService {
@@ -22,24 +22,25 @@ public class SignServiceImp implements SignService {
 	@Autowired
 	private SignDAO signDAOImp;
 	
-	// 로그인
-	public UserVO login(UserVO login) {
-		
-		return signDAOImp.login(login);
-	}
 	
 	//회원 가입
-	public void signUp(UserVO memberVO) {
+	public ManagerVO signUp(ManagerVO managerVO) {
+
+		return signDAOImp.signUp(managerVO);
+
+	}
+	
+	// 로그인
+	public ManagerVO login(ManagerVO managerVO) {
 		
-		signDAOImp.signUp(memberVO);
-		
+		return signDAOImp.login(managerVO);
 	}
 	
 	//id 찾기
-	public UserVO lostId(UserVO lost) {
+	public ManagerVO lostId(ManagerVO lost) {
 		
 		// id 목록
-		UserVO lostId = signDAOImp.lostId(lost);
+		ManagerVO lostId = signDAOImp.lostId(lost);
 		
 		if(lostId == null) {
 			return lostId;
@@ -54,12 +55,12 @@ public class SignServiceImp implements SignService {
 	}
 	
 	//pw 찾기
-	public UserVO lostPw(UserVO lost) {
+	public ManagerVO lostPw(ManagerVO lost) {
 		
-		UserVO lostPw = new UserVO();
+		ManagerVO lostPw = new ManagerVO();
 		
 		// 이메일로 임시 비밀번호 전송
-		UserVO lostVO = signDAOImp.lostPw(lostPw);
+		ManagerVO lostVO = signDAOImp.lostPw(lostPw);
 		
 		if(lostVO == null) {
 			return lostVO;
@@ -76,7 +77,7 @@ public class SignServiceImp implements SignService {
 		MailVO mail = new MailVO();
 		
 		mail.setSender("skdml132@gamil.com");
-		mail.setReceiver(lostVO.getEmail());
+		mail.setReceiver(lostVO.getId());
 		mail.setSubject("[SubWay] 비밀번호 찾기");
 		mail.setContent(lostVO.getName()+" 님의 임시 비밀번호는 ["+uuid+"]입니다. ");
 
@@ -100,14 +101,14 @@ public class SignServiceImp implements SignService {
 	}
 	
 	// 비회원 메일 인증
-	public String sender(UserVO nonMember) {
+	public String sender(ManagerVO nonMember) {
 		
 		// 메일 정보
 		MailVO mail = new MailVO();
 		String key = new MailKey().getkey().trim();
 		
 		mail.setSender("skdml132@gamil.com");
-		mail.setReceiver(nonMember.getEmail());
+		mail.setReceiver(nonMember.getId());
 		mail.setSubject("[SubWay] 비회원 인증코드");
 		mail.setContent(nonMember.getName()+" 님이 요청하신 인증 코드는 ["+key+"]입니다.");
 
@@ -132,18 +133,17 @@ public class SignServiceImp implements SignService {
 	}
 
 	// 비회원 가입
-	public UserVO nonSignUp(UserVO mail) {
+	public ManagerVO nonSignUp(ManagerVO mail) {
 		
-		UserVO nonMember = new UserVO();
+		ManagerVO nonMember = new ManagerVO();
 		
 		// 아이디 & 패스워드 랜덤으로 만들기
 		String uuid = UUID.randomUUID().toString().replace("-", "").substring(0, 5);
 		
 		nonMember.setName(mail.getName());
-		nonMember.setEmail(mail.getEmail());
+		nonMember.setId(mail.getId());
 		nonMember.setId(uuid);
 		nonMember.setPw(uuid);
-		nonMember.setType("N");
 		
 		/*signDAOImp.signUp(nonMember);*/
 		//자동 로그인 
@@ -151,9 +151,9 @@ public class SignServiceImp implements SignService {
 	}
 
 	// 가입했는지 확인
-	public int checkMember(UserVO phoneCert) {
+	public int checkMember(ManagerVO managerVO) {
 		
-		return signDAOImp.checkMember(phoneCert);
+		return signDAOImp.checkMember(managerVO);
 	}
 
 }

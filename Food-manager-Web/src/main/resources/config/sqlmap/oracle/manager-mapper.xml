@@ -3,26 +3,41 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- DAO에서 sql문 불러 올 때 사용해야 하는 이름 -->
-<mapper namespace="kr.co.bit.member.dao">
+<mapper namespace="kr.co.bit.manager.dao">
 
 	<resultMap type="managerVO" id="mapSignVO">
-		<result column="user_id" property="id"/>
-		<result column="user_pw" property="pw"/>
-		<result column="user_name" property="name"/>
-		<result column="user_email" property="email"/>
-		<result column="user_phone" property="phone"/>
-		<result column="user_birth" property="birth"/>
-		<result column="user_grade" property="grade"/>
-		<result column="user_type" property="type"/>
-		<result column="user_pic" property="file"/>
+		<result column="manager_id" property="id"/>
+		<result column="manager_pw" property="pw"/>
+		<result column="manager_name" property="name"/>
+		<result column="manager_phone" property="phone"/>
+		<result column="manager_post1" property="post1"/>
+		<result column="manager_post2" property="post2"/>
+		<result column="manager_addr1" property="addr1"/>
+		<result column="manager_addr2" property="addr2"/>
 	</resultMap>
 	
+	<sql id="selectManager">
+		select manager_no, manager_name, manager_id, manager_pw, manager_phone, manager_post1, manager_post2, manager_addr1, manager_addr2
+		from t_manager
+	</sql>
 	<!-- sql문 적는 공간 -->
 
 	<!-- 관리자 등록 -->
 	<insert id="signUp" parameterType="managerVO" >
-		insert into t_manager(manager_no, manager_id, manager_name, manager_pw, manager_phone, manager_branch)
-		values(seq_t_user_no.nextval, #{id}, #{name}, #{pw}, #{pw}, #{phone}, #{branch})
+		insert into t_manager(manager_no, manager_name, manager_id, manager_pw, manager_phone, manager_post1, manager_post2, manager_addr1, manager_addr2)
+		values(seq_t_user_no.nextval, #{name}, #{id}, #{pw}, #{phone}, #{post1}, #{post2}, #{addr1}, #{addr2})
 	</insert>
+
+	<!-- 아이디랑 pw 맞는지 확인 -->	
+	<select id="loginCheck" parameterType="managerVO" resultMap="mapSignVO">
+		select NVL(count(*), 0) from t_manager
+		where manager_id = #{id} and manager_pw = #{pw}
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="login" parameterType="managerVO" resultMap="mapSignVO">
+		<include refid="selectManager"/>
+		where manager_id = #{id} and manager_pw = #{pw}
+	</select>
 
 </mapper>

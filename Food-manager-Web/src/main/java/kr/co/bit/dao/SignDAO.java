@@ -1,25 +1,25 @@
 package kr.co.bit.dao;
 
-import kr.co.bit.vo.UserVO;
+import kr.co.bit.vo.ManagerVO;
 
 public interface SignDAO {
 	
-	// 로그인
-	UserVO login(UserVO login);
-	
 	//회원가입
-	void signUp(UserVO memberVO);
+	ManagerVO signUp(ManagerVO managerVO);
+	
+	// 로그인
+	ManagerVO login(ManagerVO login);
 	
 	//id 찾기
-	UserVO lostId(UserVO lost);
+	ManagerVO lostId(ManagerVO lost);
 	
 	//pw 찾기
-	UserVO lostPw(UserVO lost);
+	ManagerVO lostPw(ManagerVO lost);
 	
 	//임시 비밀번호 설정
-	void setPw(UserVO setpw);
+	void setPw(ManagerVO setpw);
 	
 	//가입 확인
-	int checkMember(UserVO phoneCert);
+	int checkMember(ManagerVO phoneCert);
 	
 }
