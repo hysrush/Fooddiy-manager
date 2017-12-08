@@ -14,22 +14,31 @@
 		<result column="manager_post2" property="post2"/>
 		<result column="manager_addr1" property="addr1"/>
 		<result column="manager_addr2" property="addr2"/>
+		<result column="manager_branch" property="branch" />
 	</resultMap>
 	
+	<!-- 공통으로 사용하는 부분 -->
 	<sql id="selectManager">
-		select manager_no, manager_name, manager_id, manager_pw, manager_phone, manager_post1, manager_post2, manager_addr1, manager_addr2
+		select manager_no, manager_name, manager_id, manager_pw, manager_phone, manager_post1, manager_post2, manager_addr1, manager_addr2, manager_branch
 		from t_manager
 	</sql>
+	
 	<!-- sql문 적는 공간 -->
 
+	<!-- 지점 확인 -->
+	<select id="branchCheck" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select NVL(count(*), 0) from t_manager
+		where manager_addr2 like '%' || #{branch} || '%'
+	</select>
+	
 	<!-- 관리자 등록 -->
 	<insert id="signUp" parameterType="managerVO" >
-		insert into t_manager(manager_no, manager_name, manager_id, manager_pw, manager_phone, manager_post1, manager_post2, manager_addr1, manager_addr2)
-		values(seq_t_user_no.nextval, #{name}, #{id}, #{pw}, #{phone}, #{post1}, #{post2}, #{addr1}, #{addr2})
+		insert into t_manager(manager_no, manager_name, manager_id, manager_pw, manager_phone, manager_post1, manager_post2, manager_addr1, manager_addr2, manager_branch)
+		values(seq_t_user_no.nextval, #{name}, #{id}, #{pw}, #{phone}, #{post1}, #{post2}, #{addr1}, #{addr2}, #{branch})
 	</insert>
 
 	<!-- 아이디랑 pw 맞는지 확인 -->	
-	<select id="loginCheck" parameterType="managerVO" resultMap="mapSignVO">
+	<select id="loginCheck" parameterType="managerVO" resultType="java.lang.Integer" >
 		select NVL(count(*), 0) from t_manager
 		where manager_id = #{id} and manager_pw = #{pw}
 	</select>

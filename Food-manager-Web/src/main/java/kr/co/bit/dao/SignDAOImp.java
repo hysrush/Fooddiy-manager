@@ -13,6 +13,12 @@ public class SignDAOImp implements SignDAO {
 	private SqlSessionTemplate sql;
 	String url = "kr.co.bit.manager.dao.";
 	
+	// 지점 확인
+	@Override
+	public int branchCheck(String branch) {
+		
+		return sql.selectOne(url+"branchCheck", branch);
+	}
 	
 	// 회원가입
 	public ManagerVO signUp(ManagerVO managerVO) {
@@ -29,6 +35,7 @@ public class SignDAOImp implements SignDAO {
 		// API 가입 확인 또는 아이디 비밀번호 확인
 		int check = sql.selectOne(url+"loginCheck", login);
 
+		System.out.println(check);
 		if(check == 0 ) {
 			return null;
 		}
@@ -75,5 +82,5 @@ public class SignDAOImp implements SignDAO {
 		System.out.println(phoneCert);
 		return sql.selectOne("kr.co.bit.member.dao.checkMember", phoneCert);
 	}
-	
+
 }

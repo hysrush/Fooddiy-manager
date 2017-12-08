@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <div class="row border-bottom">
 	<nav class="navbar navbar-static-top" role="navigation"
 		style="margin-bottom: 0">
@@ -16,12 +17,13 @@
 		</form>
 	</div>
 	<ul class="nav navbar-top-links navbar-right">
-		<li><span class="m-r-sm text-muted welcome-message">Welcome
-				to INSPINIA+ Admin Theme.</span></li>
-		<li class="dropdown"><a class="dropdown-toggle count-info"
-			data-toggle="dropdown" href="#"> <i class="fa fa-envelope"></i> <span
-				class="label label-warning">16</span>
-		</a>
+		<li>
+			<span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+		</li>
+		<li class="dropdown">
+			<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#"> <i class="fa fa-envelope"></i>
+				<span class="label label-warning">16</span>
+			</a>
 			<ul class="dropdown-menu dropdown-messages">
 				<li>
 					<div class="dropdown-messages-box">
@@ -105,13 +107,10 @@
 						</a>
 					</div>
 				</li>
-			</ul></li>
-
-
-		<li><a href="${ pageContext.request.contextPath }/login.jsp"><i class="fa fa-sign-out"></i>Log out</a></li>
-		<li><a class="right-sidebar-toggle"> <i class="fa fa-tasks"></i>
-		</a></li>
+			</ul>
+		</li>
+		<li><a href="${ pageContext.request.contextPath }/manager/logout"><i class="fa fa-sign-out"></i>Log out</a></li>
+		<li><a class="right-sidebar-toggle"> <i class="fa fa-tasks"></i></a></li>
 	</ul>
-
 	</nav>
 </div>

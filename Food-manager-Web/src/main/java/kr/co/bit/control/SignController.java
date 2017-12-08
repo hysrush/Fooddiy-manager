@@ -35,15 +35,25 @@ public class SignController {
 	 * 	 (1) 가입
 	 * 
 	 */
+	// 관리자 등록 페이지 이동
+	@RequestMapping("/signUp")
+	public String signUp(Model model) {
+		
+		model.addAttribute("managerVO", new ManagerVO());
+		
+		return "sign/signForm";
+	}
+	
 	
 	// - 관리자 등록
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
-	public String signUp(ManagerVO managerVO, Model model) {
+	public String signUpForm(ManagerVO managerVO, Model model) {
 		
 		ManagerVO loginVO = signServiceImp.signUp(managerVO);
 		
 		model.addAttribute("loginVO", loginVO);
-		model.addAttribute("msg", "가입 성공~!");
+		System.out.println(loginVO.toString());
+		model.addAttribute("url", "FirstPage");
 		
 		return "sign/sign";
 	}
@@ -64,18 +74,21 @@ public class SignController {
 
 	// => 로그인 실패시 다시 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String signIn(ManagerVO login, Model model) {
+	public String login(ManagerVO login, Model model) {
 
 		ManagerVO signIn = signServiceImp.login(login);
 
 		if (signIn == null) {
 			String msg = "아이디 또는 비밀번호를 확인해 주세요.";
 			model.addAttribute("msg", msg);
+			model.addAttribute("url", "login");
 			
-			return "sign/login";
+			return "sign/sign";
 		}
 		
 		model.addAttribute("loginVO", signIn);
+		System.out.println(signIn.toString());
+		model.addAttribute("url", "FirstPage");
 		
 		return "sign/sign";
 	}
@@ -85,6 +98,7 @@ public class SignController {
 	public String logout(SessionStatus sessionStatus, Model model) {
 		
 		sessionStatus.setComplete();
+		model.addAttribute("url", "login");
 		return "sign/sign";
 	}
 	

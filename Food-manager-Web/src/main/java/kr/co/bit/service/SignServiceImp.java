@@ -26,6 +26,22 @@ public class SignServiceImp implements SignService {
 	//회원 가입
 	public ManagerVO signUp(ManagerVO managerVO) {
 
+		// 지점이 몇 개 있는지 확인
+		String[] a = managerVO.getAddr2().split(" ");
+		String[] b = managerVO.getAddr2().split(" ");
+		
+		System.out.println(a[2]);
+		managerVO.setBranch(a[2]);
+		
+		int num = signDAOImp.branchCheck(a[2]);
+		
+		if(num == 0) {
+			managerVO.setBranch(b[2].substring(0, 2)+" 1호점");
+			return signDAOImp.signUp(managerVO);
+		}
+		
+		managerVO.setBranch(b[2].substring(0, 2)+" "+(num+1)+"호점");
+		
 		return signDAOImp.signUp(managerVO);
 
 	}

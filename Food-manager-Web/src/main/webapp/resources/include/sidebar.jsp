@@ -20,8 +20,8 @@
 					src="${ pageContext.request.contextPath }/resources/img/profile_small.jpg" />
 				</span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span
 					class="clear"> <span class="block m-t-xs"><strong
-							class="font-bold">홍길동 매니저</strong></span> <span
-						class="text-muted text-xs block">강남역점<b class="caret"></b></span>
+							class="font-bold">${ loginVO.name } 매니저</strong></span> <span
+						class="text-muted text-xs block">${ loginVO.branch }<b class="caret"></b></span>
 				</span>
 				</a>
 				<ul class="dropdown-menu animated fadeInRight m-t-xs">

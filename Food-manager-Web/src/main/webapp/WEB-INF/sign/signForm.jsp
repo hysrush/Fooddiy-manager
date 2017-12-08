@@ -122,7 +122,7 @@ function openDaumPostcode() {
             </div>
             <h3>관리자 가입</h3>
             <p>Create account to see it in action.</p>
-            <form class="m-t" role="form" action="${ pageContext.request.contextPath }/sign/signUp" method="post">
+            <form class="m-t" role="form" action="${ pageContext.request.contextPath }/manager/signUp" method="post">
                 <div class="form-group">
                     <input type="text" name="name" class="form-control" placeholder="Name" required="required">
                 </div>
@@ -137,6 +137,7 @@ function openDaumPostcode() {
                 </div>
                 <div class="form-group">
                 	<input id="post1" class="form-control addr" readonly="readonly" size="5" name="post1">
+        
                 	<input readonly="readonly" class="form-control slash" placeholder="-" />
                 	<input id="post2" class="form-control addr" readonly="readonly" size="5" name="post2">
                 	<!-- 우편 찾기 클릭 -->

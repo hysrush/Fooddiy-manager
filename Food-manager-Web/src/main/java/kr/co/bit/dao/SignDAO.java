@@ -7,6 +7,9 @@ public interface SignDAO {
 	//회원가입
 	ManagerVO signUp(ManagerVO managerVO);
 	
+	// 지점 확인
+	int branchCheck(String branch);
+	
 	// 로그인
 	ManagerVO login(ManagerVO login);
 	

@@ -10,7 +10,17 @@ public class ManagerVO {
 	private int post2;
 	private String addr1;
 	private String addr2;
+	private String branch;
 	
+
+	public String getBranch() {
+		return branch;
+	}
+
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+
 	public String getPhone() {
 		return phone;
 	}
@@ -78,7 +88,8 @@ public class ManagerVO {
 	@Override
 	public String toString() {
 		return "ManagerVO [name=" + name + ", id=" + id + ", pw=" + pw + ", phone=" + phone + ", post1=" + post1
-				+ ", post2=" + post2 + ", addr1=" + addr1 + ", addr2=" + addr2 + "]";
+				+ ", post2=" + post2 + ", addr1=" + addr1 + ", addr2=" + addr2 + ", branch=" + branch + "]";
 	}
+
 	
 }
