@@ -16,5 +16,6 @@
 	  	<typeAlias type="kr.co.bit.vo.QnaBoardVO" alias="qnaVO"/>
 	  	<!-- 관리자 회원가입 -->
 	  	<typeAlias type="kr.co.bit.vo.ManagerVO" alias="managerVO"/>
+	  	<typeAlias type="kr.co.bit.vo.UserVO" alias="userVO"/>
 	</typeAliases>
 </configuration>

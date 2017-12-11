@@ -1,9 +1,6 @@
 package kr.co.bit.control;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,7 +53,7 @@ public class SignController {
 		
 		return manager;
 	}
-	
+
 	// - 관리자 등록
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	public String signUpForm(ManagerVO managerVO, Model model) {
@@ -75,14 +72,6 @@ public class SignController {
 	 *  (2) 로그인
 	 * 
 	 * */
-	
-	// 로그인 화면
-	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
-	public String signInForm() {
-
-		
-		return "sign/login";
-	}
 
 	// => 로그인 실패시 다시 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -93,9 +82,8 @@ public class SignController {
 		if (signIn == null) {
 			String msg = "아이디 또는 비밀번호를 확인해 주세요.";
 			model.addAttribute("msg", msg);
-			model.addAttribute("url", "login");
 			
-			return "sign/sign";
+			return "sign/login";
 		}
 		
 		model.addAttribute("loginVO", signIn);
@@ -115,28 +103,15 @@ public class SignController {
 	}
 	
 	
-	// - id 찾기 - alert창
-	@RequestMapping("/lostId")
-	public String lostId(ManagerVO lost, Model model) {
-		
-		ManagerVO lostVO = signServiceImp.lostId(lost);
-		
-		if(lostVO == null) {
-			model.addAttribute("msg", "입력하신 정보에 해당하는 가입 이력이 없습니다. "
-					+ "회원가입 후 이용해 주세요.");
-			return "sign/login";
-		
-		}
-		// 아이디 일부 **처리
-		model.addAttribute("msg", "고객님의 아이디는 <"+lostVO.getId()+"> 입니다.");
-		/*model.addAttribute("lostId", lostVO.getId());*/
-		
-		return "sign/login";
+	// - pw 찾기 - 이메일로 전송
+	@RequestMapping("/lostpw")
+	public String lostPw() {
+	
+		return "sign/lostpw";
 	}
 	
-	// - pw 찾기 - 이메일로 전송
-	@RequestMapping("/lostPw")
-	public String lostPw(ManagerVO lost, Model model) {
+	@RequestMapping(value="/lostpw", method = RequestMethod.POST)
+	public String lostPwForm(ManagerVO lost, Model model) {
 		
 		ManagerVO lostVO = signServiceImp.lostPw(lost);
 		
@@ -150,39 +125,4 @@ public class SignController {
 		return "sign/login";
 	}
 
-
-	// 이메일 인증 코드 발송
-	@RequestMapping("/nonemail")
-	public @ResponseBody List<Object> nonMemberCheck(ManagerVO nonMember, Model model) {
-		
-		List<Object> list = new ArrayList<>();
-		String key = signServiceImp.sender(nonMember);
-		
-		list.add(key);
-		list.add(nonMember);
-		
-		return list;
-	}
-
-	// 이메일 인증 후 session 객체에만 등록
-	@RequestMapping(value="/nonemailCheck")
-	public String nonMemberSign(ManagerVO nonMember, Model model, HttpSession session) {
-		
-		ManagerVO user = signServiceImp.nonSignUp(nonMember);
-		
-		session.setAttribute("nonMember", user);
-			
-		return "sign/sign";
-	}
-	
-	// session저장만 할 것임
-	@RequestMapping("/nonlogout")
-	public String nonLogout(String id, HttpSession session) {
-		
-		session.invalidate();
-		
-		return "sign/logout";
-		
-	}
-	
 }

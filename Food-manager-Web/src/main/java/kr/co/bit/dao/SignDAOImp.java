@@ -12,6 +12,13 @@ public class SignDAOImp implements SignDAO {
 	@Autowired
 	private SqlSessionTemplate sql;
 	String url = "kr.co.bit.manager.dao.";
+
+	//가입했는지 확인
+	public int checkMember(ManagerVO phoneCert) {
+		
+		System.out.println(phoneCert);
+		return sql.selectOne("kr.co.bit.member.dao.checkMember", phoneCert);
+	}
 	
 	// 지점 확인
 	@Override
@@ -19,6 +26,7 @@ public class SignDAOImp implements SignDAO {
 		
 		return sql.selectOne(url+"branchCheck", branch);
 	}
+	
 	
 	// 회원가입
 	public ManagerVO signUp(ManagerVO managerVO) {
@@ -32,7 +40,7 @@ public class SignDAOImp implements SignDAO {
 	// 로그인
 	public ManagerVO login(ManagerVO login) {
 		
-		// API 가입 확인 또는 아이디 비밀번호 확인
+		// 가입했는지 확인
 		int check = sql.selectOne(url+"loginCheck", login);
 
 		System.out.println(check);
@@ -43,20 +51,6 @@ public class SignDAOImp implements SignDAO {
 		return sql.selectOne(url+"login", login);
 		
 		
-	}
-
-	// id 찾기
-	public ManagerVO lostId(ManagerVO lost) {
-		
-		// 가입한 건지 확인
-		int check = sql.selectOne("kr.co.bit.member.dao.lostIdCheck", lost);
-		
-		if(check == 0) {
-			return null;
-		}
-
-		return sql.selectOne("kr.co.bit.member.dao.lostId", lost);
-
 	}
 	
 	// pw 찾기
@@ -76,11 +70,6 @@ public class SignDAOImp implements SignDAO {
 		sql.insert("kr.co.bit.member.dao.pwUpdate", setpw);
 	}
 
-	//가입했는지 확인
-	public int checkMember(ManagerVO phoneCert) {
-		
-		System.out.println(phoneCert);
-		return sql.selectOne("kr.co.bit.member.dao.checkMember", phoneCert);
-	}
+
 
 }

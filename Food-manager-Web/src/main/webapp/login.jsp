@@ -21,12 +21,27 @@
 
     <link href="${ pageContext.request.contextPath }/resources/css/animate.css" rel="stylesheet">
     <link href="${ pageContext.request.contextPath }/resources/css/style.css" rel="stylesheet">
-	
+	 
+	 <!-- Mainly scripts -->
+    <script src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
+    
 <style type="text/css">
 	#logo {
 		font-size: 100px;
 	}
 </style>
+<script>
+	function lostpw(){
+		
+		var popUrl = "${ pageContext.request.contextPath }/sign/lostpw";	//팝업창에 출력될 페이지 URL
+		var popOption = "width=370, height=450, resizable=no, scrollbars=no, status=no";
+		
+		window.open(popUrl,"",popOption);
+		
+	}
+
+</script>
 </head>
 <body class="gray-bg">
 	
@@ -48,18 +63,12 @@
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
 
-                <a href="#"><small>Forgot password?</small></a>
+                <a onclick="lostpw()" ><small>Forgot password?</small></a>
                 <p class="text-muted text-center"><small>Do not have an account?</small></p>
                 <a class="btn btn-sm btn-white btn-block" href="${ pageContext.request.contextPath }/sign/signUp">Create an account</a>
             </form>
             <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
     </div>
 
-
-    <!-- Mainly scripts -->
-    <script src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
-    <script src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
-
 </body>
-
 </html>

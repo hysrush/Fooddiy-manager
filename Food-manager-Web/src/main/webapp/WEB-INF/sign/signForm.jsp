@@ -25,7 +25,8 @@
     <script src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
     <!-- iCheck -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/iCheck/icheck.min.js"></script>
-    
+    <!-- modal -->
+   	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
 <style>
 .form-control{
   border: 1px solid;
@@ -175,6 +176,9 @@
 	        top : (window.screen.height / 2) - (height / 2) //팝업창이 실행될때 위치지정 */
 	    });
 	}
+	
+	
+	
 </script>
 </head>
 <body class="gray-bg">
