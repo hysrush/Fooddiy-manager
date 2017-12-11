@@ -17,7 +17,7 @@
     <link href="${ pageContext.request.contextPath}/resources/css/animate.css" rel="stylesheet">
     <link href="${ pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
+    <link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">    
 </head>
 <body>
 
@@ -76,43 +76,46 @@
                                 </div>
                                 <div class="col-md-7">
 
-                                    <h2 class="font-bold m-b-xs">
+                                    <h1 class="font-bold m-b-xs">
                                         ${ menuDetailVO.name }
-                                    </h2>
-                                    <small>${ menuDetailVO.mainmenu }</small>
+                                    </h1>
+                                    <small style="font-size: 15px">${ menuDetailVO.mainmenu }</small>
                                     <hr>
                                     <div>
-                                        <button class="btn btn-primary pull-right">Edit</button>
-                                        <h1 class="product-main-price">${ menuDetailVO.price }원<small class="text-muted">15cm</small></h1>
+                                        
+                                        <h1 class="product-main-price" id="15">${ menuDetailVO.price }원<small class="text-muted" style="font-size: 20px">-15cm</small></h1>
+                                        <h1 class="product-main-price" id="30"></h1>
                                     </div>
                                     <hr>
-                                    <h4>메뉴 설명</h4>
+                                    <h3>메뉴 설명</h3>
 
-                                    <div class="small text-muted">
+                                    <div class="small text-muted" style="font-size: 17px">
                                         ${ menuDetailVO.detail }
                                         <br/>
                                         <br/>                                        
                                     </div>
-                                    <dl class="dl-horizontal m-t-md small">
-                                        <dt>알르레기 유발성분</dt>
-                                        <dd>${ menuDetailVO.allergy }</dd>
-                                        <dt>Serving Size(g)</dt>
+                                    <dl class="dl-horizontal m-t-md small" style="font-size: 15px">
+                                        <dt style="text-align: left">Serving Size(g)</dt>
                                         <dd>${ menuDetailVO.serviceSize }</dd>
-                                        <dt>칼로리</dt>
+                                        <dt style="text-align: left">칼로리</dt>
                                         <dd>${ menuDetailVO.calorie }</dd>
-                                        <dt>단백질(g)</dt>
+                                        <dt style="text-align: left">단백질(g)</dt>
                                         <dd>${ menuDetailVO.protein }</dd>
-                                        <dt>나트륨(mg)</dt>
+                                        <dt style="text-align: left">나트륨(mg)</dt>
                                         <dd>${ menuDetailVO.natrium }</dd>
-                                        <dt>당류(g)</dt>
+                                        <dt style="text-align: left">당류(g)</dt>
                                         <dd>${ menuDetailVO.sugar }</dd>
-                                        <dt>포화지방(g)</dt>
+                                        <dt style="text-align: left">포화지방(g)</dt>
                                         <dd>${ menuDetailVO.fat }</dd>
-                                    </dl>
-                                    <div class="text-right">
-                                        <div class="btn-group">
-                                            <button class="btn btn-danger btn-sm demo4" onclick="del(${ menuDetailVO.no })">삭제</button>
-                                        </div>
+                                        <dt style="text-align: left">알르레기 유발성분</dt>
+                                        <dd>${ menuDetailVO.allergy }</dd>                                        
+                                    </dl><br><br>
+                                    <div class="text-right" style="text-align: center">
+                                        <!-- <div class="btn-group"> -->
+                                      		<button class="btn btn-info list">목록</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                      		<button class="btn btn-primary">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button class="btn btn-danger demo4" onclick="del(${ menuDetailVO.no })">삭제</button>
+                                        <!-- </div> -->
                                     </div>
 
 
@@ -171,13 +174,33 @@
 
     $(document).ready(function(){
 
-
         $('.product-images').slick({
             dots: true
+        });
+        
+        
+        // 30cm 가격 표시
+        $(function() {
+     	   if(${ menuDetailVO.type == 'R' }){
+     		   var price = '8700원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
+			   $("#30").html(price);
+		   }
+		   if(${ menuDetailVO.type == 'P' }){
+			   var price = '9800원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
+			   $("#30").html(price);
+		   }
+		   if(${ menuDetailVO.type == 'B' }){
+			   var price = '9200원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
+			   $("#30").html(price);
+		   }
+		   if(${ menuDetailVO.type == 'C' }){
+			   var price = '8200원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
+			   $("#30").html(price);
+		   }
         });        
         
         
-        
+        // 삭제 확인 sweet alert
         $('.demo4').click(function () {
 		    swal({
 		        title: "정말 삭제하시겠습니까?",
@@ -194,9 +217,17 @@
 		        	location.href = '${ pageContext.request.contextPath}/menu/menuDelete.do?no=' + ${ menuDetailVO.no};
 				});
 		    });
-		});       
+		});
         
-
+        
+        // 이전 목록으로 돌아가기
+        $('.list').click(function() {
+        	var url = '${url}';        	
+        	location.href = '${ pageContext.request.contextPath}/' + url + '.do';
+        	
+        });
+        
+        
     });
 
 	

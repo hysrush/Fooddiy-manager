@@ -31,10 +31,13 @@ public class MenuController {
 	// <menu 컨트롤러>
 	// menu 전체보기
 	@RequestMapping("/menuAll.do")
-	public ModelAndView listAll() {
+	public ModelAndView listAll(HttpSession session) {
 		List<MenuVO> menuList = menuService.selectAllMenu();		
 		
-		ModelAndView mav = new ModelAndView(); 
+		ModelAndView mav = new ModelAndView();
+		
+		session.setAttribute("url", "menu/menuAll");
+		
 		//setViewName : 어떤 페이지를 보여줄것인가
 		mav.setViewName("menu/menuList");
 		//addObject : key와 value를 담아 보내는 메서드
@@ -43,12 +46,16 @@ public class MenuController {
 		return mav;		
 	}
 	
+	// menu 관리 게시판 전체보기
 	@RequestMapping("/menuBoard.do")
-	public ModelAndView listAll2() {
+	public ModelAndView listAll2(HttpSession session) {
 		
 		List<MenuVO> menuList2 = menuService.selectAllMenu();
 		
 		ModelAndView mav = new ModelAndView();
+		
+		session.setAttribute("url", "menu/menuBoard");
+		
 		//setViewName : 어떤 페이지를 보여줄것인가
 		mav.setViewName("menu/menuBoard");
 		//addObject : key와 value를 담아 보내는 메서드

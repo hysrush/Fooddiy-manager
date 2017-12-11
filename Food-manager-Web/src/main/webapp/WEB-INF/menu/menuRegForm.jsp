@@ -199,7 +199,7 @@
 	                                </fieldset>
 	                                <h1>완료</h1>
 	                                <fieldset>
-	                                    <h2>메뉴를 입력할 준비가 완료되었습니다 :)</h2>	                                    
+	                                    <h2>완료!!<br>메뉴를 입력할 준비가 되었습니다 :)</h2>	                                    
 	                                </fieldset>
 	                        	</form:form>
 	                        </div>
