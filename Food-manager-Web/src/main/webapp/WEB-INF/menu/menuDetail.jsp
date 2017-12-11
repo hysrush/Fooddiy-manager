@@ -70,18 +70,7 @@
 													src="${ pageContext.request.contextPath }/upload/menu/${ menuDetailVO.imgFileName }">
                                             </div>
                                         </div>
-                                        <!-- <div>
-                                            <div class="image-imitation">
-                                                [IMAGE 2]
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="image-imitation">
-                                                [IMAGE 3]
-                                            </div>
-                                        </div> -->
-
-
+                                        
                                     </div>
 
                                 </div>
@@ -123,8 +112,6 @@
                                     <div class="text-right">
                                         <div class="btn-group">
                                             <button class="btn btn-danger btn-sm demo4" onclick="del(${ menuDetailVO.no })">삭제</button>
-                                            <!-- <button class="btn btn-white btn-sm"><i class="fa fa-star"></i> Add to wishlist </button>
-                                            <button class="btn btn-white btn-sm"><i class="fa fa-envelope"></i> Contact with author </button> -->
                                         </div>
                                     </div>
 
@@ -204,7 +191,7 @@
 		        swal("삭제되었습니다!", "", "success");
 		        // OK 누르면 삭제 실행
 		        $('.confirm').click(function () {
-		        	location.href = '${ pageContext.request.contextPath}/menu/menuBoard.do?no=' + ${ menuDetailVO.no};
+		        	location.href = '${ pageContext.request.contextPath}/menu/menuDelete.do?no=' + ${ menuDetailVO.no};
 				});
 		    });
 		});       

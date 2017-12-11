@@ -28,8 +28,8 @@
 	</p>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-default" type="button"><i class="fa fa-edit"></i>&nbsp;&nbsp;수정</button>
-	<button class="btn btn-default delete" type="button"><i class="fa fa-trash"></i>&nbsp;&nbsp;삭제</button>
+	<button class="btn btn-default" type="button" onclick="action('E', ${ qnaVO.no })"><i class="fa fa-edit"></i>&nbsp;&nbsp;수정</button>
+	<button class="btn btn-default" type="button" onclick="action('D', ${ qnaVO.no })"><i class="fa fa-trash"></i>&nbsp;&nbsp;삭제</button>
 </div>
 
 <!-- Page-Level Scripts -->
@@ -58,25 +58,6 @@
 			$('#typeLabel').html("기타");
 		}
 		
-		// 삭제 확인창
-		$('.delete').click(function () {
-		    swal({
-		        title: "정말 삭제하시겠습니까?",
-		        type: "warning",
-		        showCancelButton: true,
-		        cancelButtonText: "취소",
-		        confirmButtonColor: "#DD6B55",
-		        confirmButtonText: "삭제",
-		        closeOnConfirm: false
-		    }, function () {
-		        swal("삭제되었습니다!", "", "success");
-		        // OK 누르면 삭제 실행
-		        $('.confirm').click(function () {
-		        	location.href = '${ pageContext.request.contextPath}/community/qna/qnaDelete.do?no=' + ${ qnaVO.no };
-				});
-		    });
-		});
-		
 		// 모달창 크기별 font & width 크기 조절
 		var Qlength =  ${ qnaLength };
 		//alert("질문 길이 : " + Qlength);
@@ -95,4 +76,5 @@
 		}
 		
 	});
+	
 </script>

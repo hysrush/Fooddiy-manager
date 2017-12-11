@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import kr.co.bit.service.SignService;
-import kr.co.bit.vo.UserVO;
-
+import kr.co.bit.vo.ManagerVO;
 
 /**
  * 
@@ -23,7 +22,7 @@ import kr.co.bit.vo.UserVO;
  * 
  */
 @SessionAttributes({"loginVO"})
-@RequestMapping("/sign")
+@RequestMapping("/manager")
 @Controller
 public class SignController {
 
@@ -36,22 +35,25 @@ public class SignController {
 	 * 	 (1) 가입
 	 * 
 	 */
+	// 관리자 등록 페이지 이동
+	@RequestMapping("/signUp")
+	public String signUp(Model model) {
+		
+		model.addAttribute("managerVO", new ManagerVO());
+		
+		return "sign/signForm";
+	}
+	
 	
 	// - 관리자 등록
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
-	public String signUp(UserVO userVO, Model model) {
+	public String signUpForm(ManagerVO managerVO, Model model) {
 		
-		signServiceImp.signUp(userVO);
+		ManagerVO loginVO = signServiceImp.signUp(managerVO);
 		
-		// 회원가입 후 자동 로그인
-		UserVO login = new UserVO();
-		login.setId(userVO.getId());
-		login.setPw(userVO.getPw());
-		
-		userVO = signServiceImp.login(login);
-		
-		model.addAttribute("loginVO", userVO);
-		model.addAttribute("msg", "가입 성공~!");
+		model.addAttribute("loginVO", loginVO);
+		System.out.println(loginVO.toString());
+		model.addAttribute("url", "FirstPage");
 		
 		return "sign/sign";
 	}
@@ -71,19 +73,22 @@ public class SignController {
 	}
 
 	// => 로그인 실패시 다시 로그인
-	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public String signIn(UserVO login, Model model) {
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(ManagerVO login, Model model) {
 
-		UserVO signIn = signServiceImp.login(login);
+		ManagerVO signIn = signServiceImp.login(login);
 
 		if (signIn == null) {
 			String msg = "아이디 또는 비밀번호를 확인해 주세요.";
 			model.addAttribute("msg", msg);
+			model.addAttribute("url", "login");
 			
-			return "sign/login";
+			return "sign/sign";
 		}
 		
 		model.addAttribute("loginVO", signIn);
+		System.out.println(signIn.toString());
+		model.addAttribute("url", "FirstPage");
 		
 		return "sign/sign";
 	}
@@ -93,15 +98,16 @@ public class SignController {
 	public String logout(SessionStatus sessionStatus, Model model) {
 		
 		sessionStatus.setComplete();
+		model.addAttribute("url", "login");
 		return "sign/sign";
 	}
 	
 	
 	// - id 찾기 - alert창
 	@RequestMapping("/lostId")
-	public String lostId(UserVO lost, Model model) {
+	public String lostId(ManagerVO lost, Model model) {
 		
-		UserVO lostVO = signServiceImp.lostId(lost);
+		ManagerVO lostVO = signServiceImp.lostId(lost);
 		
 		if(lostVO == null) {
 			model.addAttribute("msg", "입력하신 정보에 해당하는 가입 이력이 없습니다. "
@@ -118,9 +124,9 @@ public class SignController {
 	
 	// - pw 찾기 - 이메일로 전송
 	@RequestMapping("/lostPw")
-	public String lostPw(UserVO lost, Model model) {
+	public String lostPw(ManagerVO lost, Model model) {
 		
-		UserVO lostVO = signServiceImp.lostPw(lost);
+		ManagerVO lostVO = signServiceImp.lostPw(lost);
 		
 		if( lostVO == null) {
 			model.addAttribute("msg", "고객님이 입력하신 ID에 관한 정보가 없습니다. 확인 후 다시 이용해 주세요.");
@@ -135,7 +141,7 @@ public class SignController {
 
 	// 이메일 인증 코드 발송
 	@RequestMapping("/nonemail")
-	public @ResponseBody List<Object> nonMemberCheck(UserVO nonMember, Model model) {
+	public @ResponseBody List<Object> nonMemberCheck(ManagerVO nonMember, Model model) {
 		
 		List<Object> list = new ArrayList<>();
 		String key = signServiceImp.sender(nonMember);
@@ -148,9 +154,9 @@ public class SignController {
 
 	// 이메일 인증 후 session 객체에만 등록
 	@RequestMapping(value="/nonemailCheck")
-	public String nonMemberSign(UserVO nonMember, Model model, HttpSession session) {
+	public String nonMemberSign(ManagerVO nonMember, Model model, HttpSession session) {
 		
-		UserVO user = signServiceImp.nonSignUp(nonMember);
+		ManagerVO user = signServiceImp.nonSignUp(nonMember);
 		
 		session.setAttribute("nonMember", user);
 			

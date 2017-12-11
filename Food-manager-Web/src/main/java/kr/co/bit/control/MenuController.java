@@ -46,13 +46,13 @@ public class MenuController {
 	@RequestMapping("/menuBoard.do")
 	public ModelAndView listAll2() {
 		
-		List<MenuVO> menuList = menuService.selectAllMenu();
+		List<MenuVO> menuList2 = menuService.selectAllMenu();
 		
 		ModelAndView mav = new ModelAndView();
 		//setViewName : 어떤 페이지를 보여줄것인가
 		mav.setViewName("menu/menuBoard");
 		//addObject : key와 value를 담아 보내는 메서드
-		mav.addObject("menuList", menuList);
+		mav.addObject("menuList2", menuList2);
 		
 		return mav;		
 		

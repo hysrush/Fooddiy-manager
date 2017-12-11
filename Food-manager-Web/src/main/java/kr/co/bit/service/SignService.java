@@ -1,15 +1,15 @@
 package kr.co.bit.service;
 
-import kr.co.bit.vo.UserVO;
+import kr.co.bit.vo.ManagerVO;
 
 public interface SignService {
 
-	UserVO login(UserVO login);
-	void signUp(UserVO memberVO);
-	UserVO lostId(UserVO lost);
-	UserVO lostPw(UserVO lost);
-	String sender(UserVO member);
-	UserVO nonSignUp(UserVO mail);
-	int checkMember(UserVO phoneCert);
+	ManagerVO login(ManagerVO login);
+	ManagerVO signUp(ManagerVO managerVO);
+	ManagerVO lostId(ManagerVO lost);
+	ManagerVO lostPw(ManagerVO lost);
+	String sender(ManagerVO member);
+	ManagerVO nonSignUp(ManagerVO mail);
+	int checkMember(ManagerVO phoneCert);
 	
 }
