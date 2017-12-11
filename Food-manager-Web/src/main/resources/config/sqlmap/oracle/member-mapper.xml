@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- DAO에서 sql문 불러 올 때 사용해야 하는 이름 -->
+<mapper namespace="kr.co.bit.member.dao">
+
+	<resultMap type="userVO" id="mapLoginVO">
+		<result column="user_id" property="id"/>
+		<result column="user_pw" property="pw"/>
+		<result column="user_name" property="name"/>
+		<result column="user_email" property="email"/>
+		<result column="user_phone" property="phone"/>
+		<result column="user_birth" property="birth"/>
+		<result column="user_grade" property="grade"/>
+		<result column="user_type" property="type"/>
+		<result column="user_pic" property="file"/>
+	</resultMap>
+
+	<!-- 회원 정보 수정 -->
+	<update id="memberUpdate" parameterType="userVO">
+	 Update t_user
+	 SET
+	 	user_pw = #{pw},
+	 	user_phone = #{phone},
+	 	user_email = #{email},
+	 	user_pic = #{file}
+	 where
+	 	user_id = #{id}
+	</update>
+	
+	<!-- memberList 목록 -->
+	<select id="memberList" resultMap="mapLoginVO">
+		select user_id, user_name, user_email, user_phone, user_sex, user_birth, user_porint, user_root, user_pic, user_grade from t_user
+	</select>
+</mapper>

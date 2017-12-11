@@ -121,7 +121,7 @@
 																</a>
 																</div>
 																<div class="col-md-6" align="left"> 
-																	<h4><strong>${ eventVO.content }</strong></h4>
+																	<h4><strong>${ eventVO.title }</strong></h4>
 																	<br/>
 																	<br/>
 																	<span> ${ eventVO.startDate } &nbsp; ~  ${ eventVO.endDate }</span>														
@@ -281,17 +281,6 @@
 
 
 			</script>	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

@@ -109,7 +109,7 @@
 				</li>
 			</ul>
 		</li>
-		<li><a href="${ pageContext.request.contextPath }/manager/logout"><i class="fa fa-sign-out"></i>Log out</a></li>
+		<li><a href="${ pageContext.request.contextPath }/sign/logout"><i class="fa fa-sign-out"></i>Log out</a></li>
 		<li><a class="right-sidebar-toggle"> <i class="fa fa-tasks"></i></a></li>
 	</ul>
 	</nav>
