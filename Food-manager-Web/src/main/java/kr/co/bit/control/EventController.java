@@ -257,7 +257,75 @@ public class EventController {
 	}
 	
 	
+	 // 수정폼으로 이동
+	@RequestMapping(value="/reWrite.do" , method=RequestMethod.GET)
+	public ModelAndView reWriteForm(@RequestParam("no")int no, HttpSession session) {
+		
+		
+		EventBoardVO eventVO = eventService.selectOneEvent(no);
+		ModelAndView mav = new ModelAndView();	
+		
+		mav.setViewName("event/EventReWriteForm");
+		mav.addObject("eventVO", eventVO);
+		
+		return mav;
+		
+		
+	}
+	// 수정 
+	@RequestMapping(value="/reWrite.do" , method=RequestMethod.POST)
+	public String reWrite(@Valid EventBoardVO eventVO, BindingResult result,
+			@RequestParam(value = "imgFileName") MultipartFile file)throws Exception {
+				
+		System.out.println("요기1");
+
+		// 1. fileName 설정 + eventVO에 fileName 저장
+		String fileName = "C:\\Users\\bit-user\\git\\Fooddiy-manager\\Food-manager-Web\\src\\main\\webapp\\upload\\"
+				+ file.getOriginalFilename();
+		String uFileName = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\"
+				+ file.getOriginalFilename();
+		String saveFileName = file.getOriginalFilename();
+
+		eventVO.setImgFileName(saveFileName);
+
+		System.out.println(fileName);
+		System.out.println(saveFileName);
+		System.out.println("들어가나");
+
+		// 2. 경로에 이미지파일 저장
+		byte[] bytes;
+		bytes = file.getBytes();
+		BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
+		buffStream.write(bytes);
+		buffStream.close();
+		//사용자 upload 폴더에 저장
+		byte[] ubyte;
+		ubyte = file.getBytes();
+		BufferedOutputStream buffStreams = new BufferedOutputStream(new FileOutputStream(new File(uFileName)));
+		buffStreams.write(ubyte);
+		buffStreams.close();
+		System.out.println("요기2");
+		
+		
+		eventService.modifyEvent(eventVO);
+		System.out.println("요기3");
+		
+		return "redirect:/event/eventPage.do";
+		
+		
+		
+	}
 	
+	
+	@RequestMapping(value = "delete.do")
+	public String deleteEvent(@RequestParam("no")int no) {
+		
+		eventService.removeEvent(no);
+		
+		
+		return "redirect:/event/eventPage.do";
+		
+	}
 	
 	
 }

@@ -141,6 +141,23 @@
 					VALUES(SEQ_T_EVENT_NO.NEXTVAL, #{storeName} , #{title}, #{content},#{imgFileName}, #{startDate}, #{endDate})
 	</insert>
 	
+	<!--  게시물 수정  -->
+	<update id = "updateEvent" parameterType = "eventVO">
+		UPDATE T_EVENT 
+			SET EVE_TITLE = #{title}, EVE_CONTENT = #{content}, EVE_FILENAME = #{imgFileName},
+			EVE_START = #{startDate}, EVE_FIN = #{endDate}
+			WHERE EVE_NO = #{no}		
+	
+	</update>
+	
+	<!-- 게시물 삭제 -->
+	<delete id = "deleteEvent" parameterType = "int">
+		DELETE T_EVENT
+		WHERE EVE_NO = #{no}
+	
+	</delete>
+	
+	
 	
 
 </mapper>

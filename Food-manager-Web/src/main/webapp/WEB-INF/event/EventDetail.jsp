@@ -112,7 +112,7 @@
 											<tr>
 												
 												<th>
-													<strong>${eventVO.content}</strong>	
+													<strong>${eventVO.title}</strong>	
 												</th>
 											</tr>
 										</thead>
@@ -128,6 +128,13 @@
 													<img src="../upload/${ eventVO.imgFileName }" >
 												</td>
 												
+												<tr>
+												<td>
+													<h4> ${eventVO.content }</h4>
+												</td>
+												
+											</tr>
+												
 											</tr>
 											
 										</tbody>
@@ -138,10 +145,10 @@
 								
 								    <div class="col-md-12">
 													
-										<button onclick="doAction('U')">수정</button>&nbsp;&nbsp;
-										<button onclick="doAction('D')">삭제</button>&nbsp;&nbsp;
+										<input type = "button" onclick ="doAction('U')" value="수정 "/>&nbsp;&nbsp;
+										<input type = "button" onclick ="doAction('D')" value="삭제 "/>&nbsp;&nbsp;
 													
-										<button onclick="doAction('L')">목록</button>
+										<input type = "button" onclick="doAction('L')" value = "목록">
 										
 									</div>
 								</div>
@@ -249,17 +256,17 @@
 				switch(type) {
 				case 'U' : 
 					if(confirm("수정 하시겠습니까?")) {
-						location.href="<%=request.getContextPath()%>/reWrite.do"+"?no=${ param.no }";
+						location. href = "${ pageContext.request.contextPath}/event/reWrite.do?no=" + ${eventVO.no};
 					}
 					break;
 				case 'D' : 
 					if(confirm("삭제 하시겠습니까?")) {
-						location.href="<%=request.getContextPath()%>/delete.do"+"?no=${ param.no }";
+						location.href = "${ pageContext.request.contextPath}/event/delete.do?no=" + ${eventVO.no};
 					}
 					break;
 				case 'L' : 
 					if(confirm("목록으로 돌아가시겠습니까?")) {
-						location.href = "<%=request.getContextPath()%>/tipList.do";
+						location.href = "${ pageContext.request.contextPath}/event/eventPage.do";
 					}
 					break;
 				}

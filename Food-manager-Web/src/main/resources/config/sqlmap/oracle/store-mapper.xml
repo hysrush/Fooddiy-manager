@@ -67,11 +67,23 @@
 		
 	<!--  매장데이터 전체 불러오기  -->		
 		<select id = "selectStoreAll" resultMap="Map_StoreVO">
-			SELECT STO_NO, STO_NAME, STO_PHONE, STO_ADDR 
+			SELECT *
+			FROM( SELECT ROWNUM RNUM, P.*
+			FROM( SELECT STO_NO, STO_NAME, STO_PHONE, STO_ADDR 
 			FROM T_STORE
-			
+			ORDER BY STO_NO DESC) P )
+			WHERE RNUM BETWEEN #{start} AND #{last}
 		
 		</select>
+		
+	<!--  페이징 total 쿼리 -->
+	<select id ="selectTotalPaging" resultType ="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM T_EVENT
+	</select>	
+		
+		
+		
 		
 		
 		

@@ -76,11 +76,12 @@ public class EvnetDAOImpl implements EventDAO {
 	@Override
 	public void update(EventBoardVO eventVO) {
 		
+		sqlSession.update(url+"updateEvent", eventVO);
 	}
 	
 	@Override
 	public void delete(int no) {
-		
+		sqlSession.delete(url +"deleteEvent", no);
 		
 	}
 
