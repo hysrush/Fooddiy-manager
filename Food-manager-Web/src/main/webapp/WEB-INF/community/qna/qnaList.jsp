@@ -17,7 +17,11 @@
 	<link href="${ pageContext.request.contextPath }/resources/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <!-- FooTable -->
     <link href="${ pageContext.request.contextPath }/resources/css/plugins/footable/footable.core.css" rel="stylesheet">
-
+	
+	<!-- sweetalert js & css -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
+	<link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
+	
     <link href="${ pageContext.request.contextPath }/resources/css/animate.css" rel="stylesheet">
     <link href="${ pageContext.request.contextPath }/resources/css/style.css" rel="stylesheet">
     
@@ -114,8 +118,7 @@
 	                                <c:forEach items="${ qnaList }" var="qna">
 		                                <tr class="qnaList">
 		                                    <td class="convType" width="100px;">
-			                                    <span class="label label-primary">type</span>
-		                                        <div class="qnaType" style = "display: none">${ qna.type }</div>
+			                                    <span class="label label-primary">${ qna.type }</span>
 		                                    </td>
 		                                    <td>
 		                                        ${ qna.question }
@@ -128,9 +131,9 @@
 		                                    </td>
 		                                    <td class="text-right">
 		                                        <div class="btn-group" width="10%" nowrap>
-		                                            <button class="btn-white btn btn-xs" id="view" onclick="btnClick(${qna.no})"><i class="fa fa-search"></i></button>
-		                                            <button class="btn-white btn btn-xs"><i class="fa fa-edit"></i></button>
-		                                            <button class="btn-white btn btn-xs"><i class="fa fa-trash"></i></button>
+		                                            <button class="btn-white btn btn-xs" id="view" onclick="action('V', ${qna.no})"><i class="fa fa-search"></i></button>
+		                                            <button class="btn-white btn btn-xs" onclick="action('E', ${qna.no})"><i class="fa fa-edit"></i></button>
+		                                            <button class="btn-white btn btn-xs" onclick="action('D', ${qna.no})"><i class="fa fa-trash"></i></button>
 		                                        </div>
 		                                    </td>
 		                                </tr>
@@ -149,8 +152,17 @@
         </div>
         </div>
         </div>
+        
+        <!-- 모달들 -->
+		<div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content animated fadeIn">
+					<!-- 모달내용 -->
+				</div>
+			</div>
+		</div>
 
-    <!-- Mainly scripts -->
+	<!-- Mainly scripts -->
     <script src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
@@ -162,7 +174,7 @@
     <!-- Custom and plugin javascript -->
     <script src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/pace/pace.min.js"></script>
-
+	
     <!-- FooTable -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
     
@@ -170,48 +182,71 @@
     <script type="text/javascript">
 		$(document).ready(function() {
 			
-		    $('.footable').footable();
+			// sidebar li & ul 클래스 active
+			$('.communityLI').addClass("active");
+			$('.communityLI > ul').addClass("in");
+			$('.qnaLI').addClass("active");
 		    
-			$('.dataTables_empty').html("해당 단어로 검색한 결과가 없습니다.");
-
+			// footable 시작
+			$('.footable').footable();
+		    
+			// QnA 타입별 라벨 클래스명 & 텍스트 변경
 			for(var i = 0; i < $('.qnaList').length; ++i) {    	
-				
-				var qnaType  = $('.qnaList').eq(i);
-				
-				// 타입별 클래스명 & 텍스트 변경
-				if(qnaType.find('.qnaType').text() == 'F'){
-					qnaType.find('.label').attr("class","label label-primary");
-					qnaType.find('.label').html("푸디오더");
+				var qnaType  = $('.qnaList').eq(i).find('.label');
+				if(qnaType.text() == 'F'){
+					qnaType.attr("class","label label-primary");
+					qnaType.html("푸디오더");
 				}
-				else if(qnaType.find('.qnaType').text() == 'P'){
-					qnaType.find('.label').attr("class","label label-danger");
-					qnaType.find('.label').html("포인트");
+				else if(qnaType.text() == 'P'){
+					qnaType.attr("class","label label-danger");
+					qnaType.html("포인트");
 				}
-				else if(qnaType.find('.qnaType').text() == 'O'){
-					qnaType.find('.label').attr("class","label label-warning");
-					qnaType.find('.label').html("주문");
+				else if(qnaType.text() == 'O'){
+					qnaType.attr("class","label label-warning");
+					qnaType.html("주문");
 				}
-				else if(qnaType.find('.qnaType').text() == 'M'){
-					qnaType.find('.label').attr("class","label label-success");
-					qnaType.find('.label').html("회원정보");
+				else if(qnaType.text() == 'M'){
+					qnaType.attr("class","label label-success");
+					qnaType.html("회원정보");
 				}
-				else if(qnaType.find('.qnaType').text() == 'X'){
-					qnaType.find('.label').attr("class","label label-plain");
-					qnaType.find('.label').html("기타");
+				else if(qnaType.text() == 'X'){
+					qnaType.attr("class","label label-plain");
+					qnaType.html("기타");
 				}
 			}
 			
-			// 데이터테이블 생성
+			// 데이터테이블 생성 & 옵션 변경
 			$('.footable').css("width","100%");
 			$('.dataTables-example').DataTable({
-                pageLength: 25,
+				pageLength: 10,
+                bPaginate: true,
                 responsive: true,
                 dom: '<"html5buttons"B>lTfgitp',
+                "oLanguage": {
+                	// 기본 info (고정값)
+                	"sInfo": "총 데이터 : _TOTAL_개 (현재 페이지 : _START_ to _END_)",
+                	// 검색 후 info (고정값)
+                    "sInfoFiltered": "*",
+                    // 결과 없을때 info
+                	"sInfoEmpty": "검색 결과 : _TOTAL_개",
+                	// 결과 없을때 테이블 안 info
+                    "sZeroRecords" : "입력하신 검색어와 일치하는 결과가 없습니다. 다시 한번 검색해주세요!",
+                    // 검색 text
+                    "sSearch" : "전체 검색 : ",
+                    // 보기 text
+                    "sLengthMenu" : "보기 : _MENU_",
+                    // 페이징 버튼 text
+                    "oPaginate": {
+                    	"sPrevious": "<<",
+                    	"sNext": ">>"
+                      }
+                },
+                // 버튼 옵션
                 buttons: [
                     {extend: 'copy'},
                     {extend: 'csv'},
-                    {extend: 'excel', title: 'ExampleFile'},
-                    {extend: 'pdf', title: 'ExampleFile'},
+                    {extend: 'excel', title: 'ExcelFile'},
+                    {extend: 'pdf', title: 'PdfFile'},
                     {extend: 'print',
                      customize: function (win){
                             $(win.document.body).addClass('white-bg');
@@ -221,16 +256,61 @@
                     }
                 ]
             });
+
+			// 데이터테이블 검색입력 시, 단어 추출 작업
+			$('#DataTables_Table_0_filter input').keyup(function() {
+				var keyupWord = $(this).val();
+				var empty = $('table .dataTables_empty').text();
+				var text = $('#DataTables_Table_0_info').text();
+				
+				if (empty == "입력하신 검색어와 일치하는 결과가 없습니다. 다시 한번 검색해주세요!") {
+					$('#DataTables_Table_0_info').html(text.replace("*", "<br><strong>" + keyupWord + "</strong>와(과) 일치하는 검색결과가 없습니다."));
+				} else if (keyupWord.length > 0){
+					$('#DataTables_Table_0_info').html(text.replace("*", "<br><strong>" + keyupWord + "</strong>와(과) 일치하는 검색결과입니다."));
+				} 
+			});
+			
 		});
-	
-		function btnClick(no) {
-			location.href = '${ pageContext.request.contextPath}/community/qna/qnaDetail.do?no=' + no;
-		} 
 		
-		function submit() {
-			document.getElementById("dForm").submit();
+		// QnA action 함수
+		function action(type, no) {
+			switch (type) {
+			case 'V':
+				// QnA 디테일 모달
+				$('div.modal').modal().removeData();
+			    var url = '${ pageContext.request.contextPath}/community/qna/qnaDetail.do?no=' + no;
+			    $('div.modal').modal({ remote : url  });
+				break;
+			case 'E':
+				alert("수정");
+				break;
+			case 'D':
+				deleteQnA(no);
+				break;
+			default:
+				break;
+			}
+	    }
+		
+		// 삭제 확인창
+		function deleteQnA(no) {
+			swal({
+		        title: "정말 삭제하시겠습니까?",
+		        type: "warning",
+		        showCancelButton: true,
+		        cancelButtonText: "취소",
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "삭제",
+		        closeOnConfirm: false
+		    }, function () {
+		        swal("삭제되었습니다!", "", "success");
+		        // OK 누르면 삭제 실행
+		        $('.confirm').click(function () {
+		        	location.href = '${ pageContext.request.contextPath}/community/qna/qnaDelete.do?no=' + no;
+				});
+		    });
 		}
-	
+		
 	</script>
 	</body>
 </html>

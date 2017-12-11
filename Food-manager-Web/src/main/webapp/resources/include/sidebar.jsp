@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <head>
 <style type="text/css">
 	#logo {
@@ -20,8 +20,8 @@
 					src="${ pageContext.request.contextPath }/resources/img/profile_small.jpg" />
 				</span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span
 					class="clear"> <span class="block m-t-xs"><strong
-							class="font-bold">홍길동 매니저</strong></span> <span
-						class="text-muted text-xs block">강남역점<b class="caret"></b></span>
+							class="font-bold">${ loginVO.name } 매니저</strong></span> <span
+						class="text-muted text-xs block">${ loginVO.branch }<b class="caret"></b></span>
 				</span>
 				</a>
 				<ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -34,17 +34,17 @@
 			</div>
 			<div class="logo-element" id="logo"><span id="fooddiy">Fooddiy-Order</span> Admin+</div>
 		</li>
-		<li class="active"><a href="${ pageContext.request.contextPath }/FirstPage.jsp"><i
+		<li class="mainLI"><a href="${ pageContext.request.contextPath }/FirstPage.jsp"><i
 				class="fa fa-th-large"></i> <span class="nav-label">Main</span></a></li>
 		<li><a href="css_animation.html"><i class="fa fa-magic"></i>
 				<span class="nav-label">메인페이지 관리</span><span
 				class="label label-info pull-right">NEW</span></a></li>
-		<li><a href="#"><i class="fa fa-sitemap"></i> <span
+		<li class="menuLI"><a href="#"><i class="fa fa-sitemap"></i> <span
 				class="nav-label">메뉴 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="${ pageContext.request.contextPath }/menu/menuAll.do">메뉴 리스트</a></li>
-				<li><a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴 관리</a></li>
-				<li><a href="${ pageContext.request.contextPath }/menu/menuRegister.do">메뉴 등록</a></li>
+				<li class="menuAll"><a href="${ pageContext.request.contextPath }/menu/menuAll.do">메뉴 리스트</a></li>
+				<li class="menuBoard"><a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴 관리</a></li>
+				<li class="menuRegister"><a href="${ pageContext.request.contextPath }/menu/menuRegister.do">메뉴 등록</a></li>
 			</ul></li>
 		<li><a href="#"><i class="fa fa-shopping-cart"></i> <span
 				class="nav-label">주문 관리</span><span class="fa arrow"></span></a>
@@ -56,10 +56,8 @@
 		<li><a href="#"><i class="fa fa-user-circle"></i> <span
 				class="nav-label">회원 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="form_basic.html">회원 리스트</a></li>
-				<li><a href="form_advanced.html">회원 등록</a></li>
-				<li><a href="form_wizard.html">등급 관리</a></li>
-				<li><a href="form_editors.html">포인트 관리</a></li>
+				<li><a href="${ pageContext.request.contextPath }/member/memberList">회원 리스트</a></li>
+				<li><a href="${ pageContext.request.contextPath }/member/memberRank">회원 랭킹</a></li>
 			</ul></li>
 		<li><a href="#"><i class="fa fa-star"></i> <span
 				class="nav-label">이벤트 관리</span><span class="fa arrow"></span></a>
@@ -68,10 +66,10 @@
 				<li><a href="lockscreen.html">매장별 이벤트 관리</a></li>
 				<li><a href="login_two_columns.html">매장 찾기 관리</a></li>
 			</ul></li>
-		<li><a href="#"><i class="fa fa-desktop"></i> <span
+		<li class="communityLI"><a href="#"><i class="fa fa-desktop"></i> <span
 				class="nav-label">커뮤니티 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="${ pageContext.request.contextPath }/community/qna/qnaList.do">자주묻는질문 관리</a></li>
+				<li class="qnaLI"><a href="${ pageContext.request.contextPath }/community/qna/qnaList.do">자주묻는질문 관리</a></li>
 				<li><a href="profile.html">공지사항 관리</a></li>
 				<li><a href="profile_2.html">보도자료 관리</a></li>
 				<li><a href="contacts_2.html">1:1문의 관리</a></li>
@@ -106,13 +104,3 @@
 	</ul>
 </div>
 </nav>
-<script src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js">
-$(document).ready(function() {
-	
-	$('li').click(function() {
-		 $('li').removeClass('active');
-		 $(this).addClass('active');
-	});
-
-});
-</script>

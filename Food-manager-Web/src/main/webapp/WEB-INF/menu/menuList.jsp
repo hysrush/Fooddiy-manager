@@ -114,6 +114,12 @@
 <script src="${ pageContext.request.contextPath}/resources/js/plugins/pace/pace.min.js"></script>
     <script>
     	$(document).ready(function() {
+    		
+    		// sidebar li & ul 클래스 active
+			$('.menuLI').addClass("active");
+			$('.menuLI > ul').addClass("in");
+			$('.menuAll').addClass("active");
+    		
 
     		
     		for(var i = 0; i < $('.product-box').length; ++i) {

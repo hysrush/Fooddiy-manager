@@ -972,6 +972,10 @@
 
     <script>
         $(document).ready(function() {
+        	
+        	// sidebar li 클래스 active
+        	$('.mainLI').addClass("active");
+        	
             setTimeout(function() {
                 toastr.options = {
                     closeButton: true,
