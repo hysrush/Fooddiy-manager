@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- DAO에서 sql문 불러 올 때 사용해야 하는 이름 -->
+<mapper namespace="kr.co.bit.member.dao">
+
+	<resultMap type="userVO" id="mapLoginVO">
+		<result column="user_id" property="id"/>
+		<result column="user_pw" property="pw"/>
+		<result column="user_name" property="name"/>
+		<result column="user_email" property="email"/>
+		<result column="user_phone" property="phone"/>
+		<result column="user_birth" property="birth"/>
+		<result column="user_grade" property="grade"/>
+		<result column="user_type" property="type"/>
+		<result column="user_pic" property="file"/>
+	</resultMap>
+	
+	<!-- DB t_menu와 MenuVO의 변수가 맞지 않으므로 mapping -->
+	<resultMap type="cartVO" id="Map_cartVO">
+		<result column="cart_no" property="no"/>
+		<result column="cart_id" property="id"/>
+		<result column="cart_name" property="name"/>
+		<result column="cart_price" property="price"/>
+		<result column="cart_total_price" property="total_price"/>
+		<result column="cart_size" property="size"/>
+		<result column="cart_pic" property="pic"/>
+		<result column="cart_qty" property="qty"/>
+		<result column="cart_bread" property="bread"/>
+		<result column="cart_cheese" property="cheese"/>
+		<result column="cart_topping" property="topping"/>
+		<result column="cart_vegetable" property="vegetable"/>
+		<result column="cart_sauce" property="sauce"/>
+		<result column="reg_at" property="regDate"/>
+	</resultMap>
+	
+	<!-- sql문 적는 공간 -->
+	
+	<!-- 회원가입 전 가입 이력 확인 -->
+	<select id="checkMember" parameterType="userVO" resultType="java.lang.Integer">
+		select NVL(count(*), 0)
+		from t_user
+		where user_name = #{ name } and user_phone = #{ phone }
+	</select>
+	
+	<!-- 로그인 전 가입 확인 -->
+	<select id="loginCheck" parameterType="userVO" resultType="java.lang.Integer">
+		select NVL(count(*), 0) from t_user
+		where user_id = #{id} and user_pw = #{pw}
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="login" parameterType="userVO" resultMap="mapLoginVO">
+		select user_id, user_pw, user_name, user_birth, user_email, user_phone ,user_grade, user_type, user_pic from t_user
+		where user_id = #{id} and user_pw = #{pw}
+	</select>
+	
+	<!--  회원 가입 -->
+	<insert id="signUp" parameterType="userVO" >
+		insert into t_user(user_no, user_id, user_name, user_pw, user_birth, user_sex, user_email, user_phone, user_root, user_pic)
+		values(seq_t_user_no.nextval, #{id}, #{name}, #{pw}, #{birth}, #{sex}, #{email}, #{phone}, #{root}, #{file})
+	</insert>
+	
+	<!-- 비회원 가입 -->
+	<insert id="nonSignUp" parameterType="userVO" >
+		insert into t_user(user_no, user_id, user_name, user_pw, user_email, user_type)
+		values(seq_t_user_no.nextval, #{id}, #{name}, #{pw}, #{email}, #{type})
+	</insert>
+	
+	<!-- ID 찾기 -->
+	<select id="lostIdCheck" parameterType="userVO" resultType="java.lang.Integer">
+		select NVL(count(*), 0) from t_user
+		where user_name = #{name} and user_phone = #{phone}
+	</select>
+	
+	<select id="lostId" parameterType="userVO" resultMap="mapLoginVO">
+		select user_id, user_pw from t_user
+		where user_name = #{ name } and user_phone = #{ phone }
+	</select>
+	
+	<!-- PW 찾기 -->
+	<select id="lostPwCheck" parameterType="userVO" resultType="java.lang.Integer">
+		select NVL(count(*), 0) from t_user
+		where user_name = #{name} and user_id = #{id}
+	</select>
+	
+	<select id="lostPw" parameterType="userVO" resultMap="mapLoginVO">
+		select user_id, user_name, user_email from t_user
+		where user_name = #{name} and user_id = #{id}
+	</select>
+
+	<!-- pw 찾은 수 임시 비밀번호로 수정 -->
+	<update id="pwUpdate" parameterType="userVO">
+		update t_user
+		set user_pw = #{pw}
+		where user_id = #{id} and user_name = #{name}
+	</update>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="memberUpdate" parameterType="userVO">
+	 Update t_user
+	 SET
+	 	user_pw = #{pw},
+	 	user_phone = #{phone},
+	 	user_email = #{email},
+	 	user_pic = #{file}
+	 where
+	 	user_id = #{id}
+	</update>
+	
+	<!--회원 탈퇴  -->
+	<delete id="memberDelete" parameterType="java.lang.String">
+	DELETE FROM t_user
+	WHERE user_id = #{id}
+	</delete>
+	
+	<!-- 중복 아이디 체크 -->
+	<select id="checkId" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select NVL(count(*), 0)
+		from t_user
+		where user_id = #{ id }
+	</select>
+	
+	<!-- myMenu 저장-->
+	<insert id="setmyMenu" parameterType="cartVO">
+		insert into t_mymenu(CART_NO, CART_ID, CART_NAME, CART_PRICE, CART_SIZE, CART_PIC, CART_BREAD, CART_CHEESE, CART_TOPPING, CART_VEGETABLE, CART_SAUCE)
+		values(seq_t_mymenu_no.nextval, #{id}, #{name}, #{price}, #{size}, #{pic}, #{bread}, #{cheese}, #{topping}, #{vegetable}, #{sauce})
+	</insert>
+	
+	<!-- mymenu 목록 -->
+	<select id="getmyMenu" parameterType="java.lang.String" resultMap="Map_cartVO">
+		select CART_no, CART_ID, CART_NAME, CART_PRICE, CART_SIZE, CART_PIC, CART_QTY, CART_BREAD, CART_CHEESE, CART_TOPPING, CART_VEGETABLE, CART_SAUCE from t_mymenu
+		where cart_id = #{id}
+	</select>
+	
+	<!-- mymenu 삭제 -->
+	<delete id="delmyMenu" parameterType="java.lang.Integer">
+		DELETE FROM t_mymenu
+		WHERE CART_NO = #{no}
+	</delete>
+	<!-- memberList 목록 -->
+	<select id="memberList" resultMap="mapLoginVO">
+		select user_id, user_name, user_email, user_phone, user_sex, user_birth, user_porint, user_root, user_pic, user_grade from t_user
+	</select>
+</mapper>
