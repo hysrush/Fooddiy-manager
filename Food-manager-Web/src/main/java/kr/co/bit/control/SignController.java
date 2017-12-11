@@ -18,11 +18,11 @@ import kr.co.bit.vo.ManagerVO;
 
 /**
  * 
- * 로그인, 로그아웃 회원가입 API로그인 처리
+ * 로그인, 로그아웃 회원가입
  * 
  */
 @SessionAttributes({"loginVO"})
-@RequestMapping("/manager")
+@RequestMapping("/sign")
 @Controller
 public class SignController {
 
@@ -44,6 +44,18 @@ public class SignController {
 		return "sign/signForm";
 	}
 	
+	// 관리자 인증 코드 발송
+	@RequestMapping(value="/signForm", method=RequestMethod.POST)
+	public @ResponseBody List<Object> managerCheck(String id) {
+		
+		String check = signServiceImp.managerCheck(id);
+		List<Object> manager = new ArrayList<>();
+		
+		manager.add(check);
+		manager.add("인증 코드 발송!");
+		
+		return manager;
+	}
 	
 	// - 관리자 등록
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)

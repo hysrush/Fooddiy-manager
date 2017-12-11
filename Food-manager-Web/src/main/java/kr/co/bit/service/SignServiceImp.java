@@ -172,4 +172,34 @@ public class SignServiceImp implements SignService {
 		return signDAOImp.checkMember(managerVO);
 	}
 
+	// 관리자 인증 코드
+	public String managerCheck(String id) {
+		
+		MailVO mail = new MailVO();
+		String code = new MailKey().getkey().trim();
+		
+		mail.setSender("skdml132@gamil.com");
+		mail.setSubject("[Subway] 관리자 인증 코드");
+		mail.setContent("관리자 인증 코드는 [" + code + "] 입니다." );
+		mail.setReceiver(id);
+
+		try {
+			
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8" );
+			
+			messageHelper.setFrom(mail.getSender());
+			messageHelper.setTo(mail.getReceiver());
+			messageHelper.setSubject(mail.getSubject());
+			messageHelper.setText(mail.getContent());
+			
+			mailSender.send(message);
+			
+		}catch(Exception e) {
+			e.getMessage();
+		}
+		
+		return code;
+	}
+
 }
