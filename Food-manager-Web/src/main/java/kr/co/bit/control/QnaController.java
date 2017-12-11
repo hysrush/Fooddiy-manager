@@ -61,8 +61,6 @@ public class QnaController {
 		// QnA 새 글 등록
 		qnaService.insertQnA(qnaVO);
 		
-		System.out.println(qnaVO.toString());
-		
 		return "redirect:/community/qna/qnaList.do";
 	}
 	// QnA 글 상세내용 조회
@@ -87,35 +85,7 @@ public class QnaController {
 		
 		return mav;
 	}
-	// QnA 수정 폼
-	// ex) community/qna/qnaEditForm.do?no=15
-	@RequestMapping(value="/qnaEditForm.do", method=RequestMethod.GET)
-	public String updateForm(@RequestParam("no") int no, Model model) {
-		
-		QnaBoardVO qnaVO = qnaService.selectOneQnA(no);
-		model.addAttribute("qnaVO", qnaVO);
-		
-		// Form에서 가져온 Data를 QnaBoardVO 객체 형태로 저장
-		QnaBoardVO qnaVO_NEW = new QnaBoardVO();
-		// 공유영역에 등록
-		model.addAttribute("qnaVO_NEW", qnaVO_NEW);
-		
-		return "community/qna/qnaEditForm";
-	}
-	// QnA 업데이트
-	@RequestMapping(value="/qnaEditForm.do", method=RequestMethod.POST)
-	public String update(@Valid QnaBoardVO qnaVO_NEW, BindingResult result) {
-		if (result.hasErrors()) {
-			// 에러일때 true => editForm으로
-			return "community/qna/qnaEditForm";
-		}
-		// QnA 새 글로 수정
-		qnaService.modifyQnA(qnaVO_NEW);
-		
-		System.out.println(qnaVO_NEW.toString());
-		
-		return "redirect:/community/qna/qnaList.do";
-	}
+	
 	// QnA 글 삭제
 	@RequestMapping(value="/qnaDelete.do", method=RequestMethod.GET)
 	public String delete(@RequestParam("no") int no) {

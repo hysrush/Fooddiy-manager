@@ -26,9 +26,6 @@
     <link href="${ pageContext.request.contextPath }/resources/css/style.css" rel="stylesheet">
     
 <style type="text/css">
-	.pace-done{
-		padding-right: 0 !important;
-	}
 	.convType > span {
 		width: 60px;
 	}
@@ -66,80 +63,85 @@
         
 		<!-- 페이지 컨텐츠 -->
         <div class="wrapper wrapper-content animated fadeInRight ecommerce">
+			<!-- Search box -->
+            <div class="ibox-content m-b-sm border-bottom">
+                <div class="row">
+                	<div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="control-label" for="type">타입</label>
+                            <select name="type" id="type" class="form-control">
+                                <option value="F" selected>푸디오더</option>
+                                <option value="P">포인트</option>
+                                <option value="O">주문</option>
+                                <option value="M">회원정보</option>
+                                <option value="X">기타</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" for="question">Q</label>
+                            <input type="text" id="question" name="question" value="" placeholder="질문" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label" for="answer">A</label>
+                            <input type="text" id="answer" name="answer" value="" placeholder="답변" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="control-label" for="regDate">등록일</label>
+                            <input type="date" id="regDate" name="regDate" value="" placeholder="regDate" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<!-- 자주묻는질문 List -->
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="tabs-container">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-list"></i>리스트</a></li>
-                                <li class=""><a href="${ pageContext.request.contextPath}/community/qna/qnaWriteForm.do"><i class="fa fa-save"></i>등록</a></li>
-                                <li class=""><a href="#"><i class="fa fa-edit"></i>수정</a></li>
-                                <li class=""><a data-toggle="tab" href="#tab-4">xx</a></li>
-                            </ul>
-                            <div class="tab-content">
-								<!-- 첫번째 Tab : 자주묻는질문 리스트 -->
-                                <div id="tab-1" class="tab-pane active">
-                                    <div class="panel-body">
-                                    	<h2>Q&A 리스트</h2>
-										<div class="ibox">
-					                        <div class="ibox-content">
-					                        	<div class="table-responsive">
-						                            <table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="25">
-						                                <thead>
-							                                <tr>
-							                                    <th data-hide="phone" data-sort-ignore="true">타입</th>
-							                                    <th data-toggle="true" data-sort-ignore="true">Q</th>
-							                                    <th data-hide="all" data-sort-ignore="true">A</th>
-							                                    <th data-hide="phone" data-sort-ignore="true">등록일</th>
-							                                    <th class="text-right" data-sort-ignore="true">Action</th>
-							                                </tr>
-						                                </thead>
-						                                <tbody>
-						                                <c:forEach items="${ qnaList }" var="qna">
-							                                <tr class="qnaList">
-							                                    <td class="convType" width="100px;">
-								                                    <span class="label label-primary">${ qna.type }</span>
-							                                    </td>
-							                                    <td>
-							                                        ${ qna.question }
-							                                    </td>
-							                                    <td style="word-break:keep-all;">
-							                                        ${ qna.answer }
-							                                    </td>
-							                                    <td width="10%" nowrap>
-							                                        ${ qna.regDate }
-							                                    </td>
-							                                    <td class="text-right">
-							                                        <div class="btn-group" width="10%" nowrap>
-							                                            <button class="btn-white btn btn-xs" id="view" onclick="action('V', ${qna.no})"><i class="fa fa-search"></i></button>
-							                                            <button class="btn-white btn btn-xs" onclick="action('E', ${qna.no})"><i class="fa fa-edit"></i></button>
-							                                            <button class="btn-white btn btn-xs" onclick="action('D', ${qna.no})"><i class="fa fa-trash"></i></button>
-							                                        </div>
-							                                    </td>
-							                                </tr>
-														</c:forEach>
-						                                </tbody>
-						                            </table>
-												</div>
-					                        </div>
-                    					</div>
-                                    </div>
-                                </div>
-                                <!-- 두번째 Tab : 자주묻는질문 등록 -->
-                                <div id="tab-2" class="tab-pane">
-                                    <div class="panel-body">
-                                    </div>
-                                </div>
-                                <div id="tab-3" class="tab-pane">
-                                    <div class="panel-body">
-										<span>test</span>
-                                    </div>
-                                </div>
-                                <div id="tab-4" class="tab-pane">
-                                    <div class="panel-body">
-                                    	<span>test</span>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="ibox">
+                        <div class="ibox-content">
+                        	<div class="table-responsive">
+	                            <table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="25">
+	                                <thead>
+		                                <tr>
+		                                    <th data-hide="phone" data-sort-ignore="true">타입</th>
+		                                    <th data-toggle="true" data-sort-ignore="true">Q</th>
+		                                    <th data-hide="all" data-sort-ignore="true">A</th>
+		                                    <th data-hide="phone" data-sort-ignore="true">등록일</th>
+		                                    <th class="text-right" data-sort-ignore="true">Action</th>
+		                                </tr>
+	                                </thead>
+	                                <tbody>
+	                                <c:forEach items="${ qnaList }" var="qna">
+		                                <tr class="qnaList">
+		                                    <td class="convType" width="100px;">
+			                                    <span class="label label-primary">${ qna.type }</span>
+		                                    </td>
+		                                    <td>
+		                                        ${ qna.question }
+		                                    </td>
+		                                    <td style="word-break:keep-all;">
+		                                        ${ qna.answer }
+		                                    </td>
+		                                    <td width="10%" nowrap>
+		                                        ${ qna.regDate }
+		                                    </td>
+		                                    <td class="text-right">
+		                                        <div class="btn-group" width="10%" nowrap>
+		                                            <button class="btn-white btn btn-xs" id="view" onclick="action('V', ${qna.no})"><i class="fa fa-search"></i></button>
+		                                            <button class="btn-white btn btn-xs" onclick="action('E', ${qna.no})"><i class="fa fa-edit"></i></button>
+		                                            <button class="btn-white btn btn-xs" onclick="action('D', ${qna.no})"><i class="fa fa-trash"></i></button>
+		                                        </div>
+		                                    </td>
+		                                </tr>
+									</c:forEach>
+	                                </tbody>
+	                            </table>
+							</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -281,7 +283,6 @@
 				break;
 			case 'E':
 				alert("수정");
-				location.href = '${ pageContext.request.contextPath}/community/qna/qnaEditForm.do?no=' + no;
 				break;
 			case 'D':
 				deleteQnA(no);
@@ -291,7 +292,7 @@
 			}
 	    }
 		
-		// 삭제 alert창
+		// 삭제 확인창
 		function deleteQnA(no) {
 			swal({
 		        title: "정말 삭제하시겠습니까?",
