@@ -38,7 +38,7 @@
         <!-- topbar -->
 	    <jsp:include page="/resources/include/topbar.jsp"/>
         
-       	<!-- 페이지 헤더 -->
+       	<!-- 페이지 header -->
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
                 <h2>자주묻는질문 관리</h2>
@@ -55,94 +55,90 @@
                 </ol>
             </div>
             <div class="col-lg-2">
-
             </div>
         </div>
         
-		<!-- 페이지 컨텐츠 -->
+		<!-- 페이지 body -->
         <div class="wrapper wrapper-content animated fadeInRight ecommerce">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="tabs-container">
-                            <ul class="nav nav-tabs">
-                                <li class=""><a href="${ pageContext.request.contextPath}/community/qna/qnaList.do"><i class="fa fa-list"></i>리스트</a></li>
-                                <li class=""><a href="${ pageContext.request.contextPath}/community/qna/qnaWriteForm.do"><i class="fa fa-save"></i>등록</a></li>
-                                <li class="active"><a data-toggle="tab" href="#tab-3"><i class="fa fa-edit"></i>수정</a></li>
-                                <li class=""><a data-toggle="tab" href="#tab-4">xx</a></li>
-                            </ul>
-                            <div class="tab-content">
-								<!-- 첫번째 Tab : 자주묻는질문 리스트 -->
-                                <div id="tab-1" class="tab-pane">
-                                    <div class="panel-body">
-                                    </div>
-                                </div>
-                                <!-- 두번째 Tab : 자주묻는질문 등록 -->
-                                <div id="tab-2" class="tab-pane">
-                                    <div class="panel-body">
-                                    </div>
-                                </div>
-                                <!-- 세번째 Tab : 자주묻는질문 수정 -->
-                                <div id="tab-3" class="tab-pane active">
-                                    <div class="panel-body">
-                                    	<form:form commandName="qnaVO" method="POST"  id="qnaForm">
-											<fieldset class="form-horizontal" aria-hidden="false">
-                                				<h2>Q&A 수정</h2>
-												<div class="ibox-content">
-													<div class="form-group">
-														<div class="col-sm-8">
-															<label class="control-label" for="type">타입 *</label>
-															<form:select path="type" name="type" id="type" class="form-control required" aria-required="true">
-																<form:option value="F">푸디오더</form:option>
-																<form:option value="P">포인트</form:option>
-																<form:option value="O">주문</form:option>
-																<form:option value="M">회원정보</form:option>
-																<form:option value="X">기타</form:option>
-															</form:select>
-															<input type="hidden" value="${ qnaVO.type }" id="hiddenType"/>
-														</div>
-													</div>
-													<div class="form-group">
-														<div class="col-sm-8">
-															<label class="control-label" for="question">Q *</label>
-															<form:input path="question" type="text" id="question" class="form-control required"
-																		aria-required="true" value="${ qnaVO.question }"/>
-															<form:errors path="question" class="form-control"></form:errors>
-														</div>
-													</div>
-													<div class="form-group">
-														<div class="col-sm-8">
-															<label class="control-label" for="answer">A *</label>
-															<form:textarea path="answer" id="answer" class="form-control required" rows="5"
-																			aria-required="true" value="${ qnaVO.answer }"/>
-															<form:errors path="answer" class="form-control"></form:errors>
-														</div>
-													</div>
-													<div class="form-group">
-														<div class="col-sm-5 col-sm-offset-2">
-															<button type="button" class="btn btn-white">취소</button>
-															<button type="button" class="btn btn-primary" id="qnaUpdate">수정</button>
-														</div>
-													</div>
+						<ul class="nav nav-tabs">
+						    <li class=""><a href="${ pageContext.request.contextPath}/community/qna/qnaList.do"><i class="fa fa-list"></i>리스트</a></li>
+						    <li class=""><a href="${ pageContext.request.contextPath}/community/qna/qnaWriteForm.do"><i class="fa fa-save"></i>등록</a></li>
+						    <li class="active"><a data-toggle="tab" href="#tab-3"><i class="fa fa-edit"></i>수정</a></li>
+						</ul>
+						<div class="tab-content">
+							<!-- 첫번째 Tab : 자주묻는질문 리스트 -->
+							<div id="tab-1" class="tab-pane">
+							    <div class="panel-body">
+							    </div>
+							</div>
+							<!-- 두번째 Tab : 자주묻는질문 등록 -->
+							<div id="tab-2" class="tab-pane">
+							    <div class="panel-body">
+							    </div>
+							</div>
+                            <!-- 세번째 Tab : 자주묻는질문 수정 -->
+							<div id="tab-3" class="tab-pane active">
+								<div class="panel-body">
+								<form:form commandName="qnaVO" method="POST"  id="qnaForm">
+									<fieldset class="form-horizontal" aria-hidden="false">
+										<h2>Q&A 수정</h2>
+										<div class="ibox-content">
+											<div class="form-group">
+												<div class="col-sm-8">
+													<label class="control-label" for="type">타입 *</label>
+														<form:select path="type" name="type" id="type" class="form-control required" aria-required="true">
+															<form:option value="F">푸디오더</form:option>
+															<form:option value="P">포인트</form:option>
+															<form:option value="O">주문</form:option>
+															<form:option value="M">회원정보</form:option>
+															<form:option value="X">기타</form:option>
+														</form:select>
+														<input type="hidden" value="${ qnaVO.type }" id="hiddenType"/>
 												</div>
-											</fieldset>
-										</form:form>
-                                    </div>
-                                </div>
-                                <div id="tab-4" class="tab-pane">
-                                    <div class="panel-body">
-                                    </div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-8">
+													<label class="control-label" for="question">Q *</label>
+													<form:input path="question" type="text" id="question" class="form-control required"
+																aria-required="true" value="${ qnaVO.question }"/>
+													<form:errors path="question" class="form-control"></form:errors>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-8">
+													<label class="control-label" for="answer">A *</label>
+													<form:textarea path="answer" id="answer" class="form-control required" rows="5"
+																	aria-required="true" value="${ qnaVO.answer }"/>
+													<form:errors path="answer" class="form-control"></form:errors>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-5 col-sm-offset-2">
+													<button type="button" class="btn btn-white">취소</button>
+													<button type="button" class="btn btn-primary" id="qnaUpdate">수정</button>
+												</div>
+											</div>
+										</div>
+										<form:input path="regDate" type="hidden" id="regDate"/>
+									</fieldset>
+								</form:form>
                                 </div>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- footer -->
+        
+        <!-- 페이지 footer -->
         <div class="footer">
 	    	<jsp:include page="/resources/include/bottom.jsp"/>
         </div>
-        </div>
-        </div>
+	</div>
+	</div>
         
 
 	<!-- Mainly scripts -->
@@ -181,11 +177,26 @@
 			    });
 			});
 			
+			// 수정된 날짜(오늘날짜)로 값 넣기
+	       	var today = new Date();
+	       	today = getFormatDate(today);
+			$('#regDate').val(today);
+			
+			// 기존 type값 가져와서 selected 설정해놓기
 			var type = $('#hiddenType').val();
 			$('#type option[@value=' + type + ']').prop("selected", true);
 			
-			
 		});
+		
+		// 날짜 yyyy-MM-dd 포맷 변환 함수
+       	function getFormatDate(date){
+       		var year = date.getFullYear();					// yyyy
+       		var month = (1 + date.getMonth());				// M
+       		month = month >= 10 ? month : '0' + month;		// month 두자리로 저장
+       		var day = date.getDate();						// d
+       		day = day >= 10 ? day : '0' + day;				// day 두자리로 저장
+       		return  year + '/' + month + '/' + day;
+       	}
 	</script>
 	</body>
 </html>
