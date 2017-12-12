@@ -83,7 +83,7 @@
                                     <hr>
                                     <div>
                                         
-                                        <h1 class="product-main-price" id="15">${ menuDetailVO.price }원<small class="text-muted" style="font-size: 20px">-15cm</small></h1>
+                                        <h1 class="product-main-price" id="15">${ menuDetailVO.price }원<small class="text-muted" id="15cm" style="font-size: 20px">-15cm</small></h1>
                                         <h1 class="product-main-price" id="30"></h1>
                                     </div>
                                     <hr>
@@ -185,18 +185,21 @@
      		   var price = '8700원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
 			   $("#30").html(price);
 		   }
-		   if(${ menuDetailVO.type == 'P' }){
+     	   else if(${ menuDetailVO.type == 'P' }){
 			   var price = '9800원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
 			   $("#30").html(price);
 		   }
-		   if(${ menuDetailVO.type == 'B' }){
+     	   else if(${ menuDetailVO.type == 'B' }){
 			   var price = '9200원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
 			   $("#30").html(price);
 		   }
-		   if(${ menuDetailVO.type == 'C' }){
+     	   else if(${ menuDetailVO.type == 'C' }){
 			   var price = '8200원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
 			   $("#30").html(price);
 		   }
+     	   else if(${ menuDetailVO.type == 'M' || menuDetailVO.type == 'S' || menuDetailVO.type == 'D' || menuDetailVO.type == 'N' }){
+     		   $('#15cm').css("display", "none");
+     	   }
         });        
         
         
