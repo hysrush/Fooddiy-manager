@@ -56,7 +56,7 @@
 		<li><a href="#"><i class="fa fa-user-circle"></i> <span
 				class="nav-label">회원 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="${ pageContext.request.contextPath }/member/memberList">회원 리스트</a></li>
+				<li><a href="${ pageContext.request.contextPath }/member/memberList.do">회원 리스트</a></li>
 				<li><a href="${ pageContext.request.contextPath }/member/memberRank">회원 랭킹</a></li>
 			</ul></li>
 		<li><a href="#"><i class="fa fa-star"></i> <span
