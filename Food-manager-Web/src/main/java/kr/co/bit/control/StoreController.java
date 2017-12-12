@@ -1,5 +1,8 @@
 package kr.co.bit.control;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +17,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.bit.service.StoreService;
 import kr.co.bit.vo.CityVO;
+import kr.co.bit.vo.EventBoardVO;
 import kr.co.bit.vo.StoreVO;
 import kr.co.bit.vo.locationVO;
 
@@ -46,6 +51,37 @@ public class StoreController {
 		
 		return mav;
 	}
+	//매장 추가 폼으로 이동 
+		@RequestMapping(value = "/storeWrite.do", method = RequestMethod.GET)
+		public String writeForm(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+			StoreVO storeVO = new StoreVO();
+
+			model.addAttribute("storeVO", storeVO);
+
+			return "store/StoreWriteForm";
+
+		}
+
+		// 새글 등록 하기
+		@RequestMapping(value = "/storeWrite.do", method = RequestMethod.POST)
+		public String write(@Valid StoreVO storeVO, BindingResult result
+				){
+
+		
+			
+
+			// eventVO에 저장
+			storeService.insert(storeVO);
+
+			return "redirect:/store/storeList.do";
+
+		}
+	
+	
+	
+	
+	
 	
 	
 	 // 수정폼으로 이동

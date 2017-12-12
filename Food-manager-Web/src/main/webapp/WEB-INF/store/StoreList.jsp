@@ -70,7 +70,7 @@
                     <div class="tabs-container">
 						<ul class="nav nav-tabs">
 						    <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-list"></i>리스트</a></li>
-						    <li class=""><a href="${ pageContext.request.contextPath}/store/storeWriteForm.do"><i class="fa fa-save"></i>매장 등록</a></li>
+						    <li class=""><a href="${ pageContext.request.contextPath}/store/storeWrite.do"><i class="fa fa-save"></i>매장 등록</a></li>
 						    <li class=""><a href="#"><i class="fa fa-edit"></i>수정</a></li>
 						</ul>
 						<div class="tab-content">

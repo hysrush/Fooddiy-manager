@@ -81,6 +81,16 @@
 		
 		</select>
 		
+		<!-- 새글 등록  -->
+	<insert id="insertStore" parameterType="storeVO">
+		
+		INSERT INTO T_STORE( STO_NO, LOC_NO, STO_NAME, STO_ADDR, STO_PHONE )
+					VALUES(SEQ_T_EVENT_NO.NEXTVAL, #{locationNo} , #{storeName}, #{storeAddr},#{storePhone})
+	</insert>
+	
+		
+		
+		
 		
 		
 		

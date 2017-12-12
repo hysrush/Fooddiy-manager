@@ -58,6 +58,12 @@ public class StoreDAOImpl implements StoreDAO {
 		List list = sqlSession.selectList(url +"selectLocation", sido);
 		return list;
 	}
+
+	@Override
+	public void insert(StoreVO storeVO) {
+		sqlSession.insert(url + "insertStore", storeVO);
+		
+	}
 	
 	
 }

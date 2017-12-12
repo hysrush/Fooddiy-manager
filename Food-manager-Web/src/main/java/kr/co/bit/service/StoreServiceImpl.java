@@ -65,6 +65,14 @@ public class StoreServiceImpl implements StoreService{
 
 
 
+	@Override
+	public void insert(StoreVO storeVO) {
+		storeDAO.insert(storeVO);
+		
+	}
+
+
+
 	
 	
 	

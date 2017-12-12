@@ -12,6 +12,7 @@ public interface StoreDAO {
 	StoreVO selectOne(int no);
 	void update(StoreVO storeVO);
 	void delete(int no);
+	void insert(StoreVO storeVO);
 	List<CityVO> selectCity();
 	List selectLocation(String sido);
 	
