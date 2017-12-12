@@ -43,7 +43,7 @@
 	<!-- QnA 글 수정 -->
 	<update id="modifyQnA" parameterType="qnaVO">
 		UPDATE t_qna
-		SET qna_q = #{question}, qna_a = #{answer}, qna_type = #{type}
+		SET qna_q = #{question}, qna_a = #{answer}, qna_type = #{type}, reg_at = #{regDate}
 		WHERE qna_no = #{no}
 	</update>
 	
