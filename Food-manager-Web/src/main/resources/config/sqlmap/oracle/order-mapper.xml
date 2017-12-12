@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bit.dao.OrderManagementDAO">
+	
+	<sql id = "selectAll">
+		select order_no, sto_name, user_id, order_finalPrice, order_menu, 
+		order_eat_type, to_char(reg_at, 'yyyy-mm-dd hh24:mi:ss') as reg_at 
+		from t_order
+	</sql>
+
+	<resultMap type ="orderVO" id="Map_OrderVO">
+  		<result column = "order_no" property ="no"/>
+  		<result column = "sto_name" property ="storeName"/>
+  		<result column = "user_id" property ="id"/>
+  		<result column = "order_finalPrice" property ="final_price"/>
+  		<result column = "order_menu" property ="menu"/>
+  		<result column = "order_eat_type" property ="eatType"/>
+  		<result column = "reg_at" property ="regDate"/>
+  	</resultMap>
+	
+	
+	
+	<select id="selectAllOrder" resultMap="Map_OrderVO">
+		<include refid="selectAll"/>
+	
+  	</select>
+	
+	<select id="selectByToday" resultMap="Map_OrderVO">
+		<include refid="selectAll"/>
+  	</select>
+	
+	<select id="selectByNo"  resultMap="Map_OrderVO">
+		<include refid="selectAll"/>
+  	</select>	
+	
+</mapper>

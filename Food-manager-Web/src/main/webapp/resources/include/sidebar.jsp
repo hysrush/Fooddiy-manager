@@ -49,9 +49,9 @@
 		<li><a href="#"><i class="fa fa-shopping-cart"></i> <span
 				class="nav-label">주문 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="graph_rickshaw.html">전체주문내역</a></li>
-				<li><a href="graph_morris.html">TODAY 주문</a></li>
-				<li><a href="graph_flot.html">주문 내용</a></li>
+				<li><a href="${pageContext.request.contextPath}/orderManagement/totalOrderList.do">전체주문내역</a></li>
+				<li><a href="${pageContext.request.contextPath}/orderManagement/todayOrderList.do">TODAY 주문</a></li>
+				<li><a href="${pageContext.request.contextPath}/orderManagement/orderList.do">주문 내용</a></li>
 			</ul></li>
 		<li><a href="#"><i class="fa fa-user-circle"></i> <span
 				class="nav-label">회원 관리</span><span class="fa arrow"></span></a>
