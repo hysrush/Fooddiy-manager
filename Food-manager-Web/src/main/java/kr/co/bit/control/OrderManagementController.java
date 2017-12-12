@@ -22,7 +22,7 @@ public class OrderManagementController {
 		
 		List<OrderVO> totalOrderList = service.selectAll();
 		
-		return "/totalOrderList";
+		return "orderManagement/totalOrderList";
 	}
 	
 	@RequestMapping("/todayOrderList.do")
@@ -30,7 +30,7 @@ public class OrderManagementController {
 		
 		List<OrderVO> todayOrderList = service.selectByToday();
 		
-		return "todayOrderList";
+		return "orderManagement/todayOrderList";
 	}
 	
 	@RequestMapping("/orderList.do")
@@ -38,6 +38,6 @@ public class OrderManagementController {
 		
 		List<OrderVO> orderList = service.selectByNo();
 		
-		return "orderList";
+		return "orderManagement/orderList";
 	}
 }

@@ -46,7 +46,7 @@
 				<li class="menuBoard"><a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴 관리</a></li>
 				<li class="menuRegister"><a href="${ pageContext.request.contextPath }/menu/menuRegister.do">메뉴 등록</a></li>
 			</ul></li>
-		<li><a href="#"><i class="fa fa-shopping-cart"></i> <span
+		<li><a href="orderManagementLI"><i class="fa fa-shopping-cart"></i> <span
 				class="nav-label">주문 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
 				<li><a href="${pageContext.request.contextPath}/orderManagement/totalOrderList.do">전체주문내역</a></li>

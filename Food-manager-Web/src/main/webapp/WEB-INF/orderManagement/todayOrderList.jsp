@@ -48,10 +48,10 @@
 							<a href="${ pageContext.request.contextPath}/FirstPage.jsp">Home</a>
 						</li>
 						<li>
-							<a>메뉴관리</a>
+							<a>주문관리</a>
 						</li>
 						<li class="active">
-							<strong>메뉴 관리</strong>
+							<strong>TODAY 주문</strong>
 						</li>
 					</ol>
 				</div>
@@ -68,35 +68,16 @@
 						<div class="col-sm-2">
 							<div class="form-group">
 								<label class="control-label" for="type">타입</label>
-								<select	name="type" id="type" class="form-control">
-									<option value="" selected>타입선택</option>
-									<option value="R">추천메뉴</option>
-									<option value="P">프리미엄</option>
-									<option value="B">베스트</option>
-									<option value="C">클래식</option>
-									<option value="M">아침식사</option>
-									<option value="S">샐러드</option>
-									<option value="N">추가메뉴</option>
-									<option value="D">음료</option>
-								</select>
 							</div>
 						</div>
 						<div class="col-sm-4">
 							<div class="form-group">
-								<label class="control-label" for="menuname">이름</label>
-								<input type="text" id="menuname" name="menuname" value="" placeholder="메뉴 이름" class="form-control">
+								<label class="control-label" for="menuname">총 주문 건수 : </label>
 							</div>
 						</div>
 						<div class="col-sm-4">
 							<div class="form-group">
-								<label class="control-label" for="price">가격</label>
-								<input type="text" id="price" name="price" value="" placeholder="가격"	class="form-control">
-							</div>
-						</div>
-						<div class="col-sm-2">
-							<div class="form-group">
-								<label class="control-label" for="regDate">등록일</label>
-								<input type="date" id="regDate" name="regDate" value=""	placeholder="regDate" class="form-control">
+								<label class="control-label" for="price">총 결제 금액</label>
 							</div>
 						</div>
 					</div>
@@ -110,9 +91,15 @@
 									<table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="25">
 										<thead>
 											<tr>
-												<th data-hide="phone" data-sort-ignore="true">타입</th>
-												<th data-toggle="true" data-sort-ignore="true">이름</th>
-												<th data-hide="all" data-sort-ignore="true">메뉴소개</th>
+												<th data-hide="phone" data-sort-ignore="true">주문번호</th>
+												<th data-hide="phone" data-sort-ignore="true">주문시간</th>
+												<th data-hide="phone" data-sort-ignore="true">메뉴</th>
+												<th data-hide="phone" data-sort-ignore="true">주문자</th>
+												<th data-hide="phone" data-sort-ignore="true">주문금액</th>
+												<th data-hide="phone" data-sort-ignore="true">총 결제금액</th>
+												<th data-hide="phone" data-sort-ignore="true">결제방법</th>
+												<th data-toggle="true" data-sort-ignore="true">결제상태</th>
+												<th data-hide="all" data-sort-ignore="true">주문취소</th>
 												<th data-hide="phone" data-sort-ignore="true">가격</th>
 												<th data-hide="phone" data-sort-ignore="true">등록일</th>
 												<th class="text-right" data-sort-ignore="true">Action</th>
