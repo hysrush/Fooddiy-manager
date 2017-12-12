@@ -25,21 +25,40 @@
 	 <!-- Mainly scripts -->
     <script src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
     
     <script>window.name="main"</script>
 <style type="text/css">
 	#logo {
 		font-size: 100px;
 	}
+	.swal-text {
+    color: #797979;
+    /* font-size: 16px; */
+    text-align: center;
+    font-weight: 300;
+    position: relative;
+    text-align: inherit;
+    float: none;
+    margin: 0;
+    padding: 0;
+    line-height: normal;
+    }
 </style>
 <script>
 $(document).ready(function(){
 	
 	$("#lostpw").click(function(){
 		window.opener.name = "main"; // 부모창의 이름 설정
-    	document.form_chk.target = opener.window.name; // 타켓을 부모창으로 설정
+    	document.lostForm.target = opener.window.name; // 타켓을 부모창으로 설정
    		self.close();
 	});
+	
+	if("${msg}"){
+		swal({
+			text: "${msg}"
+		});
+	}
 });
 </script>
 </head>
@@ -54,7 +73,7 @@ $(document).ready(function(){
                 <!--Continually expanded and constantly improved Inspinia Admin Them (IN+)-->
             </p>
             <p>Login in. To see it in action.</p>
-            <form class="m-t" role="form" action="${ pageContext.request.contextPath }/sign/login" method="post">
+            <form class="m-t" role="form" action="${ pageContext.request.contextPath }/manager/login" method="post">
                 <div class="form-group">
                     <input type="email" name="id" class="form-control" placeholder="Username" required="required">
                 </div>
@@ -67,7 +86,7 @@ $(document).ready(function(){
                 <p class="text-muted text-center"><small>Do not have an account?</small></p>
                 <a class="btn btn-sm btn-white btn-block" href="${ pageContext.request.contextPath }/sign/signUp">Create an account</a>
             </form>
-            <p class="m-t"> <small>Fooddiy-Order Admin+ &copy; 2017</small> </p>
+            <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
     </div>
 <!-- modal -->
 	<div style="position: absolute; top: 100px; right: 100px"

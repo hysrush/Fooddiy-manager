@@ -48,5 +48,23 @@
 		<include refid="selectManager"/>
 		where manager_id = #{id} and manager_pw = #{pw}
 	</select>
+	
+	<!-- 이름과 id와 일치하는 pw 있는지 확인 -->
+	<select id="lostPwCheck" parameterType="managerVO" resultType="java.lang.Integer">
+		select NVL(count(*), 0) from t_manager
+		where manager_name = #{name} and manager_id = #{id}
+	</select>
+	
+	<!-- pw 찾기  -->
+	<select id="lostPw" parameterType="managerVO" resultMap="mapSignVO">
+		select manager_id, manager_name from t_manager
+		where manager_name = #{name} and manager_id = #{id}
+	</select>
 
+	<!-- pw 찾은 수 임시 비밀번호로 수정 -->
+	<update id="pwUpdate" parameterType="managerVO">
+		update t_manager
+		set manager_pw = #{pw}
+		where manager_id = #{id} and manager_name = #{name}
+	</update>
 </mapper>

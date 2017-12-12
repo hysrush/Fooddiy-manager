@@ -25,11 +25,11 @@
 				</span>
 				</a>
 				<ul class="dropdown-menu animated fadeInRight m-t-xs">
-					<li><a href="profile.html">Profile</a></li>
-					<li><a href="contacts.html">Contacts</a></li>
+					<li><a href="${ pageContext.request.contextPath }/sign/profile">Profile</a></li>
+					<li><a href="">Contacts</a></li>
 					<li><a href="mailbox.html">Mailbox</a></li>
 					<li class="divider"></li>
-					<li><a href="${ pageContext.request.contextPath }/login.jsp">Logout</a></li>
+					<li><a href="${ pageContext.request.contextPath }/sign/login">Logout</a></li>
 				</ul>
 			</div>
 			<div class="logo-element" id="logo"><span id="fooddiy">Fooddiy-Order</span> Admin+</div>
