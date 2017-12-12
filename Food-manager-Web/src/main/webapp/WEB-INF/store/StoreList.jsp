@@ -117,6 +117,7 @@
 													</c:forEach>
 					                                </tbody>
 												</table>
+												<a href = "${ pageContext.request.contextPath}/store/storeWrite.do"><input type = "button" value="매장 추가"/></a>
 											</div>
 				                        </div>
                    					</div>
