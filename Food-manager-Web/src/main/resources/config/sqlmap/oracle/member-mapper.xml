@@ -3,11 +3,11 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- DAO에서 sql문 불러 올 때 사용해야 하는 이름 -->
-<mapper namespace="kr.co.bit.member.dao">
+<mapper namespace="kr.co.bit.dao">
 
 	<resultMap type="userVO" id="mapLoginVO">
 		<result column="user_id" property="id"/>
-		<result column="user_pw" property="pw"/>
+		<result column="user_sex" property="sex"/>
 		<result column="user_name" property="name"/>
 		<result column="user_email" property="email"/>
 		<result column="user_phone" property="phone"/>
@@ -31,6 +31,6 @@
 	
 	<!-- memberList 목록 -->
 	<select id="memberList" resultMap="mapLoginVO">
-		select user_id, user_name, user_email, user_phone, user_sex, user_birth, user_porint, user_root, user_pic, user_grade from t_user
+		select user_id, user_name, user_email, user_phone, user_sex, user_birth, user_pic, user_grade from t_user
 	</select>
 </mapper>
