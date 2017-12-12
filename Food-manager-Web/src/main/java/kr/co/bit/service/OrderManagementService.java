@@ -6,6 +6,6 @@ import kr.co.bit.vo.OrderVO;
 
 public interface OrderManagementService {
 	public List<OrderVO> selectAll();
-	public List<OrderVO> selectByToday();
+	public List<OrderVO> selectByToday(String today);
 	public List<OrderVO> selectByNo();
 }

@@ -20,17 +20,17 @@ public class OderManagementDAOImp  implements OrderManagementDAO{
 	public List<OrderVO> selectAll() {
 		
 		List<OrderVO> allOrderList = session.selectList(url + "selectAllOrder");
-		return null;
+		return allOrderList;
 	}
 	
-	public List<OrderVO> selectByToday() {
-		List<OrderVO> orderListToday = session.selectList(url + "selectByToday");
-		return null;
+	public List<OrderVO> selectByToday(String today) {
+		List<OrderVO> orderListToday = session.selectList(url + "selectByToday", today);
+		return orderListToday;
 	}
 	
 	public List<OrderVO> selectByNo() {
 		List<OrderVO> orderList = session.selectList(url + "selectByNo");
-		return  null;
+		return  orderList;
 	}
 	
 }

@@ -22,8 +22,8 @@ public class OrderManagementServiceImp  implements OrderManagementService{
 	}
 	
 	@Override
-	public List<OrderVO> selectByToday() {
-		List<OrderVO> orderListToday = dao.selectByToday();
+	public List<OrderVO> selectByToday(String today) {
+		List<OrderVO> orderListToday = dao.selectByToday(today);
 		return orderListToday;
 	}
 	

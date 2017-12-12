@@ -67,7 +67,8 @@
 					<div class="row">
 						<div class="col-sm-2">
 							<div class="form-group">
-								<label class="control-label" for="type">타입</label>
+								<label class="control-label" for="type">오늘날짜 : </label>
+								<label class="control-label" for="type">오늘날짜 : </label>
 							</div>
 						</div>
 						<div class="col-sm-4">
@@ -98,39 +99,31 @@
 												<th data-hide="phone" data-sort-ignore="true">주문금액</th>
 												<th data-hide="phone" data-sort-ignore="true">총 결제금액</th>
 												<th data-hide="phone" data-sort-ignore="true">결제방법</th>
-												<th data-toggle="true" data-sort-ignore="true">결제상태</th>
-												<th data-hide="all" data-sort-ignore="true">주문취소</th>
-												<th data-hide="phone" data-sort-ignore="true">가격</th>
-												<th data-hide="phone" data-sort-ignore="true">등록일</th>
-												<th class="text-right" data-sort-ignore="true">Action</th>
+												<th data-hide="phone" data-sort-ignore="true">주문상태</th>
 											</tr>
 										</thead>
 										<tbody>
 
-										<c:forEach items="${ menuList2 }" var="menu">
+										<c:forEach items="${ orderList }" var="order">
 
 											<tr class="boardList">
 												<td class="convType" width="100px;">
-			                                    <span class="label label-primary">${ menu.type }</span>
+			                                    	${ order.no }
 		                                  		</td>
-												<td>${ menu.name }</td>
-												<td style="word-break:keep-all;">
-													${ menu.detail }
-												</td>
+												<td>${ order.regDate }</td>
 												<td>
-		                                        	${ menu.price }원
+													<c:forEach items = "${  order.detailOrderList }" var = "oneOrder" >
+														<div>${ oneOrder.name }</div>
+													</c:forEach>
 		                                   		</td>
 												<td width="10%" nowrap>
-													${ menu.regDate }
-												</td>												
-												<td class="text-right">
-													<div class="btn-group" width="10%" nowrap>
-														<button class="btn-white btn btn-xs" id="view" onclick="btnClick(${menu.no})"><i class="fa fa-search"></i></button>
-														<button class="btn-white btn btn-xs"><i class="fa fa-edit"></i></button>
-		                                          		<button class="btn-white btn btn-xs delete"><i class="fa fa-trash"></i></button>
-													</div>
-													<div class="menuType" style="display: none">${ menu.type }</div>
-												</td>
+													${ order.id }
+												</td>	
+												
+												<td>${ order.order_price }</td>											
+												<td>${ order.final_price }</td>											
+												<td>${ order.payment }</td>			
+												<td>${ order.orderStatus }</td>											
 											</tr>
 
 										</c:forEach>
