@@ -3,6 +3,7 @@ package kr.co.bit.control;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -142,6 +143,20 @@ public class MenuController {
 		
 	}
 	
+	// menu 다중 삭제
+	@RequestMapping(value="/menuDeleteSome.do", method=RequestMethod.GET)
+	public String deleteSome(@RequestParam("nums") String nums ) {
+		
+		String[] array = nums.split(",");
+		ArrayList<Integer> nList = new ArrayList<>();
+		for(int i=0; i<array.length; i++) {
+			nList.add(new Integer(array[i]));
+		}		
+		
+		menuService.removeMenuSome(nList);
+		
+		return "redirect:/menu/menuBoard.do";
+	}
 	
 /*	// '주문하기'선택 후 매장화면으로	
 	@RequestMapping(value="/findStore.do", method=RequestMethod.POST)

@@ -29,6 +29,9 @@
 	.convType > span {
 		width: 60px;
 	}
+	.btn-default {
+		text-align: right;
+	}
 </style>
 </head>
 
@@ -109,13 +112,13 @@
 					<div class="col-lg-12">
 						<div class="ibox">
 							<div class="ibox-content">
-								<div class="table-responsive">
+								<div class="table-responsive"><button class="btn btn-default btn-xs" type="button" onclick="delRow()">선택삭제</button>
 									<table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="100">
 										<thead>
 											<tr>
-												<th data-hide="phone" data-sort-ignore="true">
+												<th data-hide="phone" data-sort-ignore="true" style="width: 95px">
 													<div class = "total-select">
-														<input type="checkbox" class="i-checks" id="chkall">
+														<input type="checkbox" class="i-checks" id="chkall">														
 													</div>
 												</th>
 												<th data-hide="phone" data-sort-ignore="true">타입</th>
@@ -135,6 +138,7 @@
 											<tr class="boardList">
 												<td>
 													<input type="checkbox" class="i-checks" name="chk">
+													<div style="display: none">${ menu.no }</div>
 												</td>
                  								<td class="convType" width="100px;">
 			                                    	<span class="label label-primary">${ menu.type }</span>
@@ -249,56 +253,23 @@
 	            radioClass: 'iradio_square-green',
 	        });
 			
-			/* $('#chkall').click((function){
-				if( $("#chkall").is(':checked') ){
-			        $("input[name=chk]").prop("checked", true);
-			      }else{
-			        $("input[name=chk]").prop("checked", false);
-			      }
-			}); */
-			
-
-			var checkAll = $("#chkall").closest("div");
-			/* alert($('checkAll').attr('class')); */
-			$('checkAll').toggle(function(){
-				if($(this).hasClass('checked'))
-				{
-					$('.i-checks').removeClass("checked");					
-				}
-				else
-				{
-					$('.i-checks').addClass("checked");
-				}
-			});
-			
-        	$('.i-checks').eq(0).click(function() {        		
-        		alert("aaaaaaaaaaaa");        		
-        	});
-        	
-        	$(document).on("change","div[class='icheckbox_square-green']",function(){ 
-        		alert("on event");
-        	});
-        	
-        	
-        	/* var ac = $('.total-select').find('div');
-    		$(document).on("click","ac",function(){ 
-    			alert('제발');
-    		});
-        	
-    		$(document).on("click",".footable-visible input",function(){ 
-    			alert('제발dd');
-    		}); */
-
-    		// 체크박스 초기화
+    		// 체크박스 전체 선택
     		var start = 4;
-    		var list = $('select').eq(1).val();
-    		
-    		$('select').eq(1).val().on('change', function(){
-        		$('input').eq(start).on('ifUnchecked', function(){
-        			alert('해제');
-        		});
-        	});
+    		$('input').eq(start).on('ifChecked', function(){
+    			$('.icheckbox_square-green').addClass("checked");
+    		});
+    		$('input').eq(start).on('ifUnchecked', function(){
+    			$('.icheckbox_square-green').removeClass("checked");
+    		});
 			
+    		// 체크박스 초기화
+    		$(document).on('change', '.input-sm', function(){
+    			$('.icheckbox_square-green').removeClass("checked");
+    		});
+    		$(document).on('click', '.pagination', function(){
+    			$('.icheckbox_square-green').removeClass("checked");
+    		});
+    		
 			
 			// 데이터테이블 생성
 			$('.footable').css("width","100%");
@@ -355,8 +326,7 @@
 			});				
 
         });
-        
-        
+                
         
      	// action 함수
 		function btnClick(type, no) {
@@ -394,13 +364,60 @@
 		    });
 		}
 		
-		// 체크박스 전체 선택
-		var start = 4;
-		$('input').eq(start).on('ifToggled', function(){
-			if($('select').eq(1).val() == 10){
-				alert('맞음');
+		
+		// 체크박스 선택삭제
+		var cnt = 0;
+		var nums = "";
+		function delRow() {﻿
+			cnt = 0;
+			nums = "";
+			$('.checked').each(function() {
+				cnt++;
+				nums += $(this).next().text() + ",";
+			});
+			if($('.icheckbox_square-green').eq(0).hasClass('checked')){
+				cnt--;
 			}
-		});
+			if(cnt != 0){
+				deleteRow(nums, cnt);
+			}
+			else{
+				deleteZero();
+			}
+		}
+		
+		// 선택삭제 alert 확인창
+		function deleteRow(nums, cnt) {
+			swal({
+		        title: cnt + "개 메뉴를 삭제하시겠습니까?",
+		        type: "warning",
+		        showCancelButton: true,
+		        cancelButtonText: "취소",
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "삭제",
+		        closeOnConfirm: false
+		    }, function () {
+		        swal("삭제되었습니다!", "", "success");
+		        // OK 누르면 삭제 실행
+		        $('.confirm').click(function () {
+		        	location.href = '${ pageContext.request.contextPath}/menu/menuDeleteSome.do?nums=' + nums;
+				});
+		    });
+		}
+		
+		// 선택한 메뉴 없을 때 alert
+		function deleteZero() {			
+            swal({
+                title: "선택하신 메뉴가 없습니다 :(",
+                text: ""
+            });	        
+		}
+		﻿
+		
+
+		
+		
+		
 		
 	    	
 

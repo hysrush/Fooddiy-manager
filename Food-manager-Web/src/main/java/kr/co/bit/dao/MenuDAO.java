@@ -10,5 +10,6 @@ public interface MenuDAO {
 	void insert(MenuVO menuVO);
 	void update(MenuVO menuVO);
 	void delete(int no);
+	void deleteSome(List<Integer> list);
 	
 }

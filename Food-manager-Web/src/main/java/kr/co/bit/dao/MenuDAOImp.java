@@ -38,5 +38,9 @@ public class MenuDAOImp implements MenuDAO {
 	public void delete(int no) {
 		sqlSession.delete(url + "removeMenu", no);
 	}
+	//메뉴 다중삭제
+	public void deleteSome(List<Integer> list) {
+		sqlSession.delete(url + "removeMenuSome", list);				
+	}
 	
 }

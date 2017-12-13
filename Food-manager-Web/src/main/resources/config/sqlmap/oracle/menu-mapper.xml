@@ -70,6 +70,19 @@
 		DELETE FROM t_menu
 		WHERE menu_no = #{no}
 	</delete>
-		
 	
+	<!-- Menu 다중 삭제 -->
+	<delete id="removeMenuSome" parameterType="java.util.List">
+		DELETE FROM t_menu
+		WHERE menu_no IN
+			<foreach item="item" index="index" collection="list" open="(" close=")" separator="," >
+       			#{item}
+ 			</foreach>
+	</delete>
+	
+	<!-- Menu 검색 -->
+	<select id="findType" parameterType="String">
+	</select>
+	
+		
 </mapper>
