@@ -24,8 +24,7 @@
   		<result column = "reg_at" property ="regDate"/>
   	</resultMap>
 	
-	
-	
+
 	<select id="selectAllOrder" resultMap="Map_OrderVO">
 		<include refid="selectAll"/>
   	</select>
@@ -33,7 +32,7 @@
 	<select id="selectByToday" parameterType="String" resultMap="Map_OrderVO">
 		<include refid="selectAll"/>
 		where to_char(reg_at, 'yy/mm/dd') = #{today} 
-		order by order_no desc
+		order by order_no asc
   	</select>
 	
 	<select id="selectByNo"  parameterType="int" resultMap="Map_OrderVO">

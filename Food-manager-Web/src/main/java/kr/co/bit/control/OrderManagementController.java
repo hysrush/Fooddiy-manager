@@ -39,7 +39,7 @@ public class OrderManagementController {
 			
 			for(int j = 0; j < menus.length; ++j) {
 				DetailOrderVO vo = new DetailOrderVO();
-				String [] oneMenu = menus[j].split("\\|");
+				String [] oneMenu = menus[j].split("\\*");
 
 				vo.setName(oneMenu[0]);
 				vo.setBread(oneMenu[1]);
@@ -59,7 +59,7 @@ public class OrderManagementController {
 		}
 		
 		System.out.println(totalOrderList);
-		mav.setViewName("orderManagement/todayOrderList");
+		mav.setViewName("orderManagement/totalOrderList");
 		mav.addObject("orderList", totalOrderList);
 		return mav;
 	}
@@ -84,9 +84,9 @@ public class OrderManagementController {
 			
 			for(int j = 0; j < menus.length; ++j) {
 				DetailOrderVO vo = new DetailOrderVO();
-				String [] oneMenu = menus[j].split("\\|");
+				String [] oneMenu = menus[j].split("\\*");
 
-				vo.setName(oneMenu[0]);
+				vo.setName(oneMenu[0]);;
 				vo.setBread(oneMenu[1]);
 				vo.setCheese(oneMenu[2]);
 				vo.setTopping(oneMenu[3]);
@@ -130,7 +130,7 @@ public class OrderManagementController {
 		List<DetailOrderVO> list = new LinkedList<DetailOrderVO>();
 		for(int i = 0 ; i < menus.length; ++i) {
 			DetailOrderVO vo = new DetailOrderVO();
-			String [] oneMenu = menus[i].split("\\|");
+			String [] oneMenu = menus[i].split("\\*");
 			
 			vo.setName(oneMenu[0]);
 			vo.setBread(oneMenu[1]);
@@ -159,7 +159,7 @@ public class OrderManagementController {
 	@RequestMapping("/orderList.do")
 	public String orderList() {
 		
-		//List<OrderVO> orderList = service.selectByNo();
+		List<OrderVO> orderList;
 		
 		return "orderManagement/orderList";
 	}
