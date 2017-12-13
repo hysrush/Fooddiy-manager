@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<script src="${ pageContext.request.contextPath}/resources/js/custom.js"></script>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -62,7 +63,7 @@
 				</tr>
 				<tr>
 					<th>결제금액</td>
-					<td>${ orderVO.final_price }</td>
+					<td class = "commaN">${ orderVO.final_price }원</td>
 				</tr>
 			</tbody>
 		</table>
@@ -81,7 +82,7 @@
 							<td>
 								${ oneMenu.name} <br>
 								${ oneMenu.size} <br>
-								<div class = "commN">${ oneMenu.price}</div>	
+								<div class = "commaN">${ oneMenu.price}원</div>	
 							</td>
 							<td>
 								${ oneMenu.bread}	<br>
@@ -92,7 +93,7 @@
 								${ oneMenu.requirement}
 							</td>
 							<td>${ oneMenu.qty}</td>
-							<td class = "commaN">${ oneMenu.total_price }</td>
+							<td class = "commaN">${ oneMenu.total_price }원</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -102,4 +103,13 @@
 		<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 	</div>
 </body>
+
+<script>
+	$(document).ready(function(){ 
+		//숫자표기
+		for(var i = 0; i < $('.commaN').length; ++i) {
+			$('.commaN').eq(i).text(comma($('.commaN').eq(i).text()));
+		}
+	});
+</script>
 </html>
