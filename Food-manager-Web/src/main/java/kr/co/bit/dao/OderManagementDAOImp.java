@@ -33,4 +33,9 @@ public class OderManagementDAOImp  implements OrderManagementDAO{
 		return  orderList;
 	}
 	
+	@Override
+	public void cancelOrder(int no) {
+		session.update(url + "cancelOrder", no);
+	}
+	
 }

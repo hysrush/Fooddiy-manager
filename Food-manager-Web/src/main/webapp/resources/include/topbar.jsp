@@ -1,6 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="${ pageContext.request.contextPath}/resources/js/custom.js"></script>
+	<!-- Mainly scripts -->
+	<script	src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
+	<script	src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
+	<script	src="${ pageContext.request.contextPath }/resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script	src="${ pageContext.request.contextPath }/resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	
+	<!-- dataTables -->
+	<script src="${ pageContext.request.contextPath }/resources/js/plugins/dataTables/datatables.min.js"></script>	
+
+	<!-- Custom and plugin javascript -->
+	<script	src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
+	<script	src="${ pageContext.request.contextPath }/resources/js/plugins/pace/pace.min.js"></script>
+
+	<!-- FooTable -->
+	<script	src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
+	
+	<link rel="stylesheet" href="${ pageContext.request.contextPath}/resources/css/custom.css">
+	
 <!DOCTYPE html>
 <div class="row border-bottom">
 	<nav class="navbar navbar-static-top" role="navigation"
@@ -114,3 +133,12 @@
 	</ul>
 	</nav>
 </div>
+
+<script>
+	$(document).ready(function(){ 
+		//숫자표기
+		for(var i = 0; i < $('.commaN').length; ++i) {
+			$('.commaN').eq(i).text(comma($('.commaN').eq(i).text()));
+		}
+	});
+</script>

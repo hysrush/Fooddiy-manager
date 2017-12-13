@@ -34,5 +34,10 @@ public class OrderManagementServiceImp  implements OrderManagementService{
 		return orderList;
 	}
 	
+	@Override
+	public void cancelOrder(int no) {
+		dao.cancelOrder(no);
+	}
+	
 	
 }

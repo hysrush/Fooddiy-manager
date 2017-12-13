@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.bit.service.OrderManagementService;
@@ -68,17 +70,18 @@ public class OrderManagementController {
 			todayOrderList.get(i).setDetailOrderList(list);
 		}
 		
-		System.out.println(todayOrderList.get(1).getDetailOrderList().get(0).getName());
-		System.out.println(todayOrderList.get(1).getDetailOrderList().get(0).getName());
-		System.out.println(todayOrderList.get(1).getDetailOrderList().get(0).getName());
-		System.out.println(todayOrderList.get(1).getDetailOrderList().get(1).getName());
-		System.out.println(todayOrderList.get(1).getDetailOrderList().get(1).getName());
-		System.out.println(todayOrderList.get(1).getDetailOrderList().get(1).getName());
-		System.out.println(todayOrderList.get(1).getDetailOrderList().get(1).getName());
-		
+		System.out.println(todayOrderList);
 		mav.setViewName("orderManagement/todayOrderList");
 		mav.addObject("orderList", todayOrderList);
 		return mav;
+	}
+	@RequestMapping(value = "/orderCancel.do", method = RequestMethod.GET)
+	public String cancelOrder(@RequestParam("no") int no) {
+		
+		service.cancelOrder(no);
+		
+		return "redirect:/orderManagement/todayOrderList.do";
+		
 	}
 	
 	@RequestMapping("/orderList.do")
@@ -86,6 +89,8 @@ public class OrderManagementController {
 		
 		List<OrderVO> orderList = service.selectByNo();
 		
-		return "orderManagement/orderList";
+		return "orderManagement/orderList.do";
 	}
+	
+	
 }

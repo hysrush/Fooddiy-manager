@@ -33,10 +33,14 @@
 	<select id="selectByToday" parameterType="String" resultMap="Map_OrderVO">
 		<include refid="selectAll"/>
 		where to_char(reg_at, 'yy/mm/dd') = #{today} 
+		order by order_no desc
   	</select>
 	
 	<select id="selectByNo"  resultMap="Map_OrderVO">
 		<include refid="selectAll"/>
   	</select>	
 	
+	<update id="cancelOrder" parameterType="int">
+		update t_order set order_status = 0 where order_no = #{no} 
+	</update>
 </mapper>
