@@ -8,7 +8,6 @@ public class DetailOrderVO {
 	private String size;
 	private String pic;
 	private int qty;
-	private String type;
 	
 	private String bread;
 	private String cheese;
@@ -52,12 +51,7 @@ public class DetailOrderVO {
 	public void setQty(int qty) {
 		this.qty = qty;
 	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
+
 	public String getBread() {
 		return bread;
 	}
@@ -97,8 +91,7 @@ public class DetailOrderVO {
 	@Override
 	public String toString() {
 		return "DetailOrderVO [name=" + name + ", price=" + price + ", total_price=" + total_price + ", size=" + size
-				+ ", pic=" + pic + ", qty=" + qty + ", type=" + type + ", bread=" + bread + ", cheese=" + cheese
-				+ ", topping=" + topping + ", vegetable=" + vegetable + ", sauce=" + sauce + ", requirement="
-				+ requirement + "]";
+				+ ", pic=" + pic + ", qty=" + qty + ", bread=" + bread + ", cheese=" + cheese + ", topping=" + topping
+				+ ", vegetable=" + vegetable + ", sauce=" + sauce + ", requirement=" + requirement + "]";
 	}
 }

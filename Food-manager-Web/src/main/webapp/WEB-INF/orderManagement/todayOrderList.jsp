@@ -113,11 +113,12 @@
 										<c:forEach items="${ orderList }" var="order">
 
 											<tr class="boardList">
-												<a data-toggle="modal" href="remote.html" data-target="#modal">
+												
 													<td class="convType orderNumber" width="100px;">
 				                                    	${ order.no }
 			                                  		</td>
-													<td>${ order.regDate }</td>
+														
+													<td><a onclick = "modalFunc(${ order.no })">${ order.regDate }</a></td>
 													<td>
 														<c:forEach items = "${  order.detailOrderList }" var = "oneOrder" varStatus="status">
 															${ oneOrder.name }
@@ -134,11 +135,8 @@
 													
 													<td class = "orderStatus"><span class="label label-primary">${ order.orderStatus }</span></td>		
 													<td class = "cancel-button"></td>									
-												</a>
 											</tr>
-
 										</c:forEach>
-
 										</tbody>
 									</table>
 								</div>
@@ -153,17 +151,16 @@
 		</div>
 	</div>
 
+
 	<!-- 모달 -->
-	<div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
 		<div class="modal-dialog">
-			<div class="modal-content animated fadeIn">
+			<div class="modal-content">
 				<!-- 모달내용 -->
 				
 			</div>
 		</div>
 	</div>
-
-
 	<!-- Mainly scripts -->
 	<script	src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
 	<script	src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
@@ -291,16 +288,13 @@
                     }
                 ]
             });
-			
-			
-
         });
         
-        function btnClick(no) {
-        	location.href = '${ pageContext.request.contextPath}/menu/menuDetail.do?no=' + no;
-        } 
-	    	
-
+        function modalFunc(no) {
+        	var url = "${pageContext.request.contextPath}/orderManagement/todayOrderDetail.do?no=" + no;
+        	$('div.modal').modal().removeData();
+		    $('div.modal').modal({ remote : url  });
+        }
     </script>
 
 </body>

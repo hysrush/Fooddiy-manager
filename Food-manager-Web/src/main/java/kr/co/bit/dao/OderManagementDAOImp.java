@@ -28,8 +28,8 @@ public class OderManagementDAOImp  implements OrderManagementDAO{
 		return orderListToday;
 	}
 	
-	public List<OrderVO> selectByNo() {
-		List<OrderVO> orderList = session.selectList(url + "selectByNo");
+	public OrderVO selectByNo(int no) {
+		OrderVO orderList = session.selectOne(url + "selectByNo", no);
 		return  orderList;
 	}
 	

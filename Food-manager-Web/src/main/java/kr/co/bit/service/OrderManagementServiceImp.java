@@ -28,10 +28,10 @@ public class OrderManagementServiceImp  implements OrderManagementService{
 	}
 	
 	@Override
-	public List<OrderVO> selectByNo() {
+	public OrderVO selectByNo(int no) {
 		
-		List<OrderVO> orderList = dao.selectByNo();
-		return orderList;
+		OrderVO orderVO = dao.selectByNo(no);
+		return orderVO;
 	}
 	
 	@Override

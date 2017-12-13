@@ -36,8 +36,9 @@
 		order by order_no desc
   	</select>
 	
-	<select id="selectByNo"  resultMap="Map_OrderVO">
+	<select id="selectByNo"  parameterType="int" resultMap="Map_OrderVO">
 		<include refid="selectAll"/>
+		where order_no = #{no}
   	</select>	
 	
 	<update id="cancelOrder" parameterType="int">
