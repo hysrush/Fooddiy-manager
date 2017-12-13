@@ -25,12 +25,43 @@ public class OrderManagementController {
 	
 	
 	@RequestMapping("/totalOrderList.do")
-	public String totalOrderList() {
+	public ModelAndView totalOrderList(ModelAndView mav) {
 		
 		List<OrderVO> totalOrderList = service.selectAll();
 		
-		return "orderManagement/todayOrderDetail";
-		//return "orderManagement/totalOrderList";
+		for(int i = 0 ; i < totalOrderList.size(); ++i) {
+
+			List<DetailOrderVO> list = new LinkedList<DetailOrderVO>();
+			String menu = totalOrderList.get(i).getMenu();
+			String [] menus = menu.split("\\|\\|");
+			
+			System.out.println("menus.length =  " + menus.length);
+			
+			for(int j = 0; j < menus.length; ++j) {
+				DetailOrderVO vo = new DetailOrderVO();
+				String [] oneMenu = menus[j].split("\\|");
+
+				vo.setName(oneMenu[0]);
+				vo.setBread(oneMenu[1]);
+				vo.setCheese(oneMenu[2]);
+				vo.setTopping(oneMenu[3]);
+				vo.setVegetable(oneMenu[4]);
+				vo.setSauce(oneMenu[5]);
+				vo.setRequirement(oneMenu[6]);
+				vo.setPic(oneMenu[7]);
+				vo.setSize(oneMenu[8]);
+				vo.setQty(new Integer(oneMenu[9]));
+				vo.setPrice(oneMenu[10]);
+				vo.setTotal_price(oneMenu[11]);
+				list.add(vo);
+			}
+			totalOrderList.get(i).setDetailOrderList(list);
+		}
+		
+		System.out.println(totalOrderList);
+		mav.setViewName("orderManagement/todayOrderList");
+		mav.addObject("orderList", totalOrderList);
+		return mav;
 	}
 	
 	@RequestMapping("/todayOrderList.do")
@@ -130,7 +161,7 @@ public class OrderManagementController {
 		
 		//List<OrderVO> orderList = service.selectByNo();
 		
-		return "orderManagement/orderList.do";
+		return "orderManagement/orderList";
 	}
 	
 	

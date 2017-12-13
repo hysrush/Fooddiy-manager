@@ -162,6 +162,8 @@
 			</div>
 		</div>
 	</div>
+	
+	
 	<!-- Mainly scripts -->
 	<script	src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
 	<script	src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
@@ -216,7 +218,7 @@
 					if (status.text() == '1') {
 						status.text('대기중');
 						status.attr('class', 'label label-primary');
-						status.siblings('.cancel-button').append('<button type="button" class="btn btn-outline btn-danger button-cancel">주문취소</button');
+						$(this).find('.cancel-button').append('<button type="button" class="btn btn-outline btn-danger button-cancel">주문취소</button>');
 					}else if (status.text() == '2') {
 						status.text('준비중');
 						status.children().attr('class', 'label label-warning');
@@ -225,12 +227,13 @@
 						status.attr('class', 'label label-information');
 					}
 					
-					totalFinalPrice += uncomma($(this).find('.finalPrice').text())*1
+					totalFinalPrice += uncomma($(this).find('.finalPrice').text())*1;
 					++orderCount;
 				}
 			}); 
 			$('.total-count-order').text(orderCount);
-			$('.total-order-price').text(comma(totalFinalPrice));
+			$('.total-order-price').text(comma(totalFinalPrice) + "원");
+			
 			
 			
 			
@@ -255,28 +258,6 @@
 					});
 			    });
 			}
-/* 			//주문 상태 표시
-			$('.orderStatus').each(function() {
-
-						var status = $(this).children().text();
-
-						if (status == '1') {
-							var no  = $(this).siblings('.orderNumber').text();
-							$(this).children().text('대기중');
-							$(this).children().attr('class', 'label label-primary');
-							$(this).siblings('.cancel-button').append('<button type="button" class="btn btn-outline btn-danger button-cancel">주문취소</button');
-						} else if (status == '2') {
-							$(this).children().text('준비중');
-							$(this).children().attr('class', 'label label-warning');
-						} else if (status == '3') {
-							$(this).children().text('준비완료');
-							$(this).children().attr('class', 'label label-information');
-						} else if (status == '0') {
-							$(this).children().text('주문취소');
-							$(this).children().attr('class', 'label label-danger');
-						}
-
-			}); */
 			
 			//주문 취소 버튼 클릭 시 이벤트 발생 
 			$('.button-cancel').each(function() {

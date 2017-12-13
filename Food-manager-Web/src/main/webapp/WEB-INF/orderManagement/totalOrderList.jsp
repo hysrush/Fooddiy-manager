@@ -45,7 +45,7 @@
 			<!-- 페이지 헤더 -->
 			<div class="row wrapper border-bottom white-bg page-heading">
 				<div class="col-lg-10">
-					<h2>TODAY 주문</h2>
+					<h2>전체주문내역</h2>
 					<ol class="breadcrumb">
 						<li>
 							<a href="${ pageContext.request.contextPath}/FirstPage.jsp">Home</a>
@@ -54,7 +54,7 @@
 							<a>주문관리</a>
 						</li>
 						<li class="active">
-							<strong>TODAY 주문</strong>
+							<strong>전체주문내역</strong>
 						</li>
 					</ol>
 				</div>
@@ -66,25 +66,10 @@
 			<!-- 페이지 컨텐츠 -->
 			<div class="wrapper wrapper-content animated fadeInRight ecommerce">
 				<!-- Search box -->
-				<div class="ibox-content m-b-sm border-bottom">
+				<div class="ibox-content m-b-sm border-bottom todayOrderInfo">
 					<div class="row">
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label class="control-label" for="type">오늘날짜 : </label>
-								<label class="control-label today" for="type"></label>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label class="control-label" for="menuname">총 주문 건수 : </label>
-								<label class="control-label total-count-order" for="type"></label>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label class="control-label" for="price">총 결제 금액 : </label>
-								<label class="control-label total-order-price commaN" for="type"></label>
-							</div>
+						<div class="col-sm-12">
+							
 						</div>
 					</div>
 				</div>
@@ -108,36 +93,36 @@
 												<th data-hide="phone" data-sort-ignore="true">주문취소</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody class= "todayOrderList">
 
 										<c:forEach items="${ orderList }" var="order">
 
-											<tr class="boardList">
-												
-												<td class="convType orderNumber" width="100px;">
-			                                    	${ order.no }
-		                                  		</td>
-												<td>${ order.regDate }</td>
-												<td>
-													<c:forEach items = "${  order.detailOrderList }" var = "oneOrder" varStatus="status">
-														${ oneOrder.name }
-														<c:if test="${ !status.last }">, </c:if>
-													</c:forEach>
-		                                   		</td>
-												<td width="10%" nowrap>
-													${ order.id }
-												</td>	
-												
-												<td class = "commaN orderPrice">${ order.order_price }</td>											
-												<td class = "commaN finalPrice">${ order.final_price }</td>											
-												<td>${ order.payment }</td>			
-												
-												<td class = "orderStatus"><span class="label label-primary">${ order.orderStatus }</span></td>		
-												<td class = "cancel-button"></td>									
+											<tr>
+													<td class="convType orderNumber" width="100px;">
+				                                    	${ order.no }
+			                                  		</td>
+														
+													<td>${ order.regDate }</td>
+													<td>
+														<a onclick = "modalFunc(${ order.no })">
+														<c:forEach items = "${  order.detailOrderList }" var = "oneOrder" varStatus="status">
+															${ oneOrder.name }
+															<c:if test="${ !status.last }">, </c:if>
+														</c:forEach>
+														</a>
+			                                   		</td>
+													<td width="10%" nowrap>
+														${ order.id }
+													</td>	
+													
+													<td class = "commaN orderPrice">${ order.order_price }원</td>											
+													<td class = "commaN finalPrice">${ order.final_price }원</td>											
+													<td>${ order.payment }</td>			
+													
+													<td><span class="orderStatus label label-primary">${ order.orderStatus }</span></td>		
+													<td class = "cancel-button"></td>									
 											</tr>
-
 										</c:forEach>
-
 										</tbody>
 									</table>
 								</div>
@@ -152,9 +137,18 @@
 		</div>
 	</div>
 
+
+	<!-- 모달 -->
+	<div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- 모달내용 -->
+				
+			</div>
+		</div>
+	</div>
 	
-
-
+	
 	<!-- Mainly scripts -->
 	<script	src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
 	<script	src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
@@ -178,11 +172,11 @@
         	// sidebar li & ul 클래스 active
 			$('.orderManagementLI').addClass("active");
 			$('.orderManagementLI > ul').addClass("in");
-			$('.todayOrderList').addClass("active");
+			$('.totalOrderList').addClass("active");
 
             $('.footable').footable();            
             
-          //오늘날짜
+         	//오늘날짜
 			var now = new Date();
 
 			var year = now.getFullYear();
@@ -195,19 +189,38 @@
 			var chan_val = year + '-' + mon + '-' + day;
 
 			$('.today').text(chan_val);
-
-			//총 주문건수
-			var orderCount = $('tbody tr').length;
-			$('.total-count-order').text(orderCount);
-
-			//총 결제 금액
+			
 			var totalFinalPrice = 0;
-			for (var i = 0; i < orderCount; ++i) {
-				totalFinalPrice += uncomma($('tbody tr').eq(i)
-						.find('.finalPrice').text()) * 1;
-			}
-			$('.total-order-price')
-					.text(comma(totalFinalPrice));
+			var orderCount = 0;
+			$('tbody.todayOrderList tr').each(function() {
+				
+				var status = $(this).find('.orderStatus');
+								
+				if(status.text() == '0') {
+					status.text('주문취소');
+					status.attr('class', 'label label-danger');
+				}else {
+					if (status.text() == '1') {
+						status.text('대기중');
+						status.attr('class', 'label label-primary');
+						$(this).find('.cancel-button').append('<button type="button" class="btn btn-outline btn-danger button-cancel">주문취소</button>');
+					}else if (status.text() == '2') {
+						status.text('준비중');
+						status.children().attr('class', 'label label-warning');
+					} else{
+						status.text('준비완료');
+						status.attr('class', 'label label-information');
+					}
+					
+					totalFinalPrice += uncomma($(this).find('.finalPrice').text())*1;
+					++orderCount;
+				}
+			}); 
+			$('.total-count-order').text(orderCount);
+			$('.total-order-price').text(comma(totalFinalPrice) + "원");
+			
+			
+			
 			
 			$('.footable').footable();
 			
@@ -230,28 +243,6 @@
 					});
 			    });
 			}
-			//주문 상태 표시
-			$('.orderStatus').each(function() {
-
-						var status = $(this).children().text();
-
-						if (status == '1') {
-							var no  = $(this).siblings('.orderNumber').text();
-							$(this).children().text('대기중');
-							$(this).children().attr('class', 'label label-primary');
-							$(this).siblings('.cancel-button').append('<button type="button" class="btn btn-outline btn-danger button-cancel">주문취소</button');
-						} else if (status == '2') {
-							$(this).children().text('준비중');
-							$(this).children().attr('class', 'label label-warning');
-						} else if (status == '3') {
-							$(this).children().text('준비완료');
-							$(this).children().attr('class', 'label label-information');
-						} else if (status == '0') {
-							$(this).children().text('주문취소');
-							$(this).children().attr('class', 'label label-danger');
-						}
-
-			});
 			
 			//주문 취소 버튼 클릭 시 이벤트 발생 
 			$('.button-cancel').each(function() {
@@ -282,16 +273,13 @@
                     }
                 ]
             });
-			
-			
-
         });
         
-        function btnClick(no) {
-        	location.href = '${ pageContext.request.contextPath}/menu/menuDetail.do?no=' + no;
-        } 
-	    	
-
+        function modalFunc(no) {
+        	var url = "${pageContext.request.contextPath}/orderManagement/todayOrderDetail.do?no=" + no;
+        	$('div.modal').modal().removeData();
+		    $('div.modal').modal({ remote : url  });
+        }
     </script>
 
 </body>
