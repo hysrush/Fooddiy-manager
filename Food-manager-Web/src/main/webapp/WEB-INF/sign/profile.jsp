@@ -32,11 +32,11 @@
     <!-- alert창 -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
     <script>window.name="main"</script>
+
 <script>
 $(document).ready(function(){
 	
 	$("#updatePw").click(function(){
-    	document.updatepw.target = "main";
    		self.close();
 	});
 	
@@ -46,7 +46,7 @@ $(document).ready(function(){
 		});
 	}
 	
-	 // 비밀번호가 맞는지 확인
+	// 비밀번호 유효성 확인
     var options2 = {};
     options2.ui = {
         container: "#pwd-container2",
@@ -60,26 +60,64 @@ $(document).ready(function(){
 
 });	
 
-	var check = "${ loginVO.pw }";
 	
 	// 현재 비밀번호 맞는지 확인
 	function checkpw(){
 		
+		var id = "${loginVO.id}";
 		var input = $("#oriPw").val();
 		
-		if(input == check){
-			$("#oriPw").css("border-color", "#1ab394");
-			$("#checkbox").css("visibility", "visible");
-			$("#checkbox").css("color", "#1ab394").text("비밀번호가 일치합니다.");
-			$("#checkbox").css("visibility", "visible");
-			$("#pw").focus();
-			
-		}else{ // 비밀번호 일치X
-			$("#oriPw").css("border-color", "#ed5565");
-			$("#checkbox").text("비밀번호가 일치하지 않습니다. 다시 입력해 주세요.");
-			$("#checkbox").css("visibility", "visible");
-		}
-}
+		$.ajax({
+			url : "${ pageContext.request.contextPath }/sign/checkpw",
+			type : "post",
+			data : {
+				'id' : id,
+				'pw' : input
+			},
+			success : function(result){
+				if(result == 1){
+					$("#oriPw").css("border-color", "#1ab394");
+					$("#checkbox").css("visibility", "visible");
+					$("#checkbox").css("color", "#1ab394").text("비밀번호가 일치합니다.");
+					$("#checkbox").css("visibility", "visible");
+					$("#pw").focus();
+					
+				}else{ // 비밀번호 일치X
+					$("#oriPw").css("border-color", "#ed5565");
+					$("#checkbox").text("비밀번호가 일치하지 않습니다. 다시 입력해 주세요.");
+					$("#checkbox").css("visibility", "visible");
+				}
+			}
+		});
+		
+		
+	}
+	
+	// 새로운 비밀번호가 현재 비밀번호랑 일치하는지 확인
+	function newpw(){
+		
+		var input = $("#pw").val();
+		var id = "${loginVO.id}";
+		
+		$.ajax({
+			url : "${ pageContext.request.contextPath }/sign/checkpw",
+			type : "post",
+			data : {
+				'id' : id,
+				'pw' : input
+			},
+			success : function(result){
+				  if(result == 1){
+					  $("#updatePw").attr('disabled', true);
+					  
+				  }else{
+					  $("#updatePw").attr('disabled', false);
+				  }
+		
+			}
+		});
+	  
+	}
 
 </script>
 </head>
@@ -166,18 +204,17 @@ $(document).ready(function(){
 					<div class="row" id="pwd-container2">
 						<div class="col-md-4"></div>
 						<div class="col-md-4">
-							<form class="m-t" role="form" name="updatepw" action="${ pageContext.request.contextPath }/sign/updatePw" method="post">
+							<form class="m-t" role="form" name="update" action="${ pageContext.request.contextPath }/sign/updatePassword" method="post">
+								<input type="hidden" name="id" value="${ loginVO.id }"/>
 								<div class="form-group">
 									<label>현재 비밀번호</label><input type="password" id="oriPw" class="form-control" required="required" oninput="checkpw()">
 								</div>
 									<span id="checkbox" style="visibility: hidden; color: #ed5565; font-size: 12px;"></span><br/><br/>
 								<div class="form-group has-undefined has-error">
-									<label>변경할 비밀번호</label><input type="password" name="pw" id="pw" class="form-control example2" required="required">
+									<label>변경할 비밀번호</label><input type="password" name="pw" id="pw" class="form-control example2" required="required" oninput="newpw()">
 								</div>
 								<div class="form-group">
-									<div class="pwstrength_viewport_verdict">
-										<span class="password-verdict"></span>
-									</div>
+									<div class="pwstrength_viewport_verdict"></div>
 								</div>
 								<input type="submit" id="updatePw" class="btn btn-primary block full-width m-b" value="확인" />
 							</form>

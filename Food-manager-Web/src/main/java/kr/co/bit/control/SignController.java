@@ -42,6 +42,18 @@ public class SignController {
 		return "sign/signForm";
 	}
 	
+	// 아이디 중복
+	@RequestMapping(value="/signForm", method=RequestMethod.GET)
+	public @ResponseBody String checkId(String id) {
+		
+		int num = signServiceImp.checkMember(id);
+		
+		if(num == 1) {
+			return "X";
+		}
+		
+		return "O";
+	}
 	// 관리자 인증 코드 발송
 	@RequestMapping(value="/signForm", method=RequestMethod.POST)
 	public @ResponseBody List<Object> managerCheck(String id) {
@@ -63,7 +75,6 @@ public class SignController {
 		
 		model.addAttribute("loginVO", loginVO);
 		System.out.println(loginVO.toString());
-		model.addAttribute("url", "FirstPage");
 		
 		return "sign/sign";
 	}
@@ -134,12 +145,21 @@ public class SignController {
 		
 		return "sign/profile";
 	}
+
+	// 현재 비밀번호와 새로운 비밀번호가 일치하는지 확인
+	@RequestMapping("/checkpw")
+	public @ResponseBody int checkpw(ManagerVO check, Model model) {
+		System.out.println(check.toString());
+		return signServiceImp.checkpw(check);
+	}
 	
 	// 비밀번호 변경
-	@RequestMapping("/updatePw")
-	public String updatePw(ManagerVO up) {
+	@RequestMapping(value="/updatePassword", method=RequestMethod.POST)
+	public String setPw(ManagerVO up, Model model) {
+	
+		signServiceImp.setPw(up);
+		model.addAttribute("msg", "비밀번호가 변경되었습니다.");
 		
-		
-		return "";
+		return "sign/profile";
 	}
 }

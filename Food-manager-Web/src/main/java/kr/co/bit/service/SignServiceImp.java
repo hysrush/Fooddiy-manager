@@ -23,10 +23,10 @@ public class SignServiceImp implements SignService {
 	private SignDAO signDAOImp;
 	
 	
-	// 가입했는지 확인
-	public int checkMember(ManagerVO managerVO) {
+	// id 중복
+	public int checkMember(String id) {
 		
-		return signDAOImp.checkMember(managerVO);
+		return signDAOImp.checkMember(id);
 	}
 	
 	// 관리자 인증 코드
@@ -59,7 +59,7 @@ public class SignServiceImp implements SignService {
 		return code;
 	}
 	
-	//회원 가입
+	// 관리자 등록
 	public ManagerVO signUp(ManagerVO managerVO) {
 
 		// 지점이 몇 개 있는지 확인
@@ -88,7 +88,7 @@ public class SignServiceImp implements SignService {
 		return signDAOImp.login(managerVO);
 	}
 	
-	//pw 찾기
+	// pw 찾기
 	public ManagerVO lostPw(ManagerVO lost) {
 		
 		// 이메일로 임시 비밀번호 전송
@@ -130,6 +130,21 @@ public class SignServiceImp implements SignService {
 			System.out.println(e);
 		}
 		return lostVO;
+	}
+
+	// 비밀번호 변경
+	public void setPw(ManagerVO up) {
+		
+		System.out.println(up.toString());
+		
+		signDAOImp.setPw(up);
+		
+	}
+
+	// 현재 비밀번호와 변경하려는 비밀번호가 일치하는지 확인
+	public int checkpw(ManagerVO check) {
+		
+		return signDAOImp.checkpw(check);
 	}
 	
 }

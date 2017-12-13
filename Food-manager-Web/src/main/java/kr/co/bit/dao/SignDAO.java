@@ -4,8 +4,8 @@ import kr.co.bit.vo.ManagerVO;
 
 public interface SignDAO {
 	
-	//가입 확인
-	int checkMember(ManagerVO phoneCert);
+	// 아이디 중복
+	int checkMember(String id);
 	
 	// 지점 확인
 	int branchCheck(String branch);
@@ -19,8 +19,10 @@ public interface SignDAO {
 	//pw 찾기
 	ManagerVO lostPw(ManagerVO lost);
 	
-	//임시 비밀번호 설정
+	// 비밀번호 설정
 	void setPw(ManagerVO setpw);
-	
+
+	// 현재 비밀번호와 새로운 비밀번호가 일치하는지 확인
+	int checkpw(ManagerVO check);
 	
 }
