@@ -39,7 +39,7 @@
 	<!-- 전체 Menu 게시글 조회 -->
 	<select id="selectAllMenu" resultMap="Map_menuVO">
 		<include refid="selectAll_menu"/>
-		ORDER BY menu_no ASC
+		ORDER BY reg_at DESC, menu_no ASC
 	</select>
 	
 	<!-- 번호별 Menu 조회 -->

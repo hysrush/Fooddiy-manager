@@ -9,6 +9,8 @@ public class StoreVO {
 	public String storeAddr;
 	
 	public String regDate;
+	
+	
 	public int getStoreNo() {
 		return storeNo;
 	}
@@ -51,7 +53,7 @@ public class StoreVO {
 		return "StoreVO [storeNo=" + storeNo + ", locationNo=" + locationNo + ", storeName=" + storeName
 				+ ", storePhone=" + storePhone + ", storeAddr=" + storeAddr + ", regDate=" + regDate + "]";
 	}
-		
+	
 	
 	
 

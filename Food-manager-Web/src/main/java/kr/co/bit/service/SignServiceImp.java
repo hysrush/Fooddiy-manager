@@ -91,10 +91,8 @@ public class SignServiceImp implements SignService {
 	//pw 찾기
 	public ManagerVO lostPw(ManagerVO lost) {
 		
-		ManagerVO lostPw = new ManagerVO();
-		
 		// 이메일로 임시 비밀번호 전송
-		ManagerVO lostVO = signDAOImp.lostPw(lostPw);
+		ManagerVO lostVO = signDAOImp.lostPw(lost);
 		
 		if(lostVO == null) {
 			return lostVO;
@@ -112,7 +110,7 @@ public class SignServiceImp implements SignService {
 		
 		mail.setSender("skdml132@gamil.com");
 		mail.setReceiver(lostVO.getId());
-		mail.setSubject("[SubWay] 비밀번호 찾기");
+		mail.setSubject("[SubWay] 관리자 비밀번호 찾기");
 		mail.setContent(lostVO.getName()+" 님의 임시 비밀번호는 ["+uuid+"]입니다. ");
 
 		try {
