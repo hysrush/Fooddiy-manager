@@ -14,10 +14,11 @@ public class SignDAOImp implements SignDAO {
 	String url = "kr.co.bit.manager.dao.";
 
 	//가입했는지 확인
-	public int checkMember(ManagerVO phoneCert) {
+	public int checkMember(String id) {
 		
-		System.out.println(phoneCert);
-		return sql.selectOne("kr.co.bit.member.dao.checkMember", phoneCert);
+		System.out.println(id);
+		
+		return sql.selectOne(url+"checkId", id);
 	}
 	
 	// 지점 확인
@@ -64,12 +65,16 @@ public class SignDAOImp implements SignDAO {
 		return sql.selectOne(url+"lostPw", lost);
 	}
 
-	// 임시 비밀번호 설정
+	// 비밀번호 설정
 	public void setPw(ManagerVO setpw) {
 	
+		System.out.println(setpw.toString());
 		sql.insert(url+"pwUpdate", setpw);
 	}
 
-
-
+	// 현재 비밀번호와 새로운 비밀번호가 일치하는지 확인
+	public int checkpw(ManagerVO check) {
+		
+		return sql.selectOne(url+"checkpw", check);
+	}
 }

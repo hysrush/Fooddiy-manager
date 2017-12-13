@@ -44,6 +44,14 @@
     padding: 0;
     line-height: normal;
     }
+    .form-control{
+  		border: 1px solid #fff;
+		background-color : #1ab39426;
+	}
+	a {
+  		color: #1ab394;
+  		text-decoration: none;
+	}
 </style>
 <script>
 $(document).ready(function(){
@@ -63,30 +71,25 @@ $(document).ready(function(){
 </script>
 </head>
 <body class="gray-bg">
-	
-    <div class="middle-box text-center loginscreen animated fadeInDown">
-            <div>
-                <h1 class="logo-name" id="logo">Fooddiy-Order Admin+</h1>
-            </div>
+	<div class="middle-box loginscreen animated fadeInDown">
+            <div class="text-center">
+                <h1 class="logo-name" id="logo">Fooddiy Order Admin+</h1><br/>
             <h3>Welcome to Fooddiy-Order Admin+</h3>
-            <p>Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.
-                <!--Continually expanded and constantly improved Inspinia Admin Them (IN+)-->
-            </p>
-            <p>Login in. To see it in action.</p>
-            <form class="m-t" role="form" action="${ pageContext.request.contextPath }/manager/login" method="post">
+            </div>
+            <form class="m-t" role="form" action="${ pageContext.request.contextPath }/sign/login" method="post">
                 <div class="form-group">
                     <input type="email" name="id" class="form-control" placeholder="Username" required="required">
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="text-align: right;">
+					<a href="#" data-toggle="modal" data-target="#myModal6"><small>Forgot password?</small></a>
                     <input type="password" name="pw" class="form-control" placeholder="Password" required="required">
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
 
-                <a href="#" data-toggle="modal" data-target="#myModal6"><small>Forgot password?</small></a>
-                <p class="text-muted text-center"><small>Do not have an account?</small></p>
-                <a class="btn btn-sm btn-white btn-block" href="${ pageContext.request.contextPath }/sign/signUp">Create an account</a>
+                <p class="text-muted text-center"><small>관리자 등록을 하셨습니까?</small></p>
+                <a class="btn btn-sm btn-white btn-block" href="${ pageContext.request.contextPath }/sign/signUp">관리자 등록</a>
             </form>
-            <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
+            <p class="m-t"> <small>Fooddiy-Order Admin+ &copy; 2017</small> </p>
     </div>
 <!-- modal -->
 	<div style="position: absolute; top: 100px; right: 100px"
