@@ -21,4 +21,9 @@ public class MemberDAOImp implements MemberDAO {
 		return list;
 	}
 
+	@Override
+	public UserVO selectid(String id) {
+		return sqlSession.selectOne("kr.co.bit.dao.memberDetail",id);
+	}
+
 }

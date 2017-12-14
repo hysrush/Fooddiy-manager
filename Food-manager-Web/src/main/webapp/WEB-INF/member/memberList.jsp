@@ -457,6 +457,7 @@
                                 <tbody>
                                 <c:forEach items="${ memberList }" var="user">
                                 <tr style="font-size: 14px">
+                                <td><a onclick="modalD('${user.id}')">${ user.id }</a></td>
                                 <td>${ user.name }</td>
                                 <td>${ user.birth }</td>
                                 <td>${ user.sex }</td>
@@ -513,7 +514,7 @@
         </div>
         </div>
 <!-- modal -->
-	<div style="position:absolute; top: 100px; right: 100px"class="modal inmodal" id="myModal4" tabindex="-1" role="dialog" aria-hidden="true">
+	<%-- <div style="position:absolute; top: 100px; right: 100px"class="modal inmodal" id="myModal4" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div style=" width:1000px;" class="modal-content animated fadeIn">
 				<div style="padding:15px; " class="modal-header">
@@ -523,37 +524,50 @@
 					<h4 class="modal-title">회원 정보</h4>
 				</div>
 			  <div style="padding: 20px 10px 5px" class="wrapper wrapper-content animated fadeInRight">
+                    	 <c:forEach items="${ memberList }" var="user">
+							<tr>
         <div class="row">
             <div class="col-lg-12">
                 <div style="padding:0px " class="contact-box">
                     <div style="margin-left: 130px" class="col-sm-3">
                         <div class="text-center">
                             <img style="width: 200px; margin-top:12px; max-width: 150%" alt="image" class="img-circle m-t-xs img-responsive" src="${ pageContext.request.contextPath }/resources/img/a6.jpg">
-                            <div style="font-size: 15px" class="m-t-xs font-bold">dreamingdh (ID)</div>
+                            <div style="font-size: 15px" class="m-t-xs font-bold">${ user.id }</div>
                         </div>
                     </div>
                     <div style="width:40%; text-align: center; margin-left:8%; margin-top: 30px; font-size: 20px" class="col-sm-8">
-                        <h2><strong>이쁜잉</strong></h2>
+                         <h2><strong>${ user.name }</strong></h2>
                         <address>
-                            <span>여성</span><br>
-                            <span>VIP</span><br>
-                            <span>2,000 P.</span><br>
-                            <span>1993년 05월 26일</span><br>
-                            <span>010-1234-1234</span><br>
-                            <span>dreamingdh@naver.com</span><br>
+                            <span>${ user.sex }</span><br>
+                            <span>${ user.grade }</span><br>
+                            <span>${ user.birth }</span><br>
+                            <span>${ user.phone }</span><br>
+                            <span>${ user.email }</span><br>
                         </address>
                     </div>
                     <div class="clearfix"></div>
                 </div>
             </div>
         </div>
+                    </tr>
+                    </c:forEach>
       </div>
 				<div style="padding-bottom: 6px; padding-top: 4px" class="modal-footer">
 					<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
+	</div> --%>
+		<!-- 모달 -->
+	<div class="modal inmodal fade" id="myModal6" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- 모달내용 -->
+				
+			</div>
+		</div>
 	</div>
+	
 
 	<!-- --------------------------------------------------------------------------------------------------------------------- -->
 
@@ -585,7 +599,11 @@
             })
 
         });
-
+        function modalD(no) {
+        	var url = "${pageContext.request.contextPath}/member/memberDetail.do?id=" + no;
+        	$('div.modal').modal().removeData();
+		    $('div.modal').modal({ remote : url  });
+        }
     </script>
 </body>
 

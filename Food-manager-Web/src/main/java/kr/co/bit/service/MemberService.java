@@ -6,7 +6,9 @@ import kr.co.bit.vo.UserVO;
 
 public interface MemberService {
 
-	public List<UserVO> selectMemberList(); 
+	public List<UserVO> selectMemberList();
+
+	public UserVO selectid(String id); 
 		
 
 

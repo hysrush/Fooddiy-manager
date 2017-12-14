@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.bit.service.MemberService;
 import kr.co.bit.vo.UserVO;
@@ -26,5 +27,14 @@ public class MemberController {
 		return "member/memberList";
 	}
 	
+	@RequestMapping("/memberDetail.do")
+	public String memberDetail(@RequestParam String id, Model model) {
+		
+		UserVO userVO = memberService.selectid(id);
+		System.out.println(userVO.toString());
+		model.addAttribute("user", userVO);
+		
+		return "member/memberDetail";
+	}
 	
 }

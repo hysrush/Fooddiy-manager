@@ -33,4 +33,13 @@
 	<select id="memberList" resultMap="mapLoginVO">
 		select user_id, user_name, user_email, user_phone, user_sex, user_birth, user_pic, user_grade from t_user
 	</select>
+	
+	<!-- memberDetail -->
+	<select id="memberDetail" parameterType="java.lang.String" resultMap="mapLoginVO">
+		select user_id, user_name, user_email, user_phone, user_sex, user_birth, user_pic, user_grade from t_user
+	where
+		user_id = #{id}	
+	</select>
+	
+	
 </mapper>

@@ -20,4 +20,10 @@ public class MemberServiceImp implements MemberService {
 		return list;
 	}
 
+	@Override
+	public UserVO selectid(String id) {
+		
+		return memberDAO.selectid(id);
+	}
+
 }
