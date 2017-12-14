@@ -32,6 +32,9 @@
 	.convType > span {
 		width: 60px;
 	}
+	.label-primary {
+		background-color: #7aa93c;
+	}
 </style>
 </head>
 <body>
@@ -71,7 +74,7 @@
 						<ul class="nav nav-tabs">
 						    <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-list"></i>리스트</a></li>
 						    <li class=""><a href="${ pageContext.request.contextPath}/community/qna/qnaWriteForm.do"><i class="fa fa-save"></i>등록</a></li>
-						    <li class=""><a href="#"><i class="fa fa-edit"></i>수정</a></li>
+						    <!-- <li class=""><a href="#"><i class="fa fa-edit"></i>수정</a></li> -->
 						</ul>
 						<div class="tab-content">
 							<!-- 첫번째 Tab : 자주묻는질문 리스트 -->
@@ -81,7 +84,7 @@
 									<div class="ibox">
 										<div class="ibox-content">
 											<div class="table-responsive">
-												<table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="25">
+												<table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="60">
 													<thead>
 													 <tr>
 													     <th data-hide="phone" data-sort-ignore="true">타입</th>
@@ -107,7 +110,7 @@
 						                                        ${ qna.regDate }
 						                                    </td>
 						                                    <td class="text-right">
-						                                        <div class="btn-group" width="10%" nowrap>
+						                                        <div class="btn-group" width="8%" nowrap>
 						                                            <button class="btn-white btn btn-xs" id="view" onclick="action('V', ${qna.no})"><i class="fa fa-search"></i></button>
 						                                            <button class="btn-white btn btn-xs" onclick="action('E', ${qna.no})"><i class="fa fa-edit"></i></button>
 						                                            <button class="btn-white btn btn-xs" onclick="action('D', ${qna.no})"><i class="fa fa-trash"></i></button>
@@ -128,10 +131,10 @@
 							    </div>
 							</div>
 							<!-- 세번째 Tab : 자주묻는질문 수정 -->
-							<div id="tab-3" class="tab-pane">
+							<!-- <div id="tab-3" class="tab-pane">
 							    <div class="panel-body">
 							    </div>
-							</div>
+							</div> -->
 						</div>
                     </div>
                 </div>
@@ -232,6 +235,8 @@
                     	"sNext": ">>"
                       }
                 },
+                "iDisplayLength": -1,
+                "aaSorting": [[ 3, "desc" ]], // Sort by first column descending
                 // 버튼 옵션
                 buttons: [
                     {extend: 'copy'},
@@ -272,7 +277,10 @@
 			    $('div.modal').modal({ remote : url  });
 				break;
 			case 'E':
-				location.href = '${ pageContext.request.contextPath}/community/qna/qnaEditForm.do?no=' + no;
+				//location.href = '${ pageContext.request.contextPath}/community/qna/qnaEditForm.do?no=' + no;
+				$('div.modal').modal().removeData();
+			    var url = '${ pageContext.request.contextPath}/community/qna/qnaEditForm.do?no=' + no;
+			    $('div.modal').modal({ remote : url  });
 				break;
 			case 'D':
 				deleteQnA(no);

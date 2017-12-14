@@ -9,6 +9,9 @@
 	.close {
 		font-size: 40px;
 	}
+	.label-primary {
+		background-color: #7aa93c;
+	}
 </style>
 
 <!-- 모달창 시작 -->

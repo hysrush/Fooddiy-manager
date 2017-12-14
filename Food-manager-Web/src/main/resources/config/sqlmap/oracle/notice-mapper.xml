@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bit.dao.NoticeDAO">
+  	
+	<!-- ||| Notice 게시글 쿼리문 ||| -->
+	
+	<!-- sql 저장 : 전체 조회 -->
+  	<sql id="selectAll_notice">
+		SELECT notice_no, notice_writer, notice_title, notice_type, notice_content,
+				view_cnt, to_char(reg_at, 'yy-mm-dd') as reg_at
+		FROM t_notice
+	</sql>
+	
+  	<!-- DB t_notice와 NoticeBoardVO의 변수와 맞지 않으므로 mapping  -->
+  	<resultMap type="noticeVO" id="Map_noticeVO">
+  		<result column="notice_no" property="no"/>
+  		<result column="notice_type" property="type"/>
+  		<result column="notice_writer" property="writer"/>
+  		<result column="notice_title" property="title"/>
+  		<result column="notice_content" property="content"/>
+  		<result column="view_cnt" property="viewCnt"/>
+  		<result column="reg_at" property="regDate"/>
+  	</resultMap>
+	
+	<!-- 전체 Notice 게시글 조회 -->
+	<select id="selectAllNotice" resultMap="Map_noticeVO">
+		<include refid="selectAll_notice"/>
+		ORDER BY notice_no DESC
+	</select>
+	
+	<!-- 타입별 전체 게시글 조회 -->
+	<select id="selectType" parameterType="java.lang.String" resultMap="Map_noticeVO">
+		<include refid="selectAll_notice"/>
+		WHERE notice_type = #{type}
+		ORDER BY notice_no DESC
+	</select>
+	
+	<!-- 글번호별 Notice 게시글 조회 -->
+	<select id="selectOneNotice" parameterType="int" resultMap="Map_noticeVO" >
+		<include refid="selectAll_notice"/>
+		WHERE notice_no = #{no}
+	</select>
+	
+	<!-- Notice 글 등록 -->
+	<insert id="insertNotice" parameterType="noticeVO">
+		INSERT INTO t_notice(notice_no, notice_writer, notice_title, notice_type, notice_content)
+		VALUES(seq_t_notice_no.nextval, #{writer}, #{title}, #{type}, #{content})
+	</insert>
+	
+	<!-- Notice 글 수정 -->
+	<update id="modifyNotice" parameterType="noticeVO">
+		UPDATE t_notice
+		SET notice_title = #{title}, notice_content = #{content}, 
+			notice_type = #{type}, reg_at = #{regDate}
+		WHERE notice_no = #{no}
+	</update>
+	
+	<!-- Notice 글 삭제 -->
+	<delete id="removeNotice" parameterType="int" >
+		DELETE FROM t_notice
+		WHERE notice_no = #{no}
+	</delete>
+	
+	<!-- Notice 조회수 증가 -->
+	<update id="updateViewcntNotice" parameterType="int">
+        UPDATE t_notice
+        SET view_cnt = view_cnt + 1
+        WHERE notice_no = #{no}
+    </update>
+</mapper>

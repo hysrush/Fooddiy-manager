@@ -18,6 +18,8 @@
 	<link href="${ pageContext.request.contextPath }/resources/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <!-- FooTable -->
     <link href="${ pageContext.request.contextPath }/resources/css/plugins/footable/footable.core.css" rel="stylesheet">
+	<!-- easydropdown -->
+	<link rel="stylesheet" type="text/css" href="${ pageContext.request.contextPath }/resources/css/plugins/easydropdown/easydropdown.css"/>
 	
 	<!-- sweetalert js & css -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
@@ -27,6 +29,19 @@
     <link href="${ pageContext.request.contextPath }/resources/css/style.css" rel="stylesheet">
     
 <style type="text/css">
+	.easydropdown ul{
+	    -webkit-padding-start: 0px;
+	}
+	.easydropdown .selected, .easydropdown li {
+		font-size: 14px;
+		color: gray;
+	}
+	.btn-default {
+		background-color: #EAE8E8;
+	}
+	.label-primary {
+		background-color: #7aa93c;
+	}
 </style>
 </head>
 <body>
@@ -89,7 +104,8 @@
 											<div class="form-group">
 												<div class="col-sm-8">
 													<label class="control-label" for="type">타입 *</label>
-														<form:select path="type" name="type" id="type" class="form-control required" aria-required="true">
+														<form:select path="type" name="type" id="type"
+																		class="easydropdown form-control required" aria-required="true">
 															<form:option value="F">푸디오더</form:option>
 															<form:option value="P">포인트</form:option>
 															<form:option value="O">주문</form:option>
@@ -103,7 +119,7 @@
 												<div class="col-sm-8">
 													<label class="control-label" for="question">Q *</label>
 													<form:input path="question" type="text" id="question" class="form-control required"
-																aria-required="true" value="${ qnaVO.question }"/>
+																aria-required="true" value="${ qnaVO.question }" placeholder="질문"/>
 													<form:errors path="question" class="form-control"></form:errors>
 												</div>
 											</div>
@@ -111,13 +127,13 @@
 												<div class="col-sm-8">
 													<label class="control-label" for="answer">A *</label>
 													<form:textarea path="answer" id="answer" class="form-control required" rows="5"
-																	aria-required="true" value="${ qnaVO.answer }"/>
+																	aria-required="true" value="${ qnaVO.answer }" placeholder="대답"/>
 													<form:errors path="answer" class="form-control"></form:errors>
 												</div>
 											</div>
 											<div class="form-group">
 												<div class="col-sm-5 col-sm-offset-2">
-													<button type="button" class="btn btn-white">취소</button>
+													<button type="button" class="btn btn-default" id="erase">지우기</button>
 													<button type="button" class="btn btn-primary" id="qnaUpdate">수정</button>
 												</div>
 											</div>
@@ -154,6 +170,9 @@
     <script src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/pace/pace.min.js"></script>
 	
+	<!-- easydropdown -->
+	<script src="${ pageContext.request.contextPath }/resources/js/plugins/easydropdown/jquery.easydropdown.js"></script> 
+	
     <!-- FooTable -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
     
@@ -165,6 +184,51 @@
 			$('.communityLI').addClass("active");
 			$('.communityLI > ul').addClass("in");
 			$('.qnaLI').addClass("active");
+			
+			// easydropdown 라벨화 작업
+			var qnaType  = $('.easydropdown').find('.selected');
+			// 초기값
+			qnaType.css("width","100px");
+			if (qnaType.text() == '푸디오더') {
+				qnaType.attr("class","selected label label-primary");
+				qnaType.css("color","white");
+			} else if (qnaType.text() == '포인트') {
+				qnaType.attr("class","selected label label-danger");
+				qnaType.css("color","white");
+			} else if (qnaType.text() == '주문') {
+				qnaType.attr("class","selected label label-warning");
+				qnaType.css("color","white");
+			} else if (qnaType.text() == '회원정보') {
+				qnaType.attr("class","selected label label-success");
+				qnaType.css("color","white");
+			} else if (qnaType.text() == '기타') {
+				qnaType.attr("class","selected label label-plain");
+				qnaType.css("color","#5e5e5e");
+			}
+			// option selected 변경 시,
+			$('.easydropdown li').click(function () {
+				if (qnaType.text() == '푸디오더') {
+					qnaType.attr("class","selected label label-primary");
+					qnaType.css("color","white");
+				} else if (qnaType.text() == '포인트') {
+					qnaType.attr("class","selected label label-danger");
+					qnaType.css("color","white");
+				} else if (qnaType.text() == '주문') {
+					qnaType.attr("class","selected label label-warning");
+					qnaType.css("color","white");
+				} else if (qnaType.text() == '회원정보') {
+					qnaType.attr("class","selected label label-success");
+					qnaType.css("color","white");
+				} else if (qnaType.text() == '기타') {
+					qnaType.attr("class","selected label label-plain");
+					qnaType.css("color","#5e5e5e");
+				}
+			});
+			
+			// 폼 초기화
+			$('#erase').click(function () {
+				$('#qnaForm input[type="text"], textarea').val(""); 
+			});
 			
 			// 서밋버튼 이벤트
 	       	$('#qnaUpdate').click(function () {
@@ -183,6 +247,7 @@
 			$('#regDate').val(today);
 			
 			// 기존 type값 가져와서 selected 설정해놓기
+			// (실행되는데 문법오류떠서 제일 마지막에 두기)
 			var type = $('#hiddenType').val();
 			$('#type option[@value=' + type + ']').prop("selected", true);
 			

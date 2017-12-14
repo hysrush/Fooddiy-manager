@@ -102,7 +102,8 @@ public class QnaController {
 		// 공유영역에 등록
 		model.addAttribute("qnaVO_NEW", qnaVO_NEW);
 		
-		return "community/qna/qnaEditForm";
+//		return "community/qna/qnaEditForm";
+		return "community/qna/edit";
 	}
 	// QnA 업데이트
 	@RequestMapping(value="/qnaEditForm.do", method=RequestMethod.POST)
