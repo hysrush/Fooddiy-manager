@@ -25,11 +25,11 @@
 				</span>
 				</a>
 				<ul class="dropdown-menu animated fadeInRight m-t-xs">
-					<li><a href="profile.html">Profile</a></li>
-					<li><a href="contacts.html">Contacts</a></li>
+					<li><a href="${ pageContext.request.contextPath }/sign/profile">Profile</a></li>
+					<li><a href="">Contacts</a></li>
 					<li><a href="mailbox.html">Mailbox</a></li>
 					<li class="divider"></li>
-					<li><a href="${ pageContext.request.contextPath }/login.jsp">Logout</a></li>
+					<li><a href="${ pageContext.request.contextPath }/sign/login">Logout</a></li>
 				</ul>
 			</div>
 			<div class="logo-element" id="logo"><span id="fooddiy">Fooddiy-Order</span> Admin+</div>
@@ -46,17 +46,17 @@
 				<li class="menuBoard"><a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴 관리</a></li>
 				<li class="menuRegister"><a href="${ pageContext.request.contextPath }/menu/menuRegister.do">메뉴 등록</a></li>
 			</ul></li>
-		<li><a href="#"><i class="fa fa-shopping-cart"></i> <span
+		<li class = "orderManagementLI"><a href="#"><i class="fa fa-shopping-cart"></i> <span
 				class="nav-label">주문 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="graph_rickshaw.html">전체주문내역</a></li>
-				<li><a href="graph_morris.html">TODAY 주문</a></li>
-				<li><a href="graph_flot.html">주문 내용</a></li>
+				<li class="totalOrderList"><a href="${pageContext.request.contextPath}/orderManagement/totalOrderList.do">전체주문내역</a></li>
+				<li class="todayOrderList"><a href="${pageContext.request.contextPath}/orderManagement/todayOrderList.do">TODAY 주문</a></li>
+				<li class="orderList"><a href="${pageContext.request.contextPath}/orderManagement/orderList.do">주문 내용</a></li>
 			</ul></li>
 		<li><a href="#"><i class="fa fa-user-circle"></i> <span
 				class="nav-label">회원 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="${ pageContext.request.contextPath }/member/memberList">회원 리스트</a></li>
+				<li><a href="${ pageContext.request.contextPath }/member/memberList.do">회원 리스트</a></li>
 				<li><a href="${ pageContext.request.contextPath }/member/memberRank">회원 랭킹</a></li>
 			</ul></li>
 		<li><a href="#"><i class="fa fa-star"></i> <span

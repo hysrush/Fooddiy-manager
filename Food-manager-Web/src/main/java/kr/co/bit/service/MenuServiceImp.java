@@ -37,7 +37,10 @@ public class MenuServiceImp implements MenuService {
 	public void removeMenu(int no) {
 		menuDAO.delete(no);
 	}
-	
+	// Menu 다중 삭제
+	public void removeMenuSome(List<Integer> list) {
+		menuDAO.deleteSome(list);
+	}
 	
        
     

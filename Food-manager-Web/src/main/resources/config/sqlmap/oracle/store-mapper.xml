@@ -67,20 +67,49 @@
 		
 	<!--  매장데이터 전체 불러오기  -->		
 		<select id = "selectStoreAll" resultMap="Map_StoreVO">
-			SELECT *
-			FROM( SELECT ROWNUM RNUM, P.*
-			FROM( SELECT STO_NO, STO_NAME, STO_PHONE, STO_ADDR 
+		SELECT STO_NO, STO_NAME, STO_PHONE, STO_ADDR 
 			FROM T_STORE
-			ORDER BY STO_NO DESC) P )
-			WHERE RNUM BETWEEN #{start} AND #{last}
+			ORDER BY STO_NO DESC
 		
 		</select>
 		
-	<!--  페이징 total 쿼리 -->
-	<select id ="selectTotalPaging" resultType ="java.lang.Integer">
-		SELECT COUNT(*)
-		FROM T_EVENT
-	</select>	
+		<select id="selectByNo" parameterType="int" resultMap="Map_StoreVO" >
+			SELECT STO_NO, STO_NAME, STO_PHONE, STO_ADDR 
+			FROM T_STORE
+			WHERE STO_NO = #{no}
+			ORDER BY STO_NO DESC
+		
+		</select>
+		
+		<!-- 새글 등록  -->
+	<insert id="insertStore" parameterType="storeVO">
+		
+		INSERT INTO T_STORE( STO_NO, LOC_NO, STO_NAME, STO_ADDR, STO_PHONE )
+					VALUES(SEQ_T_EVENT_NO.NEXTVAL, #{locationNo} , #{storeName}, #{storeAddr},#{storePhone})
+	</insert>
+	
+		
+		
+		
+		
+		
+		
+		
+		<!--  게시물 수정  -->
+	<update id = "updateStore" parameterType = "storeVO" >
+			UPDATE T_STORE
+			SET  STO_NAME = #{storeName}, STO_PHONE = #{storePhone}, STO_ADDR = #{storeAddr}
+			WHERE STO_NO = #{storeNo}		
+	
+	</update>
+	
+	<!-- 게시물 삭제 -->
+	<delete id = "deleteStore" parameterType = "int">
+		DELETE T_STORE
+		WHERE STO_NO = #{no}
+	
+	</delete>
+	
 		
 		
 		

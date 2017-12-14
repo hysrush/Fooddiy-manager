@@ -32,16 +32,16 @@
 	    
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>메뉴 리스트</h2>
+                <h2>주문 내용</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="${ pageContext.request.contextPath}/FirstPage.jsp">Home</a>
                     </li>
                     <li>
-                        <a>메뉴 관리</a>
+                        <a>주문 관리</a>
                     </li>
                     <li class="active">
-                        <strong>메뉴 리스트</strong>
+                        <strong>주문 내용</strong>
                     </li>
                 </ol>
             </div>
@@ -69,10 +69,7 @@
 	                                <a href="${ pageContext.request.contextPath}/menu/menuDetail.do?no=${menu.no}" class="product-name">${ menu.name }</a>
 	
 	
-	
-	                                <!-- <div class="small m-t-xs">
-	                                    Many desktop publishing packages and web page editors now.
-	                                </div> -->
+
 	                                <div class="m-t text-righ">
 	
 	                                    <a href="${ pageContext.request.contextPath}/menu/menuDetail.do?no=${menu.no}" class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i> </a>
@@ -84,16 +81,9 @@
                	</c:forEach>
             </div>
         </div>
-        
         <div class="footer">
-            <div class="pull-right">
-                10GB of <strong>250GB</strong> Free.
-            </div>
-            <div>
-                <strong>Copyright</strong> Example Company &copy; 2014-2017
-            </div>
-        </div>
-
+				<jsp:include page="/resources/include/bottom.jsp"/>
+		</div>
     </div>
 </div>
 
@@ -112,9 +102,9 @@
     	$(document).ready(function() {
     		
     		// sidebar li & ul 클래스 active
-			$('.menuLI').addClass("active");
-			$('.menuLI > ul').addClass("in");
-			$('.menuAll').addClass("active");
+			$('.orderManagementLI').addClass("active");
+			$('.orderManagementLI > ul').addClass("in");
+			$('.orderList').addClass("active");
     		
 
     		

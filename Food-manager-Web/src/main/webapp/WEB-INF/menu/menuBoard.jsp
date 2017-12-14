@@ -17,6 +17,10 @@
 <link href="${ pageContext.request.contextPath }/resources/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
 <!-- FooTable -->
 <link href="${ pageContext.request.contextPath }/resources/css/plugins/footable/footable.core.css" rel="stylesheet">
+<!-- iCheck -->
+<link href="${ pageContext.request.contextPath }/resources/css/plugins/iCheck/custom.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
 
 <link href="${ pageContext.request.contextPath }/resources/css/animate.css" rel="stylesheet">
 <link href="${ pageContext.request.contextPath }/resources/css/style.css" rel="stylesheet">
@@ -25,8 +29,10 @@
 	.convType > span {
 		width: 60px;
 	}
+	.btn-default {
+		text-align: right;
+	}
 </style>
-
 </head>
 
 <body>
@@ -106,10 +112,15 @@
 					<div class="col-lg-12">
 						<div class="ibox">
 							<div class="ibox-content">
-								<div class="table-responsive">
-									<table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="25">
+								<div class="table-responsive"><button class="btn btn-default btn-xs" type="button" onclick="delRow()">선택삭제</button>
+									<table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="100">
 										<thead>
 											<tr>
+												<th data-hide="phone" data-sort-ignore="true" style="width: 95px">
+													<div class = "total-select">
+														<input type="checkbox" class="i-checks" id="chkall">														
+													</div>
+												</th>
 												<th data-hide="phone" data-sort-ignore="true">타입</th>
 												<th data-toggle="true" data-sort-ignore="true">이름</th>
 												<th data-hide="all" data-sort-ignore="true">메뉴소개</th>
@@ -118,13 +129,19 @@
 												<th class="text-right" data-sort-ignore="true">Action</th>
 											</tr>
 										</thead>
+										
+										
 										<tbody>
 
 										<c:forEach items="${ menuList2 }" var="menu">
 
 											<tr class="boardList">
-												<td class="convType" width="100px;">
-			                                    <span class="label label-primary">${ menu.type }</span>
+												<td>
+													<input type="checkbox" class="i-checks" name="chk">
+													<div style="display: none">${ menu.no }</div>
+												</td>
+                 								<td class="convType" width="100px;">
+			                                    	<span class="label label-primary">${ menu.type }</span>
 		                                  		</td>
 												<td>${ menu.name }</td>
 												<td style="word-break:keep-all;">
@@ -138,9 +155,9 @@
 												</td>												
 												<td class="text-right">
 													<div class="btn-group" width="10%" nowrap>
-														<button class="btn-white btn btn-xs" id="view" onclick="btnClick(${menu.no})"><i class="fa fa-search"></i></button>
-														<button class="btn-white btn btn-xs"><i class="fa fa-edit"></i></button>
-		                                          		<button class="btn-white btn btn-xs delete"><i class="fa fa-trash"></i></button>
+														<button class="btn-white btn btn-xs" id="view" onclick="btnClick('V', ${menu.no})"><i class="fa fa-search"></i></button>
+														<button class="btn-white btn btn-xs" onclick="btnClick('E', ${menu.no})"><i class="fa fa-edit"></i></button>
+		                                          		<button class="btn-white btn btn-xs" onclick="btnClick('D', ${menu.no})"><i class="fa fa-trash"></i></button>
 													</div>
 													<div class="menuType" style="display: none">${ menu.type }</div>
 												</td>
@@ -169,20 +186,22 @@
 	<script	src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
 	<script	src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
 	<script	src="${ pageContext.request.contextPath }/resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script	src="${ pageContext.request.contextPath }/resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	
+	<script	src="${ pageContext.request.contextPath }/resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>	
 	<!-- dataTables -->
 	<script src="${ pageContext.request.contextPath }/resources/js/plugins/dataTables/datatables.min.js"></script>	
-
 	<!-- Custom and plugin javascript -->
 	<script	src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
 	<script	src="${ pageContext.request.contextPath }/resources/js/plugins/pace/pace.min.js"></script>
-
 	<!-- FooTable -->
 	<script	src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
+	<!-- sweetalert js & css -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 	
+	<!-- iCheck -->
+    <script src="${ pageContext.request.contextPath }/resources/js/plugins/iCheck/icheck.min.js"></script>
 
 	<!-- Page-Level Scripts -->
-	<script>
+	<script>	
+	
         $(document).ready(function() {
         	
         	// sidebar li & ul 클래스 active
@@ -228,18 +247,61 @@
 	    		}
     		}
 			
+			// 체크박스
+			$('.i-checks').iCheck({
+	            checkboxClass: 'icheckbox_square-green',
+	            radioClass: 'iradio_square-green',
+	        });
+			
+    		// 체크박스 전체 선택
+    		var start = 4;
+    		$('input').eq(start).on('ifChecked', function(){
+    			$('.icheckbox_square-green').addClass("checked");
+    		});
+    		$('input').eq(start).on('ifUnchecked', function(){
+    			$('.icheckbox_square-green').removeClass("checked");
+    		});
+			
+    		// 체크박스 초기화
+    		$(document).on('change', '.input-sm', function(){
+    			$('.icheckbox_square-green').removeClass("checked");
+    		});
+    		$(document).on('click', '.pagination', function(){
+    			$('.icheckbox_square-green').removeClass("checked");
+    		});
+    		
 			
 			// 데이터테이블 생성
 			$('.footable').css("width","100%");
 			$('.dataTables-example').DataTable({
-                pageLength: 25,
+                pageLength: 10,
+                bPaginate: true,
                 responsive: true,
                 dom: '<"html5buttons"B>lTfgitp',
+                "oLanguage": {
+                	// 기본 info (고정값)
+                	"sInfo": "총 데이터 : _TOTAL_개 (현재 페이지 : _START_ to _END_)",
+                	// 검색 후 info (고정값)
+                    "sInfoFiltered": "*",
+                    // 결과 없을때 info
+                	"sInfoEmpty": "검색 결과 : _TOTAL_개",
+                	// 결과 없을때 테이블 안 info
+                    "sZeroRecords" : "입력하신 검색어와 일치하는 결과가 없습니다. 다시 한번 검색해주세요!",
+                    // 검색 text
+                    "sSearch" : "전체 검색 : ",
+                    // 보기 text
+                    "sLengthMenu" : "보기 : _MENU_",
+                    // 페이징 버튼 text
+                    "oPaginate": {
+                    	"sPrevious": "<<",
+                    	"sNext": ">>"
+                      }
+                },
                 buttons: [
                     {extend: 'copy'},
                     {extend: 'csv'},
-                    {extend: 'excel', title: 'ExampleFile'},
-                    {extend: 'pdf', title: 'ExampleFile'},
+                    {extend: 'excel', title: 'ExcelFile'},
+                    {extend: 'pdf', title: 'PdfFile'},
                     {extend: 'print',
                      customize: function (win){
                             $(win.document.body).addClass('white-bg');
@@ -250,13 +312,113 @@
                 ]
             });
 			
-			
+			// 데이터테이블 검색입력 시, 단어 추출 작업
+			$('#DataTables_Table_0_filter input').keyup(function() {
+				var keyupWord = $(this).val();
+				var empty = $('table .dataTables_empty').text();
+				var text = $('#DataTables_Table_0_info').text();
+				
+				if (empty == "입력하신 검색어와 일치하는 결과가 없습니다. 다시 한번 검색해주세요!") {
+					$('#DataTables_Table_0_info').html(text.replace("*", "<br><strong>" + keyupWord + "</strong>와(과) 일치하는 검색결과가 없습니다."));
+				} else if (keyupWord.length > 0){
+					$('#DataTables_Table_0_info').html(text.replace("*", "<br><strong>" + keyupWord + "</strong>와(과) 일치하는 검색결과입니다."));
+				} 
+			});				
 
         });
+                
         
-        function btnClick(no) {
-        	location.href = '${ pageContext.request.contextPath}/menu/menuDetail.do?no=' + no;
-        } 
+     	// action 함수
+		function btnClick(type, no) {
+			switch (type) {
+			case 'V':
+				location.href = '${ pageContext.request.contextPath}/menu/menuDetail.do?no=' + no;
+				break;
+			case 'E':
+				alert("수정");
+				break;
+			case 'D':
+				deleteMenu(no);
+				break;
+			default:
+				break;
+			}
+	    }
+        
+		// 삭제 확인창
+		function deleteMenu(no) {
+			swal({
+		        title: "정말 삭제하시겠습니까?",
+		        type: "warning",
+		        showCancelButton: true,
+		        cancelButtonText: "취소",
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "삭제",
+		        closeOnConfirm: false
+		    }, function () {
+		        swal("삭제되었습니다!", "", "success");
+		        // OK 누르면 삭제 실행
+		        $('.confirm').click(function () {
+		        	location.href = '${ pageContext.request.contextPath}/menu/menuDelete.do?no=' + no;
+				});
+		    });
+		}
+		
+		
+		// 체크박스 선택삭제
+		var cnt = 0;
+		var nums = "";
+		function delRow() {﻿
+			cnt = 0;
+			nums = "";
+			$('.checked').each(function() {
+				cnt++;
+				nums += $(this).next().text() + ",";
+			});
+			if($('.icheckbox_square-green').eq(0).hasClass('checked')){
+				cnt--;
+			}
+			if(cnt != 0){
+				deleteRow(nums, cnt);
+			}
+			else{
+				deleteZero();
+			}
+		}
+		
+		// 선택삭제 alert 확인창
+		function deleteRow(nums, cnt) {
+			swal({
+		        title: cnt + "개 메뉴를 삭제하시겠습니까?",
+		        type: "warning",
+		        showCancelButton: true,
+		        cancelButtonText: "취소",
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "삭제",
+		        closeOnConfirm: false
+		    }, function () {
+		        swal("삭제되었습니다!", "", "success");
+		        // OK 누르면 삭제 실행
+		        $('.confirm').click(function () {
+		        	location.href = '${ pageContext.request.contextPath}/menu/menuDeleteSome.do?nums=' + nums;
+				});
+		    });
+		}
+		
+		// 선택한 메뉴 없을 때 alert
+		function deleteZero() {			
+            swal({
+                title: "선택하신 메뉴가 없습니다 :(",
+                text: ""
+            });	        
+		}
+		﻿
+		
+
+		
+		
+		
+		
 	    	
 
     </script>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bit.dao.OrderManagementDAO">
+	
+	<sql id = "selectAll">
+		select order_no, sto_name, user_id, order_orderPrice, order_finalPrice, order_menu, 
+		order_eat_type, order_payment, order_status, to_char(reg_at, 'yyyy-mm-dd hh24:mi:ss') as reg_at 
+		from t_order
+	</sql>
+
+	<resultMap type ="orderVO" id="Map_OrderVO">
+  		<result column = "order_no" property ="no"/>
+  		<result column = "sto_name" property ="storeName"/>
+  		<result column = "user_id" property ="id"/>
+  		<result column = "order_orderPrice" property ="order_price"/>
+  		<result column = "order_finalPrice" property ="final_price"/>
+  		<result column = "order_menu" property ="menu"/>
+  		<result column = "order_eat_type" property ="eatType"/>
+  		<result column = "order_payment" property ="payment"/>
+  		<result column = "order_status" property ="orderStatus"/>
+  		<result column = "reg_at" property ="regDate"/>
+  	</resultMap>
+	
+
+	<select id="selectAllOrder" resultMap="Map_OrderVO">
+		<include refid="selectAll"/>
+  	</select>
+	
+	<select id="selectByToday" parameterType="String" resultMap="Map_OrderVO">
+		<include refid="selectAll"/>
+		where to_char(reg_at, 'yy/mm/dd') = #{today} 
+		order by order_no asc
+  	</select>
+	
+	<select id="selectByNo"  parameterType="int" resultMap="Map_OrderVO">
+		<include refid="selectAll"/>
+		where order_no = #{no}
+  	</select>	
+	
+	<update id="cancelOrder" parameterType="int">
+		update t_order set order_status = 0 where order_no = #{no} 
+	</update>
+</mapper>

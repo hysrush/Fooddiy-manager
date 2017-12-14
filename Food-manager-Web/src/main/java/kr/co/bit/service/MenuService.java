@@ -11,5 +11,6 @@ public interface MenuService {
 	void insertMenu(MenuVO menu);
 	void modifyMenu(MenuVO menu);
 	void removeMenu(int no);
+	void removeMenuSome(List<Integer> list);
 	
 }

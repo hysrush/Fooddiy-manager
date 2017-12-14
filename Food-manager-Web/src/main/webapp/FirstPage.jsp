@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-
 <head>
 
     <meta charset="utf-8">
@@ -138,6 +137,7 @@
                                         <ul class="dropdown-menu dropdown-user">
                                             <li><a href="#">Config option 1</a>
                                             </li>
+                                            
                                             <li><a href="#">Config option 2</a>
                                             </li>
                                         </ul>

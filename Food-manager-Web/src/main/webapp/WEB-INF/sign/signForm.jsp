@@ -27,9 +27,24 @@
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/iCheck/icheck.min.js"></script>
     <!-- modal -->
    	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+	
+	 <!-- Mainly scripts -->
+    <script src="${ pageContext.request.contextPath }/resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/js/plugins/pace/pace.min.js"></script>
+	
+	<!-- Password meter -->
+    <script src="${ pageContext.request.contextPath }/resources/js/plugins/pwstrength/pwstrength-bootstrap.min.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/js/plugins/pwstrength/zxcvbn.js"></script>
+   
+
 <style>
 .form-control{
-  border: 1px solid;
+  border: 1px solid #fff;
+  background-color : #1ab39426;
 }
 .addr{
 	width: 20%;
@@ -119,6 +134,8 @@
 			if(num == code){
 				alert("인증 완료");
 				$("#numCheck").attr('disabled', true);
+				$("#pw").focus();
+				
 			}else{
 				$("#num").focus();
 				alert("인증 코드를 올바르게 입력해 주세요.");
@@ -129,9 +146,50 @@
              checkboxClass: 'icheckbox_square-green',
              radioClass: 'iradio_square-green',
          });
+		 
+		// 비밀번호 유효성 확인
+		    var options2 = {};
+		    options2.ui = {
+		        container: "#pwd-container2",
+		        showStatus: true,
+		        showProgressBar: false,
+		        viewports: {
+		            verdict: ".pwstrength_viewport_verdict"
+		        }
+		    };
+		    $('.example2').pwstrength(options2);
 		
 	});
 	
+	// id중복
+	function checkId(){
+		
+		var input = $("#id").val();
+		
+		$.ajax({
+			type : "get",
+	        url : "${ pageContext.request.contextPath }/sign/signForm",
+	     	data : {
+	        id : input
+	        },
+	        success : function(data) {
+	        	if(data == 'O'){
+	        		$("#id").css("border-color", "#1ab394");
+	    			$("#checkbox").css("visibility", "hidden");
+	    			
+	        	}else{
+	        		
+	        		$("#id").css("border-color", "#ed5565");
+	    			$("#checkbox").css("color", "#ed5565").text("아이디가 중복됩니다.");
+	    			$("#checkbox").css("visibility", "visible");
+	        	}
+			}
+		});
+	}
+
+	
+	
+	// 지도
 	function openDaumPostcode() {
 	    var width = 500; //팝업창이 실행될때 위치지정
 	    var height = 600; //팝업창이 실행될때 위치지정
@@ -182,29 +240,37 @@
 </script>
 </head>
 <body class="gray-bg">
-    <div class="middle-box text-center loginscreen animated fadeInDown">
-        <div>
-            <div>
+    <div class="middle-box loginscreen animated fadeInDown">
+        <div id="pwd-container2">
+            <div class="text-center">
             	 <h1 class="logo-name" id="logo">Fooddiy-Order Admin+</h1>
             </div>
-            <h3>관리자 가입</h3>
-            <p>Create account to see it in action.</p>
+            <div class="text-center">
+            	<h3>관리자 가입</h3>
+            	<p>Create account to see it in action.</p>
+            </div>
             <form class="m-t" role="form" name="managerForm" action="${ pageContext.request.contextPath }/sign/signUp" method="post">
                 <div class="form-group">
                     <input type="text" name="name" class="form-control" placeholder="Name" required="required">
                 </div>
                 <!-- 메일 인증 -->
                 <div class="form-group">
-                    <input type="email" name="id" class="form-control num" placeholder="kkk@naver.com"required="required">
+                    <input type="email" name="id" id="id" class="form-control num" placeholder="kkk@naver.com" required="required" oninput="checkId()">
                     <button id="managerCheck" class="form-control click" type="button">인증</button>
-                </div><br/><br/><br/>
+                </div><br/><br/>
+                <div style="text-align: left;">
+					<strong id="checkbox" style="visibility: hidden; color: #ed5565; font-size: 12px;"></strong><br/>
+               	</div>
                 <div class="form-group">
                 	<input id="num" type="text"class="form-control num" placeholder="인증 코드" required="required">
                 	<input id="numCheck" class="form-control click" type="button" value="확인">
                 </div><br/><br/>
-                <div class="form-group">
-                    <input type="password" name="pw" class="form-control" placeholder="Password" required="required">
+                <div class="form-group has-undefined has-error">
+                    <input type="password" name="pw" id="pw" class="form-control example2" placeholder="Password" required="required">
                 </div>
+				<div class="form-group">
+					<div class="pwstrength_viewport_verdict"></div>
+				</div>
                 <div class="form-group">
                     <input type="tel" name="phone" id="phone" class="form-control" placeholder="전화번호 (-빼고 입력)" maxlength="13"  required="required">
                 </div>
@@ -220,12 +286,12 @@
                 <div class="form-group">
                         <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>
                 </div>
-                <button type="submit" class="btn btn-primary block full-width m-b">Register</button>
+                <button type="submit" class="btn btn-primary block full-width m-b">등록</button>
 
                 <p class="text-muted text-center"><small>Already have an account?</small></p>
-                <a class="btn btn-sm btn-white btn-block" href="${ pageContext.request.contextPath }/login.jsp">Login</a>
+                <a class="btn btn-sm btn-white btn-block" href="${ pageContext.request.contextPath }/sign/login">Login</a>
             </form>
-            <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
+            <p class="m-t"> <small>Fooddiy-Order Admin+ &copy; 2017</small> </p>
         </div>
     </div>
 </body>

@@ -39,7 +39,7 @@
 	<!-- 전체 Menu 게시글 조회 -->
 	<select id="selectAllMenu" resultMap="Map_menuVO">
 		<include refid="selectAll_menu"/>
-		ORDER BY menu_no ASC
+		ORDER BY reg_at DESC, menu_no ASC
 	</select>
 	
 	<!-- 번호별 Menu 조회 -->
@@ -70,6 +70,19 @@
 		DELETE FROM t_menu
 		WHERE menu_no = #{no}
 	</delete>
-		
 	
+	<!-- Menu 다중 삭제 -->
+	<delete id="removeMenuSome" parameterType="java.util.List">
+		DELETE FROM t_menu
+		WHERE menu_no IN
+			<foreach item="item" index="index" collection="list" open="(" close=")" separator="," >
+       			#{item}
+ 			</foreach>
+	</delete>
+	
+	<!-- Menu 검색 -->
+	<select id="findType" parameterType="String">
+	</select>
+	
+		
 </mapper>
