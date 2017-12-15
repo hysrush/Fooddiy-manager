@@ -56,11 +56,19 @@
 	
 	
 	<update id="updateOrderStatus">
-		update ( select  order_no, sto_name, user_id, order_orderPrice, order_finalPrice, order_menu, 
-		order_eat_type, order_payment, order_status, to_char(reg_at, 'DY HH24:MI:SS') as reg_at
-		from ( select *  from t_order order by order_no asc)
-		where order_status =  (1, 2)<![CDATA[ AND ROWNUM <= 8 ]]> )
-		
-		 set order_status = 2 
+	
+		update t_order
+		set order_status = 2
+		where rowid in (select rowid from (select rowid, row_number() over(order by order_no asc) rn, order_no
+		from (select * from t_order where order_status in (1,2))) where <![CDATA[  rn <= 8 ]]>)
+
 	</update>
+	
+	<select id="test" resultType="String">
+		select rowid from t_order where order_no = 1
+	</select>
+	
+	<select id="test2" resultType="String">
+		select rn from ( select row_number() over(order by order_no asc)  as rn from t_order where order_no = 1)
+	</select>
 </mapper>

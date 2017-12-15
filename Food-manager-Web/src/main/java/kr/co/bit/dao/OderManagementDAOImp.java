@@ -38,8 +38,18 @@ public class OderManagementDAOImp  implements OrderManagementDAO{
 		//주문검색 - 대기중이거나 준비중인 상품 검색
 		List<OrderVO> orderList = session.selectList(url + "selectByOrderStatus");
 		
+		
+		System.out.println("업데이트 전");
 		//주문 상태업데이트
 		session.update(url + "updateOrderStatus"); 
+		
+/*		
+		String test1 = session.selectOne(url + "test");
+		String test2 = session.selectOne(url + "test2");
+		System.out.println(test1);
+		System.out.println(test2);*/
+		
+		System.out.println("업데이트 후");
 		
 		return orderList;
 	}

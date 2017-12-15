@@ -221,7 +221,7 @@
 						$(this).find('.cancel-button').append('<button type="button" class="btn btn-outline btn-danger button-cancel">주문취소</button>');
 					}else if (status.text() == '2') {
 						status.text('준비중');
-						status.children().attr('class', 'label label-warning');
+						status.attr('class', 'label label-warning');
 					} else{
 						status.text('준비완료');
 						status.attr('class', 'label label-information');
