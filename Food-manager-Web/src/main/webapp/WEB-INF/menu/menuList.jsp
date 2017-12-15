@@ -38,7 +38,7 @@
                         <a href="${ pageContext.request.contextPath}/FirstPage.jsp">Home</a>
                     </li>
                     <li>
-                        <a>메뉴 관리</a>
+                        <a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴 관리</a>
                     </li>
                     <li class="active">
                         <strong>메뉴 리스트</strong>

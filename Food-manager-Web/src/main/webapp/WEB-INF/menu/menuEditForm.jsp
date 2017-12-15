@@ -51,7 +51,7 @@
                         <a href="index.html">Home</a>
                     </li>
                     <li>
-                        <a>메뉴관리</a>
+                        <a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴관리</a>
                     </li>
                     <li class="active">
                         <strong>메뉴 등록</strong>
@@ -180,20 +180,20 @@
 	                                    <p>파일이름이 30자를 넘을 수 없습니다. (영문은 90자)</p><p>사이즈는 594 x 334 입니다.</p>
 	                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
 										    <div class="form-control" data-trigger="fileinput">
-										        <i class="glyphicon glyphicon-file fileinput-exists"></i>${ menuVO.imgFileName }
-										    <span class="fileinput-filename"></span>
+										        <i class="glyphicon glyphicon-file fileinput-exists"></i>
+										    <span class="fileinput-filename">${ menuVO.imgFileName }</span>
 										    </div>
 										    <span class="input-group-addon btn btn-default btn-file">
 										        <span class="fileinput-new">이미지 선택</span>
-										        <span class="fileinput-exists">변경</span>
+										        <span class="fileinput-exists" onclick="onReq()">변경</span>
 										        <form:input path="imgFileName" type="file" name="imgFileName" id="img" class="required"/>
 										    </span>
-										    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">삭제</a>
+										    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" onclick="onReq()">삭제</a>
 										</div>
 	                                </fieldset>
 	                                <h1>완료</h1>
 	                                <fieldset>
-	                                    <h2>완료!!<br>메뉴를 등록할 준비가 되었습니다 :)</h2>	                                    
+	                                    <h2>완료!!<br><br>메뉴를 수정할 준비가 되었습니다 :)</h2>	                                    
 	                                </fieldset>
 	                        	</form:form>
 	                        </div>
@@ -279,9 +279,7 @@
      	/* // 수정된 날짜(오늘날짜)로 값 넣기
        	var today = new Date();
        	today = getFormatDate(today);
-		$('#regDate').val(today); */
-		
-		
+		$('#regDate').val(today); */		
 
         
         //STEP
@@ -322,10 +320,7 @@
                         text: "이미지 파일 이름이 너무 길어요 :("
                     });
                 	return false;
-                }           
-                
-                
-
+                }
                 // 유효성 검사를 시작. 거짓 일 경우 STOP
                 return form.valid();
             },
@@ -407,10 +402,21 @@
      	// 기존 type값 가져와서 selected 설정해놓기
 		// (실행되는데 문법오류떠서 제일 마지막에 두기)
 		var type = $('#hiddenType').val();
-		$('#selectBox option[value=' + type + ']').prop("selected", true);		
-		/* var type = $('#hiddenType').val();
-		$('#selectBox').find("option[value='"+type+"']").prop("selected", true); */
-    });
+		$('#selectBox option[value=' + type + ']').prop("selected", true);
+		
+		
+		// 기존 이미지 불러오기
+		$('.input-group').removeClass('fileinput-new');
+		$('.input-group').addClass('fileinput-exists');
+		$('#img').removeClass('required');
+		
+		
+    });        
+    
+    // 이미지 변경 없어도 유효성검사 넘어가도록
+    function onReq() {
+    	$('#img').addClass('required');
+    }
         
    	/* // 날짜 yyyy-MM-dd 포맷 변환 함수
    	function getFormatDate(date){
