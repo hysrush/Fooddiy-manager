@@ -32,7 +32,17 @@ public class OderManagementDAOImp  implements OrderManagementDAO{
 		OrderVO orderList = session.selectOne(url + "selectByNo", no);
 		return  orderList;
 	}
-	
+	@Override
+	public List<OrderVO> selectByOrderStatus() {
+		
+		//주문검색 - 대기중이거나 준비중인 상품 검색
+		List<OrderVO> orderList = session.selectList(url + "selectByOrderStatus");
+		
+		//주문 상태업데이트
+		session.update(url + "updateOrderStatus"); 
+		
+		return orderList;
+	}
 	@Override
 	public void cancelOrder(int no) {
 		session.update(url + "cancelOrder", no);

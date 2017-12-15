@@ -239,7 +239,7 @@
 			        swal("주문이 취소되었습니다!", "", "success");
 			        // OK 누르면 삭제 실행
 			        $('.confirm').click(function () {
-			        	location.href = '${ pageContext.request.contextPath}/orderManagement/orderCancel.do?no=' + no;
+			        	location.href = '${ pageContext.request.contextPath}/orderManagement/orderCancel.do?no=' + no +"&url=totalOrderList";
 					});
 			    });
 			}
@@ -255,15 +255,40 @@
 			
 			// 데이터테이블 생성
 			$('.footable').css("width","100%");
+			// 데이터테이블 생성 & 옵션 변경
+			$('.footable').css("width","100%");
 			$('.dataTables-example').DataTable({
-                pageLength: 25,
+				pageLength: 10,
+                bPaginate: true,
                 responsive: true,
                 dom: '<"html5buttons"B>lTfgitp',
+                "oLanguage": {
+                	// 기본 info (고정값)
+                	"sInfo": "총 데이터 : _TOTAL_개 (현재 페이지 : _START_ to _END_)",
+                	// 검색 후 info (고정값)
+                    "sInfoFiltered": "*",
+                    // 결과 없을때 info
+                	"sInfoEmpty": "검색 결과 : _TOTAL_개",
+                	// 결과 없을때 테이블 안 info
+                    "sZeroRecords" : "입력하신 검색어와 일치하는 결과가 없습니다. 다시 한번 검색해주세요!",
+                    // 검색 text
+                    "sSearch" : "전체 검색 : ",
+                    // 보기 text
+                    "sLengthMenu" : "보기 : _MENU_",
+                    // 페이징 버튼 text
+                    "oPaginate": {
+                    	"sPrevious": "<<",
+                    	"sNext": ">>"
+                      }
+                },
+                "iDisplayLength": -1,
+                "aaSorting": [[ 0, "desc" ]], // Sort by first column descending
+                // 버튼 옵션
                 buttons: [
                     {extend: 'copy'},
                     {extend: 'csv'},
-                    {extend: 'excel', title: 'ExampleFile'},
-                    {extend: 'pdf', title: 'ExampleFile'},
+                    {extend: 'excel', title: 'ExcelFile'},
+                    {extend: 'pdf', title: 'PdfFile'},
                     {extend: 'print',
                      customize: function (win){
                             $(win.document.body).addClass('white-bg');
@@ -273,6 +298,18 @@
                     }
                 ]
             });
+			// 데이터테이블 검색입력 시, 단어 추출 작업
+			$('#DataTables_Table_0_filter input').keyup(function() {
+				var keyupWord = $(this).val();
+				var empty = $('table .dataTables_empty').text();
+				var text = $('#DataTables_Table_0_info').text();
+				
+				if (empty == "입력하신 검색어와 일치하는 결과가 없습니다. 다시 한번 검색해주세요!") {
+					$('#DataTables_Table_0_info').html(text.replace("*", "<br><strong>" + keyupWord + "</strong>와(과) 일치하는 검색결과가 없습니다."));
+				} else if (keyupWord.length > 0){
+					$('#DataTables_Table_0_info').html(text.replace("*", "<br><strong>" + keyupWord + "</strong>와(과) 일치하는 검색결과입니다."));
+				} 
+			});
         });
         
         function modalFunc(no) {

@@ -35,6 +35,12 @@ public class OrderManagementServiceImp  implements OrderManagementService{
 	}
 	
 	@Override
+	public List<OrderVO> selectByorderStatus() {
+		List<OrderVO> orderList = dao.selectByOrderStatus();
+		return orderList;
+	}
+	
+	@Override
 	public void cancelOrder(int no) {
 		dao.cancelOrder(no);
 	}
