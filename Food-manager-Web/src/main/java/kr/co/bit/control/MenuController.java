@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,57 +67,6 @@ public class MenuController {
 		
 	}
 	
-	// menu 새 글쓰기 폼
-	@RequestMapping(value="/menuRegister.do", method=RequestMethod.GET)
-	public String writeForm(Model model) {
-		// Form에서 가져온 Data를 MenuVO 객체형태로 저장
-		MenuVO menuVO = new MenuVO();
-		// 공유영역에 등록
-		model.addAttribute("menuVO", menuVO);
-		return "menu/menuRegForm";
-	}	
-	
-	// menu 새 글쓰기
-	@RequestMapping(value="/menuRegister.do", method=RequestMethod.POST)
-	public String write(@Valid MenuVO menuVO, BindingResult result,
-			@RequestParam(value="imgFileName") MultipartFile file)throws Exception {	
-		
-		System.out.println("시작");
-		
-		//1. fileName 설정 + eventVO에 fileName 저장
-		String fileName = "C:\\Users\\bit-user\\git\\Fooddiy-manager\\Food-manager-Web\\src\\main\\webapp\\upload\\menu\\"
-				+ file.getOriginalFilename();
-		String ufileName = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\menu\\"
-				+ file.getOriginalFilename();
-		String saveFileName = file.getOriginalFilename();
-		
-		menuVO.setImgFileName(saveFileName);
-		
-		System.out.println(fileName);
-		System.out.println(saveFileName);
-		System.out.println("들어갔나염?");
-		
-		//2. 경로에 이미지파일 저장
-		byte[] bytes;
-		bytes = file.getBytes();
-		BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
-		buffStream.write(bytes);
-		buffStream.close();
-		//사용자 upload 폴더에 저장
-		byte[] ubytes;
-		ubytes = file.getBytes();
-		BufferedOutputStream buffStream2 = new BufferedOutputStream(new FileOutputStream(new File(ufileName)));
-		buffStream2.write(ubytes);
-		buffStream2.close();
-		
-		System.out.println("들어가나염2?");					
-		
-		// menuVO에 저장 
-		menuService.insertMenu(menuVO);
-	
-		return "redirect:/menu/menuAll.do";
-	}	
-	
 	// menu 상세내용 조회
 	// ex) menu/menuDetail.do?no=1
 	@RequestMapping(value="/menuDetail.do", method=RequestMethod.GET)
@@ -132,6 +82,106 @@ public class MenuController {
 		
 		return mav;
 	}
+	
+	// menu 새 글쓰기 폼
+	@RequestMapping(value="/menuRegister.do", method=RequestMethod.GET)
+	public String writeForm(Model model) {		
+		//Form에서 가져온 Data를 MenuVo 객체 형태로 저장
+		MenuVO menuVO = new MenuVO();
+		// 공유영역에 등록
+		model.addAttribute("menuVO", menuVO);
+		return "menu/menuRegForm";
+	}	
+	
+	
+	// menu 새 글쓰기
+	@RequestMapping(value="/menuRegister.do", method=RequestMethod.POST)
+	public String write(@Valid MenuVO menuVO, BindingResult result,
+			@RequestParam(value="imgFileName") MultipartFile file)throws Exception {		
+		
+		//1. fileName 설정 + eventVO에 fileName 저장
+		String fileName = "C:\\Users\\bit-user\\git\\Fooddiy-manager\\Food-manager-Web\\src\\main\\webapp\\upload\\menu\\"
+				+ file.getOriginalFilename();
+		String ufileName = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\menu\\"
+				+ file.getOriginalFilename();
+		String saveFileName = file.getOriginalFilename();
+		
+		menuVO.setImgFileName(saveFileName);
+		
+		System.out.println(fileName);
+		System.out.println(saveFileName);
+		
+		//2. 경로에 이미지파일 저장
+		byte[] bytes;
+		bytes = file.getBytes();
+		BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
+		buffStream.write(bytes);
+		buffStream.close();
+		//사용자 upload 폴더에 저장
+		byte[] ubytes;
+		ubytes = file.getBytes();
+		BufferedOutputStream buffStream2 = new BufferedOutputStream(new FileOutputStream(new File(ufileName)));
+		buffStream2.write(ubytes);
+		buffStream2.close();		
+		
+		// menuVO에 저장 
+		menuService.insertMenu(menuVO);
+	
+		return "redirect:/menu/menuAll.do";
+	}	
+	
+	// menu 수정폼
+	@RequestMapping(value="/menuEditForm.do", method=RequestMethod.GET)
+	public String modifyForm(@RequestParam("no") int no, Model model) {
+		// 수정폼에 뿌려줄 기존 정보
+		MenuVO menuVO = menuService.selectOneMenu(no);
+		model.addAttribute("menuVO", menuVO);
+		
+		// 수정된 정보
+		MenuVO menuEditedVO = new MenuVO();
+		model.addAttribute("menuEditedVO", menuEditedVO);		
+		
+		return "menu/menuEditForm";
+	}
+	// menu 수정
+	@RequestMapping(value="/menuEditForm.do", method=RequestMethod.POST)
+	public String modify(@Valid MenuVO menuEditedVO, BindingResult result,
+			@RequestParam(value="imgFileName") MultipartFile file)throws Exception {
+		
+		/*if(result.hasErrors()) {
+			return "menu/menuEditForm";
+		}*/
+		
+		//1. fileName 설정 + eventVO에 fileName 저장
+		String fileName = "C:\\Users\\bit-user\\git\\Fooddiy-manager\\Food-manager-Web\\src\\main\\webapp\\upload\\menu\\"
+				+ file.getOriginalFilename();
+		String ufileName = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\menu\\"
+				+ file.getOriginalFilename();
+		String saveFileName = file.getOriginalFilename();
+		
+		menuEditedVO.setImgFileName(saveFileName);
+		
+		System.out.println(fileName);
+		System.out.println(saveFileName);
+		
+		//2. 경로에 이미지파일 저장
+		byte[] bytes;
+		bytes = file.getBytes();
+		BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
+		buffStream.write(bytes);
+		buffStream.close();
+		//사용자 upload 폴더에 저장
+		byte[] ubytes;
+		ubytes = file.getBytes();
+		BufferedOutputStream buffStream2 = new BufferedOutputStream(new FileOutputStream(new File(ufileName)));
+		buffStream2.write(ubytes);
+		buffStream2.close();
+		
+		menuService.modifyMenu(menuEditedVO);
+		
+		return "redirect:/menu/menuBoard.do";
+	}
+	
 	
 	// menu 삭제
 	@RequestMapping(value="/menuDelete.do", method=RequestMethod.GET)
@@ -150,13 +200,16 @@ public class MenuController {
 		String[] array = nums.split(",");
 		ArrayList<Integer> nList = new ArrayList<>();
 		for(int i=0; i<array.length; i++) {
-			nList.add(new Integer(array[i]));
+			if(!array[i].equals("")) {
+				nList.add(new Integer(array[i]));
+			}
 		}		
 		
 		menuService.removeMenuSome(nList);
 		
 		return "redirect:/menu/menuBoard.do";
 	}
+	
 	
 /*	// '주문하기'선택 후 매장화면으로	
 	@RequestMapping(value="/findStore.do", method=RequestMethod.POST)

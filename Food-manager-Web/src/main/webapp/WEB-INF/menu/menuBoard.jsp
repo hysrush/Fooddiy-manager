@@ -112,7 +112,7 @@
 					<div class="col-lg-12">
 						<div class="ibox">
 							<div class="ibox-content">
-								<div class="table-responsive"><button class="btn btn-default btn-xs" type="button" onclick="delRow()">선택삭제</button>
+								<div class="table-responsive">
 									<table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="100">
 										<thead>
 											<tr>
@@ -166,7 +166,7 @@
 										</c:forEach>
 
 										</tbody>
-									</table>
+									</table><button class="btn btn-outline btn-danger btn-md" type="button" onclick="delRow()">선택삭제</button>
 								</div>
 							</div>
 						</div>
@@ -201,7 +201,6 @@
 
 	<!-- Page-Level Scripts -->
 	<script>	
-	
         $(document).ready(function() {
         	
         	// sidebar li & ul 클래스 active
@@ -252,6 +251,13 @@
 	            checkboxClass: 'icheckbox_square-green',
 	            radioClass: 'iradio_square-green',
 	        });
+			
+			
+			$(document).ready('load', function(){
+				$('#DataTables_Table_0_info').before('<button/>');
+			});
+			
+			/* '<button class="btn btn-default btn-xs" type="button" onclick="delRow()">선택삭제</button>' */
 			
     		// 체크박스 전체 선택
     		var start = 4;
@@ -332,10 +338,10 @@
 		function btnClick(type, no) {
 			switch (type) {
 			case 'V':
-				location.href = '${ pageContext.request.contextPath}/menu/menuDetail.do?no=' + no;
+				location.href = '${ pageContext.request.contextPath }/menu/menuDetail.do?no=' + no;
 				break;
 			case 'E':
-				alert("수정");
+				location.href = '${ pageContext.request.contextPath }/menu/menuEditForm.do?no=' + no;
 				break;
 			case 'D':
 				deleteMenu(no);
@@ -371,7 +377,7 @@
 		function delRow() {﻿
 			cnt = 0;
 			nums = "";
-			$('.checked').each(function() {
+			$('.checked').each(function(index) {
 				cnt++;
 				nums += $(this).next().text() + ",";
 			});

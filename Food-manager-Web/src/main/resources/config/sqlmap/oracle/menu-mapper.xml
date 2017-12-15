@@ -61,7 +61,7 @@
 		UPDATE t_menu
 		SET menu_name = #{name}, main_menu = #{mainmenu}, menu_type = #{type}, menu_price = #{price}
 			, menu_detail = #{detail}, menu_pic = #{imgFileName}, menu_size = #{serviceSize}, menu_cal = #{calorie}
-			, menu_pro = #{protein}, menu_na = #{natrium}, menu_sug = #{sugar}, menu_fat = #{fat}, menu_alg = #{allergy})
+			, menu_pro = #{protein}, menu_na = #{natrium}, menu_sug = #{sugar}, menu_fat = #{fat}, menu_alg = #{allergy}
 		WHERE menu_no = #{no}
 	</update>
 	
@@ -80,9 +80,9 @@
  			</foreach>
 	</delete>
 	
-	<!-- Menu 검색 -->
-	<select id="findType" parameterType="String">
-	</select>
+	<!-- <select id="findType" parameterType="String">
+	</select> -->	
+	
 	
 		
 </mapper>

@@ -32,7 +32,7 @@ public class MenuDAOImp implements MenuDAO {
 	}
 	//메뉴 수정
 	public void update(MenuVO menuVO) {
-		sqlSession.update(url + "modifyMenu", menuVO);				
+		sqlSession.update(url + "modifyMenu", menuVO);
 	}
 	//메뉴 삭제
 	public void delete(int no) {
