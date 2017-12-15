@@ -58,16 +58,16 @@
 					<div class="form-group">
 						<div class="col-sm-12">
 							<label class="control-label" for="question">Q *</label>
-							<form:input path="question" type="text" id="question" class="form-control required"
-										aria-required="true" value="${ qnaVO.question }" placeholder="질문"/>
+							<form:input path="question" type="text" id="question" class="form-control" 
+										value="${ qnaVO.question }"	placeholder="질문" name="question" required="required"/>
 							<form:errors path="question" class="form-control"></form:errors>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-12">
 							<label class="control-label" for="answer">A *</label>
-							<form:textarea path="answer" id="answer" class="form-control required" rows="5"
-											aria-required="true" value="${ qnaVO.answer }" placeholder="대답"/>
+							<form:textarea path="answer" id="answer" class="form-control" rows="5" 
+											value="${ qnaVO.answer }" placeholder="대답" name="answer" required="required"/>
 							<form:errors path="answer" class="form-control"></form:errors>
 						</div>
 					</div>
@@ -79,11 +79,13 @@
 </div>
 <div class="modal-footer">
 	<button type="button" class="btn btn-default" id="erase">지우기</button>
-	<button type="button" class="btn btn-primary" id="qnaUpdate">수정</button>
+	<button type="submit" class="btn btn-primary" id="qnaUpdate">수정</button>
 </div>
 
 <!-- easydropdown -->
 <script src="${ pageContext.request.contextPath }/resources/js/plugins/easydropdown/jquery.easydropdown.js"></script> 
+<!-- Jquery Validate -->
+<script src="${ pageContext.request.contextPath }/resources/js/plugins/validate/jquery.validate.min.js"></script>
 
 <!-- Page-Level Scripts -->
 <script type="text/javascript">
@@ -129,31 +131,68 @@
 			}
 		});
 		
-		// 폼 초기화
-		$('#erase').click(function () {
-			$('#qnaForm input[type="text"], textarea').val(""); 
-		});
-		
-		// 서밋버튼 이벤트
-       	$('#qnaUpdate').click(function () {
-       		swal({
-   				title: "수정 완료!",
-                type: "success"
-       	 	}, function () {
-		        // OK 누르면 Submit 실행
-		        $('#qnaForm').submit();
-		    });
-		});
-		
 		// 수정된 날짜(오늘날짜)로 값 넣기
        	var today = new Date();
        	today = getFormatDate(today);
 		$('#regDate').val(today);
 		
 		// 기존 type값 가져와서 selected 설정해놓기
-		// (실행되는데 문법오류떠서 제일 마지막에 두기)
 		var type = $('#hiddenType').val();
-		$('#type option[@value=' + type + ']').prop("selected", true);
+		$("#type").val(type).prop("selected", true);
+		
+		// Form 유효성 검사 작업
+		$("#qnaForm").validate({
+			// 규칙
+			rules: {
+            	question: {
+                    required: true,
+                    maxlength: 40
+                },
+                answer: {
+                    required: true,
+                    maxlength: 320
+                }
+            },
+          	//규칙체크 실패 시, 출력될 메시지
+            messages : {
+            	question: {
+                    required : "질문을 입력해주세요!",
+                    maxlength : "{0}글자 이하로 작성하세요!",
+                },
+                answer: {
+                	 required : "대답을 입력해주세요!",
+                     maxlength : "{0}글자 이하로 작성하세요!",
+                }
+            },
+			//규칙체크 실패 시, 실행될 이벤트
+            invalidHandler: function (form, validator) {
+                var errors = validator.numberOfInvalids();
+                if (errors) {
+                	validator.errorList[0].element.focus();
+                	swal({
+    	   				title: "Error!",
+    	   				text: validator.errorList[0].message,
+    	                type: "error"
+    	       	 	});
+                }
+            },
+			//규칙체크 성공 시, 실행될 이벤트
+            submitHandler: function(form) {
+            	swal({
+	   				title: "수정 완료!",
+	                type: "success"
+	       	 	}, function () {
+			        // OK 누르면 Submit 실행
+			        form.submit();
+			        //$('#qnaForm').submit();
+			    });
+            }
+        });
+		
+		// 폼 초기화
+		$('#erase').click(function () {
+			$('#qnaForm input[type="text"], textarea').val(""); 
+		});
 		
 	});
 	

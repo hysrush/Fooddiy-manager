@@ -43,4 +43,10 @@ public class QnaDAOImp implements QnaDAO {
 	public void delete(int no) {
 		sqlSession.delete(url + "removeQnA", no);
 	}
+	// QnA 글 다중 삭제
+	@Override
+	public void deleteSome(List<Integer> list) {
+		sqlSession.delete(url + "removeQnASome", list);
+	}
+	
 }

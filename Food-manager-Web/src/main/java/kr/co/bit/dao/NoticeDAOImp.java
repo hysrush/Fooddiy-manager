@@ -13,7 +13,7 @@ public class NoticeDAOImp implements NoticeDAO{
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	private String url = "kr.co.bit.community.dao.NoticeDAO.";
+	private String url = "kr.co.bit.dao.NoticeDAO.";
 
 	// <Notice DAO>
 	// Notice 전체보기
@@ -48,6 +48,11 @@ public class NoticeDAOImp implements NoticeDAO{
 	@Override
 	public void delete(int no) {
 		sqlSession.delete(url + "removeNotice", no);
+	}
+	// Notice 글 다중 삭제
+	@Override
+	public void deleteSome(List<Integer> list) {
+		sqlSession.delete(url + "removeNoticeSome", list);
 	}
 	// Notice 조회수 증가
 	@Override

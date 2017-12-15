@@ -80,64 +80,66 @@
                     <div class="tabs-container">
 						<ul class="nav nav-tabs">
 						    <li class=""><a href="${ pageContext.request.contextPath}/community/subway/noticeList.do"><i class="fa fa-list"></i>리스트</a></li>
-						    <li class="active"><a data-toggle="tab" href="#tab-2"><i class="fa fa-save"></i>등록</a></li>
-						    <!-- <li class=""><a href="#"><i class="fa fa-edit"></i>수정</a></li> -->
+						    <li class=""><a href="${ pageContext.request.contextPath}/community/subway/noticeWriteForm.do"><i class="fa fa-save"></i>등록</a></li>
+						    <li class="active"><a data-toggle="tab" href="#tab-3"><i class="fa fa-edit"></i>수정</a></li>
 						</ul>
-                        <div class="tab-content">
+						<div class="tab-content">
 							<!-- 첫번째 Tab : 서브웨이소식 리스트 -->
-                            <div id="tab-1" class="tab-pane">
-                                <div class="panel-body">
-                                </div>
-                            </div>
-                            <!-- 두번째 Tab : 서브웨이소식 등록 -->
-                            <div id="tab-2" class="tab-pane active">
-                                <div class="panel-body">
-                                	<form:form commandName="noticeVO" method="POST" id="noticeForm">
-										<fieldset class="form-horizontal" aria-hidden="false">
-                            				<h2>Subway소식 등록</h2>
-											<div class="ibox-content">
-												<div class="form-group">
-													<div class="col-sm-8">
-														<label class="control-label" for="type">타입 *</label>
-														<form:select path="type" name="type" id="type" class="easydropdown form-control">
+							<div id="tab-1" class="tab-pane">
+							    <div class="panel-body">
+							    </div>
+							</div>
+							<!-- 두번째 Tab : 서브웨이소식 등록 -->
+							<div id="tab-2" class="tab-pane">
+							    <div class="panel-body">
+							    </div>
+							</div>
+                            <!-- 세번째 Tab : 서브웨이소식 수정 -->
+							<div id="tab-3" class="tab-pane active">
+								<div class="panel-body">
+								<form:form commandName="noticeVO" method="POST"  id="noticeForm">
+									<fieldset class="form-horizontal" aria-hidden="false">
+										<h2>Subway소식 수정</h2>
+										<div class="ibox-content">
+											<div class="form-group">
+												<div class="col-sm-8">
+													<label class="control-label" for="type">타입 *</label>
+														<form:select path="type" name="type" id="type"
+																		class="easydropdown form-control required" aria-required="true">
 															<form:option value="A">공지사항</form:option>
 															<form:option value="B">보도자료</form:option>
 														</form:select>
-													</div>
-												</div>
-												<div class="form-group">
-													<div class="col-sm-8">
-														<label class="control-label" for="title">제목 *</label>
-														<form:input path="title" type="text" id="title" class="form-control" 
-																	placeholder="제목" name="title" required="required"/>
-														<form:errors path="title" class="form-control"></form:errors>
-													</div>
-												</div>
-												<div class="form-group">
-													<div class="col-sm-8">
-														<label class="control-label" for="content">내용 *</label>
-														<form:textarea path="content" id="content" class="form-control"
-																		rows="5" placeholder="내용" name="content" required="required"/>
-														<form:errors path="content" class="form-control"></form:errors>
-													</div>
-												</div>
-												<div class="form-group">
-													<div class="col-sm-5 col-sm-offset-2">
-														<button type="button" class="btn btn-default" id="eraser"><i class="fa fa-eraser"></i> 지우기</button>
-														<button type="submit" class="btn btn-primary" id="qnaSubmit"><i class="fa fa-check"></i> 등록</button>
-													</div>
+														<input type="hidden" value="${ noticeVO.type }" id="hiddenType"/>
 												</div>
 											</div>
-											<form:input path="writer" type="hidden" id="writer" value="로그인id"/>
-										</fieldset>
-									</form:form>
+											<div class="form-group">
+												<div class="col-sm-8">
+													<label class="control-label" for="title">제목 *</label>
+													<form:input path="title" type="text" id="title" class="form-control" 
+																value="${ noticeVO.title }"	placeholder="제목" name="title" required="required"/>
+													<form:errors path="title" class="form-control"></form:errors>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-8">
+													<label class="control-label" for="content">내용 *</label>
+													<form:textarea path="content" id="content" class="form-control" rows="5" 
+																	value="${ noticeVO.content }" placeholder="내용" name="content" required="required"/>
+													<form:errors path="content" class="form-control"></form:errors>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-5 col-sm-offset-2">
+													<button type="button" class="btn btn-default" id="eraser"><i class="fa fa-eraser"></i> 지우기</button>
+														<button type="submit" class="btn btn-primary" id="qnaSubmit"><i class="fa fa-check"></i> 수정</button>
+												</div>
+											</div>
+										</div>
+										<form:input path="regDate" type="hidden" id="regDate"/>
+									</fieldset>
+								</form:form>
                                 </div>
                             </div>
-                            <!-- 세번째 Tab : 서브웨이소식 수정 -->
-                            <!-- <div id="tab-3" class="tab-pane">
-                                <div class="panel-body">
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -164,9 +166,9 @@
     <!-- Custom and plugin javascript -->
     <script src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/pace/pace.min.js"></script>
-    <script src="${ pageContext.request.contextPath }/resources/js/plugins/jquery-ui/jquery-ui.min.js"></script>
-    
-    <!-- easydropdown -->
+	<script src="${ pageContext.request.contextPath }/resources/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+	
+	<!-- easydropdown -->
 	<script src="${ pageContext.request.contextPath }/resources/js/plugins/easydropdown/jquery.easydropdown.js"></script> 
 	
     <!-- FooTable -->
@@ -187,9 +189,14 @@
 			// easydropdown 라벨화 작업
 			var noticeType  = $('.easydropdown').find('.selected');
 			// 초기값
-			noticeType.css("color","white");
 			noticeType.css("width","100px");
-			noticeType.attr("class","selected label label-primary");
+			if (noticeType.text() == '공지사항') {
+				noticeType.attr("class","selected label label-primary");
+				noticeType.css("color","white");
+			} else if (noticeType.text() == '보도자료') {
+				noticeType.attr("class","selected label label-danger");
+				noticeType.css("color","white");
+			}
 			// option selected 변경 시,
 			$('.easydropdown li').click(function () {
 				if (noticeType.text() == '공지사항') {
@@ -200,6 +207,15 @@
 					noticeType.css("color","white");
 				}
 			});
+			
+			// 수정된 날짜(오늘날짜)로 값 넣기
+	       	var today = new Date();
+	       	today = getFormatDate(today);
+			$('#regDate').val(today);
+			
+			// 기존 type값 가져와서 selected 설정해놓기
+			var type = $('#hiddenType').val();
+			$("#type").val(type).prop("selected", true);
 			
 			// Form 유효성 검사 작업
 			$("#noticeForm").validate({
@@ -240,7 +256,7 @@
 				//규칙체크 성공 시, 실행될 이벤트
                 submitHandler: function(form) {
                 	swal({
-    	   				title: "등록 완료!",
+    	   				title: "수정 완료!",
     	                type: "success"
     	       	 	}, function () {
     			        // OK 누르면 Submit 실행
@@ -251,11 +267,21 @@
             });
 			
 			// 폼 초기화
-			$('#eraser').click(function () {
+			$('#erase').click(function () {
 				$('#noticeForm input[type="text"], textarea').val(""); 
 			});
 			
 		});
+		
+		// 날짜 yyyy-MM-dd 포맷 변환 함수
+       	function getFormatDate(date){
+       		var year = date.getFullYear();					// yyyy
+       		var month = (1 + date.getMonth());				// M
+       		month = month >= 10 ? month : '0' + month;		// month 두자리로 저장
+       		var day = date.getDate();						// d
+       		day = day >= 10 ? day : '0' + day;				// day 두자리로 저장
+       		return  year + '/' + month + '/' + day;
+       	}
 	</script>
 	</body>
 </html>

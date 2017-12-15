@@ -12,4 +12,5 @@ public interface QnaDAO {
 	void insert(QnaBoardVO qnaVO);
 	void update(QnaBoardVO qnaVO);
 	void delete(int no);
+	void deleteSome(List<Integer> list);
 }

@@ -64,6 +64,15 @@
 		WHERE notice_no = #{no}
 	</delete>
 	
+	<!-- Notice 다중 삭제 -->
+	<delete id="removeNoticeSome" parameterType="java.util.List">
+		DELETE FROM t_notice
+		WHERE notice_no IN
+			<foreach item="item" index="index" collection="list" open="(" close=")" separator="," >
+       			#{item}
+ 			</foreach>
+	</delete>
+	
 	<!-- Notice 조회수 증가 -->
 	<update id="updateViewcntNotice" parameterType="int">
         UPDATE t_notice
