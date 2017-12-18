@@ -58,12 +58,11 @@
 				<li><a href="${ pageContext.request.contextPath }/member/memberList.do">회원 리스트</a></li>
 				<li><a href="${ pageContext.request.contextPath }/member/memberRank">회원 랭킹</a></li>
 			</ul></li>
-		<li><a href="#"><i class="fa fa-star"></i> <span
+		<li class="eventLI"><a href="#"><i class="fa fa-star"></i> <span
 				class="nav-label">이벤트 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="${ pageContext.request.contextPath }/event/eventPage.do">브랜드 이벤트 관리</a></li>
-				<li><a href="lockscreen.html">매장별 이벤트 관리</a></li>
-				<li><a href="${ pageContext.request.contextPath }/store/storeList.do">매장 찾기 관리</a></li>
+				<li class="eventLI2"><a href="${ pageContext.request.contextPath }/event/eventPage.do">이벤트 관리</a></li>
+				<li class="storeLI"><a href="${ pageContext.request.contextPath }/store/storeList.do">매장 찾기 관리</a></li>
 			</ul></li>
 		<li class="communityLI"><a href="#"><i class="fa fa-desktop"></i> <span
 				class="nav-label">커뮤니티 관리</span><span class="fa arrow"></span></a>

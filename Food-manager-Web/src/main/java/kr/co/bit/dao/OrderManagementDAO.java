@@ -10,4 +10,5 @@ public interface OrderManagementDAO {
 	public OrderVO selectByNo(int no);
 	public List<OrderVO> selectByOrderStatus();
 	public void cancelOrder(int no);
+	public void completeOrder(int no);
 }

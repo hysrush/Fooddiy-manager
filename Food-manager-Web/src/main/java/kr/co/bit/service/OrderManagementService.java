@@ -10,4 +10,5 @@ public interface OrderManagementService {
 	public OrderVO selectByNo(int no);
 	public List<OrderVO> selectByorderStatus();
 	public void cancelOrder(int no);
+	public void completeOrder(int no);
 }

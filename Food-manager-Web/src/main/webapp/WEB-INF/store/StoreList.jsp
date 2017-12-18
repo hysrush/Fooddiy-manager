@@ -98,7 +98,7 @@
 							                                    <span class="label label-primary">${ store.storeNo }</span>
 						                                    </td>
 						                                    <td>
-						                                        ${ store.storeName }
+						                                        ${ store.storeName }점
 						                                    </td>
 						                                    <td style="word-break:keep-all;">
 						                                        ${ store.storeAddr }
@@ -173,6 +173,13 @@
     <!-- Page-Level Scripts -->
     <script type="text/javascript">
 		$(document).ready(function() {
+			
+			
+			
+			// sidebar li & ul 클래스 active
+			$('.eventLI').addClass("active");
+			$('.eventLI > ul').addClass("in");
+			$('.storeLI').addClass("active");
 			
 			// footable 시작
 			$('.footable').footable();

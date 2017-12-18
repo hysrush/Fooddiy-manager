@@ -179,6 +179,15 @@
     <script type="text/javascript">
 		$(document).ready(function() {
 			
+			 
+					
+			// sidebar li & ul 클래스 active
+			$('.eventLI').addClass("active");
+			$('.eventLI > ul').addClass("in");
+			$('.eventLI2').addClass("active");
+				    
+			
+			
 			// footable 시작
 			$('.footable').footable();
 		    

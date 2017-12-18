@@ -28,7 +28,7 @@ public class OrderManagementController {
 	@Autowired
 	OrderManagementService service;
 	
-	
+	//전제주문내역
 	@RequestMapping("/totalOrderList.do")
 	public ModelAndView totalOrderList(ModelAndView mav) {
 		
@@ -69,6 +69,8 @@ public class OrderManagementController {
 		return mav;
 	}
 	
+	
+	//오늘주문내역
 	@RequestMapping("/todayOrderList.do")
 	public ModelAndView todayOrderList(ModelAndView mav) {
 		
@@ -113,6 +115,8 @@ public class OrderManagementController {
 		mav.addObject("orderList", todayOrderList);
 		return mav;
 	}
+	
+	//주문취소
 	@RequestMapping(value = "/orderCancel.do", method = RequestMethod.GET)
 	public String cancelOrder(@RequestParam("no") int no, @RequestParam("url") String url) {
 		
@@ -122,7 +126,13 @@ public class OrderManagementController {
 		
 	}
 	
+	//주문완료	
+	@RequestMapping(value = "/orderComplete.do", method = RequestMethod.GET) 
+	public void completeOrder(@RequestParam("no") int no, HttpServletResponse response) {
+		service.completeOrder(no);
+	}
 	
+	//전체, 오늘주문 상세내용 - 모달
 	@RequestMapping(value = "/todayOrderDetail.do", method = RequestMethod.GET) 
 	public ModelAndView orderDetail(ModelAndView mav, @RequestParam("no") int no) {
 		
@@ -161,6 +171,7 @@ public class OrderManagementController {
 		return mav;
 	}
 	
+	//현재 주문 
 	@RequestMapping( value = "/orderList.do" , method = RequestMethod.GET)
 	public ModelAndView orderList(ModelAndView mav) {
 		
@@ -252,38 +263,16 @@ public class OrderManagementController {
 				jsonDetailOrder.put("price", oneMenu[10]);
 				jsonDetailOrder.put("total_price", oneMenu[11]);
 				
-				vo.setName(oneMenu[0]);;
-				vo.setBread(oneMenu[1]);
-				vo.setCheese(oneMenu[2]);
-				vo.setTopping(oneMenu[3]);
-				vo.setVegetable(oneMenu[4]);
-				vo.setSauce(oneMenu[5]);
-				vo.setRequirement(oneMenu[6]);
-				vo.setPic(oneMenu[7]);
-				vo.setSize(oneMenu[8]);
-				vo.setQty(new Integer(oneMenu[9]));
-				vo.setPrice(oneMenu[10]);
-				vo.setTotal_price(oneMenu[11]);
-				list.add(vo);
 				jsonDetailOrderList.put(jsonDetailOrder);
 			}
-			orderList.get(i).setDetailOrderList(list);
-			jsonOneOrder.put("detailOrderList", jsonDetailOrderList);
-			response.getWriter().print(jsonOneOrder.toString());
-			response.getWriter().print(jsonOneOrder.toString());
-			response.getWriter().print(jsonOneOrder.toString());
+			System.out.println(jsonDetailOrderList.toString());
+			jsonOneOrder.put("detailOrderList", jsonDetailOrderList.toString());
 			
 			jsonOrderList.put(jsonOneOrder);
+			
 		}
-		
-		System.out.println("json");	
-		System.out.println("json");	
-		System.out.println("json");	
-		System.out.println("json");	
+
 		response.getWriter().print(jsonOrderList.toString());
-		
-		
-		
 	}
 	
 }
