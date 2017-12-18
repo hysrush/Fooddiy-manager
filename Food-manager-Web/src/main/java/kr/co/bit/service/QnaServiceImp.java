@@ -2,7 +2,6 @@ package kr.co.bit.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +42,11 @@ public class QnaServiceImp implements QnaService {
 	@Override
 	public void removeQnA(int no) {
 		qnaDAO.delete(no);
+	}
+	// QnA 글 다중 삭제
+	@Override
+	public void removeQnASome(List<Integer> list) {
+		qnaDAO.deleteSome(list);
 	}
 	
 }

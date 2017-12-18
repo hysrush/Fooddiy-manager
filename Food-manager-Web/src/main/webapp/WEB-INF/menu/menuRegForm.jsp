@@ -45,13 +45,13 @@
         <!-- 헤더 -->
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>메뉴 입력</h2>
+                <h2>메뉴 등록</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">Home</a>
                     </li>
                     <li>
-                        <a>메뉴관리</a>
+                        <a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴관리</a>
                     </li>
                     <li class="active">
                         <strong>메뉴 등록</strong>
@@ -192,7 +192,16 @@
 	                                </fieldset>
 	                                <h1>완료</h1>
 	                                <fieldset>
-	                                    <h2>완료!!<br>메뉴를 등록할 준비가 되었습니다 :)</h2>	                                    
+	                                	<div class="col-lg-8">
+	                                    	<center><h2 style="font-size:25px; font-weight: 700; color: #2F4050"><br><br><br>메뉴를 등록할 준비가 되었습니다 :)</h2></center>
+	                                    </div>
+	                                    <div class="col-lg-4">
+                                            <div class="text-center">
+                                                <div style="margin-top: 20px">
+                                                    <i class="fa fa-pencil-square-o" style="font-size: 180px;color: #999b9b "></i>
+                                                </div>
+                                            </div>
+                                        </div>                   
 	                                </fieldset>
 	                        	</form:form>
 	                        </div>
@@ -263,19 +272,7 @@
             forceParse: false,
             calendarWeeks: true,
             autoclose: true
-        });        
-        
-        
-        //확인버튼
-        $('.demo2').click(function(){
-            swal({
-                title: "Good job!",
-                text: "You clicked the button!",
-                type: "success"
-            });
-        });        
-        
-        
+        });
         
         //STEP
         $("#wizard").steps();
@@ -315,45 +312,37 @@
                         text: "이미지 파일 이름이 너무 길어요 :("
                     });
                 	return false;
-                }           
-                
-                
+                } 
 
                 // 유효성 검사를 시작. 거짓 일 경우 STOP
                 return form.valid();
             },
             onStepChanged: function (event, currentIndex, priorIndex)
             {
-            	// 입력값 이외의 유효성 검사 후 만족 시 PASS
-                /* if (currentIndex === 2 && Number($("#age").val()) >= 18)
-                {
-                    $(this).steps("next");
-                } */
-				
-            	// 입력값 이외의 유효성 검사 후 만족인 상태에서 이전으로 갈때 warning 건너뛰기
-                /* if (currentIndex === 2 && priorIndex === 3)
-                {
-                    $(this).steps("previous");
-                } */            	
+            	        	
             },
             onFinishing: function (event, currentIndex)
             {
-                var form = $(this);
-                
-				// 비활성 필드 유효성 검사
-                // Disable validation on fields that are disabled.
-                // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
-                form.validate().settings.ignore = ":disabled";
-
-                // Start validation; Prevent form submission if false
+                var form = $(this);                
+				// 비활성 필드 유효성 검사                
+                form.validate().settings.ignore = ":disabled";                
                 return form.valid();
             },
             onFinished: function (event, currentIndex)
             {
-                var form = $(this);
-
-                // Submit form input
-                form.submit();
+                var last = $(this);
+                
+                /* form.submit(); */
+                last.click(function(){
+                    swal({
+                        title: "완료!",
+                        text: "메뉴가 등록되었습니다 :)",
+                        type: "success"
+                    });
+                    $('.confirm').click(function () {
+    		        	location.href = '${ pageContext.request.contextPath}/menu/menuBoard.do';
+    				});
+                }); 
             }
         }).validate({
                     errorPlacement: function (error, element)

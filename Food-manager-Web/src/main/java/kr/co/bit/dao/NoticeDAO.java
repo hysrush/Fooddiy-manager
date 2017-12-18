@@ -14,5 +14,6 @@ public interface NoticeDAO {
 	void insert(NoticeBoardVO noticeVO);
 	void update(NoticeBoardVO noticeVO);
 	void delete(int no);
+	void deleteSome(List<Integer> list);
 	void addViewcnt(int no);
 }

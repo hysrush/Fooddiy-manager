@@ -37,7 +37,7 @@
                         <a href="${ pageContext.request.contextPath}/FirstPage.jsp">Home</a>
                     </li>
                     <li>
-                        <a>메뉴관리</a>
+                        <a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴관리</a>
                     </li>
                     <li class="active">
                         <strong>메뉴 상세내용</strong>
@@ -113,8 +113,8 @@
                                     <div class="text-right" style="text-align: center">
                                         <!-- <div class="btn-group"> -->
                                       		<button class="btn btn-info list">목록</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                      		<button class="btn btn-primary">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-danger demo4" onclick="del(${ menuDetailVO.no })">삭제</button>
+                                      		<button class="btn btn-primary" id="edit">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button class="btn btn-danger demo4" onclick="delRow()">삭제</button>
                                         <!-- </div> -->
                                     </div>
 
@@ -178,33 +178,48 @@
             dots: true
         });
         
+    	 // sidebar li & ul 클래스 active
+		$('.menuLI').addClass("active");
+		$('.menuLI > ul').addClass("in");
         
-        // 30cm 가격 표시
-        $(function() {
-     	   if(${ menuDetailVO.type == 'R' }){
-     		   var price = '8700원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
-			   $("#30").html(price);
-		   }
-     	   else if(${ menuDetailVO.type == 'P' }){
-			   var price = '9800원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
-			   $("#30").html(price);
-		   }
-     	   else if(${ menuDetailVO.type == 'B' }){
-			   var price = '9200원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
-			   $("#30").html(price);
-		   }
-     	   else if(${ menuDetailVO.type == 'C' }){
-			   var price = '8200원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
-			   $("#30").html(price);
-		   }
-     	   else if(${ menuDetailVO.type == 'M' || menuDetailVO.type == 'S' || menuDetailVO.type == 'D' || menuDetailVO.type == 'N' }){
-     		   $('#15cm').css("display", "none");
-     	   }
-        });        
+        
+        // 30cm 가격 표시        
+        if(${ menuDetailVO.type == 'R' }){
+  			var price = '8700원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
+			$("#30").html(price);
+		}
+  	   	else if(${ menuDetailVO.type == 'P' }){
+			var price = '9800원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
+			$("#30").html(price);
+		}
+  	 	else if(${ menuDetailVO.type == 'B' }){
+			var price = '9200원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
+			$("#30").html(price);
+		}
+  		else if(${ menuDetailVO.type == 'C' }){
+			var price = '8200원<small class="text-muted" id="cm" style="font-size: 20px">-30cm</small>';
+			$("#30").html(price);
+		}
+  		else if(${ menuDetailVO.type == 'M' || menuDetailVO.type == 'S' || menuDetailVO.type == 'D' || menuDetailVO.type == 'N' }){
+  			$('#15cm').css("display", "none");
+  		}             
+        
+        
+        // 이전 목록으로 돌아가기
+        $('.list').click(function() {
+        	var url = '${url}';        	
+        	location.href = '${ pageContext.request.contextPath}/' + url + '.do';
+        	
+        });
+        
+        // 수정버튼
+        $('#edit').click(function(){
+        	location.href = '${ pageContext.request.contextPath }/menu/menuEditForm.do?no=' + ${ menuDetailVO.no};
+        });            
         
         
         // 삭제 확인 sweet alert
-        $('.demo4').click(function () {
+         $('.demo4').click(function () {
 		    swal({
 		        title: "정말 삭제하시겠습니까?",
 		        type: "warning",
@@ -221,14 +236,6 @@
 				});
 		    });
 		});
-        
-        
-        // 이전 목록으로 돌아가기
-        $('.list').click(function() {
-        	var url = '${url}';        	
-        	location.href = '${ pageContext.request.contextPath}/' + url + '.do';
-        	
-        });
         
         
     });

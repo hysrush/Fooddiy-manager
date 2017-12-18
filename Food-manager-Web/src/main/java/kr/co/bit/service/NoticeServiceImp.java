@@ -50,6 +50,11 @@ public class NoticeServiceImp implements NoticeService {
 	public void removeNotice(int no) {
 		noticeDAO.delete(no);
 	}
+	// Notice 글 다중 삭제
+	@Override
+	public void removeNoticeSome(List<Integer> list) {
+		noticeDAO.deleteSome(list);
+	}
 	// Notice 조회수 증가
 	@Override
 	public void updateViewcntNotice(int no, HttpSession session) {

@@ -2,7 +2,6 @@ package kr.co.bit.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 
 import kr.co.bit.vo.QnaBoardVO;
 
@@ -15,4 +14,5 @@ public interface QnaService {
 	void insertQnA(QnaBoardVO qnaVO);
 	void modifyQnA(QnaBoardVO qnaVO);
 	void removeQnA(int no);
+	void removeQnASome(List<Integer> list);
 }

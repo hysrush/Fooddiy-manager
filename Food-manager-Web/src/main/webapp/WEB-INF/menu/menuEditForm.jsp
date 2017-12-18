@@ -45,16 +45,16 @@
         <!-- 헤더 -->
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>메뉴 입력</h2>
+                <h2>메뉴 수정</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">Home</a>
                     </li>
                     <li>
-                        <a>메뉴관리</a>
+                        <a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴관리</a>
                     </li>
                     <li class="active">
-                        <strong>메뉴 등록</strong>
+                        <strong>메뉴 수정</strong>
                     </li>
                 </ol>
             </div>
@@ -69,7 +69,7 @@
 	                <div class="col-lg-12">
 	                    <div class="ibox">
 	                        <div class="ibox-title">
-	                            <h5>메뉴 등록</h5>
+	                            <h5>메뉴 수정</h5>
 	                            <div class="ibox-tools">
 	                                <a class="collapse-link">
 	                                    <i class="fa fa-chevron-up"></i>
@@ -180,20 +180,20 @@
 	                                    <p>파일이름이 30자를 넘을 수 없습니다. (영문은 90자)</p><p>사이즈는 594 x 334 입니다.</p>
 	                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
 										    <div class="form-control" data-trigger="fileinput">
-										        <i class="glyphicon glyphicon-file fileinput-exists"></i>${ menuVO.imgFileName }
-										    <span class="fileinput-filename"></span>
+										        <i class="glyphicon glyphicon-file fileinput-exists"></i>
+										    <span class="fileinput-filename">${ menuVO.imgFileName }</span>
 										    </div>
 										    <span class="input-group-addon btn btn-default btn-file">
 										        <span class="fileinput-new">이미지 선택</span>
-										        <span class="fileinput-exists">변경</span>
+										        <span class="fileinput-exists" onclick="onReq()">변경</span>
 										        <form:input path="imgFileName" type="file" name="imgFileName" id="img" class="required"/>
 										    </span>
-										    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">삭제</a>
+										    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" onclick="onReq()">삭제</a>
 										</div>
 	                                </fieldset>
 	                                <h1>완료</h1>
 	                                <fieldset>
-	                                    <h2>완료!!<br>메뉴를 등록할 준비가 되었습니다 :)</h2>	                                    
+	                                    <h2>완료!!<br><br>메뉴를 수정할 준비가 되었습니다 :)</h2>	                                    
 	                                </fieldset>
 	                        	</form:form>
 	                        </div>
@@ -253,10 +253,7 @@
     	
     	// sidebar li & ul 클래스 active
 		$('.menuLI').addClass("active");
-		$('.menuLI > ul').addClass("in");
-		$('.menuRegister').addClass("active");
-		
-        $('.summernote').summernote();
+		$('.menuLI > ul').addClass("in");		
 
         $('.input-group.date').datepicker({
             todayBtn: "linked",
@@ -274,15 +271,7 @@
                 text: "You clicked the button!",
                 type: "success"
             });
-        });        
-        
-     	/* // 수정된 날짜(오늘날짜)로 값 넣기
-       	var today = new Date();
-       	today = getFormatDate(today);
-		$('#regDate').val(today); */
-		
-		
-
+        });
         
         //STEP
         $("#wizard").steps();
@@ -302,7 +291,7 @@
                 }
 
                 var form = $(this);
-
+                
                 // 사용자가 이전 버전으로 이동 한 경우 정리
                 if (currentIndex < newIndex)
                 {
@@ -322,45 +311,36 @@
                         text: "이미지 파일 이름이 너무 길어요 :("
                     });
                 	return false;
-                }           
-                
-                
-
+                }
                 // 유효성 검사를 시작. 거짓 일 경우 STOP
                 return form.valid();
             },
             onStepChanged: function (event, currentIndex, priorIndex)
             {
-            	// 입력값 이외의 유효성 검사 후 만족 시 PASS
-                /* if (currentIndex === 2 && Number($("#age").val()) >= 18)
-                {
-                    $(this).steps("next");
-                } */
-				
-            	// 입력값 이외의 유효성 검사 후 만족인 상태에서 이전으로 갈때 warning 건너뛰기
-                /* if (currentIndex === 2 && priorIndex === 3)
-                {
-                    $(this).steps("previous");
-                } */            	
+            	         	
             },
             onFinishing: function (event, currentIndex)
             {
-                var form = $(this);
-                
+                var form = $(this);                
 				// 비활성 필드 유효성 검사
-                // Disable validation on fields that are disabled.
-                // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
                 form.validate().settings.ignore = ":disabled";
-
-                // Start validation; Prevent form submission if false
                 return form.valid();
             },
             onFinished: function (event, currentIndex)
             {
                 var form = $(this);
 
-                // Submit form input
-                form.submit();
+                /* form.submit(); */
+                last.click(function(){
+                    swal({
+                        title: "완료!",
+                        text: "메뉴가 등록되었습니다 :)",
+                        type: "success"
+                    });
+                    $('.confirm').click(function () {
+    		        	location.href = '${ pageContext.request.contextPath}/menu/menuBoard.do';
+    				});
+                });
             }
         }).validate({
                     errorPlacement: function (error, element)
@@ -407,20 +387,22 @@
      	// 기존 type값 가져와서 selected 설정해놓기
 		// (실행되는데 문법오류떠서 제일 마지막에 두기)
 		var type = $('#hiddenType').val();
-		$('#selectBox option[value=' + type + ']').prop("selected", true);		
-		/* var type = $('#hiddenType').val();
-		$('#selectBox').find("option[value='"+type+"']").prop("selected", true); */
-    });
-        
-   	/* // 날짜 yyyy-MM-dd 포맷 변환 함수
-   	function getFormatDate(date){
-   		var year = date.getFullYear();					// yyyy
-   		var month = (1 + date.getMonth());				// M
-   		month = month >= 10 ? month : '0' + month;		// month 두자리로 저장
-   		var day = date.getDate();						// d
-   		day = day >= 10 ? day : '0' + day;				// day 두자리로 저장
-   		return  year + '/' + month + '/' + day;
-   	} */
+		$('#selectBox option[value=' + type + ']').prop("selected", true);
+		
+		
+		// 기존 이미지 불러오기
+		$('.input-group').removeClass('fileinput-new');
+		$('.input-group').addClass('fileinput-exists');
+		$('#img').removeClass('required');
+		
+		
+    });        
+    
+    // 이미지 변경 없어도 유효성검사 넘어가도록
+    function onReq() {
+    	$('#img').addClass('required');
+    }        
+   	
    	
 </script>
 

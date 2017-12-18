@@ -7,7 +7,7 @@ public class NoticeBoardVO {
 	private String title;
 	private String content;
 	private String type;	// 공지사항 'A' / 보도자료 'B'
-//	private String file;  첨부파일임.
+	//private List<fileVO> fileList;  //첨부파일임.
 	private String regDate;
 	private int viewCnt;
 	
