@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +17,7 @@
 	<link href="${ pageContext.request.contextPath }/resources/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <!-- FooTable -->
     <link href="${ pageContext.request.contextPath }/resources/css/plugins/footable/footable.core.css" rel="stylesheet">
-	<!-- iCheck -->
-	<link href="${ pageContext.request.contextPath }/resources/css/plugins/iCheck/custom.css" rel="stylesheet">
+	
 	<!-- sweetalert js & css -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
 	<link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
@@ -33,12 +31,6 @@
 	}
 	.convType > span {
 		width: 60px;
-	}
-	.label-primary {
-		background-color: #7aa93c;
-	}
-	.dataTables_wrapper {
-		padding-bottom: 0 !important;
 	}
 </style>
 </head>
@@ -54,16 +46,16 @@
        	<!-- 페이지 header -->
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>자주묻는질문 관리</h2>
+                <h2>이벤트 관리</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="${ pageContext.request.contextPath}/FirstPage.jsp">Home</a>
                     </li>
                     <li>
-                        <a>커뮤니티 관리</a>
+                        <a>이벤트 관리</a>
                     </li>
                     <li class="active">
-                        <strong>자주묻는질문 관리</strong>
+                        <strong>이벤트 관리</strong>
                     </li>
                 </ol>
             </div>
@@ -78,62 +70,59 @@
                     <div class="tabs-container">
 						<ul class="nav nav-tabs">
 						    <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-list"></i>리스트</a></li>
-						    <li class=""><a href="${ pageContext.request.contextPath}/community/qna/qnaWriteForm.do"><i class="fa fa-save"></i>등록</a></li>
-						    <!-- <li class=""><a href="#"><i class="fa fa-edit"></i>수정</a></li> -->
+						    <li class=""><a href="${ pageContext.request.contextPath}/event/eventWrite.do"><i class="fa fa-save"></i>이벤트 등록</a></li>
+						    <li class=""><a href="#"><i class="fa fa-edit"></i>수정</a></li>
 						</ul>
 						<div class="tab-content">
 							<!-- 첫번째 Tab : 자주묻는질문 리스트 -->
 							<div id="tab-1" class="tab-pane active">
 							    <div class="panel-body">
-                                   	<h2>Q&A 리스트</h2>
+                                   	<h2>이벤트 리스트</h2>
 									<div class="ibox">
 										<div class="ibox-content">
 											<div class="table-responsive">
-												<table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="60">
+												<table class="datatable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="25">
 													<thead>
 													 <tr>
-														<th data-hide="phone" data-sort-ignore="true" width="45px;">
-															<div class ="total-select">
-																<input type="checkbox" class="i-checks" id="chkall">														
-															</div>
-														</th>
-													     <th data-hide="phone" data-sort-ignore="true">타입</th>
-													     <th data-toggle="true" data-sort-ignore="true">Q</th>
-													     <th data-hide="all" data-sort-ignore="true">A</th>
-													     <th data-hide="phone" data-sort-ignore="true">등록일</th>
-													     <th class="text-right" data-sort-ignore="true">Action</th>
+													     <th style="width:5%">이벤트 번호</th>
+													     <th style="width:20%">사진</th>
+													     <th style="width:45%">이벤트 제목</th>
+													     <th style="width:20%">진행 일자</th>
+													     <th style="width:10%">Action</th>
 													 </tr>
 													</thead>
 					                                <tbody>
-					                                <c:forEach items="${ qnaList }" var="qna">
-						                                <tr class="qnaList">
-						                                	<td>
-																<input type="checkbox" class="i-checks" name="chk">
-																<div style="display: none">${ qna.no }</div>
-															</td>
+					                                <c:forEach items="${ eventList}" var="event">
+						                                <tr class="storeList">
 						                                    <td class="convType" width="100px;">
-							                                    <span class="label label-primary">${ qna.type }</span>
+							                                    <span class="label label-primary">${ event.no }</span>
 						                                    </td>
 						                                    <td>
-						                                        ${ qna.question }
+						                                        <a href="${ pageContext.request.contextPath }/event/eventDetail.do?no=${ event.no }">
+																	<img alt="" class="img-responsive img-rounded" src="../upload/${ event.imgFileName }"  style=" width:600px;height:150px">
+																</a>
 						                                    </td>
 						                                    <td style="word-break:keep-all;">
-						                                        ${ qna.answer }
+						                                        ${ event.title }
 						                                    </td>
 						                                    <td width="10%" nowrap>
-						                                        ${ qna.regDate }
+						                                        ${ event.startDate } ~ ${event.endDate }
 						                                    </td>
-						                                    <td class="text-right" width="100px;" >
-						                                        <div class="btn-group" nowrap>
-						                                            <button class="btn-white btn btn-xs" id="view" onclick="action('V', ${qna.no})"><i class="fa fa-search"></i></button>
-						                                            <button class="btn-white btn btn-xs" onclick="action('E', ${qna.no})"><i class="fa fa-edit"></i></button>
-						                                            <button class="btn-white btn btn-xs" onclick="action('D', ${qna.no})"><i class="fa fa-trash"></i></button>
+						                                    <td class="text-right">
+						                                        <div class="btn-group" width="10%" nowrap>
+						                                            <button class="btn-white btn btn-xs" id="view" onclick="action('V', ${store.storeNo})"><i class="fa fa-search"></i></button>
+						                                            <button class="btn-white btn btn-xs" onclick="action('E', ${store.storeNo})"><i class="fa fa-edit"></i></button>
+						                                            <button class="btn-white btn btn-xs" onclick="action('D', ${store.storeNo})"><i class="fa fa-trash"></i></button>
 						                                        </div>
 						                                    </td>
 						                                </tr>
 													</c:forEach>
 					                                </tbody>
 												</table>
+												<div align="right">		
+														
+														<a href = "${ pageContext.request.contextPath}/event/eventWrite.do"><input type = "button" value="글 등록 "/></a>
+													</div>
 											</div>
 				                        </div>
                    					</div>
@@ -145,10 +134,10 @@
 							    </div>
 							</div>
 							<!-- 세번째 Tab : 자주묻는질문 수정 -->
-							<!-- <div id="tab-3" class="tab-pane">
+							<div id="tab-3" class="tab-pane">
 							    <div class="panel-body">
 							    </div>
-							</div> -->
+							</div>
 						</div>
                     </div>
                 </div>
@@ -183,9 +172,6 @@
     <script src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/pace/pace.min.js"></script>
 	
-	<!-- iCheck -->
-    <script src="${ pageContext.request.contextPath }/resources/js/plugins/iCheck/icheck.min.js"></script>
-	
     <!-- FooTable -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
     
@@ -193,65 +179,13 @@
     <script type="text/javascript">
 		$(document).ready(function() {
 			
-			// sidebar li & ul 클래스 active
-			$('.communityLI').addClass("active");
-			$('.communityLI > ul').addClass("in");
-			$('.qnaLI').addClass("active");
-		    
 			// footable 시작
 			$('.footable').footable();
 		    
-			// QnA 타입별 라벨 클래스명 & 텍스트 변경
-			for(var i = 0; i < $('.qnaList').length; ++i) {    	
-				var qnaType  = $('.qnaList').eq(i).find('.label');
-				if(qnaType.text() == 'F'){
-					qnaType.attr("class","label label-primary");
-					qnaType.html("푸디오더");
-				}
-				else if(qnaType.text() == 'P'){
-					qnaType.attr("class","label label-danger");
-					qnaType.html("포인트");
-				}
-				else if(qnaType.text() == 'O'){
-					qnaType.attr("class","label label-warning");
-					qnaType.html("주문");
-				}
-				else if(qnaType.text() == 'M'){
-					qnaType.attr("class","label label-success");
-					qnaType.html("회원정보");
-				}
-				else if(qnaType.text() == 'X'){
-					qnaType.attr("class","label label-plain");
-					qnaType.html("기타");
-				}
-			}
-			
-			// 체크박스
-			$('.i-checks').iCheck({
-	            checkboxClass: 'icheckbox_square-green',
-	            radioClass: 'iradio_square-green',
-	        });
-			
-			// 체크박스 전체 선택
-			var start = 4;
-			$('#chkall').on('ifChecked', function(){
-				$('.icheckbox_square-green').addClass("checked");
-			});
-			$('#chkall').on('ifUnchecked', function(){
-				$('.icheckbox_square-green').removeClass("checked");
-			});
-			
-			// 체크박스 초기화
-			$(document).on('change', '.input-sm', function(){
-				$('.icheckbox_square-green').removeClass("checked");
-			});
-			$(document).on('click', '.pagination', function(){
-				$('.icheckbox_square-green').removeClass("checked");
-			});
 			
 			// 데이터테이블 생성 & 옵션 변경
 			$('.footable').css("width","100%");
-			var table = $('.dataTables-example').DataTable({
+			$('.dataTables-example').DataTable({
 				pageLength: 10,
                 bPaginate: true,
                 responsive: true,
@@ -267,10 +201,6 @@
                     "sZeroRecords" : "입력하신 검색어와 일치하는 결과가 없습니다. 다시 한번 검색해주세요!",
                     // 검색 text
                     "sSearch" : "전체 검색 : ",
-                    // 로딩 text
-                    "sLoadingRecords" : "읽는중...",
-                    // 처리 text
-                    "sProcessing" : "처리중...",
                     // 보기 text
                     "sLengthMenu" : "보기 : _MENU_",
                     // 페이징 버튼 text
@@ -279,20 +209,13 @@
                     	"sNext": ">>"
                       }
                 },
-                "iDisplayLength": -1,
-                // 우선순위 Sort
-                "aaSorting": [[ 4, "desc" ]], // Sort by first column descending
-                // 컬럼 Sort 없애기
-                "aoColumnDefs": [
-                    { "bSortable": false, "aTargets": [ 0 ] }
-                ],
                 // 버튼 옵션
                 buttons: [
-                    {extend: 'copy', text: '<i class="fa fa-copy" aria-hidden="true"> Copy</i>'},
-                    //{extend: 'csv'},
-                    {extend: 'excel', title: 'ExcelFile', text: '<i class="fa fa-file-excel-o" aria-hidden="true"> Excel</i>'},
-                    {extend: 'pdf', title: 'PdfFile', text: '<i class="fa fa-file-pdf-o" aria-hidden="true"> Pdf</i>'},
-                    {extend: 'print', text: '<i class="fa fa-print" aria-hidden="true"> Print</i>',
+                    {extend: 'copy'},
+                    {extend: 'csv'},
+                    {extend: 'excel', title: 'ExcelFile'},
+                    {extend: 'pdf', title: 'PdfFile'},
+                    {extend: 'print',
                      customize: function (win){
                             $(win.document.body).addClass('white-bg');
                             $(win.document.body).css('font-size', '10px');
@@ -313,17 +236,7 @@
 					$('#DataTables_Table_0_info').html(text.replace("*", "<br><strong>" + keyupWord + "</strong>와(과) 일치하는 검색결과입니다."));
 				} 
 			});
-			// 선택삭제 버튼 생성
-			table.button().add( 4, {
-			    text: '<i class="fa fa-trash" aria-hidden="true"> 선택삭제</i>',
-			    action: function () {
-			    	delRow();
-			    }
-			} );
-			// 선택삭제 버튼 위치 변경
-			var clone = $('.dt-buttons a').eq(4).clone(true);
-			clone.appendTo('#DataTables_Table_0_paginate').css('float','left');
-			$('.dt-buttons a').eq(4).hide();
+			
 		});
 		
 		// QnA action 함수
@@ -332,14 +245,11 @@
 			case 'V':
 				// QnA 디테일 모달
 				$('div.modal').modal().removeData();
-			    var url = '${ pageContext.request.contextPath}/community/qna/qnaDetail.do?no=' + no;
+			    var url = '${ pageContext.request.contextPath}/store/storeDetail.do?no=' + no;
 			    $('div.modal').modal({ remote : url  });
 				break;
 			case 'E':
-				location.href = '${ pageContext.request.contextPath}/community/qna/qnaEditForm.do?no=' + no;
-				/* $('div.modal').modal().removeData();
-			    var url = '${ pageContext.request.contextPath}/community/qna/qnaEditForm.do?no=' + no;
-			    $('div.modal').modal({ remote : url  }); */
+				location.href = '${ pageContext.request.contextPath}/store/storeModifyForm.do?no=' + no;
 				break;
 			case 'D':
 				deleteQnA(no);
@@ -363,58 +273,9 @@
 		        swal("삭제되었습니다!", "", "success");
 		        // OK 누르면 삭제 실행
 		        $('.confirm').click(function () {
-		        	location.href = '${ pageContext.request.contextPath}/community/qna/qnaDelete.do?no=' + no;
+		        	location.href = '${ pageContext.request.contextPath}/store/deleteStore.do?no=' + no;
 				});
 		    });
-		}
-		
-		// 체크박스 선택삭제
-		var cnt = 0;
-		var nums = "";
-		function delRow() {﻿
-			cnt = 0;
-			nums = "";
-			$('.checked').each(function() {
-				cnt++;
-				nums += $(this).next().text() + ",";
-			});
-			if($('.icheckbox_square-green').eq(0).hasClass('checked')){
-				cnt--;
-			}
-			if(cnt != 0){
-				deleteRow(nums, cnt);
-			}
-			else{
-				deleteZero();
-			}
-		}
-		
-		// 선택삭제 alert 확인창
-		function deleteRow(nums, cnt) {
-			swal({
-		        title: "선택 삭제",
-		        text: cnt + "개의 게시물을 삭제하시겠습니까?",
-		        type: "warning",
-		        showCancelButton: true,
-		        cancelButtonText: "취소",
-		        confirmButtonColor: "#DD6B55",
-		        confirmButtonText: "삭제",
-		        closeOnConfirm: false
-		    }, function () {
-		        swal("삭제되었습니다!", "", "success");
-		        // OK 누르면 삭제 실행
-		        $('.confirm').click(function () {
-		        	location.href = '${ pageContext.request.contextPath}/community/qna/qnaDeleteSome.do?nums=' + nums;
-				});
-		    });
-		}
-		
-		// 선택한 메뉴 없을 때 alert
-		function deleteZero() {			
-            swal({
-                title: "선택한 게시물이 없습니다!",
-              	type: "error"
-            });	        
 		}
 		
 	</script>

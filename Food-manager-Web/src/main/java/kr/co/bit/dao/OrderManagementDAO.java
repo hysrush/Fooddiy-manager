@@ -8,5 +8,6 @@ public interface OrderManagementDAO {
 	public List<OrderVO> selectAll();
 	public List<OrderVO> selectByToday(String today);
 	public OrderVO selectByNo(int no);
+	public List<OrderVO> selectByOrderStatus();
 	public void cancelOrder(int no);
 }

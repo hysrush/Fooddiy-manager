@@ -20,7 +20,9 @@
     <link href="${ pageContext.request.contextPath }/resources/css/plugins/footable/footable.core.css" rel="stylesheet">
 	<!-- easydropdown -->
 	<link rel="stylesheet" type="text/css" href="${ pageContext.request.contextPath }/resources/css/plugins/easydropdown/easydropdown.css"/>
-	
+	<!-- summernote -->
+	<link href="${ pageContext.request.contextPath }/resources/css/plugins/summernote/summernote.css" rel="stylesheet">
+    <link href="${ pageContext.request.contextPath }/resources/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
 	<!-- sweetalert js & css -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
 	<link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
@@ -97,7 +99,7 @@
                             				<h2>Subway소식 등록</h2>
 											<div class="ibox-content">
 												<div class="form-group">
-													<div class="col-sm-8">
+													<div class="col-sm-10">
 														<label class="control-label" for="type">타입 *</label>
 														<form:select path="type" name="type" id="type" class="easydropdown form-control">
 															<form:option value="A">공지사항</form:option>
@@ -106,7 +108,7 @@
 													</div>
 												</div>
 												<div class="form-group">
-													<div class="col-sm-8">
+													<div class="col-sm-10">
 														<label class="control-label" for="title">제목 *</label>
 														<form:input path="title" type="text" id="title" class="form-control" 
 																	placeholder="제목" name="title" required="required"/>
@@ -114,10 +116,13 @@
 													</div>
 												</div>
 												<div class="form-group">
-													<div class="col-sm-8">
+													<div class="col-sm-10">
 														<label class="control-label" for="content">내용 *</label>
-														<form:textarea path="content" id="content" class="form-control"
-																		rows="5" placeholder="내용" name="content" required="required"/>
+															<%-- <form:textarea path="content" id="content" class="form-control" 
+																		rows="5" placeholder="내용" name="content" required="required"/>  --%>
+	                                                    <div class="summernote" style="width: 300px;">
+                                               			</div>
+                                               			<form:hidden path="content" id="content"/>
 														<form:errors path="content" class="form-control"></form:errors>
 													</div>
 												</div>
@@ -128,7 +133,7 @@
 													</div>
 												</div>
 											</div>
-											<form:input path="writer" type="hidden" id="writer" value="로그인id"/>
+                                   			<form:hidden path="writer" id="writer" value="로그인id"/>
 										</fieldset>
 									</form:form>
                                 </div>
@@ -174,6 +179,11 @@
     
     <!-- Jquery Validate -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/validate/jquery.validate.min.js"></script>
+
+    <!-- SUMMERNOTE -->
+	<script src="${ pageContext.request.contextPath }/resources/js/plugins/summernote/summernote.min.js"></script>
+	<!-- summernote-ko-KR -->
+	<script src="${ pageContext.request.contextPath }/resources/js/plugins/summernote/summernote-ko-KR.js"></script>
     
     <!-- Page-Level Scripts -->
     <script type="text/javascript">
@@ -201,6 +211,21 @@
 				}
 			});
 			
+			// summernote 시작
+			 $('.summernote').summernote({
+				height : 300, // 에디터의 높이 
+				minHeight : null,
+				maxHeight : null,
+				focus : true,
+				lang: 'ko-KR' // default: 'en-US'
+			 });
+			 $(".note-editable").keyup(function () {
+				var note = $(".note-editable").html();
+				alert(note);				
+				$("#content").val(note);
+				alert($("#content").val());				
+			});
+			 
 			// Form 유효성 검사 작업
 			$("#noticeForm").validate({
 				// 규칙

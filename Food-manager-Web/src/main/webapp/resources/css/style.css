@@ -1637,8 +1637,9 @@ table.dataTable thead .sorting_asc_disabled,
 table.dataTable thead .sorting_desc_disabled {
   background: transparent;
 }
+/* 30px -> 0px 수정 */
 .dataTables_wrapper {
-  padding-bottom: 30px;
+  padding-bottom: 0px;
 }
 .dataTables_length {
   float: left;

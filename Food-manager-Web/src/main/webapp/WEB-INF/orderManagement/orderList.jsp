@@ -18,7 +18,9 @@
     <link href="${ pageContext.request.contextPath}/resources/css/animate.css" rel="stylesheet">
     <link href="${ pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet">
     
-
+	<!-- sweetalert js & css -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
+	<link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
 </head>
 <body>
 
@@ -53,32 +55,42 @@
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
             
-            	<c:forEach items="${ menuList }" var="menu">
-	                <div class="col-md-3">
-	                    <div class="ibox">
-	                        <div class="ibox-content product-box">
-								<div class = "menuType" style = "display: none">${ menu.type }</div>
-	                            <div class="product-imitation">
-	                                <img src="${ pageContext.request.contextPath }/upload/menu/${ menu.imgFileName }" style="width: 100%;">
-	                            </div>
-	                            <div class="product-desc" style="max-height: 180px">
-	                                <span class="product-price">
-	                                    ${ menu.price }원
-	                                </span>
-	                                <small class="text-muted">Category</small>
-	                                <a href="${ pageContext.request.contextPath}/menu/menuDetail.do?no=${menu.no}" class="product-name">${ menu.name }</a>
-	
-	
-
-	                                <div class="m-t text-righ">
-	
-	                                    <a href="${ pageContext.request.contextPath}/menu/menuDetail.do?no=${menu.no}" class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i> </a>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
+            	<c:forEach items="${ orderList }" var="order">
+            		<c:forEach items = "${ order.detailOrderList }" var="detailOrder">
+            			
+		                <div class="col-md-3 order-info-box">
+		                    <div class="ibox">
+		                        <div class="ibox-content product-box">
+		                            <div class="product-imitation" style="height: 322.22px; text-align: left; font-size: 18px; color: black; padding: 50px 10px">
+		                            	<div style="position: absolute; top: 0; right: 0; font-size: 14px; color: white; background-color: #6b6766; padding: 3px 6px" > ${ order.eatType} </div>
+		                            		
+		                            	<div>
+			                            	<div>${ detailOrder.name}${ detailOrder.size}, ${ detailOrder.qty }개</div>
+			                            	<div>${ detailOrder.bread }</div>
+			                            	<div>${ detailOrder.cheese }</div>
+			                            	<div>${ detailOrder.topping }</div>
+			                            	<div>${ detailOrder.vegetable }</div>
+			                            	<div>${ detailOrder.sauce }</div>
+		                            	</div>
+		                            </div>
+		                            <div class="product-desc" style="max-height: 180px">
+		                                <span class="product-price">
+		                                	${ order.id }
+		                                </span>
+										<button type="button" class="btn btn-w-m btn-primary">완료</button>
+										<button type="button" class="btn btn-w-m btn-danger button-cancel">취소</button>
+										<div class = "orderNumber" style="display: none">${order.no}</div>		
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+	                </c:forEach>
                	</c:forEach>
+               	
+               	
+               	<div class = "none-order-info"style="font-size: 100px; text-align: center; margin-top: 150px; display: none;">
+               		현재 주문이 없습니다.
+               	</div>
             </div>
         </div>
         <div class="footer">
@@ -101,12 +113,24 @@
     <script>
     	$(document).ready(function() {
     		
+  
     		// sidebar li & ul 클래스 active
 			$('.orderManagementLI').addClass("active");
 			$('.orderManagementLI > ul').addClass("in");
 			$('.orderList').addClass("active");
     		
-
+			
+			var playOrder;
+			
+			if($('.order-info-box').length == 0) {
+				$('.none-order-info').css('display','block');
+				//playOrder = setInterval( checkOrder(), 1000 * 2);
+			}
+			
+	/* 		if($('.order-info-box').length < 10) {
+				playOrder = setInterval( checkOrder(), 1000 * 2);
+			} */
+			
     		
     		for(var i = 0; i < $('.product-box').length; ++i) {
     			
@@ -129,9 +153,57 @@
 	    		else if(product.find('.menuType').text() == 'D'){
 	    			product.find('.text-muted').html("음료");}
     		}
-    		
-    		
+			
+			
+			
     	});
+    	
+    	// 삭제 alert창
+		function orderCancel(no) {
+			swal({
+		        title: "주문을 취소하시겠습니까?",
+		        type: "warning",
+		        showCancelButton: true,
+		        cancelButtonText: "취소",
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "확인",
+		        closeOnConfirm: false
+		    }, function () {
+		        swal("주문이 취소되었습니다!", "", "success");
+		        // OK 누르면 삭제 실행
+		        $('.confirm').click(function () {
+		        	location.href = '${ pageContext.request.contextPath}/orderManagement/orderCancel.do?no=' + no +"&url=orderList";
+		        	
+		        	$('.order-info-box').each(function() {
+		        		
+		        		if($(this).find('orderNumber').text() == no) {
+							$(this).remove();		
+						}
+		        	}); 
+				});
+		    });
+		}
+    	
+		//주문 취소 버튼 클릭 시 이벤트 발생 
+		$('.button-cancel').each(function() {
+			$(this).click(function() {
+				var no = $(this).siblings('.orderNumber').text();
+				orderCancel(no);
+			});
+		});
+    	
+    	function checkOrder() {
+ 			alert("시작");
+    		$.ajax({
+    			
+    			url : "${pageContext.request.contextPath}/orderManagement/orderList.do",
+    			type : "POST",
+    			success : function(data) {
+    				
+    			}
+    				
+    		});
+    	}
     </script>
 </body>
 </html>

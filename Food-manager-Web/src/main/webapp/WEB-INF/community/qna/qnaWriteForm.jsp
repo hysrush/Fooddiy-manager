@@ -126,8 +126,8 @@
 												</div>
 												<div class="form-group">
 													<div class="col-sm-5 col-sm-offset-2">
-														<button type="button" class="btn btn-default" id="erase">지우기</button>
-														<button type="submit" class="btn btn-primary" id="qnaSubmit">등록</button>
+														<button type="button" class="btn btn-default" id="eraser"><i class="fa fa-eraser"></i> 지우기</button>
+														<button type="submit" class="btn btn-primary" id="qnaSubmit"><i class="fa fa-check"></i> 등록</button>
 													</div>
 												</div>
 											</div>
@@ -218,11 +218,11 @@
 				rules: {
                 	question: {
                         required: true,
-                        maxlength: 10
+                        maxlength: 33
                     },
                     answer: {
                         required: true,
-                        maxlength: 10
+                        maxlength: 300
                     }
                 },
               	//규칙체크 실패 시, 출력될 메시지
@@ -262,7 +262,7 @@
             });
 			
 			// 폼 초기화
-			$('#erase').click(function () {
+			$('#eraser').click(function () {
 				$('#qnaForm input[type="text"], textarea').val(""); 
 			});
 			

@@ -5,6 +5,11 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -109,11 +114,11 @@ public class OrderManagementController {
 		return mav;
 	}
 	@RequestMapping(value = "/orderCancel.do", method = RequestMethod.GET)
-	public String cancelOrder(@RequestParam("no") int no) {
+	public String cancelOrder(@RequestParam("no") int no, @RequestParam("url") String url) {
 		
 		service.cancelOrder(no);
 		
-		return "redirect:/orderManagement/todayOrderList.do";
+		return "redirect:/orderManagement/"+ url +".do";
 		
 	}
 	
@@ -156,13 +161,129 @@ public class OrderManagementController {
 		return mav;
 	}
 	
-	@RequestMapping("/orderList.do")
-	public String orderList() {
+	@RequestMapping( value = "/orderList.do" , method = RequestMethod.GET)
+	public ModelAndView orderList(ModelAndView mav) {
 		
-		List<OrderVO> orderList;
+		List<OrderVO> orderList = service.selectByorderStatus();
 		
-		return "orderManagement/orderList";
+		for(int i = 0 ; i < orderList.size(); ++i) {
+
+			List<DetailOrderVO> list = new LinkedList<DetailOrderVO>();
+			String menu = orderList.get(i).getMenu();
+			String [] menus = menu.split("\\|\\|");
+			
+			System.out.println("menus.length =  " + menus.length);
+			
+			for(int j = 0; j < menus.length; ++j) {
+				DetailOrderVO vo = new DetailOrderVO();
+				String [] oneMenu = menus[j].split("\\*");
+
+				vo.setName(oneMenu[0]);;
+				vo.setBread(oneMenu[1]);
+				vo.setCheese(oneMenu[2]);
+				vo.setTopping(oneMenu[3]);
+				vo.setVegetable(oneMenu[4]);
+				vo.setSauce(oneMenu[5]);
+				vo.setRequirement(oneMenu[6]);
+				vo.setPic(oneMenu[7]);
+				vo.setSize(oneMenu[8]);
+				vo.setQty(new Integer(oneMenu[9]));
+				vo.setPrice(oneMenu[10]);
+				vo.setTotal_price(oneMenu[11]);
+				list.add(vo);
+			}
+			orderList.get(i).setDetailOrderList(list);
+		}
+		
+		
+		mav.addObject("orderList", orderList);
+		mav.setViewName("orderManagement/orderList");
+		
+		return mav;
 	}
 	
+	
+	//ajax 실시간으로 주문정보 불러오기
+	@RequestMapping( value = "/orderList.do" , method = RequestMethod.POST)
+	public void orderList(HttpServletRequest request, HttpServletResponse response)throws Exception {
+		
+		response.setContentType("text/html;charset=UTF-8");
+		
+		JSONArray jsonOrderList = new JSONArray();
+		List<OrderVO> orderList = service.selectByorderStatus();
+		
+		for(int i = 0 ; i < orderList.size(); ++i) {
+
+			List<DetailOrderVO> list = new LinkedList<DetailOrderVO>();
+			JSONObject jsonOneOrder = new JSONObject();
+			JSONArray jsonDetailOrderList = new JSONArray();
+			
+			jsonOneOrder.put("no", orderList.get(i).getNo());
+			jsonOneOrder.put("storeName", orderList.get(i).getStoreName());
+			jsonOneOrder.put("id", orderList.get(i).getId());
+			jsonOneOrder.put("order_price", orderList.get(i).getOrder_price());
+			jsonOneOrder.put("final_price", orderList.get(i).getFinal_price());
+			jsonOneOrder.put("eatType", orderList.get(i).getEatType());
+			jsonOneOrder.put("payment", orderList.get(i).getPayment());
+			jsonOneOrder.put("orderStatus", orderList.get(i).getOrderStatus());
+			jsonOneOrder.put("regDate", orderList.get(i).getRegDate());
+			
+			
+			String menu = orderList.get(i).getMenu();
+			String [] menus = menu.split("\\|\\|");
+			
+			System.out.println("menus.length =  " + menus.length);
+			
+			for(int j = 0; j < menus.length; ++j) {
+				JSONObject jsonDetailOrder = new JSONObject();
+				DetailOrderVO vo = new DetailOrderVO();
+				String [] oneMenu = menus[j].split("\\*");
+				
+				jsonDetailOrder.put("name", oneMenu[0]);
+				jsonDetailOrder.put("bread", oneMenu[1]);
+				jsonDetailOrder.put("cheese", oneMenu[2]);
+				jsonDetailOrder.put("topping", oneMenu[3]);
+				jsonDetailOrder.put("vegetable", oneMenu[4]);
+				jsonDetailOrder.put("sauce", oneMenu[5]);
+				jsonDetailOrder.put("requirement", oneMenu[6]);
+				jsonDetailOrder.put("pic", oneMenu[7]);
+				jsonDetailOrder.put("size", oneMenu[8]);
+				jsonDetailOrder.put("qty", oneMenu[9]);
+				jsonDetailOrder.put("price", oneMenu[10]);
+				jsonDetailOrder.put("total_price", oneMenu[11]);
+				
+				vo.setName(oneMenu[0]);;
+				vo.setBread(oneMenu[1]);
+				vo.setCheese(oneMenu[2]);
+				vo.setTopping(oneMenu[3]);
+				vo.setVegetable(oneMenu[4]);
+				vo.setSauce(oneMenu[5]);
+				vo.setRequirement(oneMenu[6]);
+				vo.setPic(oneMenu[7]);
+				vo.setSize(oneMenu[8]);
+				vo.setQty(new Integer(oneMenu[9]));
+				vo.setPrice(oneMenu[10]);
+				vo.setTotal_price(oneMenu[11]);
+				list.add(vo);
+				jsonDetailOrderList.put(jsonDetailOrder);
+			}
+			orderList.get(i).setDetailOrderList(list);
+			jsonOneOrder.put("detailOrderList", jsonDetailOrderList);
+			response.getWriter().print(jsonOneOrder.toString());
+			response.getWriter().print(jsonOneOrder.toString());
+			response.getWriter().print(jsonOneOrder.toString());
+			
+			jsonOrderList.put(jsonOneOrder);
+		}
+		
+		System.out.println("json");	
+		System.out.println("json");	
+		System.out.println("json");	
+		System.out.println("json");	
+		response.getWriter().print(jsonOrderList.toString());
+		
+		
+		
+	}
 	
 }

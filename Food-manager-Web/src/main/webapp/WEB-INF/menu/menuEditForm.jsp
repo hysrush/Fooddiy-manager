@@ -45,7 +45,7 @@
         <!-- 헤더 -->
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>메뉴 등록</h2>
+                <h2>메뉴 수정</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">Home</a>
@@ -54,7 +54,7 @@
                         <a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴관리</a>
                     </li>
                     <li class="active">
-                        <strong>메뉴 등록</strong>
+                        <strong>메뉴 수정</strong>
                     </li>
                 </ol>
             </div>
@@ -69,7 +69,7 @@
 	                <div class="col-lg-12">
 	                    <div class="ibox">
 	                        <div class="ibox-title">
-	                            <h5>메뉴 등록</h5>
+	                            <h5>메뉴 수정</h5>
 	                            <div class="ibox-tools">
 	                                <a class="collapse-link">
 	                                    <i class="fa fa-chevron-up"></i>
@@ -101,15 +101,15 @@
 	                                        <div class="col-lg-12">
 	                                            <div class="form-group">
 	                                                <label>메뉴이름 *</label>
-	                                                <form:input path="name" name="name" type="text" placeholder="15자 이내로 입력해주세요" class="form-control required"/>
+	                                                <form:input path="name" name="name" type="text" value="${ menuVO.name }" placeholder="15자 이내로 입력해주세요" class="form-control required"/>
 	                                            </div>
 	                                            <div class="form-group">
 	                                                <label>주 재료 *</label>
-	                                                <form:input path="mainmenu" name="mainmenu" type="text" placeholder="30자 이내로 입력해주세요" class="form-control required"/>
+	                                                <form:input path="mainmenu" name="mainmenu" type="text" value="${ menuVO.mainmenu }" placeholder="30자 이내로 입력해주세요" class="form-control required"/>
 	                                            </div>
 	                                            <div class="form-group">
 	                                                <label>타입 *</label>
-                                                    <select class="form-control required" name="type">
+	                                                <select class="form-control required" name="type" id="selectBox">
                                                         <option value="" selected>타입을 선택해주세요</option>
                                                         <option value="R">추천메뉴</option>
                                                         <option value="P">프리미엄</option>
@@ -120,14 +120,15 @@
                                                         <option value="N">추가메뉴</option>
                                                         <option value="D">음료</option>
                                                     </select>
+                                                    <input type="hidden" value="${ menuVO.type }" id="hiddenType"/>                                                
 	                                            </div>
 	                                            <div class="form-group">
 	                                                <label>가격(15cm) *</label>
-	                                                <form:input path="price" name="price" type="text" placeholder="숫자만 입력해주세요 (단위 : 원)" class="form-control required"/>
+	                                                <form:input path="price" name="price" type="text" value="${ menuVO.price }" placeholder="숫자만 입력해주세요 (단위 : 원)" class="form-control required"/>
 	                                            </div>
 	                                            <div class="form-group">
 	                                                <label>메뉴 상세내용 *</label>
-	                                                <form:input path="detail" name="detail" type="text" placeholder="300자 이내로 입력해주세요" class="form-control required"/>
+	                                                <form:input path="detail" name="detail" type="text" value="${ menuVO.detail }" placeholder="300자 이내로 입력해주세요" class="form-control required"/>
 	                                            </div>
 	                                        </div>	                                        
 	                                    </div>
@@ -140,35 +141,35 @@
 	                                        <div class="col-lg-6">
 	                                            <div class="form-group">
 	                                                <label>제공량 *</label>
-	                                                <form:input path="serviceSize" name="serviceSize" type="text" placeholder="가나다라" class="form-control required"/>
+	                                                <form:input path="serviceSize" name="serviceSize" type="text" value="${ menuVO.serviceSize }" placeholder="가나다라" class="form-control required"/>
 	                                            </div>
 	                                            <div class="form-group">
 	                                                <label>칼로리 *</label>
-	                                                <form:input path="calorie" name="calorie" type="text" class="form-control required"/>
+	                                                <form:input path="calorie" name="calorie" type="text" value="${ menuVO.calorie }" class="form-control required"/>
 	                                            </div>
 	                                            <div class="form-group">
 	                                                <label>단백질 *</label>
-	                                                <form:input path="protein" name="protein" type="text" class="form-control required"/>
+	                                                <form:input path="protein" name="protein" type="text" value="${ menuVO.protein }" class="form-control required"/>
 	                                            </div>	                                            
 	                                        </div>
 	                                        <div class="col-lg-6">
 	                                            <div class="form-group">
 	                                                <label>나트륨 *</label>
-	                                                <form:input path="natrium" name="natrium" type="text" class="form-control required"/>
+	                                                <form:input path="natrium" name="natrium" type="text" value="${ menuVO.natrium }" class="form-control required"/>
 	                                            </div>
 	                                            <div class="form-group">
 	                                                <label>당 *</label>
-	                                                <form:input path="sugar" name="sugar" type="text" class="form-control required"/>
+	                                                <form:input path="sugar" name="sugar" type="text" value="${ menuVO.sugar }" class="form-control required"/>
 	                                            </div>
 	                                            <div class="form-group">
 	                                                <label>지방 *</label>
-	                                                <form:input path="fat" name="fat" type="text" class="form-control required"/>
+	                                                <form:input path="fat" name="fat" type="text" value="${ menuVO.fat }" class="form-control required"/>
 	                                            </div>	                                            
 	                                        </div>
 	                                        <div class="col-lg-12">
 	                                        	<div class="form-group">
 	                                                <label>알르레기 *</label>
-	                                                <form:input path="allergy" name="allergy" type="text" placeholder="30자 이내로 입력해주세요" class="form-control"/>
+	                                                <form:input path="allergy" name="allergy" type="text" value="${ menuVO.allergy }" placeholder="30자 이내로 입력해주세요" class="form-control"/>
 	                                            </div>
 	                                        </div>
 	                                    </div>
@@ -176,32 +177,23 @@
 	                                <h1>이미지</h1>
 	                                <fieldset>
 	                                    <h2>이미지 첨부</h2>
-	                                    <p>파일이름이 30자를 넘을 수 없습니다. (영문은 90자)</p>
+	                                    <p>파일이름이 30자를 넘을 수 없습니다. (영문은 90자)</p><p>사이즈는 594 x 334 입니다.</p>
 	                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
 										    <div class="form-control" data-trigger="fileinput">
 										        <i class="glyphicon glyphicon-file fileinput-exists"></i>
-										    <span class="fileinput-filename"></span>
+										    <span class="fileinput-filename">${ menuVO.imgFileName }</span>
 										    </div>
 										    <span class="input-group-addon btn btn-default btn-file">
 										        <span class="fileinput-new">이미지 선택</span>
-										        <span class="fileinput-exists">변경</span>
-										        <form:input path="imgFileName" type="file" name="imgFileName" class="required"/>
+										        <span class="fileinput-exists" onclick="onReq()">변경</span>
+										        <form:input path="imgFileName" type="file" name="imgFileName" id="img" class="required"/>
 										    </span>
-										    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">삭제</a>
+										    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" onclick="onReq()">삭제</a>
 										</div>
 	                                </fieldset>
 	                                <h1>완료</h1>
 	                                <fieldset>
-	                                	<div class="col-lg-8">
-	                                    	<center><h2 style="font-size:25px; font-weight: 700; color: #2F4050"><br><br><br>메뉴를 등록할 준비가 되었습니다 :)</h2></center>
-	                                    </div>
-	                                    <div class="col-lg-4">
-                                            <div class="text-center">
-                                                <div style="margin-top: 20px">
-                                                    <i class="fa fa-pencil-square-o" style="font-size: 180px;color: #999b9b "></i>
-                                                </div>
-                                            </div>
-                                        </div>                   
+	                                    <h2>완료!!<br><br>메뉴를 수정할 준비가 되었습니다 :)</h2>	                                    
 	                                </fieldset>
 	                        	</form:form>
 	                        </div>
@@ -261,10 +253,7 @@
     	
     	// sidebar li & ul 클래스 active
 		$('.menuLI').addClass("active");
-		$('.menuLI > ul').addClass("in");
-		$('.menuRegister').addClass("active");
-		
-        $('.summernote').summernote();
+		$('.menuLI > ul').addClass("in");		
 
         $('.input-group.date').datepicker({
             todayBtn: "linked",
@@ -272,6 +261,16 @@
             forceParse: false,
             calendarWeeks: true,
             autoclose: true
+        });        
+        
+        
+        //확인버튼
+        $('.demo2').click(function(){
+            swal({
+                title: "Good job!",
+                text: "You clicked the button!",
+                type: "success"
+            });
         });
         
         //STEP
@@ -292,7 +291,7 @@
                 }
 
                 var form = $(this);
-
+                
                 // 사용자가 이전 버전으로 이동 한 경우 정리
                 if (currentIndex < newIndex)
                 {
@@ -312,26 +311,25 @@
                         text: "이미지 파일 이름이 너무 길어요 :("
                     });
                 	return false;
-                } 
-
+                }
                 // 유효성 검사를 시작. 거짓 일 경우 STOP
                 return form.valid();
             },
             onStepChanged: function (event, currentIndex, priorIndex)
             {
-            	        	
+            	         	
             },
             onFinishing: function (event, currentIndex)
             {
                 var form = $(this);                
-				// 비활성 필드 유효성 검사                
-                form.validate().settings.ignore = ":disabled";                
+				// 비활성 필드 유효성 검사
+                form.validate().settings.ignore = ":disabled";
                 return form.valid();
             },
             onFinished: function (event, currentIndex)
             {
-                var last = $(this);
-                
+                var form = $(this);
+
                 /* form.submit(); */
                 last.click(function(){
                     swal({
@@ -342,7 +340,7 @@
                     $('.confirm').click(function () {
     		        	location.href = '${ pageContext.request.contextPath}/menu/menuBoard.do';
     				});
-                }); 
+                });
             }
         }).validate({
                     errorPlacement: function (error, element)
@@ -384,9 +382,28 @@
                             maxlength: 30
                         }                    	
                     }
-               	});        
-        
-    });    
+               	});
+                	
+     	// 기존 type값 가져와서 selected 설정해놓기
+		// (실행되는데 문법오류떠서 제일 마지막에 두기)
+		var type = $('#hiddenType').val();
+		$('#selectBox option[value=' + type + ']').prop("selected", true);
+		
+		
+		// 기존 이미지 불러오기
+		$('.input-group').removeClass('fileinput-new');
+		$('.input-group').addClass('fileinput-exists');
+		$('#img').removeClass('required');
+		
+		
+    });        
+    
+    // 이미지 변경 없어도 유효성검사 넘어가도록
+    function onReq() {
+    	$('#img').addClass('required');
+    }        
+   	
+   	
 </script>
 
 </body>

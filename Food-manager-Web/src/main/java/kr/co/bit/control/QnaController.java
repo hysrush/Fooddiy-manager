@@ -1,5 +1,6 @@
 package kr.co.bit.control;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -102,8 +103,8 @@ public class QnaController {
 		// 공유영역에 등록
 		model.addAttribute("qnaVO_NEW", qnaVO_NEW);
 		
-//		return "community/qna/qnaEditForm";
-		return "community/qna/edit";
+		return "community/qna/qnaEditForm";
+//		return "community/qna/edit";
 	}
 	// QnA 업데이트
 	@RequestMapping(value="/qnaEditForm.do", method=RequestMethod.POST)
@@ -128,5 +129,27 @@ public class QnaController {
 		
 		return "redirect:/community/qna/qnaList.do";
 	}
-
+	// QnA 글 다중 삭제
+	@RequestMapping(value="/qnaDeleteSome.do", method=RequestMethod.GET)
+	public String deleteSome(@RequestParam("nums") String nums) {
+		
+		// 번호 쪼개기
+		String[] array = nums.split(",");
+		
+		for (int i = 0; i < array.length; i++) {
+			System.out.println("array ["+ i +"]번째 : " +array[i]);
+		}
+		// 리스트에 넣기
+		ArrayList<Integer> list = new ArrayList<>();
+		for(int i=0; i<array.length; i++) {
+			// null값이 아닐때
+			if (!array[i].equals("")) {
+				list.add(new Integer(array[i]));
+			}
+		}
+		// 리스트 번호에 해당하는 QnA 글 삭제
+		qnaService.removeQnASome(list);
+		
+		return "redirect:/community/qna/qnaList.do";
+	}
 }

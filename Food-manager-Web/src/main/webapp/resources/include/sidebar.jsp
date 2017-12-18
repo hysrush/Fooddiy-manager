@@ -42,7 +42,6 @@
 		<li class="menuLI"><a href="#"><i class="fa fa-sitemap"></i> <span
 				class="nav-label">메뉴 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li class="menuAll"><a href="${ pageContext.request.contextPath }/menu/menuAll.do">메뉴 리스트</a></li>
 				<li class="menuBoard"><a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴 관리</a></li>
 				<li class="menuRegister"><a href="${ pageContext.request.contextPath }/menu/menuRegister.do">메뉴 등록</a></li>
 			</ul></li>
@@ -70,10 +69,9 @@
 				class="nav-label">커뮤니티 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
 				<li class="qnaLI"><a href="${ pageContext.request.contextPath }/community/qna/qnaList.do">자주묻는질문 관리</a></li>
-				<li><a href="profile.html">공지사항 관리</a></li>
-				<li><a href="profile_2.html">보도자료 관리</a></li>
-				<li><a href="contacts_2.html">1:1문의 관리</a></li>
-				<li><a href="projects.html">SNS게시판 관리</a></li>
+				<li class="noticeLI"><a href="${ pageContext.request.contextPath }/community/subway/noticeList.do">Subway소식 관리</a></li>
+				<li class="claimLI"><a href="contacts_2.html">1:1문의 관리</a></li>
+				<li class="snsLI"><a href="projects.html">SNS게시판 관리</a></li>
 			</ul></li>
 		<li><a href="#"><i class="fa fa-globe"></i> <span
 				class="nav-label">마이페이지 관리</span><span class="fa arrow"></span></a>

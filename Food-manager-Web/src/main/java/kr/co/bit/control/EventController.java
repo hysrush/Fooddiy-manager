@@ -74,11 +74,11 @@ public class EventController {
 		
 		System.out.println(eventService.selectTotalPaging());
 		
-		mav.setViewName("event/EventPage");
+		mav.setViewName("event/EventPage2");
 		
 		mav.addObject("eventList" , eventList);
 		mav.addObject("eventEndList", eventEndList);
-		mav.addObject("p",paging);
+		
 		
 		
 		return mav;
