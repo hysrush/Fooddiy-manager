@@ -114,7 +114,7 @@
                                         <!-- <div class="btn-group"> -->
                                       		<button class="btn btn-info list">목록</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                       		<button class="btn btn-primary" id="edit">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button class="btn btn-danger demo4">삭제</button>
+                                            <button class="btn btn-danger demo4" onclick="delRow()">삭제</button>
                                         <!-- </div> -->
                                     </div>
 
@@ -178,6 +178,10 @@
             dots: true
         });
         
+    	 // sidebar li & ul 클래스 active
+		$('.menuLI').addClass("active");
+		$('.menuLI > ul').addClass("in");
+        
         
         // 30cm 가격 표시        
         if(${ menuDetailVO.type == 'R' }){
@@ -215,7 +219,7 @@
         
         
         // 삭제 확인 sweet alert
-        $('.demo4').click(function () {
+         $('.demo4').click(function () {
 		    swal({
 		        title: "정말 삭제하시겠습니까?",
 		        type: "warning",
@@ -232,8 +236,6 @@
 				});
 		    });
 		});
-        
-        
         
         
     });

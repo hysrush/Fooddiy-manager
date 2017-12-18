@@ -45,7 +45,7 @@
         <!-- 헤더 -->
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>메뉴 입력</h2>
+                <h2>메뉴 수정</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="index.html">Home</a>
@@ -54,7 +54,7 @@
                         <a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴관리</a>
                     </li>
                     <li class="active">
-                        <strong>메뉴 등록</strong>
+                        <strong>메뉴 수정</strong>
                     </li>
                 </ol>
             </div>
@@ -69,7 +69,7 @@
 	                <div class="col-lg-12">
 	                    <div class="ibox">
 	                        <div class="ibox-title">
-	                            <h5>메뉴 등록</h5>
+	                            <h5>메뉴 수정</h5>
 	                            <div class="ibox-tools">
 	                                <a class="collapse-link">
 	                                    <i class="fa fa-chevron-up"></i>
@@ -253,10 +253,7 @@
     	
     	// sidebar li & ul 클래스 active
 		$('.menuLI').addClass("active");
-		$('.menuLI > ul').addClass("in");
-		$('.menuRegister').addClass("active");
-		
-        $('.summernote').summernote();
+		$('.menuLI > ul').addClass("in");		
 
         $('.input-group.date').datepicker({
             todayBtn: "linked",
@@ -274,13 +271,7 @@
                 text: "You clicked the button!",
                 type: "success"
             });
-        });        
-        
-     	/* // 수정된 날짜(오늘날짜)로 값 넣기
-       	var today = new Date();
-       	today = getFormatDate(today);
-		$('#regDate').val(today); */		
-
+        });
         
         //STEP
         $("#wizard").steps();
@@ -300,7 +291,7 @@
                 }
 
                 var form = $(this);
-
+                
                 // 사용자가 이전 버전으로 이동 한 경우 정리
                 if (currentIndex < newIndex)
                 {
@@ -326,36 +317,30 @@
             },
             onStepChanged: function (event, currentIndex, priorIndex)
             {
-            	// 입력값 이외의 유효성 검사 후 만족 시 PASS
-                /* if (currentIndex === 2 && Number($("#age").val()) >= 18)
-                {
-                    $(this).steps("next");
-                } */
-				
-            	// 입력값 이외의 유효성 검사 후 만족인 상태에서 이전으로 갈때 warning 건너뛰기
-                /* if (currentIndex === 2 && priorIndex === 3)
-                {
-                    $(this).steps("previous");
-                } */            	
+            	         	
             },
             onFinishing: function (event, currentIndex)
             {
-                var form = $(this);
-                
+                var form = $(this);                
 				// 비활성 필드 유효성 검사
-                // Disable validation on fields that are disabled.
-                // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
                 form.validate().settings.ignore = ":disabled";
-
-                // Start validation; Prevent form submission if false
                 return form.valid();
             },
             onFinished: function (event, currentIndex)
             {
                 var form = $(this);
 
-                // Submit form input
-                form.submit();
+                /* form.submit(); */
+                last.click(function(){
+                    swal({
+                        title: "완료!",
+                        text: "메뉴가 등록되었습니다 :)",
+                        type: "success"
+                    });
+                    $('.confirm').click(function () {
+    		        	location.href = '${ pageContext.request.contextPath}/menu/menuBoard.do';
+    				});
+                });
             }
         }).validate({
                     errorPlacement: function (error, element)
@@ -416,17 +401,8 @@
     // 이미지 변경 없어도 유효성검사 넘어가도록
     function onReq() {
     	$('#img').addClass('required');
-    }
-        
-   	/* // 날짜 yyyy-MM-dd 포맷 변환 함수
-   	function getFormatDate(date){
-   		var year = date.getFullYear();					// yyyy
-   		var month = (1 + date.getMonth());				// M
-   		month = month >= 10 ? month : '0' + month;		// month 두자리로 저장
-   		var day = date.getDate();						// d
-   		day = day >= 10 ? day : '0' + day;				// day 두자리로 저장
-   		return  year + '/' + month + '/' + day;
-   	} */
+    }        
+   	
    	
 </script>
 

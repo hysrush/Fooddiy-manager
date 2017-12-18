@@ -56,29 +56,22 @@
             	<c:forEach items="${ menuList }" var="menu">
 	                <div class="col-md-3">
 	                    <div class="ibox">
-	                        <div class="ibox-content product-box">
-								<div class = "menuType" style = "display: none">${ menu.type }</div>
-	                            <div class="product-imitation">
-	                                <img src="${ pageContext.request.contextPath }/upload/menu/${ menu.imgFileName }" style="width: 100%;">
-	                            </div>
-	                            <div class="product-desc" style="max-height: 180px">
-	                                <span class="product-price">
-	                                    ${ menu.price }원
-	                                </span>
-	                                <small class="text-muted">Category</small>
-	                                <a href="${ pageContext.request.contextPath}/menu/menuDetail.do?no=${menu.no}" class="product-name">${ menu.name }</a>
-	
-	
-	
-	                                <!-- <div class="small m-t-xs">
-	                                    Many desktop publishing packages and web page editors now.
-	                                </div> -->
-	                                <div class="m-t text-righ">
-	
-	                                    <a href="${ pageContext.request.contextPath}/menu/menuDetail.do?no=${menu.no}" class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i> </a>
-	                                </div>
-	                            </div>
-	                        </div>
+		                        <div class="ibox-content product-box" onclick="location.href='${ pageContext.request.contextPath}/menu/menuDetail.do?no=${menu.no}'">
+									<div class = "menuType" style = "display: none">${ menu.type }</div>
+		                            <div class="product-imitation">
+		                                <img src="${ pageContext.request.contextPath }/upload/menu/${ menu.imgFileName }" style="width: 100%;">
+		                            </div>
+		                            <div class="product-desc" style="max-height: 180px">
+		                                <span class="product-price">
+		                                    ${ menu.price }원
+		                                </span>
+		                                <small class="text-muted">Category</small>
+		                                <a href="${ pageContext.request.contextPath}/menu/menuDetail.do?no=${menu.no}" class="product-name" style="margin-top: 15px">${ menu.name }</a>		                                
+		                                <div class="m-t text-righ">		
+		                                    <a href="${ pageContext.request.contextPath}/menu/menuDetail.do?no=${menu.no}" class="btn btn-xs btn-outline btn-primary">Info <i class="fa fa-long-arrow-right"></i></a>
+		                                </div>
+		                            </div>
+		                        </div>
 	                    </div>
 	                </div>
                	</c:forEach>
@@ -123,21 +116,21 @@
     			var product  = $('.product-box').eq(i);    			
     			
 	    		if( product.find('.menuType').text() == 'R'){
-	    			product.find('.text-muted').html("추천메뉴");}
+	    			product.find('.text-muted').html('<span class="label label-danger">추천메뉴</span>');}
 	    		else if(product.find('.menuType').text() == 'P'){
-	    			product.find('.text-muted').html("프리미엄");}
+	    			product.find('.text-muted').html('<span class="label label-success">프리미엄</span>');}
 	    		else if(product.find('.menuType').text() == 'B'){
-	    			product.find('.text-muted').html("베스트");}
+	    			product.find('.text-muted').html('<span class="label label-primary">베스트</span>');}
 	    		else if(product.find('.menuType').text() == 'C'){
-	    			product.find('.text-muted').html("클래식");}
+	    			product.find('.text-muted').html('<span class="label label-default">클래식</span>');}
 	    		else if(product.find('.menuType').text() == 'M'){
-	    			product.find('.text-muted').html("아침식사");}
+	    			product.find('.text-muted').html('<span class="label label-warning">아침식사</span>');}
 	    		else if(product.find('.menuType').text() == 'S'){
-	    			product.find('.text-muted').html("샐러드");}
+	    			product.find('.text-muted').html('<span class="label label-info">샐러드</span>');}
 	    		else if(product.find('.menuType').text() == 'N'){
-	    			product.find('.text-muted').html("추가메뉴");}
+	    			product.find('.text-muted').html('<span class="label label-default">추가메뉴</span>');}
 	    		else if(product.find('.menuType').text() == 'D'){
-	    			product.find('.text-muted').html("음료");}
+	    			product.find('.text-muted').html('<span class="label label-default">음료</span>');}
     		}
     		
     		

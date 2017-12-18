@@ -166,7 +166,7 @@
 										</c:forEach>
 
 										</tbody>
-									</table><button class="btn btn-outline btn-danger btn-md" type="button" onclick="delRow()">선택삭제</button>
+									</table><!-- <button class="btn btn-outline btn-danger btn-md" type="button" onclick="delRow();">선택삭제</button> -->
 								</div>
 							</div>
 						</div>
@@ -207,9 +207,9 @@
 			$('.menuLI').addClass("active");
 			$('.menuLI > ul').addClass("in");
 			$('.menuBoard').addClass("active");
-
+			// footable 시작
             $('.footable').footable();            
-            
+       		// QnA 타입별 라벨 클래스명 & 텍스트 변경
 			for(var i = 0; i < $('.boardList').length; ++i) {    			
     			var product  = $('.boardList').eq(i).find('.label');
 	    		if( product.text() == 'R'){
@@ -225,7 +225,7 @@
 	    			product.html("베스트");
 	    		}
 	    		else if(product.text() == 'C'){
-	    			product.attr("class","label label-information");
+	    			product.attr("class","label label-plain");
 	    			product.html("클래식");
 	    		}
 	    		else if(product.text() == 'M'){
@@ -233,7 +233,7 @@
 	    			product.html("아침식사");
 	    		}	    		
 	    		else if(product.text() == 'S'){
-	    			product.attr("class","label label-information");
+	    			product.attr("class","label label-info");
 	    			product.html("샐러드");
 	    		}
 	    		else if(product.text() == 'N'){
@@ -250,21 +250,14 @@
 			$('.i-checks').iCheck({
 	            checkboxClass: 'icheckbox_square-green',
 	            radioClass: 'iradio_square-green',
-	        });
+	        });			
 			
-			
-			$(document).ready('load', function(){
-				$('#DataTables_Table_0_info').before('<button/>');
-			});
-			
-			/* '<button class="btn btn-default btn-xs" type="button" onclick="delRow()">선택삭제</button>' */
 			
     		// 체크박스 전체 선택
-    		var start = 4;
-    		$('input').eq(start).on('ifChecked', function(){
+    		$('input').on('ifChecked', function(){
     			$('.icheckbox_square-green').addClass("checked");
     		});
-    		$('input').eq(start).on('ifUnchecked', function(){
+    		$('input').on('ifUnchecked', function(){
     			$('.icheckbox_square-green').removeClass("checked");
     		});
 			
@@ -277,9 +270,9 @@
     		});
     		
 			
-			// 데이터테이블 생성
+    		// 데이터테이블 생성 & 옵션 변경
 			$('.footable').css("width","100%");
-			$('.dataTables-example').DataTable({
+			var table = $('.dataTables-example').DataTable({
                 pageLength: 10,
                 bPaginate: true,
                 responsive: true,
@@ -295,6 +288,10 @@
                     "sZeroRecords" : "입력하신 검색어와 일치하는 결과가 없습니다. 다시 한번 검색해주세요!",
                     // 검색 text
                     "sSearch" : "전체 검색 : ",
+               		// 로딩 text
+                    "sLoadingRecords" : "읽는중...",
+                    // 처리 text
+                    "sProcessing" : "처리중...",
                     // 보기 text
                     "sLengthMenu" : "보기 : _MENU_",
                     // 페이징 버튼 text
@@ -303,12 +300,20 @@
                     	"sNext": ">>"
                       }
                 },
+                "iDisplayLength": -1,
+                // 우선순위 Sort
+                "aaSorting": [[ 5, "desc" ]], // Sort by first column descending
+                // 컬럼 Sort 없애기
+                "aoColumnDefs": [
+                    { "bSortable": false, "aTargets": [ 0 ] }
+                ],
+                // 버튼 옵션
                 buttons: [
-                    {extend: 'copy'},
-                    {extend: 'csv'},
-                    {extend: 'excel', title: 'ExcelFile'},
-                    {extend: 'pdf', title: 'PdfFile'},
-                    {extend: 'print',
+                    {extend: 'copy', text: '<i class="fa fa-copy" aria-hidden="true"> Copy</i>'},
+                    //{extend: 'csv'},
+                    {extend: 'excel', title: 'ExcelFile', text: '<i class="fa fa-file-excel-o" aria-hidden="true"> Excel</i>'},
+                    {extend: 'pdf', title: 'PdfFile', text: '<i class="fa fa-file-pdf-o" aria-hidden="true"> Pdf</i>'},
+                    {extend: 'print', text: '<i class="fa fa-print" aria-hidden="true"> Print</i>',
                      customize: function (win){
                             $(win.document.body).addClass('white-bg');
                             $(win.document.body).css('font-size', '10px');
@@ -329,10 +334,39 @@
 				} else if (keyupWord.length > 0){
 					$('#DataTables_Table_0_info').html(text.replace("*", "<br><strong>" + keyupWord + "</strong>와(과) 일치하는 검색결과입니다."));
 				} 
-			});				
+			});
+			
+			// 선택삭제 버튼 생성
+			table.button().add( 4, {
+			    text: '<i class="fa fa-trash" aria-hidden="true"> 선택삭제</i>',
+			    action: function () {
+			    	delRow();
+			    }
+			} );
+			// 선택삭제 버튼 위치 변경
+			var clone = $('.dt-buttons a').eq(4).clone(true);
+			clone.appendTo('#DataTables_Table_0_paginate').css('float','left');
+			$('.dt-buttons a').eq(4).hide();
+			
+			// 리스트 변환 버튼 생성
+			table.button().add( 4, {
+				text: '<i class="fa fa-th" aria-hidden="true"> 리스트로 보기</i>',
+				action: function(){
+					changeList();
+				}
+			});
+			// 변환버튼 위치 변경			
+			$('dt.button a').eq(5).show();
 
         });
-                
+        
+        // 리스트로 이동
+        function changeList() {
+        	location.href = "${ pageContext.request.contextPath }/menu/menuAll.do";
+        }
+        
+        
+        
         
      	// action 함수
 		function btnClick(type, no) {

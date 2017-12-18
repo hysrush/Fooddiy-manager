@@ -42,7 +42,6 @@
 		<li class="menuLI"><a href="#"><i class="fa fa-sitemap"></i> <span
 				class="nav-label">메뉴 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li class="menuAll"><a href="${ pageContext.request.contextPath }/menu/menuAll.do">메뉴 리스트</a></li>
 				<li class="menuBoard"><a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴 관리</a></li>
 				<li class="menuRegister"><a href="${ pageContext.request.contextPath }/menu/menuRegister.do">메뉴 등록</a></li>
 			</ul></li>
