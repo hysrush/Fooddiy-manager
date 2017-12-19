@@ -136,5 +136,17 @@ public class SignServiceImp implements SignService {
 		
 		return signDAOImp.checkpw(check);
 	}
+
+	// 매니저 정보 보기
+	public ManagerVO selectManager(String id) {
+		
+		return signDAOImp.selectManager(id);
+	}
+
+	// 매니저 정보 수정
+	public ManagerVO updateManager(ManagerVO up) {
+		
+		return signDAOImp.updateManager(up);
+	}
 	
 }

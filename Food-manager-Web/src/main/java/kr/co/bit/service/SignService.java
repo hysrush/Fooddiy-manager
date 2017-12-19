@@ -18,7 +18,7 @@ public interface SignService {
 	
 	// 로그인
 	ManagerVO login(ManagerVO login);
-	
+
 	// pw 찾기
 	ManagerVO lostPw(ManagerVO lost);
 	
@@ -27,6 +27,11 @@ public interface SignService {
 	
 	// 현재 비밀번호와 새로운 비밀번호가 일치하는지 확인
 	int checkpw(ManagerVO check);
-
+	
+	// 회원 정보 보기
+	ManagerVO selectManager(String id);
+	
+	// 매니저 정보 수정
+	ManagerVO updateManager(ManagerVO up);
 
 }

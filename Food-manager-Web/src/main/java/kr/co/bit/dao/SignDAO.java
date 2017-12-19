@@ -25,4 +25,10 @@ public interface SignDAO {
 	// 현재 비밀번호와 새로운 비밀번호가 일치하는지 확인
 	int checkpw(ManagerVO check);
 	
+	// 매니저 정보 보기
+	ManagerVO selectManager(String id);
+	
+	// 매니저 정보 수정
+	ManagerVO updateManager(ManagerVO up);
+	
 }

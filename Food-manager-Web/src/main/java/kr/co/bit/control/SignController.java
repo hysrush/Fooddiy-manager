@@ -184,7 +184,6 @@ public class SignController {
 			
 			return "sign/loginForm";
 		}
-		signIn.setAddr(signIn.getAddr().replace(",", " "));
 		
 		model.addAttribute("loginVO", signIn);
 		System.out.println(signIn.toString());
@@ -222,9 +221,25 @@ public class SignController {
 	
 	// 매니저 정보 상세 보기
 	@RequestMapping("/profile")
-	public String profile(String id) {
+	public String profile(String id, Model model) {
+		
+		ManagerVO m = signServiceImp.selectManager(id);
+		
+		m.setAddr(m.getAddr().replace(",", " "));
+		
+		model.addAttribute("userVO", m);
 		
 		return "sign/profile";
+	}
+	
+	// 매니저 정보 phone만 수정
+	@RequestMapping("/updateManager")
+	public String updateManager(ManagerVO up, Model model) {
+		
+		ManagerVO userVO = signServiceImp.updateManager(up);
+		model.addAttribute("loginVO", userVO);
+		
+		return "redirect:/sign/profile";
 	}
 
 	// 현재 비밀번호와 새로운 비밀번호가 일치하는지 확인

@@ -24,7 +24,7 @@
                              </span> <span class="text-muted text-xs block">${ loginVO.branch } <b class="caret"></b></span> </span> </a>
                              
 				<ul class="dropdown-menu animated fadeInRight m-t-xs">
-					<li><a href="${ pageContext.request.contextPath }/sign/profile">Profile</a></li>
+					<li><a href="${ pageContext.request.contextPath }/sign/profile?id=${loginVO.id}">Profile</a></li>
 					<li><a href="">Contacts</a></li>
 					<li><a href="mailbox.html">Mailbox</a></li>
 					<li class="divider"></li>
