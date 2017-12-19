@@ -931,7 +931,7 @@
         </div>
     </div>
 
-    <!-- Mainly scripts -->
+  <!-- Mainly scripts -->
     <script src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
@@ -970,10 +970,9 @@
     <!-- Toastr -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/toastr/toastr.min.js"></script>
 
-
     <script>
         $(document).ready(function() {
-        	
+
         	// sidebar li 클래스 active
         	$('.mainLI').addClass("active");
         	
@@ -982,9 +981,9 @@
                     closeButton: true,
                     progressBar: true,
                     showMethod: 'slideDown',
-                    timeOut: 4000
+                    timeOut: 2000
                 };
-                toastr.success('Responsive Admin Theme', 'Welcome to INSPINIA');
+                toastr.success('Welcome to Fooddiy-Order Admin+');
 
             }, 1300);
 

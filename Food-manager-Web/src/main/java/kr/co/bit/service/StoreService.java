@@ -4,6 +4,7 @@ import java.util.List;
 
 import kr.co.bit.vo.CityVO;
 import kr.co.bit.vo.StoreVO;
+import kr.co.bit.vo.locationVO;
 
 public interface StoreService {
 
@@ -16,6 +17,7 @@ public interface StoreService {
 	void delete(int no);
 	void insert(StoreVO storeVO);
 	List<CityVO> selectCity();
-	List selectLocation(String sido);
+	List<locationVO> selectLocation(String sido);
+	StoreVO selectStoreAddr(String store);
 	
 }

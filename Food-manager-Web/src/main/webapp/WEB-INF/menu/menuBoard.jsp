@@ -69,7 +69,7 @@
 			<!-- 페이지 컨텐츠 -->
 			<div class="wrapper wrapper-content animated fadeInRight ecommerce">
 				<!-- Search box -->
-				<div class="ibox-content m-b-sm border-bottom">
+				<!-- <div class="ibox-content m-b-sm border-bottom">
 					<div class="row">
 						<div class="col-sm-2">
 							<div class="form-group">
@@ -106,7 +106,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<!-- menu List -->
 				<div class="row">
 					<div class="col-lg-12">
@@ -166,7 +166,7 @@
 										</c:forEach>
 
 										</tbody>
-									</table><!-- <button class="btn btn-outline btn-danger btn-md" type="button" onclick="delRow();">선택삭제</button> -->
+									</table>
 								</div>
 							</div>
 						</div>
@@ -209,7 +209,7 @@
 			$('.menuBoard').addClass("active");
 			// footable 시작
             $('.footable').footable();            
-       		// QnA 타입별 라벨 클래스명 & 텍스트 변경
+       		// Menu 타입별 라벨 클래스명 & 텍스트 변경
 			for(var i = 0; i < $('.boardList').length; ++i) {    			
     			var product  = $('.boardList').eq(i).find('.label');
 	    		if( product.text() == 'R'){
@@ -254,10 +254,10 @@
 			
 			
     		// 체크박스 전체 선택
-    		$('input').on('ifChecked', function(){
+    		$('input').eq(1).on('ifChecked', function(){
     			$('.icheckbox_square-green').addClass("checked");
     		});
-    		$('input').on('ifUnchecked', function(){
+    		$('input').eq(1).on('ifUnchecked', function(){
     			$('.icheckbox_square-green').removeClass("checked");
     		});
 			
@@ -346,11 +346,11 @@
 			// 선택삭제 버튼 위치 변경
 			var clone = $('.dt-buttons a').eq(4).clone(true);
 			clone.appendTo('#DataTables_Table_0_paginate').css('float','left');
-			$('.dt-buttons a').eq(4).hide();
+			$('.dt-buttons a').eq(4).show();
 			
 			// 리스트 변환 버튼 생성
 			table.button().add( 4, {
-				text: '<i class="fa fa-th" aria-hidden="true"> 리스트로 보기</i>',
+				text: '<i class="fa fa-th" aria-hidden="true"> 이미지로 보기</i>',
 				action: function(){
 					changeList();
 				}
@@ -362,7 +362,7 @@
         
         // 리스트로 이동
         function changeList() {
-        	location.href = "${ pageContext.request.contextPath }/menu/menuAll.do";
+        	location.href = "${ pageContext.request.contextPath }/menu/list.do";
         }
         
         

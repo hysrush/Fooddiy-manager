@@ -204,7 +204,12 @@
                                         </div>                   
 	                                </fieldset>
 	                        	</form:form>
-	                        </div>
+	                        </div>	                        
+	                        
+	                        <div style="text-align: center;">
+		                        <a href="${ pageContext.request.contextPath }/menu/menuBoard.do"><button class="btn btn-danger" type="button"><i class="fa fa-times"></i><span class="bold">&nbsp;취소</span></button></a>
+	                        </div>	                        
+	                        
 	                    </div>
 	                    </div>
 	
@@ -332,7 +337,6 @@
             {
                 var last = $(this);
                 
-                /* form.submit(); */
                 last.click(function(){
                     swal({
                         title: "완료!",
@@ -340,9 +344,9 @@
                         type: "success"
                     });
                     $('.confirm').click(function () {
-    		        	location.href = '${ pageContext.request.contextPath}/menu/menuBoard.do';
+	                    form.submit();
     				});
-                }); 
+                });
             }
         }).validate({
                     errorPlacement: function (error, element)
@@ -383,7 +387,57 @@
                     	allergy: {
                             maxlength: 30
                         }                    	
+                    },
+                    messages: {
+                    	name: {
+                    		required: "입력값이 없습니다!",
+                    		maxlength: "15자 이내로 입력해주세요",
+                    	},
+                    	mainmenu: {
+                    		required: "입력값이 없습니다!",
+                    		maxlength: "30자 이내로 입력해주세요",
+                    	},
+                    	type: {
+                    		required: "입력값이 없습니다!"
+                    	},
+                    	price: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	detail: {
+                    		required: "입력값이 없습니다!",
+                    		maxlength: "300자 이내로 입력해주세요",
+                    	},
+                    	serviceSize: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	calorie: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	protein: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	natrium: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	sugar: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	fat: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	allergy: {
+                    		required: "입력값이 없습니다!",
+                    		maxlength: "30자 이내로 입력해주세요",
+                    	}
                     }
+                    
                	});        
         
     });    

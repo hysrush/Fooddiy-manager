@@ -4,7 +4,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -13,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.bit.service.MenuService;
+import kr.co.bit.util.Paging;
 import kr.co.bit.vo.MenuVO;
 
 @Controller
@@ -46,7 +48,7 @@ public class MenuController {
 		mav.addObject("menuList", menuList);
 		
 		return mav;		
-	}
+	}	
 	
 	// menu 관리 게시판 전체보기
 	@RequestMapping("/menuBoard.do")
@@ -66,6 +68,40 @@ public class MenuController {
 		return mav;		
 		
 	}
+	
+	
+	// 01. 게시글 목록
+	@RequestMapping("/list.do")
+	// @RequestParam(defaultValue="") ==> 기본값 할당 : 현재페이지를 1로 초기화
+	public ModelAndView list(@RequestParam(defaultValue="1") int curPage, HttpSession session) throws Exception{
+	    // 이전 목록으로 이동
+		session.setAttribute("url", "menu/list");
+	    // 레코드의 갯수 계산
+	    int count = menuService.countArticle();	    
+	    // 페이지 나누기 관련 처리
+	    Paging boardPager = new Paging(count, curPage);
+	    int start = boardPager.getPageBegin();
+	    int end = boardPager.getPageEnd();
+	    
+	    List<MenuVO> list = menuService.listAll(start, end);
+	    
+	    // 데이터를 맵에 저장
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("list", list); // list
+	    map.put("count", count); // 레코드의 갯수
+	    map.put("boardPager", boardPager);
+	    
+	    ModelAndView mav = new ModelAndView();
+	    mav.setViewName("menu/menuList"); // 뷰를 list.jsp로 설정
+	    mav.addObject("map", map); // 맵에 저장된 데이터를 mav에 저장
+	    mav.addObject("menuList", list);
+	    
+	    return mav; // list.jsp로 List가 전달된다.
+	}
+
+	
+	
+	
 	
 	// menu 상세내용 조회
 	// ex) menu/menuDetail.do?no=1
@@ -127,7 +163,7 @@ public class MenuController {
 		// menuVO에 저장 
 		menuService.insertMenu(menuVO);
 	
-		return "redirect:/menu/menuAll.do";
+		return "redirect:/menu/menuBoard.do";
 	}	
 	
 	// menu 수정폼
@@ -179,7 +215,8 @@ public class MenuController {
 		
 		menuService.modifyMenu(menuEditedVO);
 		
-		return "redirect:/menu/menuBoard.do";
+		/*return "redirect:/menu/menuBoard.do";*/
+		return "";
 	}
 	
 	

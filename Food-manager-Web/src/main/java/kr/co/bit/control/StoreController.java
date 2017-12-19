@@ -1,8 +1,5 @@
 package kr.co.bit.control;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +14,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.bit.service.StoreService;
-import kr.co.bit.vo.CityVO;
-import kr.co.bit.vo.EventBoardVO;
 import kr.co.bit.vo.StoreVO;
 import kr.co.bit.vo.locationVO;
 

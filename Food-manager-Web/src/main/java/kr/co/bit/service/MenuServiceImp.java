@@ -9,7 +9,7 @@ import kr.co.bit.dao.MenuDAO;
 import kr.co.bit.vo.MenuVO;
 
 @Service
-public class MenuServiceImp implements MenuService {
+public class MenuServiceImp implements MenuService {	
 	
 	@Autowired
 	private MenuDAO menuDAO;
@@ -42,6 +42,17 @@ public class MenuServiceImp implements MenuService {
 		menuDAO.deleteSome(list);
 	}
 	
-       
+	
+	
+	// 05. 게시글 전체 목록
+	@Override
+	public List<MenuVO> listAll(int start, int end) throws Exception {
+		return menuDAO.listAll(start, end);
+	}
+	// 07. 게시글 레코드 갯수 boardDao.countArticle메서드
+	@Override
+	public int countArticle() throws Exception {
+		return menuDAO.countArticle();
+	}    
     
 }
