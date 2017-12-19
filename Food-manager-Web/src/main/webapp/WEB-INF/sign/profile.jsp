@@ -1,10 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -18,19 +15,24 @@
      <!-- Mainly scripts -->
     <script src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
+    <!-- iCheck -->
+    <script src="${ pageContext.request.contextPath }/resources/js/plugins/iCheck/icheck.min.js"></script>
+    <!-- modal -->
+   	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
+	
+	 <!-- Mainly scripts -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
     <!-- Custom and plugin javascript -->
     <script src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/pace/pace.min.js"></script>
-
-    <!-- Password meter -->
+	
+	<!-- Password meter -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/pwstrength/pwstrength-bootstrap.min.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/pwstrength/zxcvbn.js"></script>
-   
+    
     <!-- alert창 -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
     <script>window.name="main"</script>
 
 <script>
@@ -46,7 +48,7 @@ $(document).ready(function(){
 		});
 	}
 	
-	// 비밀번호 유효성 확인
+	/* // 비밀번호 유효성 확인
     var options2 = {};
     options2.ui = {
         container: "#pwd-container2",
@@ -56,8 +58,7 @@ $(document).ready(function(){
             verdict: ".pwstrength_viewport_verdict"
         }
     };
-    $('.example2').pwstrength(options2);
-
+    $('.example2').pwstrength(options2); */
 });	
 
 	
@@ -89,7 +90,6 @@ $(document).ready(function(){
 				}
 			}
 		});
-		
 		
 	}
 	
@@ -143,36 +143,25 @@ $(document).ready(function(){
             </div>
         <div class="wrapper wrapper-content">
             <div class="row animated fadeInRight">
-            	<div class="col-md-3"></div>
-                <div class="col-md-6">
+            <div class="col-md-3"></div>
+                <div class="col-md-8">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>Profile Detail</h5>
                         </div>
                         <div>
                             <div class="ibox-content border-left-right">
-                                <img alt="image" style="width: 250px;" class="img-responsive" border=1 align=left vspace=0 hspace=30 src="${ pageContext.request.contextPath }/resources/img/profile_big.jpg">
+                                <img alt="image" style="width: 25%;" class="img-responsive" border=1 align=left vspace=0 hspace=50 src="${ pageContext.request.contextPath }/resources/img/subway.png">
                                 <h4><strong> ${ loginVO.name } 매니저</strong></h4>
-                                <p><i class="fa fa-map-marker"></i> ${ loginVO.branch }</p>
+                                <p><i class="fa fa-map-marker"></i> ${ loginVO.branch } 점</p>
+                                <p>${ loginVO.addr }</p>
                                 <p><i class="fa fa-envelope"></i> ${ loginVO.id }</p>
-                               <!--  <div class="row m-t-lg">
-                                    <div class="col-md-4">
-                                        <span class="bar">5,3,9,6,5,9,7,3,5,2</span>
-                                        <h5><strong>169</strong> Posts</h5>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <span class="line">5,3,9,6,5,9,7,3,5,2</span>
-                                        <h5><strong>28</strong> Following</h5>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <span class="bar">5,3,2,-1,-3,-2,2,3,5,2</span>
-                                        <h5><strong>240</strong> Followers</h5>
-                                    </div>
-                                </div> -->
                                <div class="user-button">
-									<div class="col-md-8"></div>
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
+                                            <button type="button" data-toggle="modal" data-target="#myModal6" class="btn btn-primary btn-sm btn-block"><i class="fa fa-pencil"></i> 정보 수정</button>
+                                        </div>
+                                        <div class="col-md-3">
                                             <button type="button" data-toggle="modal" data-target="#myModal6" class="btn btn-primary btn-sm btn-block"><i class="fa fa-pencil"></i> 비밀번호 변경</button>
                                         </div>
                                     </div>

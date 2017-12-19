@@ -29,7 +29,6 @@
    	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"> </script>
 	
 	 <!-- Mainly scripts -->
-    <script src="${ pageContext.request.contextPath }/resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
     <!-- Custom and plugin javascript -->
@@ -279,20 +278,26 @@
 				data : {"store" : store},
 				success : function(responseData){
 					var data = JSON.parse(responseData);
-					
-					if(data == null){
-						
+					console.log(data);
+					if(data.storeAddr == null){
 						alert("이미 등록된 지점입니다. 본인의 지점을 선택해 주세요.");
+						$("#signUp").attr('disabled', true);
+						
 						return;
 					}
 					
-					var addr = data.storeAddr;
-					var name = data.storeName;
-					var phone = data.storePhone;
+						
+						
+						
+						var addr = data.storeAddr;
+						var name = data.storeName;
+						var phone = data.storePhone;
+						
+						$("#addr").val(addr);
+						$("#branch").val(name);
+						$("#tel").val(phone);
+						$("#signUp").attr('disabled', false);
 					
-					$("#addr").val(addr);
-					$("#branch").val(name);
-					$("#tel").val(phone);
 					
 				}
 			});
@@ -433,9 +438,9 @@
                 <!-- <div class="form-group">
                         <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>
                 </div> -->
-                <button type="submit" class="btn btn-primary block full-width m-b">등록</button>
+                <button type="submit" id="signUp" class="btn btn-primary block full-width m-b">등록</button>
 
-                <p class="text-muted text-center"><small>Already have an account?</small></p>
+                <p class="text-muted text-center"><small>이미 가입하셨습니까?</small></p>
                 <a class="btn btn-sm btn-white btn-block" href="${ pageContext.request.contextPath }/sign/login">Login</a>
             </form>
             <p class="m-t"> <small>Fooddiy-Order Admin+ &copy; 2017</small> </p>

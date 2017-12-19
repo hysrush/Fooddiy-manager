@@ -137,7 +137,9 @@ public class SignController {
 		
 		if(check==1) {
 			
-			return null;
+			StoreVO s = new StoreVO();
+			
+			return s;
 		}
 		
 		return storeD;
@@ -146,6 +148,8 @@ public class SignController {
 	// - 관리자 등록
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	public String signUpForm(ManagerVO managerVO, Model model) {
+		
+		managerVO.setAddr(managerVO.getAddr().replace(",", " "));
 		
 		ManagerVO loginVO = signServiceImp.signUp(managerVO);
 		
@@ -180,12 +184,13 @@ public class SignController {
 			
 			return "sign/loginForm";
 		}
+		signIn.setAddr(signIn.getAddr().replace(",", " "));
 		
 		model.addAttribute("loginVO", signIn);
 		System.out.println(signIn.toString());
 		model.addAttribute("url", "FirstPage");
 		
-		return "sign/sign";
+		return "redirect:/FirstPage.jsp";
 	}
 
 	// - 로그아웃
