@@ -79,18 +79,18 @@
 						<div class="ibox">
 							<div class="ibox-content">
 								<div class="table-responsive">
-									<table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="25">
+									<table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="3000">
 										<thead>
 											<tr>
-												<th data-hide="phone" data-sort-ignore="true">주문번호</th>
-												<th data-hide="phone" data-sort-ignore="true">주문시간</th>
-												<th data-hide="phone" data-sort-ignore="true">메뉴</th>
-												<th data-hide="phone" data-sort-ignore="true">주문자</th>
-												<th data-hide="phone" data-sort-ignore="true">주문금액</th>
-												<th data-hide="phone" data-sort-ignore="true">총 결제금액</th>
-												<th data-hide="phone" data-sort-ignore="true">결제방법</th>
-												<th data-hide="phone" data-sort-ignore="true">주문상태</th>
-												<th data-hide="phone" data-sort-ignore="true">주문취소</th>
+												<th data-hide="phone" data-sort-ignore="true" style="width: 95px">주문번호</th>
+												<th data-hide="phone" data-sort-ignore="true" style="width: 95px">주문시간</th>
+												<th data-hide="phone" data-sort-ignore="true" style="width: 300px">메뉴</th>
+												<th data-hide="phone" data-sort-ignore="true" style="width: 137px">주문자</th>
+												<th data-hide="phone" data-sort-ignore="true" style="width: 95px">주문금액</th>
+												<th data-hide="phone" data-sort-ignore="true" style="width: 112px">총 결제금액</th>
+												<th data-hide="phone" data-sort-ignore="true" style="width: 95px">결제방법</th>
+												<th data-hide="phone" data-sort-ignore="true" style="width: 95px">주문상태</th>
+												<th data-hide="phone" data-sort-ignore="true" style="width: 95px">주문취소</th>
 											</tr>
 										</thead>
 										<tbody class= "todayOrderList">
@@ -100,7 +100,7 @@
 											<tr>
 													<td class="convType orderNumber" width="100px;">
 				                                    	${ order.no }
-			                                  		</td>
+			            				      		</td>
 														
 													<td>${ order.regDate }</td>
 													<td>
@@ -112,7 +112,14 @@
 														</a>
 			                                   		</td>
 													<td width="10%" nowrap>
-														${ order.id }
+														<c:choose>
+															<c:when test="${ order.id == '비회원'}">
+																비회원(${ order.no })
+															</c:when>
+															<c:otherwise>
+																${ order.id }
+															</c:otherwise>
+														</c:choose>
 													</td>	
 													
 													<td class = "commaN orderPrice">${ order.order_price }원</td>											

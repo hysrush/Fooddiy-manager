@@ -43,7 +43,7 @@
 				<div class="col-lg-2"></div>
 			</div>
 
-			<div class="wrapper wrapper-content animated fadeInRight total-orderFormat">
+			<div class="wrapper wrapper-content animated fadeInRight total-orderFormat" onclick="clearBlinkBorder()" style="min-height: 680px">
 				<div class="row">
 
 					<c:forEach items="${ orderList }" var="order">
@@ -65,9 +65,18 @@
 											</div>
 										</div>
 										<div class="product-desc" style="max-height: 180px">
-											<span class="product-price"> ${ order.id } </span>
-											<button type="button" class="btn btn-w-m btn-primary" onclick="complete(${order.no})">완료</button>
-											<button type="button" class="btn btn-w-m btn-danger" onclick="cancel(${order.no})">취소</button>
+											<span class="product-price member-id"> 
+												<c:choose>
+													<c:when test="${ order.id == '비회원'}">
+														비회원 (${ order.no })
+													</c:when>
+													<c:otherwise>
+														${ order.id } (${ order.no })
+													</c:otherwise>
+												</c:choose>
+											</span>
+											<button type="button" class="btn btn-w-m btn-primary" onclick="orderComplete(${order.no})">완료</button>
+											<button type="button" class="btn btn-w-m btn-danger" onclick="orderCancel(${order.no})">취소</button>
 											<div class="orderNumber" style="display: none">${order.no}</div>
 										</div>
 									</div>
@@ -98,60 +107,59 @@
 	<script src="${ pageContext.request.contextPath}/resources/js/inspinia.js"></script>
 	<script src="${ pageContext.request.contextPath}/resources/js/plugins/pace/pace.min.js"></script>
 	<script>
+    	var sum = 0;
+    	var orderInterval;
+    	var currentOrderCount;
+    	var blinkBorder;
+    	var flag;
+    	var color = [ "purple", "#ed9c28", "#47a447", "#1c84c6", "#5bc0de", "#383f48" ];
+    	
+    	
+    	
     	$(document).ready(function() {
-    		
-    		var orderInterval;
   
     		// sidebar li & ul 클래스 active
 			$('.orderManagementLI').addClass("active");
 			$('.orderManagementLI > ul').addClass("in");
 			$('.orderList').addClass("active");
+			
+    		//현재 주문횟수를 확인하고 폴링시작
+			checkCurrentCount();
     		
-			
-			var playOrder;
-			
-			if($('.order-info-box').length == 0) {
-				$('.none-order-info').css('display','block');
-				//playOrder = setInterval( checkOrder(), 1000 * 2);
-			}
-			
-	/* 		if($('.order-info-box').length < 10) {
-				playOrder = setInterval( checkOrder(), 1000 * 2);
-			} */
-			
-    		
-    		for(var i = 0; i < $('.product-box').length; ++i) {
+    		var infoBox =$('.order-info-box');
+    		for(var i = 0; i < infoBox.length; ++i) {
+    			var no = infoBox.eq(i).find('.orderNumber').text() * 1;
+    			var colorNum = no % 6;
+    			infoBox.eq(i).find('.member-id').css("background-color", color[colorNum]);
+    			console.log(colorNum + "_");
     			
-    			var product  = $('.product-box').eq(i);    			
-    			
-	    		if( product.find('.menuType').text() == 'R'){
-	    			product.find('.text-muted').html("추천메뉴");}
-	    		else if(product.find('.menuType').text() == 'P'){
-	    			product.find('.text-muted').html("프리미엄");}
-	    		else if(product.find('.menuType').text() == 'B'){
-	    			product.find('.text-muted').html("베스트");}
-	    		else if(product.find('.menuType').text() == 'C'){
-	    			product.find('.text-muted').html("클래식");}
-	    		else if(product.find('.menuType').text() == 'M'){
-	    			product.find('.text-muted').html("아침식사");}
-	    		else if(product.find('.menuType').text() == 'S'){
-	    			product.find('.text-muted').html("샐러드");}
-	    		else if(product.find('.menuType').text() == 'N'){
-	    			product.find('.text-muted').html("추가메뉴");}
-	    		else if(product.find('.menuType').text() == 'D'){
-	    			product.find('.text-muted').html("음료");}
     		}
+    		
     	});
     	
     	
-    	//쥬문취소
-    	function cancel(no) {
-    		orderCancel(no);
+		function checkCurrentCount() {
+    		
+    		currentOrderCount = $('.order-info-box').length;
+			
+    		
+    		//인터벌 초기화
+    		clearInterval(orderInterval);
+    		
+    		console.log("currentOrderCount : " + currentOrderCount + "개");
+	   		if(currentOrderCount == 0) {
+	   			flag = 0;
+	   			orderInterval = setInterval(function() {addOrder();}, 2 * 1000);
+	   			$('.none-order-info').fadeIn(1000);
+	   		}else if(currentOrderCount < 4 ) {
+	   			flag = 1;
+   				$('.none-order-info').hide();	
+   				orderInterval = setInterval(function() {addOrder();}, 2 * 1000);
+	   		}
     	};
-    	
-     	// 삭제 alert창
+     	// 주문취소 alert창
 		function orderCancel(no) {
-			swal({
+		 	swal({
 		        title: "주문을 취소하시겠습니까?",
 		        type: "warning",
 		        showCancelButton: true,
@@ -160,24 +168,26 @@
 		        confirmButtonText: "확인",
 		        closeOnConfirm: false
 		    }, function () {
-		        swal("주문이 취소되었습니다!", "", "success");
-		        // OK 누르면 삭제 실행
-		        $('.confirm').click(function () {
-		        	$('.order-info-box').each(function() {
-		        		
-		        		if($(this).find('.orderNumber').text() == no) {
-							$(this).remove();		
-						}
-		        	}); 
-
-		        	location.href = '${ pageContext.request.contextPath}/orderManagement/orderCancel.do?no=' + no +"&url=orderList";
-		        	
-				});
-		    });
-		}; 
+		    	swal("주문이 취소되었습니다!", "", "success");
+				
+		    	$.ajax({
+		    		url : "${pageContext.request.contextPath}/orderManagement//orderCancel.do",
+		    		type: "GET",
+		    		data : {"no" : no , "url" : "orderList"},
+		    		success : function() {
+		    			$('.order-info-box').each(function() {
+							if($(this).find('.orderNumber').text() == no) {
+								$(this).remove();		
+							}
+			        	}); 
+		    			checkCurrentCount();
+		    		}
+		    	});
+		    }); 
+		};
 		
     	//주문완료
-    	function complete(no) {
+    	function orderComplete(no) {
 			$.ajax({
 				url : "${pageContext.request.contextPath}/orderManagement/orderComplete.do?no=" + no,
 				type : "GET",
@@ -187,10 +197,7 @@
 							$(this).remove();		
 						}
 		        	}); 
-					
-					if($('.order-info-box').length < 4){
-						setInterval( checkOrder(), 1000*2);
-					}
+					checkCurrentCount();
 				},
 				error : function() {
 					alert('실패');
@@ -198,56 +205,99 @@
 			});
     	};
     	
-    	function checkOrder() {
- 						
+    	
+    	//주문추가 - 폴링 
+    	function addOrder() {
+    		sum += 1;
+ 			console.log(sum);				
     		$.ajax({
     			
     			url : "${pageContext.request.contextPath}/orderManagement/orderList.do",
     			type : "POST",
     			success : function(responseData) {
-					oneOrder = JSON.parse(responseData);
-    			 	
-					for(var i = 0 ; i < oneOrder.length; ++i) {
-						
-						var detailOrderList = JSON.parse(oneOrder[i].detailOrderList);
-						for(var  j = 0; j < detailOrderList.length; ++j) {
-							
-							var order = "";
-							order += '<div class="col-md-3 order-info-box">';
-							order += 	'<div class="ibox">';
-							order +=    '<div class="ibox-content product-box">';
-							order +=        '<div class="product-imitation" style="height: 322.22px; text-align: left; font-size: 18px; color: black; padding: 50px 10px">';
-							order +=        	'<div style="position: absolute; top: 0; right: 0; font-size: 14px; color: white; background-color: #6b6766; padding: 3px 6px">' + oneOrder[i].eatType +' </div>';                
-							order +=        	'<div>';
-							order +=            	'<div>' + detailOrderList[j].name +  detailOrderList[j].size + detailOrderList[j].qty  + '개</div>';
-							order +=            	'<div>' + detailOrderList[j].bread + '</div>';
-							order +=            	'<div>' + detailOrderList[j].cheese +'</div>';
-							order +=            	'<div>' + detailOrderList[j].topping +'</div>';
-							order +=           		'<div>' + detailOrderList[j].vegetable + '</div>';
-							order +=            	'<div>' + detailOrderList[j].sauce +'</div>';
-							order +=        	'</div>';
-							order +=        '</div>';
-							order +=        '<div class="product-desc" style="max-height: 180px">';
-							order +=            '<span class="product-price">';
-							order +=            	 oneOrder[i].id;
-							order +=            '</span>';
-							order +=			'<button type="button" class="btn btn-w-m btn-primary" onclick="complete('+ oneOrder[i].no +')">완료</button>';
-							order +=			'<button type="button" class="btn btn-w-m btn-danger" onclick="cancel(' + oneOrder[i].no + ')">취소</button>';
-							order +=			'<div class = "orderNumber" style="display: none">' + oneOrder[i].no + '</div>'		;
-							order +=       '</div>';
-							order +=    '</div>';
-							order += 	'</div>';
-							order += '</div>';
-						};
-					};
-					
-					$('.total-orderFormat .row').append(order);
+    				
+    					if(responseData != "null") {
+								oneOrder = JSON.parse(responseData);
+		    			 	
+								
+								var detailOrderList = JSON.parse(oneOrder.detailOrderList);
+								for(var  j = 0; j < detailOrderList.length; ++j) {
+									
+									var no = oneOrder.no
+									var colorNum = no % 6;
+									var order = "";
+									order += '<div class="col-md-3 order-info-box">';
+									order += 	'<div class="ibox">';
+									order +=    '<div class="ibox-content product-box">';
+									order +=        '<div class="product-imitation" style="height: 322.22px; text-align: left; font-size: 18px; color: black; padding: 50px 10px">';
+									order +=        	'<div style="position: absolute; top: 0; right: 0; font-size: 14px; color: white; background-color: #6b6766; padding: 3px 6px">' + oneOrder.eatType +' </div>';                
+									order +=        	'<div>';
+									order +=            	'<div>' + detailOrderList[j].name +  detailOrderList[j].size + detailOrderList[j].qty  + '개</div>';
+									order +=            	'<div>' + detailOrderList[j].bread + '</div>';
+									order +=            	'<div>' + detailOrderList[j].cheese +'</div>';
+									order +=            	'<div>' + detailOrderList[j].topping +'</div>';
+									order +=           		'<div>' + detailOrderList[j].vegetable + '</div>';
+									order +=            	'<div>' + detailOrderList[j].sauce +'</div>';
+									order +=        	'</div>';
+									order +=        '</div>';
+									order +=        '<div class="product-desc" style="max-height: 180px">';
+									order +=            '<span class="product-price member-id" style="background-color:'+ color[colorNum]  +'">';
+															if(oneOrder.id == "비회원") {
+									order +=                 	비회원(no)			
+															}else {
+									order +=            		oneOrder.id + "&#40;" + no+ "&#41;";
+															}
+									order +=            '</span>';
+									order +=			'<button type="button" class="btn btn-w-m btn-primary" onclick="orderComplete('+ no +')">완료</button>';
+									order +=			'<button type="button" class="btn btn-w-m btn-danger" onclick="orderCancel(' +no + ')">취소</button>';
+									order +=			'<div class = "orderNumber" style="display: none">' + no + '</div>'		;
+									order +=       '</div>';
+									order +=    '</div>';
+									order += 	'</div>';
+									order += '</div>';
+				
+									if(flag == 0) {
+										blinkBorder = setInterval(function() {
+										 var border = $('.total-orderFormat');
+										 
+										 if(!border.data("clickStatus")) {
+											 console.log("깜박1");
+											 
+											 border.css({
+												"border-style" : "solid",
+												"border-color" : "red",
+												"border-width" : "8px"
+											})	
+											border.data("clickStatus", 1);
+										 }else {
+											 console.log("깜박2");
+											 border.css({
+												"border-style" : "none"
+											})									
+											border.data("clickStatus", 0);
+										 }
+										 
+										}, 500);
+									};
+									$('.total-orderFormat .row').append(order);
+									
+								};
+								
+				        		//현재 주문횟수를 확인하고 폴링시작
+								checkCurrentCount();
+    				}
     			},
     			error:function(request,status,error){
 			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			    }
     		});
     	};
+    	
+    	
+    	function clearBlinkBorder() {
+    		clearInterval(blinkBorder);
+    		$('.total-orderFormat').css("border-style", "none");
+    	}
     	
     </script>
 </body>

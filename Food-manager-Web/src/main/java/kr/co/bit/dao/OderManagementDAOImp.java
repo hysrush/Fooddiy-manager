@@ -43,6 +43,13 @@ public class OderManagementDAOImp  implements OrderManagementDAO{
 		
 		return orderList;
 	}
+	
+	@Override
+	public OrderVO selectAddOneOrder() {
+		OrderVO orderVO = session.selectOne(url + "selectAddOneOrder");
+		session.update(url + "updateAddOneOrderSataus");
+		return orderVO;
+	}
 	@Override
 	public void cancelOrder(int no) {
 		session.update(url + "cancelOrder", no);

@@ -41,6 +41,11 @@ public class OrderManagementServiceImp  implements OrderManagementService{
 	}
 	
 	@Override
+	public OrderVO selectAddOneOrder() {
+		OrderVO orderVO = dao.selectAddOneOrder();
+		return orderVO;
+	}
+	@Override
 	public void cancelOrder(int no) {
 		dao.cancelOrder(no);
 	}

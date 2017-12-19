@@ -9,6 +9,7 @@ public interface OrderManagementService {
 	public List<OrderVO> selectByToday(String today);
 	public OrderVO selectByNo(int no);
 	public List<OrderVO> selectByorderStatus();
+	public OrderVO selectAddOneOrder();
 	public void cancelOrder(int no);
 	public void completeOrder(int no);
 }
