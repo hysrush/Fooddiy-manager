@@ -181,22 +181,36 @@
 	                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
 										    <div class="form-control" data-trigger="fileinput">
 										        <i class="glyphicon glyphicon-file fileinput-exists"></i>
-										    <span class="fileinput-filename">${ menuVO.imgFileName }</span>
+										    <span class="fileinput-filename">${ menuVO.imgFileName }</span>										    
 										    </div>
 										    <span class="input-group-addon btn btn-default btn-file">
 										        <span class="fileinput-new">이미지 선택</span>
 										        <span class="fileinput-exists" onclick="onReq()">변경</span>
-										        <form:input path="imgFileName" type="file" name="imgFileName" id="img" class="required"/>
+										        <form:input path="imgFileName" type="file" name="imgFileName" id="img" class="required"/>										        
 										    </span>
 										    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" onclick="onReq()">삭제</a>
 										</div>
 	                                </fieldset>
 	                                <h1>완료</h1>
 	                                <fieldset>
-	                                    <h2>완료!!<br><br>메뉴를 수정할 준비가 되었습니다 :)</h2>	                                    
+	                                    <div class="col-lg-8">
+	                                    	<center><h2 style="font-size:25px; font-weight: 700; color: #2F4050"><br><br><br>메뉴를 수정할 준비가 되었습니다 :)</h2></center>
+	                                    </div>
+	                                    <div class="col-lg-4">
+                                            <div class="text-center">
+                                                <div style="margin-top: 20px">
+                                                    <i class="fa fa-pencil-square-o" style="font-size: 180px;color: #999b9b "></i>
+                                                </div>
+                                            </div>
+                                        </div>	                                    
 	                                </fieldset>
 	                        	</form:form>
 	                        </div>
+	                        
+	                        <div style="text-align: center;">
+		                        <a href="${ pageContext.request.contextPath }/menu/menuBoard.do"><button class="btn btn-danger" type="button"><i class="fa fa-times"></i><span class="bold">&nbsp;취소</span></button></a>
+	                        </div>
+	                        
 	                    </div>
 	                    </div>
 	
@@ -328,17 +342,16 @@
             },
             onFinished: function (event, currentIndex)
             {
-                var form = $(this);
+                var last = $(this);
 
-                /* form.submit(); */
                 last.click(function(){
                     swal({
                         title: "완료!",
-                        text: "메뉴가 등록되었습니다 :)",
+                        text: "메뉴가 수정되었습니다 :)",
                         type: "success"
                     });
-                    $('.confirm').click(function () {
-    		        	location.href = '${ pageContext.request.contextPath}/menu/menuBoard.do';
+                    $('.confirm').click(function () {                    	
+                    	form.submit();
     				});
                 });
             }
@@ -381,6 +394,55 @@
                     	allergy: {
                             maxlength: 30
                         }                    	
+                    },
+                    messages: {
+                    	name: {
+                    		required: "입력값이 없습니다!",
+                    		maxlength: "15자 이내로 입력해주세요",
+                    	},
+                    	mainmenu: {
+                    		required: "입력값이 없습니다!",
+                    		maxlength: "30자 이내로 입력해주세요",
+                    	},
+                    	type: {
+                    		required: "입력값이 없습니다!"
+                    	},
+                    	price: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	detail: {
+                    		required: "입력값이 없습니다!",
+                    		maxlength: "300자 이내로 입력해주세요",
+                    	},
+                    	serviceSize: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	calorie: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	protein: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	natrium: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	sugar: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	fat: {
+                    		required: "입력값이 없습니다!",
+                    		number: "숫자를 입력해주세요",
+                    	},
+                    	allergy: {
+                    		required: "입력값이 없습니다!",
+                    		maxlength: "30자 이내로 입력해주세요",
+                    	}
                     }
                	});
                 	
@@ -390,7 +452,7 @@
 		$('#selectBox option[value=' + type + ']').prop("selected", true);
 		
 		
-		// 기존 이미지 불러오기
+		// 기존 이미지 파일이름 불러오기
 		$('.input-group').removeClass('fileinput-new');
 		$('.input-group').addClass('fileinput-exists');
 		$('#img').removeClass('required');

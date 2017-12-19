@@ -80,9 +80,30 @@
  			</foreach>
 	</delete>
 	
-	<!-- <select id="findType" parameterType="String">
-	</select> -->	
 	
 	
-		
+	
+	
+	<!-- 게시글 전체 목록 조회 및 검색조회까지 -->
+	<select id="listAll" resultMap="Map_menuVO">
+	    <!-- 목록 조회 및 페이징 전체 쿼리 -->
+	    SELECT * FROM (
+	        SELECT ROWNUM AS rn, A.* FROM (
+		        SELECT rownum, menu_no, menu_name, main_menu, menu_type, menu_price, menu_detail, menu_pic
+							, menu_size, menu_cal, menu_pro, menu_na, menu_sug, menu_fat , menu_alg
+							, reg_at
+		        FROM t_menu
+		        ORDER BY reg_at DESC
+	        ) A
+	    ) WHERE rn BETWEEN #{start} AND #{end} 
+	</select>
+	
+	<!-- 01_02. 게시글 레코드 갯수 -->
+	<select id="countArticle" resultType="int">
+	    SELECT COUNT(*) FROM t_menu	    
+	</select>	
+	
+	
+	
+	
 </mapper>
