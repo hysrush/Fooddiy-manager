@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,6 +84,12 @@
 #logo {
 		font-size: 100px;
 	}
+	
+.btn-success {
+  background-color: #1ab394;
+  border-color: #1ab394;
+  color: #FFFFFF;
+}
 </style>
 <script>
 	$(document).ready(function(){
@@ -158,6 +164,79 @@
 		        }
 		    };
 		    $('.example2').pwstrength(options2);
+		    
+		    
+			// 시 선택 => 구/군 정보 불러오기
+			$("#sido").change(function(){
+				
+				// 1. Parameter setting
+				var sido = $("#sido").val();
+				console.log( "선택된 값1 : " + $("#sido").val() );
+	       		
+				// 2. ajax call
+				$.ajax({
+		              url : "${pageContext.request.contextPath}/sign/county",
+		              type: "post",
+		              data : { "sido" : sido },
+		              success : function(responseData){
+							var data = JSON.parse(responseData);
+							
+							$('#gugun').empty();
+							$('#gugun').append('<option value="" selected="selected">구,군 을 선택해주세요 </option>');
+							
+							for(var i = 0 ; i < data.length ; i++){
+								$('#gugun').append('<option value="'+ data[i].LOC_NO + '">' + data[i].LOC_NAME + '</option>');	
+							} 	
+						}
+		          });
+			});
+			
+			// 군/구 선택 후 매장 선택 ajax
+			$("#gugun").change(function(){
+				
+				var gugun = $("#gugun").val();
+				console.log( " 구군 값 : " + $("#gugun").val());
+				
+				$.ajax({
+					url : "${pageContext.request.contextPath}/sign/city",
+					type : "post",
+					data : {"gugun" : gugun},
+					success : function(responseData){
+						
+						var data = JSON.parse(responseData);
+						
+						console.log(data);
+						$('#storeList').empty();
+
+						$('#storeList').css("max-height","250px");
+						$('#storeList').css("overflow","auto");
+						$('#storeList').css("max-width","1000px");
+							
+							// 검색완료 시, 구군 이름 표시
+							$("#searchInfo").text('"' + data.locationName + '"(으)로 검색');
+							
+						 	for(var i = 0 ; i < data.storeList.length; i++){
+								var contents = '';
+								contents += '<tr>';
+								contents +=		'<td style = "width: 30%" nowrap>';
+								contents +=			'<i class="fa fa-map-marker" style="color:green;"></i>&nbsp;&nbsp;';
+								contents +=			'<strong class="storeName" value="'+ data.storeList[i].storeName +'" >'+ data.storeList[i].storeName + '</strong>';
+								contents +=			'<div class="storePhone post-meta">' + data.storeList[i].storePhone +'</div>';
+								contents +=		'</td>';
+								contents +=		'<td class="storeAddr" style = "width: 65%">'+ data.storeList[i].storeAddr +'</td>';
+								contents +=		'<td style = "width: 5%" align ="right"><input class="btn btn-success btn-sm" type="button" name="storeChoice"';
+								contents += 				'onclick="brachCheck(\''+data.storeList[i].storeAddr+'\')" value="선택" required="required" /></td>';
+								contents += '</tr>';
+							
+								$('#storeList').append(contents);
+						 	}
+					}
+				});
+	
+			});
+		    
+		    
+		    
 		
 	});
 	
@@ -186,9 +265,42 @@
 			}
 		});
 	}
+	
+	 // 매장명으로 주소 가져오기 
+	function brachCheck(storeAddr){
+			//alert('storeAddr = ' + storeAddr);
+			
+			var btn = this;
+			var store = storeAddr;
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath}/sign/storeCheck",
+				type : "post",
+				data : {"store" : store},
+				success : function(responseData){
+					var data = JSON.parse(responseData);
+					
+					if(data == null){
+						
+						alert("이미 등록된 지점입니다. 본인의 지점을 선택해 주세요.");
+						return;
+					}
+					
+					var addr = data.storeAddr;
+					var name = data.storeName;
+					var phone = data.storePhone;
+					
+					$("#addr").val(addr);
+					$("#branch").val(name);
+					$("#tel").val(phone);
+					
+				}
+			});
+
+		}
 
 	
-	
+	/* 
 	// 지도
 	function openDaumPostcode() {
 	    var width = 500; //팝업창이 실행될때 위치지정
@@ -230,11 +342,11 @@
 	            document.getElementById('addr2').focus();
 	        }
 	    }).open({
-	       /*  left : (window.screen.width / 2) - (width / 2), //팝업창이 실행될때 위치지정
-	        top : (window.screen.height / 2) - (height / 2) //팝업창이 실행될때 위치지정 */
+	        left : (window.screen.width / 2) - (width / 2), //팝업창이 실행될때 위치지정
+	        top : (window.screen.height / 2) - (height / 2) //팝업창이 실행될때 위치지정
 	    });
-	}
-	
+	}*/
+	 
 	
 	
 </script>
@@ -251,13 +363,14 @@
             </div>
             <form class="m-t" role="form" name="managerForm" action="${ pageContext.request.contextPath }/sign/signUp" method="post">
                 <div class="form-group">
+                <label>이름</label>
                     <input type="text" name="name" class="form-control" placeholder="Name" required="required">
                 </div>
-                <!-- 메일 인증 -->
+                <!-- 메일 인증 --><label>ID(이메일 형식)</label>
                 <div class="form-group">
-                    <input type="email" name="id" id="id" class="form-control num" placeholder="kkk@naver.com" required="required" oninput="checkId()">
+                     <input type="email" name="id" id="id" class="form-control num" placeholder="kkk@naver.com" required="required" oninput="checkId()">
                     <button id="managerCheck" class="form-control click" type="button">인증</button>
-                </div><br/><br/>
+                </div><br/>
                 <div style="text-align: left;">
 					<strong id="checkbox" style="visibility: hidden; color: #ed5565; font-size: 12px;"></strong><br/>
                	</div>
@@ -266,26 +379,60 @@
                 	<input id="numCheck" class="form-control click" type="button" value="확인">
                 </div><br/><br/>
                 <div class="form-group has-undefined has-error">
+                	<label>비밀번호</label>
                     <input type="password" name="pw" id="pw" class="form-control example2" placeholder="Password" required="required">
                 </div>
 				<div class="form-group">
 					<div class="pwstrength_viewport_verdict"></div>
 				</div>
                 <div class="form-group">
+                	<label>전화번호(-빼고 입력)</label>
                     <input type="tel" name="phone" id="phone" class="form-control" placeholder="전화번호 (-빼고 입력)" maxlength="13"  required="required">
                 </div>
+                <label>지점 주소(시,도->군,구->지점 선택)</label>
+                 <div class="form-group">
+					<select class="form-control" id ="sido" required="required">
+						<option value="" selected="selected" disabled= "disabled">시,도 를 선택해주세요 </option>
+							<c:forEach var="city" items="${ city }">
+								<option value="${city.cityNo}">${ city.cityName }</option>																		    
+							</c:forEach>
+					</select>
+					<br/>
+					<select class="form-control" id= "gugun" required="required">
+						<option value="" selected="selected" >구,군 을 선택해주세요 </option>
+					</select>
+                </div>
                 <div class="form-group">
+               		<h4 class="mt-xlg mb-none text-uppercase">
+               			<strong id="searchInfo" ></strong>
+               		</h4>
+					<br>
+					<div>
+						<table>
+							<tbody id ="storeList">
+							<!-- 매장 리스트 -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- 브런치 정보 -->
+				<div class="form-group">
+					<label>지점</label> <input class="form-control" type="text" id="branch" name="branch" readonly="readonly"/>
+					<input type="hidden" id="addr" name="addr"/>
+					<input type="hidden" id="tel" name="tel"/>
+				</div>
+              <!--   <div class="form-group">
                 	<input id="post1" class="form-control addr" readonly="readonly" size="5" name="post1">
                 	<input readonly="readonly" class="form-control slash" placeholder="-" />
                 	<input id="post2" class="form-control addr" readonly="readonly" size="5" name="post2">
-                	<!-- 우편 찾기 클릭 -->
+                	우편 찾기 클릭
 					<input onclick="openDaumPostcode()" class="form-control click" type="button" value="우편번호찾기"><br/><br/><br/>
 					<input id="addr1" class="form-control" readonly="readonly" size="40" name="addr1" placeholder="도로명주소"><br/>
 					<input id="addr2" class="form-control" size="40" name="addr2" placeholder="지번주소">
-                </div>
-                <div class="form-group">
+                </div> -->
+                <!-- <div class="form-group">
                         <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>
-                </div>
+                </div> -->
                 <button type="submit" class="btn btn-primary block full-width m-b">등록</button>
 
                 <p class="text-muted text-center"><small>Already have an account?</small></p>

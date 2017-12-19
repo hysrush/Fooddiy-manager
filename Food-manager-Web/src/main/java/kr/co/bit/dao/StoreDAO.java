@@ -15,6 +15,7 @@ public interface StoreDAO {
 	void insert(StoreVO storeVO);
 	List<CityVO> selectCity();
 	List selectLocation(String sido);
+	StoreVO selectStoreAddr(String store);
 	
 	
 	

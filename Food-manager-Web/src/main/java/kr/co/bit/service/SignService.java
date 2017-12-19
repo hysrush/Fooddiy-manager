@@ -10,6 +10,9 @@ public interface SignService {
 	// 관리자 인증 코드
 	String managerCheck(String id);
 	
+	//관리자 지점 확인
+	int branchCheck(String storeName);
+	
 	// 회원 가입
 	ManagerVO signUp(ManagerVO managerVO);
 	
@@ -24,5 +27,6 @@ public interface SignService {
 	
 	// 현재 비밀번호와 새로운 비밀번호가 일치하는지 확인
 	int checkpw(ManagerVO check);
+
 
 }

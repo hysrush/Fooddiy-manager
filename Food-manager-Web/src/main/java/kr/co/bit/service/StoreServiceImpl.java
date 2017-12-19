@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import kr.co.bit.dao.StoreDAO;
 import kr.co.bit.vo.CityVO;
-import kr.co.bit.vo.PagingVO;
 import kr.co.bit.vo.StoreVO;
+import kr.co.bit.vo.locationVO;
 @Service
 public class StoreServiceImpl implements StoreService{
 
@@ -57,8 +57,8 @@ public class StoreServiceImpl implements StoreService{
 
 
 	@Override
-	public List selectLocation(String sido) {
-		List list = storeDAO.selectLocation(sido);
+	public List<locationVO> selectLocation(String sido) {
+		List<locationVO> list = storeDAO.selectLocation(sido);
 		
 		return list;
 	}
@@ -70,6 +70,14 @@ public class StoreServiceImpl implements StoreService{
 		storeDAO.insert(storeVO);
 		
 	}
+
+
+
+	// 매니저 지점 등록할 정보
+	public StoreVO selectStoreAddr(String store) {
+		return storeDAO.selectStoreAddr(store);
+	}
+
 
 
 
