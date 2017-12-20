@@ -44,7 +44,7 @@
                                 <span class="pull-right">
                                     09:00 pm
                                 </span>
-                                <span class="label label-success">1</span> Please contact me
+                                <span class="label label-success">1</span>test
                             </li>
                             <li class="list-group-item">
                                 <span class="pull-right">

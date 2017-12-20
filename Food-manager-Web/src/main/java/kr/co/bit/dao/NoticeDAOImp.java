@@ -44,6 +44,16 @@ public class NoticeDAOImp implements NoticeDAO{
 	public void update(NoticeBoardVO noticeVO) {
 		sqlSession.update(url + "modifyNotice", noticeVO);
 	}
+	// Notice fileOX : O - 파일있음
+	@Override
+	public void FileOX_O(int no) {
+		sqlSession.update(url + "updateFileOX_O", no);
+	}
+	// Notice fileOX : X - 파일없음
+	@Override
+	public void FileOX_X(int no) {
+		sqlSession.update(url + "updateFileOX_X", no);
+	}
 	// Notice 글 삭제
 	@Override
 	public void delete(int no) {

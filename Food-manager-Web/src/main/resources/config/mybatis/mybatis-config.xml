@@ -15,6 +15,7 @@
 	  	<!-- Community -->
 	  	<typeAlias type="kr.co.bit.vo.QnaBoardVO" alias="qnaVO"/>
 	  	<typeAlias type="kr.co.bit.vo.NoticeBoardVO" alias="noticeVO"/>
+	  	<typeAlias type="kr.co.bit.vo.FileVO" alias="fileVO"/>
 	  	<!-- 관리자 회원가입 -->
 	  	<typeAlias type="kr.co.bit.vo.ManagerVO" alias="managerVO"/>
 	  	<typeAlias type="kr.co.bit.vo.UserVO" alias="userVO"/>
