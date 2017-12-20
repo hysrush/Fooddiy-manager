@@ -24,7 +24,16 @@ public class SnsDAOImpl implements SnsDAO {
 		
 		return list;
 	}
+	@Override
+	public SnsBoardVO selectOne(int no) { 
+		
+		SnsBoardVO snsDetail = sqlSession.selectOne(url + "selectByNo" , no);
+		return snsDetail;
+	}
 	
-	
-	
+	@Override
+	public void delete(int no) {
+		sqlSession.delete(url + "deleteSns", no);
+		
+	}
 }

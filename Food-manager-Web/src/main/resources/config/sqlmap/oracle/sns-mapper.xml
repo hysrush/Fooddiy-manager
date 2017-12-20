@@ -39,6 +39,22 @@
  	</select>
  	
  	
+ 	<!--  글번호로 디테일 보기  -->
+		<select id="selectByNo" parameterType="int" resultMap="Map_SnsVO" >
+		SELECT SNS_NO, USER_ID, USER_PIC, SNS_TITLE, SNS_CONTENT, SNS_FILENAME, MENU_NAME, MENU_BREAD, MENU_CHEESE, MENU_TOPPING, MENU_VEGETABLE, MENU_SAUCE, SNS_LIKE,
+						TO_CHAR(REG_AT, 'YY-MM-DD')AS REG_AT, VIEW_CNT
+		FROM T_SNS
+		WHERE SNS_NO = #{no}
+	</select>
+ 	
+ 	
+ 	
+	<delete id = "deleteSns" parameterType = "int">
+		DELETE T_SNS
+		WHERE SNS_NO = #{no}
+	
+	</delete>
+ 	
  	
  	
 </mapper> 	

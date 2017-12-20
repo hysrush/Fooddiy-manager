@@ -101,7 +101,7 @@
 							                                    ${ snsVO.id }
 						                                    </td>
 						                                    <td>
-						                                        <a href="${ pageContext.request.contextPath }/community/snsDetail.do?no=${ snsVO.no }">
+						                                        <a href="${ pageContext.request.contextPath }/community/sns/snsDetail.do?no=${ snsVO.no }">
 																	<img alt="" class="img-responsive img-rounded" src="${pageContext.request.contextPath}/upload/SNS/${ snsVO.fileName }"  style=" width:600px;height:150px">
 																</a>
 						                                    </td>
@@ -182,9 +182,9 @@
 			 
 					
 			// sidebar li & ul 클래스 active
-			$('.eventLI').addClass("active");
-			$('.eventLI > ul').addClass("in");
-			$('.eventLI2').addClass("active");
+			$('.communityLI').addClass("active");
+			$('.communityLI > ul').addClass("in");
+			$('.snsLI').addClass("active");
 				    
 			
 			

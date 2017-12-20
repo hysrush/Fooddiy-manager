@@ -24,6 +24,18 @@ public class SnsServiceImpl implements SnsService{
 		
 		return list;
 	}
+	@Override
+	public SnsBoardVO selectOne(int no) {
 	
+		return snsDAO.selectOne(no);
+	}
+
+	
+
+	@Override
+	public void delete(int no) {
+		snsDAO.delete(no);
+		
+	}
 
 }
