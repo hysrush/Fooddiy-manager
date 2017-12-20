@@ -88,6 +88,6 @@ public class SignDAOImp implements SignDAO {
 	public ManagerVO updateManager(ManagerVO up) {
 		sql.update(url+"updateManager", up);
 		
-		return sql.selectOne(url+"updateManager", up.getId());
+		return sql.selectOne(url+"selectManager", up.getId());
 	}
 }

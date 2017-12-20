@@ -20,8 +20,8 @@
 						<img alt="image" width="40%" class="img-circle" src="${ pageContext.request.contextPath }/resources/img/subway.png" />
 					</span> 
 				 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">${ loginVO.name } 매니저</strong>
-                             </span> <span class="text-muted text-xs block">${ loginVO.branch } <b class="caret"></b></span> </span> </a>
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">${ loginVO.name } 관리자</strong>
+                             </span> <span class="text-muted text-xs block">${ loginVO.branch } 점 <b class="caret"></b></span> </span> </a>
                              
 				<ul class="dropdown-menu animated fadeInRight m-t-xs">
 					<li><a href="${ pageContext.request.contextPath }/sign/profile?id=${loginVO.id}">Profile</a></li>

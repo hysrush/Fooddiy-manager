@@ -53,7 +53,8 @@
                             <div class="ibox-content border-left-right">
                                 <img alt="image" style="width: 25%;" class="img-responsive" border=1 align=left vspace=0 hspace=50 src="${ pageContext.request.contextPath }/resources/img/subway.png">
                                 <h4><strong> ${ userVO.name } 매니저</strong></h4>
-                                <p><i class="fa fa-map-marker"></i>  ${ userVO.addr } <strong> ${ userVO.branch } 점</strong></p>
+                                <p><i class="fa fa-map-marker"></i> <strong> ${ userVO.branch } 점</strong></p>
+                                <p><i class="fa fa-map-marker"></i> ${ userVO.addr } <i class="fa fa-phone"></i> ${ userVO.tel }</p>
                                 <p><i class="fa fa-envelope"></i>&nbsp;&nbsp;${ userVO.id }</p>
                                 <p><i class="fa fa-phone"></i>&nbsp;&nbsp;&nbsp;${ userVO.phone } </p><br/>
                                <div class="user-button">
@@ -103,7 +104,7 @@
 									<label>ID</label><input type="text" name="id" class="form-control" value="${ userVO.id }" readonly="readonly">
 								</div>
 								<div class="form-group">
-									<label>Phone</label><input type="tel" name="tel" id="updatePhone" class="form-control" value="${ userVO.phone }" 
+									<label>Phone</label><input type="tel" name="phone" id="updatePhone" class="form-control" value="${ userVO.phone }" 
 															required="required" style="border-color:#1ab394" maxlength="13">
 								</div>
 								<div class="form-group">
@@ -180,7 +181,7 @@
     <!-- Password meter -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/pwstrength/pwstrength-bootstrap.min.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/pwstrength/zxcvbn.js"></script>
-
+	<script src="${ pageContext.request.contextPath }/userResources/js/sign/autoHypen.js"></script>
 <script>
 
 	$(document).ready(function(){
@@ -204,7 +205,7 @@
 			
 		}
 		
-		// 비밀번호 유효성 확인
+/* 		// 비밀번호 유효성 확인
 	    var options2 = {};
 	    options2.ui = {
 	        container: "#pwd-container2",
@@ -214,7 +215,7 @@
 	            verdict: ".pwstrength_viewport_verdict"
 	        }
 	    };
-	    $('.example2').pwstrength(options2);
+	    $('.example2').pwstrength(options2); */
 	});	
 
 	// 현재 비밀번호 맞는지 확인
