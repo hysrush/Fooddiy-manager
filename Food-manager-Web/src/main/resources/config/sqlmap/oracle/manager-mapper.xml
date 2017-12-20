@@ -83,6 +83,7 @@
 		where manager_id = #{id}
 	</select>
 	
+	<!-- 정보 수정 -->
 	<update id="updateManager" parameterType="managerVO">
 		update t_manager
 		set manager_phone = #{phone}

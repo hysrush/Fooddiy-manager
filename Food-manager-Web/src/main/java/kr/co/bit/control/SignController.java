@@ -235,11 +235,10 @@ public class SignController {
 	// 매니저 정보 phone만 수정
 	@RequestMapping("/updateManager")
 	public String updateManager(ManagerVO up, Model model) {
+		System.out.println(up.toString());
+		signServiceImp.updateManager(up);
 		
-		ManagerVO userVO = signServiceImp.updateManager(up);
-		model.addAttribute("loginVO", userVO);
-		
-		return "redirect:/sign/profile";
+		return "redirect:/sign/profile?id="+up.getId();
 	}
 
 	// 현재 비밀번호와 새로운 비밀번호가 일치하는지 확인
