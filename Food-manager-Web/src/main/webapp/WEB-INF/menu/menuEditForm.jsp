@@ -368,28 +368,35 @@
                             maxlength: 30
                         },
                     	price: {
-                            number: true
+                            number: true,
+                            maxlength: 7
                         },
                     	detail: {
                             maxlength: 300
                         },
                         serviceSize: {
-                            number: true
+                            number: true,
+                            maxlength: 7
                         },
                     	calorie: {
-                            number: true
+                            number: true,
+                            maxlength: 7
                         },
                     	protein: {
-                            number: true
+                            number: true,
+                            maxlength: 7
                         },
                     	natrium: {
-                            number: true
+                            number: true,
+                            maxlength: 7
                         },
                     	sugar: {
-                            number: true
+                            number: true,
+                            maxlength: 7
                         },
                     	fat: {
-                            number: true
+                            number: true,
+                            maxlength: 7
                         },
                     	allergy: {
                             maxlength: 30
@@ -410,6 +417,7 @@
                     	price: {
                     		required: "입력값이 없습니다!",
                     		number: "숫자를 입력해주세요",
+                    		maxlength: "7자리 이내로 입력해주세요",
                     	},
                     	detail: {
                     		required: "입력값이 없습니다!",
@@ -418,26 +426,32 @@
                     	serviceSize: {
                     		required: "입력값이 없습니다!",
                     		number: "숫자를 입력해주세요",
+                    		maxlength: "5자리 이내로 입력해주세요",
                     	},
                     	calorie: {
                     		required: "입력값이 없습니다!",
                     		number: "숫자를 입력해주세요",
+                    		maxlength: "5자리 이내로 입력해주세요",
                     	},
                     	protein: {
                     		required: "입력값이 없습니다!",
                     		number: "숫자를 입력해주세요",
+                    		maxlength: "5자리 이내로 입력해주세요",
                     	},
                     	natrium: {
                     		required: "입력값이 없습니다!",
                     		number: "숫자를 입력해주세요",
+                    		maxlength: "5자리 이내로 입력해주세요",
                     	},
                     	sugar: {
                     		required: "입력값이 없습니다!",
                     		number: "숫자를 입력해주세요",
+                    		maxlength: "5자리 이내로 입력해주세요",
                     	},
                     	fat: {
                     		required: "입력값이 없습니다!",
                     		number: "숫자를 입력해주세요",
+                    		maxlength: "5자리 이내로 입력해주세요",
                     	},
                     	allergy: {
                     		required: "입력값이 없습니다!",
