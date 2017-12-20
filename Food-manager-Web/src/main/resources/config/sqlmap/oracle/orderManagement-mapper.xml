@@ -31,7 +31,7 @@
   	
   	<select id="selectByDate" parameterType="java.util.HashMap" resultMap="Map_OrderVO">
   		<include refid="selectAll"/>
-  		where  to_date(reg_at, 'yyyy-mm-dd') <![CDATA[ >= to_date(#{dateStart},'yyyy-mm-dd')]]>  and to_date(reg_at, 'yyyy-mm-dd')  <![CDATA[ <=  to_date(#{dateEnd},'yyyy-mm-dd')]]>
+  		where  to_date(reg_at, 'yyyy-mm-dd') <![CDATA[ >= #{dateStart}]]>  and to_date(reg_at, 'yyyy-mm-dd')  <![CDATA[ <= #{dateEnd}]]>
   	</select>
 	
 	<select id="selectByToday" parameterType="String" resultMap="Map_OrderVO">
