@@ -215,8 +215,7 @@ public class MenuController {
 		
 		menuService.modifyMenu(menuEditedVO);
 		
-		/*return "redirect:/menu/menuBoard.do";*/
-		return "";
+		return "redirect:/menu/menuBoard.do";
 	}
 	
 	

@@ -61,13 +61,13 @@
 			<!-- 페이지 header -->
 			<div class="row wrapper border-bottom white-bg page-heading">
 				<div class="col-lg-10">
-					<h2>매장 관리</h2>
+					<h2>SNS 관리</h2>
 					<ol class="breadcrumb">
 						<li><a
 							href="${ pageContext.request.contextPath}/FirstPage.jsp">Home</a>
 						</li>
-						<li><a>이벤트 관리</a></li>
-						<li class="active"><strong>이벤트 관리</strong></li>
+						<li><a>SNS관리</a></li>
+						<li class="active"><strong>SNS 관리</strong></li>
 					</ol>
 				</div>
 				<div class="col-lg-2"></div>
@@ -79,24 +79,33 @@
 					<thead>
 						<tr>
 
-							<th><strong>${eventVO.title}</strong></th>
+							<th><strong>${snsVO.title}</strong></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td><span>이벤트 기간 : ${ eventVO.startDate } &nbsp; ~
-									&nbsp; ${ eventVO.endDate }</span></td>
+							<td><span>좋아요 : ${snsVO.like }</span></td>
 
 						</tr>
 						<tr>
-							<td><img src="../upload/${ eventVO.imgFileName }"></td>
+							<td><img src="${pageContext.request.contextPath}/upload/SNS/${ snsVO.fileName }"></td>
 						<tr>
 							<td>
-								<h4>${eventVO.content }</h4>
+								<h4>내용 :  ${snsVO.content }</h4>
+								<hr/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<h4> 메뉴 이름 : ${snsVO.name }</h4><br/>
+								<h4> 빵 : ${snsVO.bread }</h4><br/>
+								<h4> 치즈 : ${snsVO.cheese }</h4><br/>	
+								<h4> 토핑 : ${snsVO.topping }</h4><br/>
+								<h4> 야채 : ${snsVO.vegetable }</h4><br/>
+								<h4> 소스 : ${snsVO.sauce }</h4><br/>
 							</td>
 
 						</tr>
-
 
 					</tbody>
 				</table>
@@ -106,69 +115,12 @@
 			<div class="row" align="center">
 
 				<div class="col-md-12">
-
-					<input type="button" onclick="doAction('U')" value="수정 " />&nbsp;&nbsp;
 					<input type="button" onclick="doAction('D')" value="삭제 " />&nbsp;&nbsp;
 
 					<input type="button" onclick="doAction('L')" value="목록">
 
 				</div>
 			</div>
-
-
-
-			<!--  	<table class="table table-bordered">
-								            <tr>
-													<th width="10%">번호</th>
-													<td>${ eventVo.no }</td>
-												</tr>
-												<tr>
-													<th>제목</th>
-													<td>${ eventVO.title }</td>
-												</tr>
-												<tr>
-													<th></th>
-													<td>
-														<img src="../upload/${ eventVO.imgFileName }" width="250">
-													</td>
-												</tr>
-												
-												<tr>
-													<th>내용</th>
-													<td>${ eventVO.content }</td>
-												<%-- 	<td><c:out value="${ tvo.content }" /></td>  --%>
-												</tr>
-												<tr>
-													<th>시작일</th>
-													<td>${ eventVO.startDate }</td>
-												</tr>
-												<tr>
-													<th>종료일</th>
-													<td>${ eventVO.endDate }</td>
-												</tr>
-											
-												<tr>
-													<th>등록일</th>
-													<td>${ evenetVO.regDate }</td>
-												</tr>
-											</table>
-											
-											<br/><br/>
-											<div class="row" align="center">
-								    			<div class="col-md-12">
-													
-														<button onclick="doAction('U')">수정</button>&nbsp;&nbsp;
-														<button onclick="doAction('D')">삭제</button>&nbsp;&nbsp;
-													
-													<button onclick="doAction('L')">목록</button>
-													<button id="com" class="btn btn-secondary">답글</button>
-												</div>
-											</div>
-
-
-															-->
-
-
 
 		</div>
 	</div>
@@ -190,38 +142,34 @@
     <!-- FooTable -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
     
-
+    <script type="text/javascript">
+		$(document).ready(function() {
+			
+			// sidebar li & ul 클래스 active
+			$('.communityLI').addClass("active");
+			$('.communityLI > ul').addClass("in");
+			$('.snsLI').addClass("active");
+		    
+		});
+	</script>
 
 	<script type="text/javascript">
 		function doAction(type) {
 			switch (type) {
-			case 'U':
-				if (confirm("수정 하시겠습니까?")) {
-					location.href = "${ pageContext.request.contextPath}/event/reWrite.do?no="+ ${eventVO.no};
-				}
-				break;
 			case 'D':
 				if (confirm("삭제 하시겠습니까?")) {
-					location.href = "${ pageContext.request.contextPath}/event/delete.do?no="+ ${eventVO.no};
+					location.href = "${ pageContext.request.contextPath}/community/sns/deleteSns.do?no="+ ${snsVO.no};
 				}
 				break;
 			case 'L':
 				if (confirm("목록으로 돌아가시겠습니까?")) {
-					location.href = "${ pageContext.request.contextPath}/event/eventPage.do";
+					location.href = "${ pageContext.request.contextPath}/community/sns/snsPage.do";
 				}
 				break;
 			}
 		}
-		$(document).ready(function() {
-			
-			 
-			
-			// sidebar li & ul 클래스 active
-			$('.eventLI').addClass("active");
-			$('.eventLI > ul').addClass("in");
-			$('.eventLI2').addClass("active");
-				    
-		});
+		
+	
 		
 	</script>
 

@@ -116,9 +116,13 @@
 									<table class="footable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="100">
 										<thead>
 											<tr>
-												<th data-hide="phone" data-sort-ignore="true" style="width: 95px">
-													<div class = "total-select">
+												<th data-hide="phone" data-sort-ignore="true" style="width: 48px">
+													<div class = "total-select" style="float: left">
 														<input type="checkbox" class="i-checks" id="chkall">														
+													</div>
+													<div class="tooltip-demo">
+														<button type="button" class="btn btn-default" style="float: right;font-size: 14px;padding: 0px 5px" 
+															data-toggle="tooltip" data-placement="top" title="선택삭제" onclick="delRow()"><i class="fa fa-trash"></i></button>
 													</div>
 												</th>
 												<th data-hide="phone" data-sort-ignore="true">타입</th>
@@ -154,10 +158,13 @@
 													${ menu.regDate }
 												</td>												
 												<td class="text-right">
-													<div class="btn-group" width="10%" nowrap>
-														<button class="btn-white btn btn-xs" id="view" onclick="btnClick('V', ${menu.no})"><i class="fa fa-search"></i></button>
-														<button class="btn-white btn btn-xs" onclick="btnClick('E', ${menu.no})"><i class="fa fa-edit"></i></button>
-		                                          		<button class="btn-white btn btn-xs" onclick="btnClick('D', ${menu.no})"><i class="fa fa-trash"></i></button>
+													<div class="btn-group tooltip-demo" width="10%" nowrap>
+														<button class="btn-white btn btn-xs" id="view" data-toggle="tooltip" data-placement="top" title="상세보기" onclick="btnClick('V', ${menu.no})">
+															<i class="fa fa-search"></i></button>
+														<button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="수정" onclick="btnClick('E', ${menu.no})">
+															<i class="fa fa-edit"></i></button>
+		                                          		<button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="삭제" onclick="btnClick('D', ${menu.no})">
+		                                          			<i class="fa fa-trash"></i></button>
 													</div>
 													<div class="menuType" style="display: none">${ menu.type }</div>
 												</td>
@@ -317,7 +324,7 @@
                      customize: function (win){
                             $(win.document.body).addClass('white-bg');
                             $(win.document.body).css('font-size', '10px');
-                            $(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
+                            $(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');                            
                     	}
                     }
                 ]
@@ -335,7 +342,7 @@
 					$('#DataTables_Table_0_info').html(text.replace("*", "<br><strong>" + keyupWord + "</strong>와(과) 일치하는 검색결과입니다."));
 				} 
 			});
-			
+			/* 
 			// 선택삭제 버튼 생성
 			table.button().add( 4, {
 			    text: '<i class="fa fa-trash" aria-hidden="true"> 선택삭제</i>',
@@ -347,7 +354,7 @@
 			var clone = $('.dt-buttons a').eq(4).clone(true);
 			clone.appendTo('#DataTables_Table_0_paginate').css('float','left');
 			$('.dt-buttons a').eq(4).show();
-			
+			 */
 			// 리스트 변환 버튼 생성
 			table.button().add( 4, {
 				text: '<i class="fa fa-th" aria-hidden="true"> 이미지로 보기</i>',
@@ -363,9 +370,7 @@
         // 리스트로 이동
         function changeList() {
         	location.href = "${ pageContext.request.contextPath }/menu/list.do";
-        }
-        
-        
+        }        
         
         
      	// action 함수
