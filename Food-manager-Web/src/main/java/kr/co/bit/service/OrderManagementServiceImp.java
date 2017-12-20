@@ -1,6 +1,7 @@
 package kr.co.bit.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,11 +15,17 @@ public class OrderManagementServiceImp  implements OrderManagementService{
 	@Autowired
 	OrderManagementDAO dao;
 	
-	
 	@Override
 	public List<OrderVO> selectAll() {
 		List<OrderVO> allOrderList = dao.selectAll();
 		return allOrderList;
+	}
+	
+	@Override
+	public List<OrderVO> selectByDate(Map<String, String> date) {
+		List<OrderVO> orderListDate = dao.selectByDate(date);
+		
+		return orderListDate;
 	}
 	
 	@Override

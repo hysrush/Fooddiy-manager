@@ -2,8 +2,10 @@ package kr.co.bit.control;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +31,7 @@ public class OrderManagementController {
 	OrderManagementService service;
 
 	// 전제주문내역
-	@RequestMapping("/totalOrderList.do")
+	@RequestMapping(value = "/totalOrderList.do", method = RequestMethod.GET )
 	public ModelAndView totalOrderList(ModelAndView mav) {
 
 		List<OrderVO> totalOrderList = service.selectAll();
@@ -39,8 +41,6 @@ public class OrderManagementController {
 			List<DetailOrderVO> list = new LinkedList<DetailOrderVO>();
 			String menu = totalOrderList.get(i).getMenu();
 			String[] menus = menu.split("\\|\\|");
-
-			System.out.println("menus.length =  " + menus.length);
 
 			for (int j = 0; j < menus.length; ++j) {
 				DetailOrderVO vo = new DetailOrderVO();
@@ -68,7 +68,58 @@ public class OrderManagementController {
 		mav.addObject("orderList", totalOrderList);
 		return mav;
 	}
+	
+	//전체주뭄내역 - 날짜검색
+	@RequestMapping(value = "/totalOrderList.do", method = RequestMethod.POST)
+	public ModelAndView orderListSelectByDate(ModelAndView mav,@RequestParam("type") String type, @RequestParam("date_start") String dateStart,
+			@RequestParam("date_end") String dateEnd) {
+		
+		Map<String, String> date = new HashMap<>();
+		
+		
+		System.out.println(dateStart);
+		System.out.println(dateEnd);
+		date.put("dateStart", dateStart);
+		date.put("dateEnd", dateEnd);
+		
+		List<OrderVO> orderListDate = service.selectByDate(date);
+		
+		for (int i = 0; i < orderListDate.size(); ++i) {
 
+			List<DetailOrderVO> list = new LinkedList<DetailOrderVO>();
+			String menu = orderListDate.get(i).getMenu();
+			String[] menus = menu.split("\\|\\|");
+
+			for (int j = 0; j < menus.length; ++j) {
+				DetailOrderVO vo = new DetailOrderVO();
+				String[] oneMenu = menus[j].split("\\*");
+
+				vo.setName(oneMenu[0]);
+				vo.setBread(oneMenu[1]);
+				vo.setCheese(oneMenu[2]);
+				vo.setTopping(oneMenu[3]);
+				vo.setVegetable(oneMenu[4]);
+				vo.setSauce(oneMenu[5]);
+				vo.setRequirement(oneMenu[6]);
+				vo.setPic(oneMenu[7]);
+				vo.setSize(oneMenu[8]);
+				vo.setQty(new Integer(oneMenu[9]));
+				vo.setPrice(oneMenu[10]);
+				vo.setTotal_price(oneMenu[11]);
+				list.add(vo);
+			}
+			orderListDate.get(i).setDetailOrderList(list);
+		}
+
+		System.out.println(orderListDate);
+		mav.setViewName("orderManagement/totalOrderList");
+		mav.addObject("orderList", orderListDate);
+		
+		
+		return mav;
+	}
+	
+	
 	// 오늘주문내역
 	@RequestMapping("/todayOrderList.do")
 	public ModelAndView todayOrderList(ModelAndView mav) {
@@ -119,14 +170,6 @@ public class OrderManagementController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		response.setContentType("text/html;charset=UTF-8");
-		
-		
-		System.out.println("주문취소!!!!!!!!!!!");
-		System.out.println("주문취소!!!!!!!!!!!");
-		System.out.println("주문취소!!!!!!!!!!!");
-		System.out.println("주문취소!!!!!!!!!!!");
-		System.out.println("주문취소!!!!!!!!!!!");
-		
 		service.cancelOrder(no);
 
 		return "redirect:/orderManagement/" + url + ".do";

@@ -20,6 +20,7 @@
 
 <link href="${ pageContext.request.contextPath }/resources/css/animate.css" rel="stylesheet">
 <link href="${ pageContext.request.contextPath }/resources/css/style.css" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/resources/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
 <!-- sweetalert js & css -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
@@ -69,7 +70,46 @@
 				<div class="ibox-content m-b-sm border-bottom todayOrderInfo">
 					<div class="row">
 						<div class="col-sm-12">
-							
+							<table class="table table-bordered" style="margin-bottom: 0px">
+								<tbody>
+									<tr>
+										<th style="text-align: center; font-size: 20px; padding-top:30px;">주문검색 날짜</th>
+										<td style="padding-left: 30px">
+											<div class = "row">
+							                    <div class="col-sm-4">
+							                        <div class="form-group">
+							                            <label class="control-label" for="date_added">시작날짜</label>
+							                            <div class="input-group date">
+							                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input id="date_start" type="text" class="form-control">
+							                            </div>
+							                        </div>
+							                    </div>
+							                    <div class="col-sm-4">
+							                        <div class="form-group">
+							                            <label class="control-label" for="date_modified">종료날짜</label>
+							                            <div class="input-group date">
+							                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input id="date_end" type="text" class="form-control">
+							                            </div>
+							                        </div>
+							                    </div>
+												<div class="col-sm-4" style="padding-top: 25px">
+				                                    <div data-toggle="buttons" class="btn-group">
+				                                    	<form class ="search-form" method="post">
+				                                        	<input type="hidden" class = "input-type" name = "type"/>
+				                                        	<input type="hidden" class = "input-start" name = "date_start"/>
+				                                        	<input type="hidden" class = "input-end" name = "date_end"/>
+				                                        	<button type="submit" class="btn btn-outline btn-primary today-button" onclick="search('T')">오늘</button>
+				                                       		<button type="submit" class="btn btn-outline btn-primary week-button" onclick="search('W')">일주일</button>
+				                                        	<button type="submit" class="btn btn-outline btn-primary month-button" onclick="search('D')">한달</button>
+				                                        	<button type="submit" class="btn btn-w-m bg-muted btn-default search-button" onclick="search('S')" style="margin-left: 20px">검색</button>
+				                                    	</form>
+				                                    </div>
+				                                </div>
+			                                </div>
+										</td>
+									</tr>												
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -126,8 +166,27 @@
 													<td class = "commaN finalPrice">${ order.final_price }원</td>											
 													<td>${ order.payment }</td>			
 													
-													<td><span class="orderStatus label label-primary">${ order.orderStatus }</span></td>		
-													<td class = "cancel-button"></td>									
+													<c:choose>
+														<c:when test="${ order.orderStatus == '0'}">
+															<td><span class="orderStatus label label-danger">주문취소</span></td>		
+															<td class = "cancel-button"></td>									
+														</c:when>
+														
+														<c:when test="${ order.orderStatus == '1' }">
+															<td><span class="orderStatus label label-primary">대기중</span></td>		
+															<td class = "cancel-button"></td>									
+														</c:when>
+														
+														<c:when test="${ order.orderStatus == '2' }">
+															<td><span class="orderStatus label label-warning">주문중</span></td>
+															<td class = "cancel-button"></td>									
+														</c:when>
+														
+														<c:otherwise>
+															<td><span class="orderStatus label label-information">주문완료</span></td>		
+															<td class = "cancel-button"></td>									
+														</c:otherwise>
+													</c:choose>
 											</tr>
 										</c:forEach>
 										</tbody>
@@ -169,6 +228,9 @@
 	<script	src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
 	<script	src="${ pageContext.request.contextPath }/resources/js/plugins/pace/pace.min.js"></script>
 
+	<!-- Data picker -->
+    <script src="${ pageContext.request.contextPath }/resources/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
 	<!-- FooTable -->
 	<script	src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
 
@@ -181,11 +243,11 @@
 			$('.orderManagementLI > ul').addClass("in");
 			$('.totalOrderList').addClass("active");
 
-            $('.footable').footable();            
-            
-         	//오늘날짜
+			// footable 시작
+            $('.footable').footable();        
+			
+        	//오늘날짜
 			var now = new Date();
-
 			var year = now.getFullYear();
 			var mon = (now.getMonth() + 1) > 9 ? ''
 					+ (now.getMonth() + 1) : '0'
@@ -193,45 +255,33 @@
 			var day = now.getDate() > 9 ? '' + now.getDate()
 					: '0' + now.getDate();
 
-			var chan_val = year + '-' + mon + '-' + day;
+			var today = year + '-' + mon + '-' + day;
+            $('#date_start').attr('value', today);
+            $('#date_end').attr('value', today);
 
-			$('.today').text(chan_val);
+            $('#date_start').datepicker({
+            	format : 'yyyy-mm-dd',	// 날짜 포맷
+            	defaultDate: '+0',
+    			endDate: '+0',			// 오늘 이후 날짜 선택 불가
+            	todayBtn: "linked",
+            	todayHighlight: true,	// 오늘날짜 하이라이트
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
 			
-			var totalFinalPrice = 0;
-			var orderCount = 0;
-			$('tbody.todayOrderList tr').each(function() {
-				
-				var status = $(this).find('.orderStatus');
-								
-				if(status.text() == '0') {
-					status.text('주문취소');
-					status.attr('class', 'label label-danger');
-				}else {
-					if (status.text() == '1') {
-						status.text('대기중');
-						status.attr('class', 'label label-primary');
-						$(this).find('.cancel-button').append('<button type="button" class="btn btn-outline btn-danger button-cancel">주문취소</button>');
-					}else if (status.text() == '2') {
-						status.text('준비중');
-						status.attr('class', 'label label-warning');
-					} else{
-						status.text('준비완료');
-						status.attr('class', 'label label-information');
-					}
-					
-					totalFinalPrice += uncomma($(this).find('.finalPrice').text())*1;
-					++orderCount;
-				}
-			}); 
-			$('.total-count-order').text(orderCount);
-			$('.total-order-price').text(comma(totalFinalPrice) + "원");
-			
-			
-			
-			
-			$('.footable').footable();
-			
-			
+        	
+            $('#date_end').datepicker({
+            	format : 'yyyy-mm-dd',	// 날짜 포맷
+    			defaultDate: '+0d',
+    			endDate: '+0d',			// 오늘 이후 날짜 선택 불가	            	
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+            
+
 			// 삭제 alert창
 			function orderCancel(no) {
 				swal({
@@ -260,8 +310,6 @@
 			});
 			
 			
-			// 데이터테이블 생성
-			$('.footable').css("width","100%");
 			// 데이터테이블 생성 & 옵션 변경
 			$('.footable').css("width","100%");
 			$('.dataTables-example').DataTable({
@@ -290,13 +338,14 @@
                 },
                 "iDisplayLength": -1,
                 "aaSorting": [[ 0, "desc" ]], // Sort by first column descending
+      
                 // 버튼 옵션
                 buttons: [
-                    {extend: 'copy'},
-                    {extend: 'csv'},
-                    {extend: 'excel', title: 'ExcelFile'},
-                    {extend: 'pdf', title: 'PdfFile'},
-                    {extend: 'print',
+                    {extend: 'copy', text: '<i class="fa fa-copy" aria-hidden="true"> Copy</i>'},
+                    //{extend: 'csv'},
+                    {extend: 'excel', title: 'ExcelFile', text: '<i class="fa fa-file-excel-o" aria-hidden="true"> Excel</i>'},
+                    {extend: 'pdf', title: 'PdfFile', text: '<i class="fa fa-file-pdf-o" aria-hidden="true"> Pdf</i>'},
+                    {extend: 'print', text: '<i class="fa fa-print" aria-hidden="true"> Print</i>',
                      customize: function (win){
                             $(win.document.body).addClass('white-bg');
                             $(win.document.body).css('font-size', '10px');
@@ -319,10 +368,93 @@
 			});
         });
         
+        //모달화면 출력
         function modalFunc(no) {
         	var url = "${pageContext.request.contextPath}/orderManagement/todayOrderDetail.do?no=" + no;
         	$('div.modal').modal().removeData();
 		    $('div.modal').modal({ remote : url  });
+        }
+        
+        
+        //Date 포맷 변환함수
+        function dateConvertFormat(date){
+            function pad(num) {
+                num = num + '';
+                return num.length < 2 ? '0' + num : num;
+            }
+            return date.getFullYear() + '-' + pad(date.getMonth()+1) + '-' + pad(date.getDate());
+        }
+
+         
+        //검색버튼함수
+      	function search(type) {
+      		//오늘날짜
+			var now = new Date();
+			var year = now.getFullYear();
+			var mon = (now.getMonth() + 1) > 9 ? ''
+					+ (now.getMonth() + 1) : '0'
+					+ (now.getMonth() + 1);
+			var day = now.getDate() > 9 ? '' + now.getDate()
+					: '0' + now.getDate();
+
+			var today = year + '-' + mon + '-' + day;
+        	var date = new Date(today);
+        	
+        	
+        	$('.saarch-form').attr('action', "${pageContext.request.contextPath}/orderManagement/totalOrderList.do");
+        	
+        	if(type == "T") {
+        		$('.input-type').val('D');
+        		$('.input-start').val(today);
+        		$('.input-end').val(today);
+        	}else if(type == "W") {
+        		
+        		//일주일전 날짜 구하기
+        		date.setDate(date.getDate() - 7);
+        		date = dateConvertFormat(date);
+        		
+        		$('.input-type').val('W');
+        		$('.input-start').val(date);
+        		$('.input-end').val(today);
+        	}else if(type == "M"){
+        		
+        		//한달전 날짜 구하기
+        		date.setDate(date.getDate() - 30);
+        		date = dateConvertFormat(date);
+        		
+        		$('.input-type').val('M');
+        		$('.input-start').val(date);
+        		$('.input-end').val(today);
+
+        	}else if(type == "S") {
+        		var date_start = new Date($('#date_start').val());
+            	var date_end =  new Date($('#date_end').val());
+            	
+            	if(date_end >= date_start) {
+            		
+	        		$('.input-type').val('S');
+	        		$('.input-start').val($('#date_start').val());
+	        		$('.input-end').val($('#date_end').val());
+            	}else {
+            		swal({
+    			        title: "날짜 검색",
+    			        text: "시작날짜와 종료날짜가 잘못되었습니다!",
+    			        type: "warning",
+    			        confirmButtonColor: "#DD6B55",
+    			        confirmButtonText: "확인",
+    			        closeOnConfirm: true
+    			    });
+            		
+            		$('.search-form').attr('action', "#");
+            	}
+        	}
+        	
+        	
+        	alert($('.input-type').val());
+        	alert($('.input-start').val());
+        	alert($('.input-end').val());
+        	$('.search-form').submit();
+        	
         }
     </script>
 

@@ -141,8 +141,27 @@
 													<td class = "commaN finalPrice">${ order.final_price }원</td>											
 													<td>${ order.payment }</td>			
 													
-													<td><span class="orderStatus label label-primary">${ order.orderStatus }</span></td>		
-													<td class = "cancel-button"></td>									
+													<c:choose>
+														<c:when test="${ order.orderStatus == '0'}">
+															<td><span class="orderStatus label label-danger">주문취소</span></td>		
+															<td class = "cancel-button"></td>									
+														</c:when>
+														
+														<c:when test="${ order.orderStatus == '1' }">
+															<td><span class="orderStatus label label-primary">대기중</span></td>		
+															<td class = "cancel-button"></td>									
+														</c:when>
+														
+														<c:when test="${ order.orderStatus == '2' }">
+															<td><span class="orderStatus label label-warning">주문중</span></td>
+															<td class = "cancel-button"></td>									
+														</c:when>
+														
+														<c:otherwise>
+															<td><span class="orderStatus label label-information">주문완료</span></td>		
+															<td class = "cancel-button"></td>									
+														</c:otherwise>
+													</c:choose>								
 											</tr>
 										</c:forEach>
 										</tbody>
@@ -200,7 +219,6 @@
             
          	//오늘날짜
 			var now = new Date();
-
 			var year = now.getFullYear();
 			var mon = (now.getMonth() + 1) > 9 ? ''
 					+ (now.getMonth() + 1) : '0'
@@ -211,40 +229,22 @@
 			var chan_val = year + '-' + mon + '-' + day;
 
 			$('.today').text(chan_val);
+	
 			
+			//총 주문건수, 총 결제금액 계싼			
 			var totalFinalPrice = 0;
 			var orderCount = 0;
-			$('tbody.todayOrderList tr').each(function() {
+			for(var i = 0; i < $('tbody.todayOrderList tr').length; ++i ) {
 				
-				var status = $(this).find('.orderStatus');
-								
-				if(status.text() == '0') {
-					status.text('주문취소');
-					status.attr('class', 'label label-danger');
-				}else {
-					if (status.text() == '1') {
-						status.text('대기중');
-						status.attr('class', 'label label-primary');
-						$(this).find('.cancel-button').append('<button type="button" class="btn btn-outline btn-danger button-cancel">주문취소</button>');
-					}else if (status.text() == '2') {
-						status.text('준비중');
-						status.attr('class', 'label label-warning');
-					} else{
-						status.text('준비완료');
-						status.attr('class', 'label label-information');
-					}
-					
-					totalFinalPrice += uncomma($(this).find('.finalPrice').text())*1;
+				var status = $('tbody.todayOrderList tr').eq(i).find('.orderStatus').text();
+				
+				if(status != '주문취소') {
+					totalFinalPrice += uncomma($('tbody.todayOrderList tr').eq(i).find('.orderStatus').text())*1;
 					++orderCount;
 				}
-			}); 
+			}
 			$('.total-count-order').text(orderCount);
 			$('.total-order-price').text(comma(totalFinalPrice) + "원");
-			
-			
-			
-			
-			$('.footable').footable();
 			
 			
 			// 삭제 alert창
@@ -303,13 +303,13 @@
                 },
                 "iDisplayLength": -1,
                 "aaSorting": [[ 0, "desc" ]], // Sort by first column descending
-                // 버튼 옵션
+            	 // 버튼 옵션
                 buttons: [
-                    {extend: 'copy'},
-                    {extend: 'csv'},
-                    {extend: 'excel', title: 'ExcelFile'},
-                    {extend: 'pdf', title: 'PdfFile'},
-                    {extend: 'print',
+                    {extend: 'copy', text: '<i class="fa fa-copy" aria-hidden="true"> Copy</i>'},
+                    //{extend: 'csv'},
+                    {extend: 'excel', title: 'ExcelFile', text: '<i class="fa fa-file-excel-o" aria-hidden="true"> Excel</i>'},
+                    {extend: 'pdf', title: 'PdfFile', text: '<i class="fa fa-file-pdf-o" aria-hidden="true"> Pdf</i>'},
+                    {extend: 'print', text: '<i class="fa fa-print" aria-hidden="true"> Print</i>',
                      customize: function (win){
                             $(win.document.body).addClass('white-bg');
                             $(win.document.body).css('font-size', '10px');
@@ -335,12 +335,6 @@
 			
 		   
         });
-        
-    	setTimeout( function(){
-    		$('.aaaaa').attr('class', 'aaaaa footable-visible footable-first-column sorting_desc');
-    		$('.aaaaa').attr('area-label', "주문번호: activate to sort column ascending");
-    		$('.aaaaa').attr('aria-sort', "descending");
-    	} , 100);
         
         function modalFunc(no) {
         	var url = "${pageContext.request.contextPath}/orderManagement/todayOrderDetail.do?no=" + no;

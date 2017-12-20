@@ -28,6 +28,11 @@
 	<select id="selectAllOrder" resultMap="Map_OrderVO">
 		<include refid="selectAll"/>
   	</select>
+  	
+  	<select id="selectByDate" parameterType="java.util.HashMap" resultMap="Map_OrderVO">
+  		<include refid="selectAll"/>
+  		where  to_date(reg_at, 'yyyy-mm-dd') <![CDATA[ >= to_date(#{dateStart},'yyyy-mm-dd')]]>  and to_date(reg_at, 'yyyy-mm-dd')  <![CDATA[ <=  to_date(#{dateEnd},'yyyy-mm-dd')]]>
+  	</select>
 	
 	<select id="selectByToday" parameterType="String" resultMap="Map_OrderVO">
 		<include refid="selectAll"/>
