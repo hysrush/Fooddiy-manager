@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.bit.dao.SnsDAO">
+
+
+
+	<resultMap type ="snsVO" id="Map_SnsVO">
+  		<result column = "sns_no" property ="no"/>
+  		<result column = "user_id" property ="id"/>
+  		<result column = "user_pic" property ="pic"/>
+  		<result column = "sns_title" property = "title"/>
+  		<result column = "sns_content" property ="content"/>
+  		<result column = "sns_fileName" property ="fileName"/>
+  		<result column = "menu_name" property ="name"/>
+  		<result column = "menu_bread" property ="bread"/>
+  		<result column = "menu_cheese" property ="cheese"/>
+  		<result column = "menu_topping" property ="topping"/>
+  		<result column = "menu_vegetable" property ="vegetable"/>
+  		<result column = "menu_sauce" property ="sauce"/>
+  		<result column = "sns_like" property ="like"/>
+  		<result column = "reg_at" property ="regDate"/>
+  		<result column = "view_cnt" property ="viewCnt"/>
+  	</resultMap>
+  	
+  	
+  	
+ 	<!--  sns게시판 리스트  -->
+ 	<select id="selectSns" parameterType ="pagingVO" resultMap="Map_SnsVO">
+ 		SELECT *
+			FROM( SELECT ROWNUM RNUM, P.*
+			FROM( SELECT SNS_NO,USER_ID, USER_PIC, SNS_TITLE, SNS_CONTENT, SNS_FILENAME, SNS_LIKE,
+					TO_CHAR(REG_AT, 'YY-MM-DD') as REG_AT, VIEW_CNT
+			FROM T_SNS 
+			ORDER BY SNS_NO DESC) P )
+			WHERE RNUM BETWEEN #{start} AND #{last} 
+ 	</select>
+ 	
+ 	
+ 	
+ 	
+</mapper> 	

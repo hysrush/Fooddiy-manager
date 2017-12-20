@@ -69,7 +69,7 @@
 				<li class="qnaLI"><a href="${ pageContext.request.contextPath }/community/qna/qnaList.do">자주묻는질문 관리</a></li>
 				<li class="noticeLI"><a href="${ pageContext.request.contextPath }/community/subway/noticeList.do">Subway소식 관리</a></li>
 				<li class="claimLI"><a href="contacts_2.html">1:1문의 관리</a></li>
-				<li class="snsLI"><a href="projects.html">SNS게시판 관리</a></li>
+				<li class="snsLI"><a href="${pageContext.request.contextPath }/community/sns/snsPage.do">SNS게시판 관리</a></li>
 			</ul></li>
 		<li><a href="#"><i class="fa fa-globe"></i> <span
 				class="nav-label">마이페이지 관리</span><span class="fa arrow"></span></a>
