@@ -16,6 +16,9 @@
 
 	<!-- Toastr style -->
     <link href="${ pageContext.request.contextPath }/resources/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <!-- sweetalert js & css -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
+	<link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
 
     <link href="${ pageContext.request.contextPath }/resources/css/animate.css" rel="stylesheet">
     <link href="${ pageContext.request.contextPath }/resources/css/style.css" rel="stylesheet">

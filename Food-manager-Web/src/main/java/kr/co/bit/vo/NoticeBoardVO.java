@@ -11,10 +11,14 @@ public class NoticeBoardVO {
 	private String title;
 	private String content;
 	private String type;	// 공지사항 'A' / 보도자료 'B'
-	private List<MultipartFile> noticeFile;  //첨부파일임.
 	private String fileOX;	// 파일 유 'O'/ 무 'X'
 	private String regDate;
 	private int viewCnt;
+	// ********************************************
+	// DB에 저장 안하고 쓰는 것들
+	private List<MultipartFile> noticeFile;  //첨부파일임.
+	private String temp;
+	// ********************************************
 	
 	public int getNo() {
 		return no;
@@ -69,6 +73,12 @@ public class NoticeBoardVO {
 	}
 	public void setFileOX(String fileOX) {
 		this.fileOX = fileOX;
+	}
+	public String getTemp() {
+		return temp;
+	}
+	public void setTemp(String temp) {
+		this.temp = temp;
 	}
 	@Override
 	public String toString() {

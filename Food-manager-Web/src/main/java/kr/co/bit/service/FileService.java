@@ -15,4 +15,6 @@ public interface FileService {
 	FileVO selectOneFile(int boardNo);
 	void removeFile(int no);
 	void removeFileSome(List<Integer> list);
+	void deleteFile(int no);
+	void deleteFile(String filePath);
 }

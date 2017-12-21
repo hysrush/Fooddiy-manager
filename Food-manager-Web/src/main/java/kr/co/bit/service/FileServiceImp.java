@@ -27,23 +27,23 @@ public class FileServiceImp implements FileService{
 	private FileDAO fileDAO;
 	
 	// 실제 파일 저장 경로
-	private static String adminDir = "C:\\Users\\bit-user\\git\\Fooddiy-manager\\Food-manager-Web\\src\\main\\webapp\\upload\\notice\\";
-	private static String userDir = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice\\";
+	private static String adminDir = "C:\\Users\\bit-user\\git\\Fooddiy-manager\\Food-manager-Web\\src\\main\\webapp\\upload\\notice";
+	private static String userDir = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice";
 	private static String formattedDate = "\\" + new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date());
 	// 폴더 경로
 	private static String adminFolderPath = adminDir + formattedDate;
 	private static String userFolderPath = userDir + formattedDate;
-	private static String fileOX = "X";
 	
 	// <File Service>
 	// File 저장
 	@Override
 	public String save(HttpServletRequest request, int boardNo) {
 
+		String fileOX = "X";
+
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
 	    Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
 	    MultipartFile multipartFile = null;
-		
 	    // 파일 생성
 	    // 1) 관리자
 		File adminFile = new File(adminFolderPath);
@@ -58,6 +58,7 @@ public class FileServiceImp implements FileService{
         
         while(iterator.hasNext()){
             multipartFile = multipartHttpServletRequest.getFile(iterator.next());
+            // 파일 존재할때,
             if(multipartFile.isEmpty() == false){
             	// multipartFile에서 필요로하는 요소 가져오기
             	String name = multipartFile.getName();
@@ -106,13 +107,11 @@ public class FileServiceImp implements FileService{
 				fileDAO.insert(fileVO);
 				System.out.println(fileVO.toString());
 				
-				if (multipartFile.isEmpty() == false) {
-					fileOX = "O";
-				}
-				if (multipartFile.isEmpty() == true) {
-					fileOX = "X";
-				}
-
+				// 파일 존재 유무
+				fileOX = "O";
+            } else {
+            	// 파일 없을때,
+            	fileOX = "X";
             }
         }
         return fileOX;
@@ -121,6 +120,8 @@ public class FileServiceImp implements FileService{
 	@Override
 	public String modifyFile(HttpServletRequest request, int boardNo) {
 		
+		String fileOX = "X";
+
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
 	    Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
 	    MultipartFile multipartFile = null;
@@ -186,9 +187,13 @@ public class FileServiceImp implements FileService{
 				// 첨부파일 수정
 				fileDAO.update(fileVO_NEW);
 				System.out.println(fileVO_NEW.toString());
-				if (fileVO_NEW != null) {
-					fileOX = "O";
-				}
+				
+				// 파일 존재 유무
+				fileOX = "O";
+            }
+            else{
+            	System.out.println("파일 안 올림~");
+            	fileOX = "X";
             }
         }
 		return fileOX;
@@ -209,20 +214,49 @@ public class FileServiceImp implements FileService{
 	// File 삭제
 	@Override
 	public void removeFile(int no) {
-		// 실제 저장된 파일 삭제 - 사용자만 / 관리자는 존재
-		String userPath = userFolderPath + File.separator + fileDAO.selectOne(no).getFileSaveName();
+		// 실제 저장 파일 삭제
+		deleteFile(no);
+		// DB 삭제 
+		fileDAO.delete(no);
+	}
+	// 실제 저장된 파일 삭제 (번호용)
+	@Override
+	public void deleteFile(int no) {
+		// 관리자
+		String adminPath = adminDir + File.separator + fileDAO.selectOne(no).getFilePath();
+		File file2 = new File(adminPath);
+		if(file2.exists() == true){
+			file2.delete();
+		}
+		// 사용자
+		String userPath = userFolderPath + File.separator + fileDAO.selectOne(no).getFilePath();
 		File file = new File(userPath);
 		if(file.exists() == true){
 			file.delete();
 		}
-		// DB 삭제 
-		fileDAO.delete(no);
+	}
+	// 실제 저장된 파일 삭제 (주소용)
+	@Override
+	public void deleteFile(String filePath) {
+		// 관리자
+		String adminPath = adminDir + File.separator + filePath;
+		File file2 = new File(adminPath);
+		if(file2.exists() == true){
+			file2.delete();
+		}
+		// 사용자
+		String userPath = userDir + File.separator + filePath;
+		File file = new File(userPath);
+		if(file.exists() == true){
+			file.delete();
+		}
 	}
 	// File 다중 삭제
 	@Override
 	public void removeFileSome(List<Integer> list) {
+		// DB 삭제 
 		fileDAO.deleteSome(list);
 	}
-	
+
 }
 

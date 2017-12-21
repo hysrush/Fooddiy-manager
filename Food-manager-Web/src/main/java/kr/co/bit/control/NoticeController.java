@@ -1,5 +1,6 @@
 package kr.co.bit.control;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.junit.runners.Parameterized.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,12 +79,8 @@ public class NoticeController {
 		System.out.println(noticeVO.toString());
 		
 		// fileVO 저장
-		fileService.save(request, noticeVO.getNo());
+		fileOX = fileService.save(request, noticeVO.getNo());
 		System.out.println("fileOX : " + fileOX);
-		
-		if (fileService.selectOneFile(noticeVO.getNo()) != null) {
-			fileOX = "O";
-		}
 		
 		// 파일 저장했으면,
 		if (fileOX.equals("O")) {
@@ -145,8 +143,6 @@ public class NoticeController {
 			FileVO fileVO = fileService.selectOneFile(no);
 			model.addAttribute("fileVO", fileVO);
 		}
-		FileVO fileVO_NEW = new FileVO();
-		model.addAttribute("fileVO_NEW",fileVO_NEW);
 
 		return "community/subway/noticeEditForm";
 	}
@@ -159,23 +155,60 @@ public class NoticeController {
 			// 에러일때 true => editForm으로
 			return "community/subway/noticeEditForm";
 		}
-    	
+    	System.out.println("temp 값 : " + noticeVO_NEW.getTemp());
+		String fileOX = "";
+		
 		// Notice 새 글로 수정
 		noticeService.modifyNotice(noticeVO_NEW);
 		System.out.println(noticeVO_NEW.toString());
 		
-		// fileVO 수정
-		String fileOX = fileService.modifyFile(request, noticeVO_NEW.getNo());
-		System.out.println("fileOX : " + fileOX);
-		// 파일 저장했으면,
-		if (fileOX.equals("O")) {
-			// fileOX -> O 업데이트
-			noticeService.updateFileOX_O(noticeVO_NEW.getNo());
+		System.out.println("기존 fileOX : " + noticeVO_NEW.getFileOX());
+		
+		/* FileVO */
+		// 기존 파일 X
+		if (noticeVO_NEW.getFileOX().equals("X")) {
+			// fileVO 저장
+			fileOX = fileService.save(request, noticeVO_NEW.getNo());
+			System.out.println("fileOX : " + fileOX);
+			/* NoticeBoardVO */
+			// -> 파일 저장했으면,
+			if (fileOX.equals("O")) {
+				// fileOX -> O 업데이트
+				noticeService.updateFileOX_O(noticeVO_NEW.getNo());
+			}
+			// 파일 저장 안 했으면,
+			if (fileOX.equals("X")){
+				// fileOX -> X 업데이트
+				noticeService.updateFileOX_X(noticeVO_NEW.getNo());
+			}
 		}
-		// 파일 저장 안 했으면,
-		if (fileOX.equals("X")){
-			// fileOX -> X 업데이트
-			noticeService.updateFileOX_X(noticeVO_NEW.getNo());
+		// 기존 파일 O
+		String filePath = fileService.selectOneFile(noticeVO_NEW.getNo()).getFilePath();
+		System.out.println("기존 파일의 파일주소 : " + filePath);
+		if (noticeVO_NEW.getFileOX().equals("O")) {
+			// fileVO 수정
+			fileOX = fileService.modifyFile(request, noticeVO_NEW.getNo());
+			System.out.println("수정 fileOX : " + fileOX);
+			/* NoticeBoardVO */
+			// -> 파일 저장했으면,
+			if (fileOX.equals("O")) {
+				// fileOX -> O 업데이트
+				noticeService.updateFileOX_O(noticeVO_NEW.getNo());
+				// 수정 전 파일 삭제
+				fileService.deleteFile(filePath);
+			}
+			// -> 파일 저장 안 했으면,
+			if (fileOX.equals("X")){
+				if (noticeVO_NEW.getTemp().equals("YES")) {
+					// fileOX -> O 업데이트
+					noticeService.updateFileOX_O(noticeVO_NEW.getNo());
+				} else {
+					// fileOX -> X 업데이트
+					noticeService.updateFileOX_X(noticeVO_NEW.getNo());
+					// 파일 삭제
+					fileService.removeFile(noticeVO_NEW.getNo());
+				}
+			}
 		}
 		
 		return "redirect:/community/subway/noticeList.do";
@@ -188,9 +221,12 @@ public class NoticeController {
 		if (noticeService.selectOneNotice(no).getFileOX().equals("O")) { 
 			// 번호에 해당하는 Notice 파일 삭제
 			fileService.removeFile(no);
+			// 번호에 해당하는 Notice 글 삭제
+			noticeService.removeNotice(no);
+		} else {
+			// 번호에 해당하는 Notice 글 삭제
+			noticeService.removeNotice(no);
 		}
-		// 번호에 해당하는 Notice 글 삭제
-		noticeService.removeNotice(no);
 		
 		return "redirect:/community/subway/noticeList.do";
 	}
@@ -213,13 +249,32 @@ public class NoticeController {
 				list.add(num);
 				// file 존재하면,
 				if (noticeService.selectOneNotice(num).getFileOX().equals("O")) { 
+					/* 실제 저장된 파일 삭제 */
+					// 사용자
+					String userPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice" 
+										+ File.separator + fileService.selectOneFile(num).getFilePath();
+					File file = new File(userPath);
+					if(file.exists() == true){
+						file.delete();
+					}
+					// 관리자
+					String adminPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice"
+										+ File.separator + fileService.selectOneFile(num).getFilePath();
+					File file2 = new File(adminPath);
+					if(file2.exists() == true){
+						file2.delete();
+					}
+					/* DB 삭제 */
 					// 리스트 번호에 해당하는 Notice 파일 삭제
 					fileService.removeFileSome(list);
+					// 리스트 번호에 해당하는 Notice 글 삭제
+					noticeService.removeNoticeSome(list);
+				} else {
+					// 리스트 번호에 해당하는 Notice 글 삭제
+					noticeService.removeNoticeSome(list);
 				}
 			}
 		}
-		// 리스트 번호에 해당하는 Notice 글 삭제
-		noticeService.removeNoticeSome(list);
 		
 		return "redirect:/community/subway/noticeList.do";
 	}
