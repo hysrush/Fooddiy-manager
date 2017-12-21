@@ -20,4 +20,5 @@ public interface NoticeService {
 	void removeNotice(int no);
 	void removeNoticeSome(List<Integer> list);
 	void updateViewcntNotice(int no, HttpSession session);
+	List<NoticeBoardVO> selectNoticeMain();
 }

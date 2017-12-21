@@ -69,4 +69,9 @@ public class NoticeDAOImp implements NoticeDAO{
 	public void addViewcnt(int no) {
 		sqlSession.update(url + "updateViewcntNotice", no);
 	}
+	// 메인 화면에 Notice 보여 주기
+	@Override
+	public List<NoticeBoardVO> selectNoticeMain() {
+		return sqlSession.selectList(url+"selectNoticeMain");
+	}
 }

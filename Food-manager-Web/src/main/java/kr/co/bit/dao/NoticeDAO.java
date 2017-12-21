@@ -18,4 +18,5 @@ public interface NoticeDAO {
 	void delete(int no);
 	void deleteSome(List<Integer> list);
 	void addViewcnt(int no);
+	List<NoticeBoardVO> selectNoticeMain();
 }

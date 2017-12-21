@@ -87,4 +87,10 @@ public class NoticeServiceImp implements NoticeService {
             
         }
 	}
+
+	// 메인 화면에 공지사항 보여 주기
+	public List<NoticeBoardVO> selectNoticeMain() {
+		
+		return noticeDAO.selectNoticeMain();
+	}
 }
