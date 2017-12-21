@@ -133,20 +133,6 @@
 														    </span>
 														    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">삭제</a>
 														</div>
-														<!-- 2번 -->
-														<div class="fileinput fileinput-new input-group" data-provides="fileinput">
-														    <div class="form-control" data-trigger="fileinput">
-														        <i class="glyphicon glyphicon-file fileinput-exists"></i>
-														    <span class="fileinput-filename"></span>
-														    </div>
-														    <span class="input-group-addon btn btn-default btn-file">
-														        <span class="fileinput-new">파일 선택</span>
-														        <span class="fileinput-exists">변경</span>
-														        <form:input path="noticeFile" type="file" id="noticeFile"/>
-														    </span>
-														    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">삭제</a>
-														</div>
-														<!--  -->
 													</div>
 												</div>
 												<div class="form-group">
@@ -193,10 +179,8 @@
     
     <!-- easydropdown -->
 	<script src="${ pageContext.request.contextPath }/resources/js/plugins/easydropdown/jquery.easydropdown.js"></script> 
-    <!-- FooTable -->
-    <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
-    <!-- Jasny -->
-	<script src="${ pageContext.request.contextPath }/resources/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+	<!-- Jasny (수정한 부트스트랩) -->
+	<script src="${ pageContext.request.contextPath }/resources/js/plugins/jasny/jasny-bootstrap.js"></script>
     <!-- Jquery Validate -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/validate/jquery.validate.min.js"></script>
     
