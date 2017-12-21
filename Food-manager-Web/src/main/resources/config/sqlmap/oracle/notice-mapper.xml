@@ -99,12 +99,4 @@
         WHERE notice_no = #{no}
     </update>
     
-    <!-- 메인 화면에 Notice 보여 줌 -->
-    <select id="selectNoticeMain" resultMap="Map_noticeVO">
-    	select notice_no, notice_writer, notice_title, notice_content, notice_type, file_type, view_cnt, to_char(reg_at, 'yy-mm-dd') as reg_at 
-    	from (select * from t_notice order by reg_at desc)
-    	<![CDATA[
-		where rownum <=5
- 		]]>
-    </select>
 </mapper>
