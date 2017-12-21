@@ -37,7 +37,7 @@ public class FileServiceImp implements FileService{
 	// 폴더 경로
 	private static String adminFolderPath = adminDir + formattedDate;
 	private static String userFolderPath = userDir + formattedDate;
-	private static String fileOX = "X";
+	private static String fileOX = null;
 	
 	// <File Service>
 	// File 저장
@@ -110,16 +110,12 @@ public class FileServiceImp implements FileService{
 				fileDAO.insert(fileVO);
 				System.out.println(fileVO.toString());
 				
-				File adminFileTmp = new File(adminPath);
-				// 파일 존재 여부 판단
-			    if (adminFileTmp.isFile()) {
-			      System.out.println("OK 파일 있습니다.");
-			      fileOX = "O";
-			    }
-			    else {
-			      System.out.println("그런 파일 없습니다.");
-			      fileOX = "X";
-			    }
+				if (multipartFile.isEmpty() == false) {
+					fileOX = "O";
+				}
+				if (multipartFile.isEmpty() == true) {
+					fileOX = "X";
+				}
 
             }
         }
