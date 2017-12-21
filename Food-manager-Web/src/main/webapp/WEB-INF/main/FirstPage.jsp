@@ -116,7 +116,7 @@ table.space th, td{
                                                <th class="title" style="padding: 3%; width: 50%; text-align: center;">주문수</th>
                                             </tr>
                                             <tr>
-                                               <th style="text-align: center;"> ${ count } 건</th>
+                                               <th style="text-align: center;"><a href="${ pageContext.request.contextPath }/">${ count } 건 </a></th>
                                             </tr>
                                          </table>
                                       </div>

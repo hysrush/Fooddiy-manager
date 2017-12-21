@@ -3,6 +3,7 @@ package kr.co.bit.dao;
 import java.util.List;
 import java.util.Map;
 
+import kr.co.bit.vo.ManagerVO;
 import kr.co.bit.vo.OrderVO;
 
 public interface OrderManagementDAO {
@@ -14,4 +15,5 @@ public interface OrderManagementDAO {
 	public OrderVO selectAddOneOrder();
 	public void cancelOrder(int no);
 	public void completeOrder(int no);
+	public int selectTodayMain(ManagerVO m);
 }

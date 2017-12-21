@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.bit.vo.ManagerVO;
 import kr.co.bit.vo.OrderVO;
 
 @Repository
@@ -64,5 +65,11 @@ public class OderManagementDAOImp  implements OrderManagementDAO{
 	@Override
 	public void completeOrder(int no) {
 		session.update(url + "completeOrder", no);
+	}
+	
+	//메인 페이지 주문 건수
+	@Override
+	public int selectTodayMain(ManagerVO m) {
+		return session.selectOne("kr.co.bit.main.mainC", m);
 	}
 }
