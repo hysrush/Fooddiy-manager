@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.bit.service.OrderManagementService;
+import kr.co.bit.util.Order;
 import kr.co.bit.vo.DetailOrderVO;
 import kr.co.bit.vo.OrderVO;
 
@@ -31,144 +32,68 @@ public class OrderManagementController {
 	OrderManagementService service;
 
 	// 전제주문내역
-	@RequestMapping(value = "/totalOrderList.do", method = RequestMethod.GET )
+	@RequestMapping(value = "/totalOrderList.do", method = RequestMethod.GET)
 	public ModelAndView totalOrderList(ModelAndView mav) {
 
 		List<OrderVO> totalOrderList = service.selectAll();
 
-		for (int i = 0; i < totalOrderList.size(); ++i) {
+		// 세부메뉴 변환
+		totalOrderList = Order.splitDetailOrderList(totalOrderList);
 
-			List<DetailOrderVO> list = new LinkedList<DetailOrderVO>();
-			String menu = totalOrderList.get(i).getMenu();
-			String[] menus = menu.split("\\|\\|");
-
-			for (int j = 0; j < menus.length; ++j) {
-				DetailOrderVO vo = new DetailOrderVO();
-				String[] oneMenu = menus[j].split("\\*");
-
-				vo.setName(oneMenu[0]);
-				vo.setBread(oneMenu[1]);
-				vo.setCheese(oneMenu[2]);
-				vo.setTopping(oneMenu[3]);
-				vo.setVegetable(oneMenu[4]);
-				vo.setSauce(oneMenu[5]);
-				vo.setRequirement(oneMenu[6]);
-				vo.setPic(oneMenu[7]);
-				vo.setSize(oneMenu[8]);
-				vo.setQty(new Integer(oneMenu[9]));
-				vo.setPrice(oneMenu[10]);
-				vo.setTotal_price(oneMenu[11]);
-				list.add(vo);
-			}
-			totalOrderList.get(i).setDetailOrderList(list);
-		}
-
-		System.out.println(totalOrderList);
-		mav.setViewName("orderManagement/totalOrderList");
 		mav.addObject("orderList", totalOrderList);
+		mav.setViewName("orderManagement/totalOrderList");
 		return mav;
 	}
-	
-	//전체주뭄내역 - 날짜검색
+
+	// 전체주뭄내역 - 날짜검색
 	@RequestMapping(value = "/totalOrderList.do", method = RequestMethod.POST)
-	public ModelAndView orderListSelectByDate(ModelAndView mav,@RequestParam("type") String type, @RequestParam("date_start") String dateStart,
-			@RequestParam("date_end") String dateEnd) {
-		
+	public ModelAndView orderListSelectByDate(ModelAndView mav, @RequestParam("type") String type,
+			@RequestParam("date_start") String dateStart, @RequestParam("date_end") String dateEnd) {
+
+		// Mybatis에 매개변수 2개를 보내기 위해 map 생성
 		Map<String, String> date = new HashMap<>();
-		
-		
-		System.out.println(dateStart);
-		System.out.println(dateEnd);
 		date.put("dateStart", dateStart);
 		date.put("dateEnd", dateEnd);
-		
+
 		List<OrderVO> orderListDate = service.selectByDate(date);
+
+		// 세부메뉴로 변환
+		orderListDate = Order.splitDetailOrderList(orderListDate);
+
 		
-		for (int i = 0; i < orderListDate.size(); ++i) {
-
-			List<DetailOrderVO> list = new LinkedList<DetailOrderVO>();
-			String menu = orderListDate.get(i).getMenu();
-			String[] menus = menu.split("\\|\\|");
-
-			for (int j = 0; j < menus.length; ++j) {
-				DetailOrderVO vo = new DetailOrderVO();
-				String[] oneMenu = menus[j].split("\\*");
-
-				vo.setName(oneMenu[0]);
-				vo.setBread(oneMenu[1]);
-				vo.setCheese(oneMenu[2]);
-				vo.setTopping(oneMenu[3]);
-				vo.setVegetable(oneMenu[4]);
-				vo.setSauce(oneMenu[5]);
-				vo.setRequirement(oneMenu[6]);
-				vo.setPic(oneMenu[7]);
-				vo.setSize(oneMenu[8]);
-				vo.setQty(new Integer(oneMenu[9]));
-				vo.setPrice(oneMenu[10]);
-				vo.setTotal_price(oneMenu[11]);
-				list.add(vo);
-			}
-			orderListDate.get(i).setDetailOrderList(list);
-		}
-
-		System.out.println(orderListDate);
-		mav.setViewName("orderManagement/totalOrderList");
+		
+		mav.addObject("type", type);
+		mav.addObject("date", date);
 		mav.addObject("orderList", orderListDate);
-		
-		
+		mav.setViewName("orderManagement/totalOrderList");
+
 		return mav;
 	}
-	
-	
+
 	// 오늘주문내역
 	@RequestMapping("/todayOrderList.do")
 	public ModelAndView todayOrderList(ModelAndView mav) {
 
+		// 오늘 날짜 구하기
 		String pattern = "yy/MM/dd";
 		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 		String today = sdf.format(new Date()).toString();
 
 		List<OrderVO> todayOrderList = service.selectByToday(today);
 
-		for (int i = 0; i < todayOrderList.size(); ++i) {
+		// 세부메뉴로 변환
+		todayOrderList = Order.splitDetailOrderList(todayOrderList);
 
-			List<DetailOrderVO> list = new LinkedList<DetailOrderVO>();
-			String menu = todayOrderList.get(i).getMenu();
-			String[] menus = menu.split("\\|\\|");
-
-			for (int j = 0; j < menus.length; ++j) {
-				DetailOrderVO vo = new DetailOrderVO();
-				String[] oneMenu = menus[j].split("\\*");
-
-				vo.setName(oneMenu[0]);
-				;
-				vo.setBread(oneMenu[1]);
-				vo.setCheese(oneMenu[2]);
-				vo.setTopping(oneMenu[3]);
-				vo.setVegetable(oneMenu[4]);
-				vo.setSauce(oneMenu[5]);
-				vo.setRequirement(oneMenu[6]);
-				vo.setPic(oneMenu[7]);
-				vo.setSize(oneMenu[8]);
-				vo.setQty(new Integer(oneMenu[9]));
-				vo.setPrice(oneMenu[10]);
-				vo.setTotal_price(oneMenu[11]);
-				list.add(vo);
-			}
-			todayOrderList.get(i).setDetailOrderList(list);
-		}
-
-		System.out.println(todayOrderList);
-		mav.setViewName("orderManagement/todayOrderList");
 		mav.addObject("orderList", todayOrderList);
+		mav.setViewName("orderManagement/todayOrderList");
 		return mav;
 	}
 
 	// 주문취소
 	@RequestMapping(value = "/orderCancel.do", method = RequestMethod.GET)
-	public String cancelOrder(@RequestParam("no") int no, @RequestParam("url") String url,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+	public String cancelOrder(@RequestParam("no") int no, @RequestParam("url") String url, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
 		response.setContentType("text/html;charset=UTF-8");
 		service.cancelOrder(no);
 
@@ -224,39 +149,12 @@ public class OrderManagementController {
 	@RequestMapping(value = "/orderList.do", method = RequestMethod.GET)
 	public ModelAndView orderList(ModelAndView mav) {
 
-		List<OrderVO> orderList = service.selectByorderStatus();
+		List<OrderVO> currentOrderList = service.selectByorderStatus();
 
-		for (int i = 0; i < orderList.size(); ++i) {
+		// 세부메뉴로 변환
+		currentOrderList = Order.splitDetailOrderList(currentOrderList);
 
-			List<DetailOrderVO> list = new LinkedList<DetailOrderVO>();
-			String menu = orderList.get(i).getMenu();
-			String[] menus = menu.split("\\|\\|");
-
-			System.out.println("menus.length =  " + menus.length);
-
-			for (int j = 0; j < menus.length; ++j) {
-				DetailOrderVO vo = new DetailOrderVO();
-				String[] oneMenu = menus[j].split("\\*");
-
-				vo.setName(oneMenu[0]);
-				;
-				vo.setBread(oneMenu[1]);
-				vo.setCheese(oneMenu[2]);
-				vo.setTopping(oneMenu[3]);
-				vo.setVegetable(oneMenu[4]);
-				vo.setSauce(oneMenu[5]);
-				vo.setRequirement(oneMenu[6]);
-				vo.setPic(oneMenu[7]);
-				vo.setSize(oneMenu[8]);
-				vo.setQty(new Integer(oneMenu[9]));
-				vo.setPrice(oneMenu[10]);
-				vo.setTotal_price(oneMenu[11]);
-				list.add(vo);
-			}
-			orderList.get(i).setDetailOrderList(list);
-		}
-
-		mav.addObject("orderList", orderList);
+		mav.addObject("orderList", currentOrderList);
 		mav.setViewName("orderManagement/orderList");
 
 		return mav;
@@ -308,10 +206,9 @@ public class OrderManagementController {
 				jsonDetailOrderList.put(jsonDetailOrder);
 			}
 			jsonOneOrder.put("detailOrderList", jsonDetailOrderList.toString());
-			
-			System.out.println(jsonDetailOrderList.toString());
+
 			response.getWriter().print(jsonOneOrder.toString());
-		}else {
+		} else {
 			System.out.println("null");
 			response.getWriter().print("null");
 		}

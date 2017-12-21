@@ -27,7 +27,6 @@ public class OderManagementDAOImp  implements OrderManagementDAO{
 	public List<OrderVO> selectByDate(Map<String, String> date) {
 
 		List<OrderVO> orderListDate = session.selectList(url + "selectByDate", date);
-		 
 		return orderListDate;
 	}
 	public List<OrderVO> selectByToday(String today) {

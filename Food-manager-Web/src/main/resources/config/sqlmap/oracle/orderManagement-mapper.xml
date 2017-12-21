@@ -29,9 +29,10 @@
 		<include refid="selectAll"/>
   	</select>
   	
-  	<select id="selectByDate" parameterType="java.util.HashMap" resultMap="Map_OrderVO">
+  	<select id="selectByDate" parameterType="java.util.Map" resultMap="Map_OrderVO">
   		<include refid="selectAll"/>
-  		where  to_date(reg_at, 'yyyy-mm-dd') <![CDATA[ >= #{dateStart}]]>  and to_date(reg_at, 'yyyy-mm-dd')  <![CDATA[ <= #{dateEnd}]]>
+  		where  to_char(reg_at, 'yyyy-mm-dd') between #{dateStart} and #{dateEnd}
+<!--   		where  to_date(reg_at, 'yyyy-mm-dd') between to_date(#{dateStart},'yyyy-mm-dd') and to_date(#{dateEnd}, 'yyyy-mm-dd') -->
   	</select>
 	
 	<select id="selectByToday" parameterType="String" resultMap="Map_OrderVO">
@@ -76,7 +77,6 @@
 	
 	<!-- 주문준비 -->
 	<update id="updateOrderStatus">
-	
 		update t_order
 		set order_status = 2
 		where rowid in (select rowid from (select rowid, row_number() over(order by order_no asc) rn, order_no

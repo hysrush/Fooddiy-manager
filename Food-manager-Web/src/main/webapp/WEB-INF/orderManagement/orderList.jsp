@@ -134,7 +134,6 @@
     			console.log(colorNum + "_");
     			
     		}
-    		
     	});
     	
     	

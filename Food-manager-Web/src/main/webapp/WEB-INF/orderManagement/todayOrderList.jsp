@@ -290,7 +290,7 @@
                     // 결과 없을때 info
                 	"sInfoEmpty": "검색 결과 : _TOTAL_개",
                 	// 결과 없을때 테이블 안 info
-                    "sZeroRecords" : "주문이 없습니다.",
+                    "sZeroRecords" : "현재 주문이 없습니다!",
                     // 검색 text
                     "sSearch" : "전체 검색 : ",
                     // 보기 text
