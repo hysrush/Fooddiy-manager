@@ -122,4 +122,9 @@ public class EvnetDAOImpl implements EventDAO {
 		return storenameList;
 	}
 
+	@Override
+	public List<EventBoardVO> selectEventMain() {
+		return sqlSession.selectList("kr.co.bit.main.mainE");
+	}
+
 }

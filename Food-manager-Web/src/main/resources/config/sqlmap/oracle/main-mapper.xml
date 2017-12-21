@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- DAO에서 sql문 불러 올 때 사용해야 하는 이름 -->
+<mapper namespace="kr.co.bit.main">
+	
+	<sql id="selectAll">
+		SELECT EVE_NO, STO_NAME, EVE_TITLE, EVE_CONTENT, EVE_FILENAME, TO_CHAR(EVE_START, 'YY-MM-DD') as EVE_START,
+		 TO_CHAR(EVE_FIN, 'YY-MM-DD') as EVE_FIN , TO_CHAR(REG_AT, 'YY-MM-DD') as REG_AT
+		FROM T_EVENT
+	</sql>
+  	
+ 	<!-- DB t_notice와 NoticeBoardVO의 변수와 맞지 않으므로 mapping  -->
+  	<resultMap type="noticeVO" id="Map_noticeVO">
+  		<result column="notice_no" property="no"/>
+  		<result column="notice_type" property="type"/>
+  		<result column="notice_writer" property="writer"/>
+  		<result column="notice_title" property="title"/>
+  		<result column="notice_content" property="content"/>
+  		<result column="view_cnt" property="viewCnt"/>
+  		<result column="reg_at" property="regDate"/>
+  	</resultMap>
+
+	<resultMap type="eventVO" id="Map_EventVO"> 	
+   		<result column="eve_no" property="no"/>
+   		<result column="sto_name" property="storeName"/>
+  	 	<result column="eve_title" property="title"/>
+  		<result column="eve_content" property="content"/>
+  		<result column="eve_filename" property="imgFileName"/>
+  		<result column="eve_start" property="startDate"/>
+  		<result column="eve_fin" property="endDate"/> 
+  		<result column="reg_at" property="regDate"/>
+  	</resultMap> 
+	
+	<!-- main 페이지에 공지사항 ** mapper에서 쿼리문 내에 부등식이 있을 경우 <![CDATA[ 내용 ]]>을 이용한다. 부등식이라고 인식해 주는 태그-->
+	<select id="mainN" resultMap="Map_noticeVO">
+		select * from (select * from t_notice order by reg_at desc)
+		<![CDATA[
+		where rownum <=5
+ 		]]>
+	</select>
+
+	<!-- 이벤트 -->
+	<select id="mainE" resultMap="Map_EventVO">
+		select * from (select * from t_event order by eve_start desc)
+		<![CDATA[
+		where rownum <=3
+ 		]]>
+	</select>
+	
+</mapper>
