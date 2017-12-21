@@ -50,8 +50,8 @@ public class QnaServiceImp implements QnaService {
 	}
 	//메인 화면에 QNA 목록
 	@Override
-	public List<QnaBoardVO> selectQnaMain() {
-		return qnaDAO.selectQnaMain();
+	public List<QnaBoardVO> selectQnaMain(String name) {
+		return qnaDAO.selectQnaMain(name);
 	}
 	
 }

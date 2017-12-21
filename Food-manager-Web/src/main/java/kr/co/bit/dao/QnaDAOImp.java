@@ -50,8 +50,8 @@ public class QnaDAOImp implements QnaDAO {
 	}
 	// 메인 화면에 QNA 목록
 	@Override
-	public List<QnaBoardVO> selectQnaMain() {
-		return sqlSession.selectList("kr.co.bit.main.mainQ");
+	public List<QnaBoardVO> selectQnaMain(String name) {
+		return sqlSession.selectList("kr.co.bit.main.mainQ", name);
 	}
 	
 }

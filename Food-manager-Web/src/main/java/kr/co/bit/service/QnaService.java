@@ -15,5 +15,5 @@ public interface QnaService {
 	void modifyQnA(QnaBoardVO qnaVO);
 	void removeQnA(int no);
 	void removeQnASome(List<Integer> list);
-	List<QnaBoardVO> selectQnaMain();
+	List<QnaBoardVO> selectQnaMain(String name);
 }
