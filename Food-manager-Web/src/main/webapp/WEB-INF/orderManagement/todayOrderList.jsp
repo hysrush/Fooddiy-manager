@@ -67,7 +67,7 @@
 			<div class="wrapper wrapper-content animated fadeInRight ecommerce">
 				<!-- Search box -->
 				<div class="ibox-content m-b-sm border-bottom todayOrderInfo">
-					<div class="row">
+					<div class="row" style="font-size: 20px">
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label class="control-label" for="type">오늘날짜 : </label>
