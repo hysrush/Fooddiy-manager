@@ -27,5 +27,6 @@ public interface EventDAO {
 	void delete(int no);
 	
 	String locationName(String gugun);
+	List<EventBoardVO> selectEventMain();
 	
 }

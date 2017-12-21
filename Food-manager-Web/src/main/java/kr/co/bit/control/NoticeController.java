@@ -59,7 +59,7 @@ public class NoticeController {
 	}
 	// Notice 새 글쓰기
 	@RequestMapping(value="/noticeWriteForm.do", method=RequestMethod.POST)
-	public String test(@Valid NoticeBoardVO noticeVO, BindingResult result,
+	public String write(@Valid NoticeBoardVO noticeVO, BindingResult result,
 						HttpServletRequest request, HttpSession session) throws Exception{
 
 		if (result.hasErrors()) {
@@ -77,8 +77,13 @@ public class NoticeController {
 		System.out.println(noticeVO.toString());
 		
 		// fileVO 저장
-		fileOX = fileService.save(request, noticeVO.getNo());
+		fileService.save(request, noticeVO.getNo());
 		System.out.println("fileOX : " + fileOX);
+		
+		if (fileService.selectOneFile(noticeVO.getNo()) != null) {
+			fileOX = "O";
+		}
+		
 		// 파일 저장했으면,
 		if (fileOX.equals("O")) {
 			// fileOX -> O 업데이트

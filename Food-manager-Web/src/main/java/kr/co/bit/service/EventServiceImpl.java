@@ -99,5 +99,10 @@ public class EventServiceImpl implements EventService{
 		List<StoreVO> storenameList = eventDAO.searchStoreName(search);
 		return storenameList;
 	}
+
+	@Override
+	public List<EventBoardVO> selectEventMain() {
+		return eventDAO.selectEventMain();
+	}
 	
 }
