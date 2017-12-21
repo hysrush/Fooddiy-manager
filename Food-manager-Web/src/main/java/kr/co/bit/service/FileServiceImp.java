@@ -33,7 +33,7 @@ public class FileServiceImp implements FileService{
 	// 폴더 경로
 	private static String adminFolderPath = adminDir + formattedDate;
 	private static String userFolderPath = userDir + formattedDate;
-	private static String fileOX = null;
+	private static String fileOX = "X";
 	
 	// <File Service>
 	// File 저장
