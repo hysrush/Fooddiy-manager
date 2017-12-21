@@ -3,7 +3,6 @@ package kr.co.bit.dao;
 import java.util.List;
 
 import kr.co.bit.vo.FileVO;
-import kr.co.bit.vo.NoticeBoardVO;
 
 public interface FileDAO {
 	

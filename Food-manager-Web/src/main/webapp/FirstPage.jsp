@@ -174,6 +174,7 @@ table.space th, td{
 											                    <div class="flot-chart-content" id="flot-dashboard-chart"></div>
 											                </div>
 											                <div class="row text-left">
+											                
 											                	<div class="col-xs-4">
 											                		<div class=" m-l-md">
 											                            <span class="h4 font-bold m-t block">$ 406,100</span>
