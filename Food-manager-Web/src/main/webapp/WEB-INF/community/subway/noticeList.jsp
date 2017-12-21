@@ -123,7 +123,7 @@
 						                                        ${ notice.content }
 						                                    </td>
 						                                    <td width="10%" nowrap>
-						                                        ${ notice.writer }
+						                                        ${ notice.writer }점
 						                                    </td>
 						                                    <td width="10%" nowrap>
 						                                        ${ notice.regDate }
@@ -147,12 +147,12 @@
                    					</div>
 								</div>
 							</div>
-							<!-- 두번째 Tab : 자주묻는질문 등록 -->
+							<!-- 두번째 Tab : 서브웨이소식 등록 -->
 							<div id="tab-2" class="tab-pane">
 							    <div class="panel-body">
 							    </div>
 							</div>
-							<!-- 세번째 Tab : 자주묻는질문 수정 -->
+							<!-- 세번째 Tab : 서브웨이소식 수정 -->
 							<!-- <div id="tab-3" class="tab-pane">
 							    <div class="panel-body">
 							    </div>
@@ -327,10 +327,7 @@
 			switch (type) {
 			case 'V':
 				// Notice 디테일
-				alert("디테일");
-				/* $('div.modal').modal().removeData();
-			    var url = '${ pageContext.request.contextPath}/community/qna/qnaDetail.do?no=' + no;
-			    $('div.modal').modal({ remote : url  }); */
+			    location.href = '${ pageContext.request.contextPath}/community/subway/noticeDetail.do?no=' + no;
 				break;
 			case 'E':
 				// Notice 수정

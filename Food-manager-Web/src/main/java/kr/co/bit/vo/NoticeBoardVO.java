@@ -1,5 +1,9 @@
 package kr.co.bit.vo;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class NoticeBoardVO {
 	
 	private int no;
@@ -7,7 +11,8 @@ public class NoticeBoardVO {
 	private String title;
 	private String content;
 	private String type;	// 공지사항 'A' / 보도자료 'B'
-	//private List<fileVO> fileList;  //첨부파일임.
+	private List<MultipartFile> noticeFile;  //첨부파일임.
+	private String fileOX;	// 파일 유 'O'/ 무 'X'
 	private String regDate;
 	private int viewCnt;
 	
@@ -53,10 +58,23 @@ public class NoticeBoardVO {
 	public void setViewCnt(int viewCnt) {
 		this.viewCnt = viewCnt;
 	}
+	public List<MultipartFile> getNoticeFile() {
+		return noticeFile;
+	}
+	public void setNoticeFile(List<MultipartFile> noticeFile) {
+		this.noticeFile = noticeFile;
+	}
+	public String getFileOX() {
+		return fileOX;
+	}
+	public void setFileOX(String fileOX) {
+		this.fileOX = fileOX;
+	}
 	@Override
 	public String toString() {
-		return "NoticeBoardVO [no=" + no + ", type=" + type + ", writer=" + writer + ", title=" + title + ", content="
-				+ content + ", regDate=" + regDate + ", viewCnt=" + viewCnt + "]";
+		return "NoticeBoardVO [no=" + no + ", writer=" + writer + ", title=" + title + ", content=" + content
+				+ ", type=" + type + ", noticeFile=" + noticeFile + ", fileOX=" + fileOX + ", regDate=" + regDate
+				+ ", viewCnt=" + viewCnt + "]";
 	}
-
+	
 }

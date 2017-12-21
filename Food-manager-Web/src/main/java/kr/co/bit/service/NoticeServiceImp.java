@@ -45,6 +45,16 @@ public class NoticeServiceImp implements NoticeService {
 	public void modifyNotice(NoticeBoardVO noticeVO) {
 		noticeDAO.update(noticeVO);
 	}
+	// Notice fileOX : O - 파일있음
+	@Override
+	public void updateFileOX_O(int no) {
+		noticeDAO.FileOX_O(no);
+	}
+	// Notice fileOX : X - 파일없음
+	@Override
+	public void updateFileOX_X(int no) {
+		noticeDAO.FileOX_X(no);
+	}
 	// Notice 글 삭제
 	@Override
 	public void removeNotice(int no) {

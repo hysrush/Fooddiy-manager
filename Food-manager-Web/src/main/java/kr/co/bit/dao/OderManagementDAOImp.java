@@ -1,6 +1,7 @@
 package kr.co.bit.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,13 @@ public class OderManagementDAOImp  implements OrderManagementDAO{
 		List<OrderVO> allOrderList = session.selectList(url + "selectAllOrder");
 		return allOrderList;
 	}
-	
+	@Override
+	public List<OrderVO> selectByDate(Map<String, String> date) {
+
+		List<OrderVO> orderListDate = session.selectList(url + "selectByDate", date);
+		 
+		return orderListDate;
+	}
 	public List<OrderVO> selectByToday(String today) {
 		List<OrderVO> orderListToday = session.selectList(url + "selectByToday", today);
 		return orderListToday;

@@ -9,18 +9,19 @@
 	
 	<!-- sql 저장 : 전체 조회 -->
   	<sql id="selectAll_notice">
-		SELECT notice_no, notice_writer, notice_title, notice_type, notice_content,
-				view_cnt, to_char(reg_at, 'yy-mm-dd') as reg_at
+		SELECT notice_no, notice_writer, notice_title, notice_content, 
+				notice_type, file_type, view_cnt, to_char(reg_at, 'yy-mm-dd') as reg_at
 		FROM t_notice
 	</sql>
 	
   	<!-- DB t_notice와 NoticeBoardVO의 변수와 맞지 않으므로 mapping  -->
   	<resultMap type="noticeVO" id="Map_noticeVO">
   		<result column="notice_no" property="no"/>
-  		<result column="notice_type" property="type"/>
   		<result column="notice_writer" property="writer"/>
   		<result column="notice_title" property="title"/>
   		<result column="notice_content" property="content"/>
+  		<result column="notice_type" property="type"/>
+  		<result column="file_type" property="fileOX"/>
   		<result column="view_cnt" property="viewCnt"/>
   		<result column="reg_at" property="regDate"/>
   	</resultMap>
@@ -45,16 +46,34 @@
 	</select>
 	
 	<!-- Notice 글 등록 -->
-	<insert id="insertNotice" parameterType="noticeVO">
-		INSERT INTO t_notice(notice_no, notice_writer, notice_title, notice_type, notice_content)
-		VALUES(seq_t_notice_no.nextval, #{writer}, #{title}, #{type}, #{content})
+	<insert id="insertNotice" parameterType="noticeVO" useGeneratedKeys="true" keyProperty="notice_no">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT seq_t_notice_no.nextval FROM DUAL
+		</selectKey>
+		INSERT INTO t_notice(notice_no, notice_writer, notice_title, notice_content,
+						notice_type, file_type)
+		VALUES(#{no}, #{writer}, #{title}, #{content}, #{type}, #{fileOX})
 	</insert>
 	
 	<!-- Notice 글 수정 -->
 	<update id="modifyNotice" parameterType="noticeVO">
 		UPDATE t_notice
 		SET notice_title = #{title}, notice_content = #{content}, 
-			notice_type = #{type}, reg_at = #{regDate}
+			notice_type = #{type}, file_type = #{fileOX}, reg_at = #{regDate}
+		WHERE notice_no = #{no}
+	</update>
+	
+	<!-- Notice fileOX : O - 파일있음 -->
+	<update id="updateFileOX_O" parameterType="int">
+		UPDATE t_notice
+		SET file_type = <![CDATA[ 'O' ]]>
+		WHERE notice_no = #{no}
+	</update>
+	
+	<!-- Notice fileOX : X - 파일없음 -->
+	<update id="updateFileOX_X" parameterType="int">
+		UPDATE t_notice
+		SET file_type = <![CDATA[ 'X' ]]>
 		WHERE notice_no = #{no}
 	</update>
 	
