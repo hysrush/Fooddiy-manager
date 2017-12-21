@@ -57,14 +57,13 @@
  		order by eve_start asc
 	</select>
 	
-	<!-- QNA -->
-	<select id="mainQ" resultMap="Map_qnaVO" parameterType="java.lang.String">
+	<!-- claim -->
+	<!-- <select id="mainQ" resultMap="Map_qnaVO" parameterType="java.lang.String">
 	 select * from (select * from (select * from t_claim where CLAIM_STORE = #{branch}) order by reg_at desc)
 	<![CDATA[
 		where rownum <=5
  	]]>
-	
-	</select>
+	</select> -->
 	
 	
 	

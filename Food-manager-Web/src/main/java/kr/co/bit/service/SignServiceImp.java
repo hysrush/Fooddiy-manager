@@ -68,6 +68,9 @@ public class SignServiceImp implements SignService {
 	// 관리자 등록
 	public ManagerVO signUp(ManagerVO managerVO) {
 		
+		
+		
+		
 		return signDAOImp.signUp(managerVO);
 
 	}

@@ -89,14 +89,13 @@ table.space th, td{
                                    <th>회원 ID</th>
                                    <th>등록일</th>
                                 </tr>
-                       <%--  <c:forEach items="${ qna }" var="q">
+                       <c:forEach items="${ qna }" var="q">
                            <tr>
                               <td style="padding:3%">${ q.title }</td>
-                              <td>${ q.storeName }</td>
                               <td>${ q.startDate }</td>
                               <td>${ q.endDate }</td>
                            </tr>
-                        </c:forEach> --%>
+                        </c:forEach>
                         </table>
                      </div>
                        </div>
