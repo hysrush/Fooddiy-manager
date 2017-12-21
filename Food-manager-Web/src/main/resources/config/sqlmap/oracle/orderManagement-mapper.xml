@@ -28,6 +28,11 @@
 	<select id="selectAllOrder" resultMap="Map_OrderVO">
 		<include refid="selectAll"/>
   	</select>
+  	
+  	<select id="selectByDate" parameterType="java.util.HashMap" resultMap="Map_OrderVO">
+  		<include refid="selectAll"/>
+  		where  to_date(reg_at, 'yyyy-mm-dd') <![CDATA[ >= #{dateStart}]]>  and to_date(reg_at, 'yyyy-mm-dd')  <![CDATA[ <= #{dateEnd}]]>
+  	</select>
 	
 	<select id="selectByToday" parameterType="String" resultMap="Map_OrderVO">
 		<include refid="selectAll"/>
@@ -48,6 +53,15 @@
 		
 		where order_status in (1, 2) <![CDATA[ AND ROWNUM <= 4 ]]>
   	</select>	  		
+  	
+  	<select id = "selectAddOneOrder" resultMap="Map_OrderVO">
+  		select  order_no, sto_name, user_id, order_orderPrice, order_finalPrice, order_menu, 
+		order_eat_type, order_payment, order_status, to_char(reg_at, 'DY HH24:MI:SS') as reg_at
+		
+		from ( select *  from t_order order by order_no asc)
+		
+		where order_status = 1 <![CDATA[ AND ROWNUM <= 1 ]]>
+  	</select>	
   		
 	<!-- 쥬문취소 -->
 	<update id="cancelOrder" parameterType="int">
@@ -67,7 +81,13 @@
 		set order_status = 2
 		where rowid in (select rowid from (select rowid, row_number() over(order by order_no asc) rn, order_no
 		from (select * from t_order where order_status in (1,2))) where <![CDATA[  rn <= 4 ]]>)
-
 	</update>
 	
+	<!-- 추가되는 주문 상태변경 -->
+	<update id="updateAddOneOrderSataus">
+		update t_order
+		set order_status = 2
+		where rowid in (select rowid from (select rowid, row_number() over(order by order_no asc) rn, order_no
+		from (select * from t_order where order_status = 1)) where <![CDATA[  rn <= 1 ]]>)
+	</update>
 </mapper>

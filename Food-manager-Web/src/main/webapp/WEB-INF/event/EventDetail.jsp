@@ -212,6 +212,17 @@
 				break;
 			}
 		}
+		$(document).ready(function() {
+			
+			 
+			
+			// sidebar li & ul 클래스 active
+			$('.eventLI').addClass("active");
+			$('.eventLI > ul').addClass("in");
+			$('.eventLI2').addClass("active");
+				    
+		});
+		
 	</script>
 
 

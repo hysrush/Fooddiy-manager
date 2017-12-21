@@ -10,6 +10,10 @@ public interface MenuDAO {
 	void insert(MenuVO menuVO);
 	void update(MenuVO menuVO);
 	void delete(int no);
-	void deleteSome(List<Integer> list);
+	void deleteSome(List<Integer> list);	
 	
+	// 05. 게시글 전체 목록
+	public List<MenuVO> listAll(int start, int end) throws Exception;
+	// 07. 게시글 레코드 갯수 메서드 추가
+	public int countArticle() throws Exception;
 }

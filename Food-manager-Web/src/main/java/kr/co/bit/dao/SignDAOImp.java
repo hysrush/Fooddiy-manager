@@ -69,12 +69,25 @@ public class SignDAOImp implements SignDAO {
 	public void setPw(ManagerVO setpw) {
 	
 		System.out.println(setpw.toString());
-		sql.insert(url+"pwUpdate", setpw);
+		sql.update(url+"pwUpdate", setpw);
 	}
 
 	// 현재 비밀번호와 새로운 비밀번호가 일치하는지 확인
 	public int checkpw(ManagerVO check) {
 		
 		return sql.selectOne(url+"checkpw", check);
+	}
+
+	// 매니저 정보 보기
+	public ManagerVO selectManager(String id) {
+
+		return sql.selectOne(url+"selectManager", id);
+	}
+
+	// 매니저 정보 수정
+	public ManagerVO updateManager(ManagerVO up) {
+		sql.update(url+"updateManager", up);
+		
+		return sql.selectOne(url+"selectManager", up.getId());
 	}
 }

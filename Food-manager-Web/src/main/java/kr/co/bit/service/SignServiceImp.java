@@ -59,24 +59,14 @@ public class SignServiceImp implements SignService {
 		return code;
 	}
 	
+	// 지점 확인
+	public int branchCheck(String storeName) {
+		
+		return signDAOImp.branchCheck(storeName);
+	}
+	
 	// 관리자 등록
 	public ManagerVO signUp(ManagerVO managerVO) {
-
-		// 지점이 몇 개 있는지 확인
-		String[] a = managerVO.getAddr2().split(" ");
-		String[] b = managerVO.getAddr2().split(" ");
-		
-		System.out.println(a[2]);
-		managerVO.setBranch(a[2]);
-		
-		int num = signDAOImp.branchCheck(a[2]);
-		
-		if(num == 0) {
-			managerVO.setBranch(b[2].substring(0, 2)+" 1호점");
-			return signDAOImp.signUp(managerVO);
-		}
-		
-		managerVO.setBranch(b[2].substring(0, 2)+" "+(num+1)+"호점");
 		
 		return signDAOImp.signUp(managerVO);
 
@@ -145,6 +135,18 @@ public class SignServiceImp implements SignService {
 	public int checkpw(ManagerVO check) {
 		
 		return signDAOImp.checkpw(check);
+	}
+
+	// 매니저 정보 보기
+	public ManagerVO selectManager(String id) {
+		
+		return signDAOImp.selectManager(id);
+	}
+
+	// 매니저 정보 수정
+	public ManagerVO updateManager(ManagerVO up) {
+		
+		return signDAOImp.updateManager(up);
 	}
 	
 }

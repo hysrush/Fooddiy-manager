@@ -9,3 +9,16 @@
  .todayOrderInfo .row .form-group label {
  	font-size: 20px;
  }
+ 
+<<<<<<< HEAD
+.float-right {
+	float: right;
+}
+.float-left {
+	float: left;
+}
+=======
+ th{
+ 	text-align: center !important;
+ }
+>>>>>>> refs/remotes/origin/master

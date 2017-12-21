@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.bit.vo.CityVO;
-import kr.co.bit.vo.EventBoardVO;
-import kr.co.bit.vo.PagingVO;
 import kr.co.bit.vo.StoreVO;
+import kr.co.bit.vo.locationVO;
 
 @Repository
 public class StoreDAOImpl implements StoreDAO {
@@ -54,8 +53,8 @@ public class StoreDAOImpl implements StoreDAO {
 	}
 
 	@Override
-	public List selectLocation(String sido) {
-		List list = sqlSession.selectList(url +"selectLocation", sido);
+	public List<locationVO> selectLocation(String sido) {
+		List<locationVO> list = sqlSession.selectList(url +"selectLocation", sido);
 		return list;
 	}
 
@@ -63,6 +62,11 @@ public class StoreDAOImpl implements StoreDAO {
 	public void insert(StoreVO storeVO) {
 		sqlSession.insert(url + "insertStore", storeVO);
 		
+	}
+
+	// 매니저 지점 등록 정보
+	public StoreVO selectStoreAddr(String store) {
+		return sqlSession.selectOne(url + "selectStoreAddr", store);
 	}
 	
 	

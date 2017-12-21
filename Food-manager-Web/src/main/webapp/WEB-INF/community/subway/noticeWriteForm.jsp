@@ -14,13 +14,10 @@
 	<link href="${ pageContext.request.contextPath }/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${ pageContext.request.contextPath }/resources/font-awesome/css/font-awesome.css" rel="stylesheet">
 
-	<!-- dataTables -->
-	<link href="${ pageContext.request.contextPath }/resources/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
-    <!-- FooTable -->
-    <link href="${ pageContext.request.contextPath }/resources/css/plugins/footable/footable.core.css" rel="stylesheet">
 	<!-- easydropdown -->
 	<link rel="stylesheet" type="text/css" href="${ pageContext.request.contextPath }/resources/css/plugins/easydropdown/easydropdown.css"/>
-	
+	<!-- jasny -->
+	<link href="${ pageContext.request.contextPath }/resources/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
 	<!-- sweetalert js & css -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
 	<link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
@@ -92,12 +89,12 @@
                             <!-- 두번째 Tab : 서브웨이소식 등록 -->
                             <div id="tab-2" class="tab-pane active">
                                 <div class="panel-body">
-                                	<form:form commandName="noticeVO" method="POST" id="noticeForm">
+                                	<form:form commandName="noticeVO" method="POST" id="noticeForm" enctype="multipart/form-data">
 										<fieldset class="form-horizontal" aria-hidden="false">
                             				<h2>Subway소식 등록</h2>
 											<div class="ibox-content">
 												<div class="form-group">
-													<div class="col-sm-8">
+													<div class="col-sm-12">
 														<label class="control-label" for="type">타입 *</label>
 														<form:select path="type" name="type" id="type" class="easydropdown form-control">
 															<form:option value="A">공지사항</form:option>
@@ -106,7 +103,7 @@
 													</div>
 												</div>
 												<div class="form-group">
-													<div class="col-sm-8">
+													<div class="col-sm-12">
 														<label class="control-label" for="title">제목 *</label>
 														<form:input path="title" type="text" id="title" class="form-control" 
 																	placeholder="제목" name="title" required="required"/>
@@ -114,21 +111,52 @@
 													</div>
 												</div>
 												<div class="form-group">
-													<div class="col-sm-8">
+													<div class="col-sm-12">
 														<label class="control-label" for="content">내용 *</label>
 														<form:textarea path="content" id="content" class="form-control"
-																		rows="5" placeholder="내용" name="content" required="required"/>
+																		rows="15" placeholder="내용" name="content" required="required"/>
 														<form:errors path="content" class="form-control"></form:errors>
 													</div>
 												</div>
 												<div class="form-group">
-													<div class="col-sm-5 col-sm-offset-2">
+													<div class="col-sm-12">
+														<label class="control-label" for="content">파일첨부</label>
+														<div class="fileinput fileinput-new input-group" data-provides="fileinput">
+														    <div class="form-control" data-trigger="fileinput">
+														        <i class="glyphicon glyphicon-file fileinput-exists"></i>
+														    <span class="fileinput-filename"></span>
+														    </div>
+														    <span class="input-group-addon btn btn-default btn-file">
+														        <span class="fileinput-new">파일 선택</span>
+														        <span class="fileinput-exists">변경</span>
+														        <form:input path="noticeFile" type="file" id="noticeFile"/>
+														    </span>
+														    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">삭제</a>
+														</div>
+														<!-- 2번 -->
+														<div class="fileinput fileinput-new input-group" data-provides="fileinput">
+														    <div class="form-control" data-trigger="fileinput">
+														        <i class="glyphicon glyphicon-file fileinput-exists"></i>
+														    <span class="fileinput-filename"></span>
+														    </div>
+														    <span class="input-group-addon btn btn-default btn-file">
+														        <span class="fileinput-new">파일 선택</span>
+														        <span class="fileinput-exists">변경</span>
+														        <form:input path="noticeFile" type="file" id="noticeFile"/>
+														    </span>
+														    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">삭제</a>
+														</div>
+														<!--  -->
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="col-sm-12 text-center">
 														<button type="button" class="btn btn-default" id="eraser"><i class="fa fa-eraser"></i> 지우기</button>
 														<button type="submit" class="btn btn-primary" id="qnaSubmit"><i class="fa fa-check"></i> 등록</button>
 													</div>
 												</div>
 											</div>
-											<form:input path="writer" type="hidden" id="writer" value="로그인id"/>
+											<form:input path="writer" type="hidden" id="writer" value="${ loginVO.branch }"/>
 										</fieldset>
 									</form:form>
                                 </div>
@@ -158,9 +186,6 @@
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 	
-	<!-- dataTables -->
-	<script src="${ pageContext.request.contextPath }/resources/js/plugins/dataTables/datatables.min.js"></script>
-	
     <!-- Custom and plugin javascript -->
     <script src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/pace/pace.min.js"></script>
@@ -168,10 +193,10 @@
     
     <!-- easydropdown -->
 	<script src="${ pageContext.request.contextPath }/resources/js/plugins/easydropdown/jquery.easydropdown.js"></script> 
-	
     <!-- FooTable -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
-    
+    <!-- Jasny -->
+	<script src="${ pageContext.request.contextPath }/resources/js/plugins/jasny/jasny-bootstrap.min.js"></script>
     <!-- Jquery Validate -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/validate/jquery.validate.min.js"></script>
     
@@ -207,11 +232,11 @@
 				rules: {
 					title: {
                         required: true,
-                        maxlength: 33
+                        maxlength: 90
                     },
                     content: {
                         required: true,
-                        maxlength: 300
+                        maxlength: 2000
                     }
                 },
               	//규칙체크 실패 시, 출력될 메시지

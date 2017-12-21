@@ -11,21 +11,20 @@
 	}
 </style>
 </head>
-<nav class="navbar-default navbar-static-side" role="navigation">
-<div class="sidebar-collapse">
-	<ul class="nav metismenu" id="side-menu">
-		<li class="nav-header">
-			<div class="dropdown profile-element">
-				<span> <img alt="image" class="img-circle"
-					src="${ pageContext.request.contextPath }/resources/img/profile_small.jpg" />
-				</span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span
-					class="clear"> <span class="block m-t-xs"><strong
-							class="font-bold">${ loginVO.name } 매니저</strong></span> <span
-						class="text-muted text-xs block">${ loginVO.branch }<b class="caret"></b></span>
-				</span>
-				</a>
+ <nav class="navbar-default navbar-static-side" role="navigation">
+	<div class="sidebar-collapse">
+		<ul class="nav metismenu" id="side-menu">
+      		<li class="nav-header">
+				<div class="dropdown profile-element">
+					<span>
+						<img alt="image" width="40%" class="img-circle" src="${ pageContext.request.contextPath }/resources/img/subway.png" />
+					</span> 
+				 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">${ loginVO.name } 관리자</strong>
+                             </span> <span class="text-muted text-xs block">${ loginVO.branch } 점 <b class="caret"></b></span> </span> </a>
+                             
 				<ul class="dropdown-menu animated fadeInRight m-t-xs">
-					<li><a href="${ pageContext.request.contextPath }/sign/profile">Profile</a></li>
+					<li><a href="${ pageContext.request.contextPath }/sign/profile?id=${loginVO.id}">Profile</a></li>
 					<li><a href="">Contacts</a></li>
 					<li><a href="mailbox.html">Mailbox</a></li>
 					<li class="divider"></li>
@@ -70,7 +69,7 @@
 				<li class="qnaLI"><a href="${ pageContext.request.contextPath }/community/qna/qnaList.do">자주묻는질문 관리</a></li>
 				<li class="noticeLI"><a href="${ pageContext.request.contextPath }/community/subway/noticeList.do">Subway소식 관리</a></li>
 				<li class="claimLI"><a href="contacts_2.html">1:1문의 관리</a></li>
-				<li class="snsLI"><a href="projects.html">SNS게시판 관리</a></li>
+				<li class="snsLI"><a href="${pageContext.request.contextPath }/community/sns/snsPage.do">SNS게시판 관리</a></li>
 			</ul></li>
 		<li><a href="#"><i class="fa fa-globe"></i> <span
 				class="nav-label">마이페이지 관리</span><span class="fa arrow"></span></a>

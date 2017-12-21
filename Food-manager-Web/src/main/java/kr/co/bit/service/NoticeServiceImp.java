@@ -45,6 +45,16 @@ public class NoticeServiceImp implements NoticeService {
 	public void modifyNotice(NoticeBoardVO noticeVO) {
 		noticeDAO.update(noticeVO);
 	}
+	// Notice fileOX : O - 파일있음
+	@Override
+	public void updateFileOX_O(int no) {
+		noticeDAO.FileOX_O(no);
+	}
+	// Notice fileOX : X - 파일없음
+	@Override
+	public void updateFileOX_X(int no) {
+		noticeDAO.FileOX_X(no);
+	}
 	// Notice 글 삭제
 	@Override
 	public void removeNotice(int no) {
@@ -76,5 +86,11 @@ public class NoticeServiceImp implements NoticeService {
             session.setAttribute("update_time_" + no, current_time);
             
         }
+	}
+
+	// 메인 화면에 공지사항 보여 주기
+	public List<NoticeBoardVO> selectNoticeMain() {
+		
+		return noticeDAO.selectNoticeMain();
 	}
 }
