@@ -69,7 +69,7 @@ table.space th, td{
                                    <th class="title" colspan="2" style="padding: 3%;">바로가기</th>
                                 </tr>
                                 <tr>
-                                   <th style="padding: 3%">${ loginVO.branch } 점 관리자</th>
+                                   <th style="padding: 3%">${ loginVO.branch } 점  <small>${ loginVO.name } 관리자</small></th>
                                    <th colspan="2"> ID: ${ loginVO.id }</th>
                                 </tr>
                            <tr>
@@ -89,14 +89,14 @@ table.space th, td{
                                    <th>회원 ID</th>
                                    <th>등록일</th>
                                 </tr>
-                        <c:forEach items="${ event }">
+                       <%--  <c:forEach items="${ qna }" var="q">
                            <tr>
-                              <td style="padding:3%">${ event.title }</td>
-                              <td>${ event.storeName }</td>
-                              <td>${ event.startDate }</td>
-                              <td>${ event.endDate }</td>
+                              <td style="padding:3%">${ q.title }</td>
+                              <td>${ q.storeName }</td>
+                              <td>${ q.startDate }</td>
+                              <td>${ q.endDate }</td>
                            </tr>
-                        </c:forEach>
+                        </c:forEach> --%>
                         </table>
                      </div>
                        </div>
@@ -107,7 +107,7 @@ table.space th, td{
                           <div class="row" style="border: 2px solid; padding: 5%">
                              <table style="width: 100%;" class="space">
                                 <tr>
-                                   <th class="title" style="padding: 2%; width: 40%; font-size: 20px;">TODAY 현황</th>
+                                   <th class="title" style="padding: 2%; width: 40%; font-size: 20px;">[ TODAY 현황 ]</th>
                                 </tr>
                            <tr>
                               <td>
@@ -168,16 +168,18 @@ table.space th, td{
                           <table style="width: 100%;">
                              <tr>
                                 <th class="title" style="padding: 3%"><strong>공지사항</strong></th>
-                                <td align="right"><a><small >[더보기]</small></a></td>
+                                <td align="right"><a href="${ pageContext.request.contextPath }/community/subway/noticeList.do"><small >[더보기]</small></a></td>
                              </tr>
                              <tr>
                                 <th width="60%" style="padding: 3%">제목</th>
                                 <th>작성일</th>
                              </tr>
-                     <c:forEach items="${ notice }">
+                     <c:forEach items="${ notice }" var="n">
                         <tr>
-                           <td width="60%" style="padding: 3%">${ notice.title }</td>
-                           <td>${ notice.regDate }</td>
+							<td width="60%" style="padding: 3%">
+								<a href="${ pageContext.request.contextPath }/community/subway/noticeDetail.do?no=${n.no}">${ n.title }</a>
+                           	</td>
+                           <td>${ n.regDate }</td>
                         </tr>
                      </c:forEach>
                   </table>
@@ -186,20 +188,20 @@ table.space th, td{
                        <table style="width: 100%;">
                           <tr>
                              <th class="title" colspan="2" style="padding: 3%;">이벤트 사항</th>
-                             <td colspan="2" align="right"><a><small >[더보기]</small></a></td>
+                             <td colspan="2" align="right"><a href="${ pageContext.request.contextPath }/event/eventPage.do"><small >[더보기]</small></a></td>
                           </tr>
                           <tr>
                              <th style="padding:3%">이벤트 제목</th>
                              <th>지점</th>
-                             <th>시작 날짜</th>
-                             <th>종료 날짜</th>
+                             <th>시작일</th>
+                             <th>종료일</th>
                           </tr>
-                  <c:forEach items="${ event }">
+                  <c:forEach items="${ event }" var="e">
                      <tr>
-                        <td style="padding:3%">${ event.title }</td>
-                        <td>${ event.storeName }</td>
-                        <td>${ event.startDate }</td>
-                        <td>${ event.endDate }</td>
+                        <td style="padding:3%"><a href="${ pageContext.request.contextPath }/event/eventDetail.do?no=${ e.no }">${ e.title }</a></td>
+                        <td>${ e.storeName }</td>
+                        <td>${ e.startDate }</td>
+                        <td>${ e.endDate }</td>
                      </tr>
                   </c:forEach>
                   </table>

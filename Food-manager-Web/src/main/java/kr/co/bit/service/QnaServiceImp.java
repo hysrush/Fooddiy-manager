@@ -48,5 +48,10 @@ public class QnaServiceImp implements QnaService {
 	public void removeQnASome(List<Integer> list) {
 		qnaDAO.deleteSome(list);
 	}
+	//메인 화면에 QNA 목록
+	@Override
+	public List<QnaBoardVO> selectQnaMain() {
+		return qnaDAO.selectQnaMain();
+	}
 	
 }

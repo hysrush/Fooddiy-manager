@@ -4,14 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- DAO에서 sql문 불러 올 때 사용해야 하는 이름 -->
 <mapper namespace="kr.co.bit.main">
-	
-	<sql id="selectAll">
-		SELECT EVE_NO, STO_NAME, EVE_TITLE, EVE_CONTENT, EVE_FILENAME, TO_CHAR(EVE_START, 'YY-MM-DD') as EVE_START,
-		 TO_CHAR(EVE_FIN, 'YY-MM-DD') as EVE_FIN , TO_CHAR(REG_AT, 'YY-MM-DD') as REG_AT
-		FROM T_EVENT
-	</sql>
-  	
- 	<!-- DB t_notice와 NoticeBoardVO의 변수와 맞지 않으므로 mapping  -->
+ 	<!-- 공지사항 -->
   	<resultMap type="noticeVO" id="Map_noticeVO">
   		<result column="notice_no" property="no"/>
   		<result column="notice_type" property="type"/>
@@ -21,7 +14,8 @@
   		<result column="view_cnt" property="viewCnt"/>
   		<result column="reg_at" property="regDate"/>
   	</resultMap>
-
+  	
+	<!-- 이벤트 -->
 	<resultMap type="eventVO" id="Map_EventVO"> 	
    		<result column="eve_no" property="no"/>
    		<result column="sto_name" property="storeName"/>
@@ -31,22 +25,48 @@
   		<result column="eve_start" property="startDate"/>
   		<result column="eve_fin" property="endDate"/> 
   		<result column="reg_at" property="regDate"/>
-  	</resultMap> 
+  	</resultMap>
+  	 
+  	<!-- QNA -->
+  	<resultMap type="qnaVO" id="Map_qnaVO">
+  		<result column="qna_no" property="no"/>
+  		<result column="qna_q" property="question"/>
+  		<result column="qna_a" property="answer"/>
+  		<result column="qna_type" property="type"/>
+  		<result column="reg_at" property="regDate"/>
+  	</resultMap>
 	
 	<!-- main 페이지에 공지사항 ** mapper에서 쿼리문 내에 부등식이 있을 경우 <![CDATA[ 내용 ]]>을 이용한다. 부등식이라고 인식해 주는 태그-->
 	<select id="mainN" resultMap="Map_noticeVO">
-		select * from (select * from t_notice order by reg_at desc)
+		select notice_no, notice_writer, notice_title, notice_content, 
+			notice_type, file_type, view_cnt, to_char(reg_at, 'yy-mm-dd') as reg_at
+		FROM (select * from t_notice order by reg_at desc)
 		<![CDATA[
 		where rownum <=5
  		]]>
+ 		order by reg_at asc
 	</select>
 
 	<!-- 이벤트 -->
 	<select id="mainE" resultMap="Map_EventVO">
-		select * from (select * from t_event order by eve_start desc)
+		select EVE_NO, STO_NAME, EVE_TITLE, EVE_CONTENT, EVE_FILENAME, TO_CHAR(EVE_START, 'YY-MM-DD') as EVE_START,
+		 TO_CHAR(EVE_FIN, 'YY-MM-DD') as EVE_FIN , TO_CHAR(REG_AT, 'YY-MM-DD') from (select * from t_event order by eve_start desc)
 		<![CDATA[
-		where rownum <=3
+		where rownum <=5
  		]]>
+ 		order by eve_start asc
 	</select>
+	
+	<!-- QNA -->
+	<select id="mainQ" resultMap="Map_qnaVO" parameterType="java.lang.String">
+	 select * from (select * from (select * from t_claim where CLAIM_STORE = #{branch}) order by reg_at desc)
+	<![CDATA[
+		where rownum <=5
+ 	]]>
+	
+	</select>
+	
+	
+	
 	
 </mapper>

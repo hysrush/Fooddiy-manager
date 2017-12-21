@@ -187,9 +187,8 @@ public class SignController {
 		
 		model.addAttribute("loginVO", signIn);
 		System.out.println(signIn.toString());
-		model.addAttribute("url", "FirstPage");
 		
-		return "redirect:/FirstPage.jsp";
+		return "redirect:/main/FirstPage";
 	}
 
 	// - 로그아웃
