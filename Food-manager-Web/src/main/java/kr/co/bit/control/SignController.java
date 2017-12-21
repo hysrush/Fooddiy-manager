@@ -155,7 +155,7 @@ public class SignController {
 		ManagerVO loginVO = signServiceImp.signUp(managerVO);
 		
 		model.addAttribute("loginVO", loginVO);
-		r.addAttribute("storeName", loginVO.getBranch());
+		r.addFlashAttribute("storeName", loginVO.getBranch());
 		System.out.println(loginVO.toString());
 		
 		return "redirect:/main/FirstPage";

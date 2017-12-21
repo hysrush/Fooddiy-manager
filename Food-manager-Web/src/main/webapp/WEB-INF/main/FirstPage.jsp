@@ -69,7 +69,7 @@ table.space th, td{
                                    <th class="title" colspan="2" style="padding: 3%;">바로가기</th>
                                 </tr>
                                 <tr>
-                                   <th style="padding: 3%">${ loginVO.branch } 점  <small>${ loginVO.name } 관리자</small></th>
+                                   <th style="padding: 3%">${ loginVO.branch } 점 </th>
                                    <th colspan="2"> ID: ${ loginVO.id }</th>
                                 </tr>
                            <tr>
