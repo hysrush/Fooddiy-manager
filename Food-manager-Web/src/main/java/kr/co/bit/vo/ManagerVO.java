@@ -9,8 +9,17 @@ public class ManagerVO {
 	private String tel;
 	private String addr;
 	private String branch;
+	private String date;
 	
 	
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 	public String getTel() {
 		return tel;
 	}
@@ -70,7 +79,7 @@ public class ManagerVO {
 	@Override
 	public String toString() {
 		return "ManagerVO [name=" + name + ", id=" + id + ", pw=" + pw + ", phone=" + phone + ", tel=" + tel + ", addr="
-				+ addr + ", branch=" + branch + "]";
+				+ addr + ", branch=" + branch + ", date=" + date + "]";
 	}
 	
 }

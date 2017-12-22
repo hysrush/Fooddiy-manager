@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.bit.dao.OrderManagementDAO;
+import kr.co.bit.vo.ManagerVO;
 import kr.co.bit.vo.OrderVO;
 
 @Service
@@ -60,6 +61,12 @@ public class OrderManagementServiceImp  implements OrderManagementService{
 	@Override
 	public void completeOrder(int no) {
 		dao.completeOrder(no);
+	}
+	
+	//메인 페이지 주문 건수
+	@Override
+	public int selectTodayMain(ManagerVO m) {
+		return dao.selectTodayMain(m);
 	}
 	
 	

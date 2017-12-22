@@ -69,17 +69,17 @@ table.space th, td{
                                    <th class="title" colspan="2" style="padding: 3%;">바로가기</th>
                                 </tr>
                                 <tr>
-                                   <th style="padding: 3%">${ loginVO.branch } 점 관리자</th>
+                                   <th style="padding: 3%">${ loginVO.branch } 점 </th>
                                    <th colspan="2"> ID: ${ loginVO.id }</th>
                                 </tr>
-                           <tr>
-                              <th><a href="${pageContext.request.contextPath}/orderManagement/todayOrderList.do">TODAY 주문</a></th>
-                                   <th><a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴관리</a></th>
-                                   <th><a href="${ pageContext.request.contextPath }/member/memberList.do">회원관리</a></th>
-                           </tr>
-                        </table>
-                     </div><br/>
-                     <div class="row" style="border: 2px solid; padding: 5%">
+								<tr>
+									<th><a href="${pageContext.request.contextPath}/orderManagement/orderList.do">현재 주문 상황</a></th>
+									<th><a href="${ pageContext.request.contextPath }/menu/menuBoard.do">메뉴관리</a></th>
+									<th><a href="${ pageContext.request.contextPath }/member/memberList.do">회원관리</a></th>
+								</tr>
+                             </table>
+						</div><br/>
+						<div class="row" style="border: 2px solid; padding: 5%">
                              <table style="width: 100%;">
                                 <tr>
                                    <th colspan="2" class="title" style="padding: 3%;">건의사항</th>
@@ -89,125 +89,125 @@ table.space th, td{
                                    <th>회원 ID</th>
                                    <th>등록일</th>
                                 </tr>
-                        <c:forEach items="${ event }">
-                           <tr>
-                              <td style="padding:3%">${ event.title }</td>
-                              <td>${ event.storeName }</td>
-                              <td>${ event.startDate }</td>
-                              <td>${ event.endDate }</td>
-                           </tr>
-                        </c:forEach>
-                        </table>
-                     </div>
-                       </div>
-                    </div>
-                    <!-- 두번째 -->
-                    <div class="col-md-4" style="margin: 1% 1% 1% 2.3%;">
-                       <div class="row">
-                          <div class="row" style="border: 2px solid; padding: 5%">
-                             <table style="width: 100%;" class="space">
-                                <tr>
-                                   <th class="title" style="padding: 2%; width: 40%; font-size: 20px;">TODAY 현황</th>
+								<c:forEach items="${ qna }" var="q">
+								<tr>
+	                              <td style="padding:3%">${ q.title }</td>
+	                              <td>${ q.startDate }</td>
+	                              <td>${ q.endDate }</td>
+								</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- 두번째 -->
+				<div class="col-md-4" style="margin: 1% 1% 1% 2.3%;">
+					<div class="row">
+						<div class="row" style="border: 2px solid; padding: 5%">
+							<table style="width: 100%;" class="space">
+								<tr>
+                                   <th class="title" style="padding: 2%; width: 40%; font-size: 20px;">[ TODAY 현황 ]</th>
                                 </tr>
-                           <tr>
-                              <td>
-                                 <div style="border: 2px solid; padding: 2%">
-                                    <table style="width: 100%;">
-                                       <tr>
-                                               <th class="title" style="padding: 3%; width: 50%; text-align: center;">주문수</th>
-                                            </tr>
-                                            <tr>
-                                               <th style="text-align: center;"> ${ count } 건</th>
-                                            </tr>
+								<tr>
+									<td>
+										<div style="border: 2px solid; padding: 2%">
+											<table style="width: 100%;">
+												<tr>
+													<th class="title" style="padding: 3%; width: 50%; text-align: center;">주문수</th>
+												</tr>
+												<tr>
+													<th style="text-align: center;"><a href="${ pageContext.request.contextPath }/orderManagement/todayOrderList.do">${ count } 건 </a></th>
+												</tr>
+											</table>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div style="border: 2px solid; padding: 2%">
+											<table style="width: 100%;">
+												<tr>
+													<th class="title" style="padding: 3%; width: 50%; text-align: center;">시간대별 판매기록</th>
+												</tr>
+												<tr>
+													<td>
+														<div class="flot-chart dashboard-chart">
+															<div class="flot-chart-content" id="flot-dashboard-chart"></div>
+														</div>
+														<div class="row text-left">
+															<div class="col-xs-4">
+																<div class=" m-l-md">
+																	<span class="h4 font-bold m-t block">$ 413123</span>
+																	<small class="text-muted m-b block">Sales marketing report</small>
+																</div>
+															</div>
+															<div class="col-xs-4">
+																<span class="h4 font-bold m-t block">$ 150,401</span>
+																<small class="text-muted m-b block">Annual sales revenue</small>
+															</div>
+															<div class="col-xs-4">
+																<span class="h4 font-bold m-t block">$ 16,822</span>
+																<small class="text-muted m-b block">Half-year revenue margin</small>
+															</div>
+														</div>
+													</td>
+												</tr>
                                          </table>
                                       </div>
-                                   </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <div style="border: 2px solid; padding: 2%">
-                                    <table style="width: 100%;">
-                                       <tr>
-                                               <th class="title" style="padding: 3%; width: 50%; text-align: center;">시간대별 판매기록</th>
-                                            </tr>
-                                            <tr>
-                                               <td>
-                                                  <div class="flot-chart dashboard-chart">
-                                                     <div class="flot-chart-content" id="flot-dashboard-chart"></div>
-                                                 </div>
-                                                 <div class="row text-left">
-                                                    <div class="col-xs-4">
-                                                       <div class=" m-l-md">
-                                                             <span class="h4 font-bold m-t block">$ 406,100</span>
-                                                      <small class="text-muted m-b block">Sales marketing report</small>
-                                                           </div>
-                                                </div>
-                                                     <div class="col-xs-4">
-                                                        <span class="h4 font-bold m-t block">$ 150,401</span>
-                                                        <small class="text-muted m-b block">Annual sales revenue</small>
-                                                       </div>
-                                                     <div class="col-xs-4">
-                                                        <span class="h4 font-bold m-t block">$ 16,822</span>
-                                                         <small class="text-muted m-b block">Half-year revenue margin</small>
-                                                     </div>
-                                             </div>
-                                          </td>
-                                            </tr>
-                                         </table>
-                                      </div>
-                              </td>
-                           </tr>
-                        </table>
-                     </div>
-                   
-                       </div>
-                    </div>
-                    <!-- 3번재 줄 -->
-                    <div class="col-md-3" style="margin: 1%">
-                       <div class="row" style="border: 2px solid; padding: 5%">
-                          <table style="width: 100%;">
-                             <tr>
-                                <th class="title" style="padding: 3%"><strong>공지사항</strong></th>
-                                <td align="right"><a><small >[더보기]</small></a></td>
-                             </tr>
-                             <tr>
-                                <th width="60%" style="padding: 3%">제목</th>
-                                <th>작성일</th>
-                             </tr>
-                     <c:forEach items="${ notice }">
+									</td>
+								</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- 3번재 줄 -->
+			<div class="col-md-3" style="margin: 1%">
+				<div class="row" style="border: 2px solid; padding: 5%">
+					<table style="width: 100%;">
+						<tr>
+							<th class="title" style="padding: 3%"><strong>공지사항</strong></th>
+							<td align="right"><a href="${ pageContext.request.contextPath }/community/subway/noticeList.do"><small >[더보기]</small></a></td>
+						</tr>
+						<tr>
+							<th width="60%" style="padding: 3%">제목</th>
+							<th>작성일</th>
+						</tr>
+						<c:forEach items="${ notice }" var="n">
                         <tr>
-                           <td width="60%" style="padding: 3%">${ notice.title }</td>
-                           <td>${ notice.regDate }</td>
+							<td width="60%" style="padding: 3%">
+								<a href="${ pageContext.request.contextPath }/community/subway/noticeDetail.do?no=${n.no}">${ n.title }</a>
+                           	</td>
+                           <th style="font-weight: normal;">${ n.regDate }</th>
                         </tr>
                      </c:forEach>
                   </table>
-                    </div><br/>
-                    <div class="row" style="border: 2px solid; padding: 5%">
-                       <table style="width: 100%;">
-                          <tr>
-                             <th class="title" colspan="2" style="padding: 3%;">이벤트 사항</th>
-                             <td colspan="2" align="right"><a><small >[더보기]</small></a></td>
-                          </tr>
-                          <tr>
-                             <th style="padding:3%">이벤트 제목</th>
-                             <th>지점</th>
-                             <th>시작 날짜</th>
-                             <th>종료 날짜</th>
-                          </tr>
-                  <c:forEach items="${ event }">
-                     <tr>
-                        <td style="padding:3%">${ event.title }</td>
-                        <td>${ event.storeName }</td>
-                        <td>${ event.startDate }</td>
-                        <td>${ event.endDate }</td>
-                     </tr>
-                  </c:forEach>
-                  </table>
-               </div>
-               </div>
-               <div class="footer">
-                   <jsp:include page="/resources/include/bottom.jsp"></jsp:include>
-                </div>
+				</div><br/>
+				<div class="row" style="border: 2px solid; padding: 5%">
+					<table style="width: 100%;">
+						<tr>
+							<th class="title" colspan="2" style="padding: 3%;">이벤트 사항</th>
+                            <td colspan="2" align="right"><a href="${ pageContext.request.contextPath }/event/eventPage.do"><small >[더보기]</small></a></td>
+						</tr>
+						<tr>
+							<th style="padding:3%">이벤트 제목</th>
+							<th>지점</th>
+							<th>시작일</th>
+							<th>종료일</th>
+						</tr>
+						<c:forEach items="${ event }" var="e">
+						<tr>
+                        	<td style="padding:3%"><a href="${ pageContext.request.contextPath }/event/eventDetail.do?no=${ e.no }">${ e.title }</a></td>
+                        	<td>${ e.storeName }</td>
+                        	<th style="font-weight: normal;">${ e.startDate }</th>
+                        	<th style="font-weight: normal;">${ e.endDate }</th>
+                    	 </tr>
+                  		</c:forEach>
+					</table>
+				</div>
+			</div>
+			<div class="footer">
+				<jsp:include page="/resources/include/bottom.jsp"></jsp:include>
+			</div>
         </div>
    </div>
 </div>

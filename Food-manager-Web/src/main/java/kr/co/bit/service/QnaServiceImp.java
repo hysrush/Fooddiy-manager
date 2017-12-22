@@ -48,5 +48,4 @@ public class QnaServiceImp implements QnaService {
 	public void removeQnASome(List<Integer> list) {
 		qnaDAO.deleteSome(list);
 	}
-	
 }

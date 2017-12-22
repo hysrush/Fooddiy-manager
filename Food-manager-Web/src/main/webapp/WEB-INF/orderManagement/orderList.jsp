@@ -107,14 +107,12 @@
 	<script src="${ pageContext.request.contextPath}/resources/js/inspinia.js"></script>
 	<script src="${ pageContext.request.contextPath}/resources/js/plugins/pace/pace.min.js"></script>
 	<script>
-    	var sum = 0;
+	
     	var orderInterval;
     	var currentOrderCount;
     	var blinkBorder;
     	var flag;
     	var color = [ "purple", "#ed9c28", "#47a447", "#1c84c6", "#5bc0de", "#383f48" ];
-    	
-    	
     	
     	$(document).ready(function() {
   
@@ -134,14 +132,12 @@
     			console.log(colorNum + "_");
     			
     		}
-    		
     	});
     	
     	
 		function checkCurrentCount() {
     		
     		currentOrderCount = $('.order-info-box').length;
-			
     		
     		//인터벌 초기화
     		clearInterval(orderInterval);
@@ -208,8 +204,6 @@
     	
     	//주문추가 - 폴링 
     	function addOrder() {
-    		sum += 1;
- 			console.log(sum);				
     		$.ajax({
     			
     			url : "${pageContext.request.contextPath}/orderManagement/orderList.do",
@@ -261,8 +255,6 @@
 										 var border = $('.total-orderFormat');
 										 
 										 if(!border.data("clickStatus")) {
-											 console.log("깜박1");
-											 
 											 border.css({
 												"border-style" : "solid",
 												"border-color" : "red",
@@ -270,7 +262,6 @@
 											})	
 											border.data("clickStatus", 1);
 										 }else {
-											 console.log("깜박2");
 											 border.css({
 												"border-style" : "none"
 											})									
@@ -294,6 +285,7 @@
     	};
     	
     	
+    	//주문시 깜박임 없애기
     	function clearBlinkBorder() {
     		clearInterval(blinkBorder);
     		$('.total-orderFormat').css("border-style", "none");

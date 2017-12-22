@@ -72,6 +72,6 @@ public class NoticeDAOImp implements NoticeDAO{
 	// 메인 화면에 Notice 보여 주기
 	@Override
 	public List<NoticeBoardVO> selectNoticeMain() {
-		return sqlSession.selectList(url+"selectNoticeMain");
+		return sqlSession.selectList("kr.co.bit.main.mainN");
 	}
 }

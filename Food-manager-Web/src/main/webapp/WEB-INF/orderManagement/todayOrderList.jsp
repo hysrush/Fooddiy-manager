@@ -67,7 +67,7 @@
 			<div class="wrapper wrapper-content animated fadeInRight ecommerce">
 				<!-- Search box -->
 				<div class="ibox-content m-b-sm border-bottom todayOrderInfo">
-					<div class="row">
+					<div class="row" style="font-size: 20px">
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label class="control-label" for="type">오늘날짜 : </label>
@@ -290,7 +290,7 @@
                     // 결과 없을때 info
                 	"sInfoEmpty": "검색 결과 : _TOTAL_개",
                 	// 결과 없을때 테이블 안 info
-                    "sZeroRecords" : "주문이 없습니다.",
+                    "sZeroRecords" : "현재 주문이 없습니다!",
                     // 검색 text
                     "sSearch" : "전체 검색 : ",
                     // 보기 text

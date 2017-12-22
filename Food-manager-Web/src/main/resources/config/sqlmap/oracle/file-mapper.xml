@@ -49,7 +49,7 @@
 	<update id="modifyFile" parameterType="fileVO">
 		UPDATE t_file
 		SET file_name = #{name}, file_ori = #{fileOriName}, file_save = #{fileSaveName}, 
-			file_size = #{fileSize}, file_path, = #{filePath}, file_type = #{contentType}
+			file_size = #{fileSize}, file_path = #{filePath}, file_type = #{contentType}
 		WHERE borad_no = #{boardNo}
 	</update>
 	

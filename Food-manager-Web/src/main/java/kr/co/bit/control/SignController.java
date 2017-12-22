@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.bit.service.EventService;
 import kr.co.bit.service.SignService;
@@ -147,16 +148,17 @@ public class SignController {
 	
 	// - 관리자 등록
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
-	public String signUpForm(ManagerVO managerVO, Model model) {
+	public String signUpForm(ManagerVO managerVO, Model model, RedirectAttributes r) {
 		
 		managerVO.setAddr(managerVO.getAddr().replace(",", " "));
 		
 		ManagerVO loginVO = signServiceImp.signUp(managerVO);
 		
 		model.addAttribute("loginVO", loginVO);
+		r.addFlashAttribute("storeName", loginVO.getBranch());
 		System.out.println(loginVO.toString());
 		
-		return "redirect:/FirstPage.jsp";
+		return "redirect:/main/FirstPage";
 	}
 
 	/**
@@ -174,7 +176,7 @@ public class SignController {
 	
 	// => 로그인 실패시 다시 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String loginForm(ManagerVO login, Model model) {
+	public String loginForm(ManagerVO login, Model model, RedirectAttributes r) {
 
 		ManagerVO signIn = signServiceImp.login(login);
 
@@ -186,10 +188,11 @@ public class SignController {
 		}
 		
 		model.addAttribute("loginVO", signIn);
-		System.out.println(signIn.toString());
-		model.addAttribute("url", "FirstPage");
+		r.addAttribute("storeName", signIn.getBranch());
 		
-		return "redirect:/FirstPage.jsp";
+		System.out.println(signIn.toString());
+		
+		return "redirect:/main/FirstPage";
 	}
 
 	// - 로그아웃

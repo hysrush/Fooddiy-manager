@@ -129,7 +129,7 @@
 												<div class="col-sm-12">
 													<label class="control-label" for="content">파일첨부</label>
 													<c:choose>
-											        	<c:when test="${ not empty noticeVO.filePath }">
+											        	<c:when test="${ not empty fileVO }">
 															<div class="fileinput input-group fileinput-exists" data-provides="fileinput">
 															    <div class="form-control" data-trigger="fileinput">
 															        <i class="glyphicon glyphicon-file fileinput-exists"></i>
@@ -167,7 +167,9 @@
 												</div>
 											</div>
 										</div>
+										<form:input path="fileOX" type="hidden" id="fileOX"/>
 										<form:input path="regDate" type="hidden" id="regDate"/>
+										<form:input path="temp" type="hidden" id="temp" value=""/>
 									</fieldset>
 								</form:form>
                                 </div>
@@ -199,8 +201,8 @@
 	
 	<!-- easydropdown -->
 	<script src="${ pageContext.request.contextPath }/resources/js/plugins/easydropdown/jquery.easydropdown.js"></script> 
-     <!-- Jasny -->
-	<script src="${ pageContext.request.contextPath }/resources/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+    <!-- Jasny (수정한 부트스트랩) -->
+	<script src="${ pageContext.request.contextPath }/resources/js/plugins/jasny/jasny-bootstrap.js"></script>
     <!-- Jquery Validate -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/validate/jquery.validate.min.js"></script>
     
@@ -298,7 +300,31 @@
 				$('#noticeForm input[type="text"], textarea').val(""); 
 			});
 			
+			// 기존 첨부파일 유무 확인 - 초기화
+			getTemp();
+			// 첨부파일 삭제 클릭시, 
+			$('.fileinput-exists').click(function () {
+				// 값 없음으로 변경
+				temp = "NO";
+				$('#temp').val(temp);	
+			});
+			
+			
 		});
+		
+		// 기존 첨부파일 유무 확인 temp 함수
+		function getTemp() {
+			var temp = $('#temp').val();
+			if($('.fileinput-filename').text() != "") { 
+				// 값이 있으면,
+				temp = "YES";
+				$('#temp').val(temp);				
+			} else {
+				// 값이 없으면,
+				temp = "NO";
+				$('#temp').val(temp);				
+			}
+		}
 		
 		// 날짜 yyyy-MM-dd 포맷 변환 함수
        	function getFormatDate(date){

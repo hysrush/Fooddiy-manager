@@ -11,31 +11,32 @@
 	}
 </style>
 </head>
- <nav class="navbar-default navbar-static-side" role="navigation">
+<nav class="navbar-default navbar-static-side" role="navigation">
 	<div class="sidebar-collapse">
 		<ul class="nav metismenu" id="side-menu">
-      		<li class="nav-header">
+			<li class="nav-header">
 				<div class="dropdown profile-element">
 					<span>
-						<img alt="image" width="40%" class="img-circle" src="${ pageContext.request.contextPath }/resources/img/subway.png" />
+						<a href="${ pageContext.request.contextPath }/main/FirstPage?storeName=${loginVO.branch}">
+							<img alt="image" width="40%" class="img-circle" src="${ pageContext.request.contextPath }/resources/img/subway.png" />
+						</a>
 					</span> 
-				 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">${ loginVO.name } 관리자</strong>
-                             </span> <span class="text-muted text-xs block">${ loginVO.branch } 점 <b class="caret"></b></span> </span> </a>
-                             
+				 	<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                       <span class="clear">
+							<span class="block m-t-xs"> <strong class="font-bold">${ loginVO.name } 관리자</strong></span>
+							<span class="text-muted text-xs block">${ loginVO.branch } 점 <b class="caret"></b></span>
+						</span>
+					</a>
 				<ul class="dropdown-menu animated fadeInRight m-t-xs">
 					<li><a href="${ pageContext.request.contextPath }/sign/profile?id=${loginVO.id}">Profile</a></li>
-					<li><a href="">Contacts</a></li>
-					<li><a href="mailbox.html">Mailbox</a></li>
-					<li class="divider"></li>
 					<li><a href="${ pageContext.request.contextPath }/sign/login">Logout</a></li>
 				</ul>
 			</div>
 			<div class="logo-element" id="logo"><span id="fooddiy">Fooddiy-Order</span> Admin+</div>
 		</li>
-		<li class="mainLI"><a href="${ pageContext.request.contextPath }/FirstPage.jsp"><i
+		<li class="mainLI"><a href="${ pageContext.request.contextPath }/main/FirstPage?storeName=${loginVO.branch}"><i
 				class="fa fa-th-large"></i> <span class="nav-label">Main</span></a></li>
-		<li><a href="css_animation.html"><i class="fa fa-magic"></i>
+		<li><a href="#"><i class="fa fa-magic"></i>
 				<span class="nav-label">메인페이지 관리</span><span
 				class="label label-info pull-right">NEW</span></a></li>
 		<li class="menuLI"><a href="#"><i class="fa fa-sitemap"></i> <span
