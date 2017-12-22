@@ -427,7 +427,6 @@
                             $(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
                     	}
                     }
-                ]
             });
 			// 데이터테이블 검색입력 시, 단어 추출 작업
 			$('#DataTables_Table_0_filter input').keyup(function() {
