@@ -40,6 +40,9 @@
 	.dataTables_wrapper {
 		padding-bottom: 0 !important;
 	}
+	#DataTables_Table_0 a {
+		color: gray;
+	}
 </style>
 </head>
 <body>
@@ -99,7 +102,6 @@
 														</th>
 													     <th data-hide="phone" data-sort-ignore="true">타입</th>
 													     <th data-toggle="true" data-sort-ignore="true">Q</th>
-													     <th data-hide="all" data-sort-ignore="true">A</th>
 													     <th data-hide="phone" data-sort-ignore="true">등록일</th>
 													     <th class="text-right" data-sort-ignore="true">Action</th>
 													 </tr>
@@ -115,19 +117,19 @@
 							                                    <span class="label label-primary">${ qna.type }</span>
 						                                    </td>
 						                                    <td>
-						                                        ${ qna.question }
-						                                    </td>
-						                                    <td style="word-break:keep-all;">
-						                                        ${ qna.answer }
+						                                        <a onclick="action('V', ${qna.no})">
+						                                        	<c:out value="${ qna.question }"></c:out>
+						                                        </a> 
 						                                    </td>
 						                                    <td width="10%" nowrap>
 						                                        ${ qna.regDate }
 						                                    </td>
-						                                    <td class="text-right" width="100px;" >
-						                                        <div class="btn-group" nowrap>
-						                                            <button class="btn-white btn btn-xs" id="view" onclick="action('V', ${qna.no})"><i class="fa fa-search"></i></button>
-						                                            <button class="btn-white btn btn-xs" onclick="action('E', ${qna.no})"><i class="fa fa-edit"></i></button>
-						                                            <button class="btn-white btn btn-xs" onclick="action('D', ${qna.no})"><i class="fa fa-trash"></i></button>
+						                                    <td class="text-center" width="100px;" >
+						                                    	<div class="btn-group tooltip-demo" nowrap>
+						                                            <button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="수정" 
+						                                            		onclick="action('E', ${qna.no})"><i class="fa fa-edit"></i></button>
+						                                            <button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="삭제" 
+						                                            		onclick="action('D', ${qna.no})"><i class="fa fa-trash"></i></button>
 						                                        </div>
 						                                    </td>
 						                                </tr>
@@ -313,6 +315,7 @@
 					$('#DataTables_Table_0_info').html(text.replace("*", "<br><strong>" + keyupWord + "</strong>와(과) 일치하는 검색결과입니다."));
 				} 
 			});
+
 			// 선택삭제 버튼 생성
 			table.button().add( 4, {
 			    text: '<i class="fa fa-trash" aria-hidden="true"> 선택삭제</i>',
@@ -322,8 +325,10 @@
 			} );
 			// 선택삭제 버튼 위치 변경
 			var clone = $('.dt-buttons a').eq(4).clone(true);
-			clone.appendTo('#DataTables_Table_0_paginate').css('float','left');
+			//clone.appendTo('#DataTables_Table_0_paginate').css('float','left');
+			$('#DataTables_Table_0_paginate').before(clone).css('float','right');
 			$('.dt-buttons a').eq(4).hide();
+			
 		});
 		
 		// QnA action 함수

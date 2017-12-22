@@ -93,7 +93,7 @@
 				<li><a href="form_advanced.html">사원 등록</a></li>
 				<li><a href="form_editors.html">출결 관리</a></li>
 			</ul></li>
-		<li class="special_link"><a href="http://localhost:8000/Food-diy-Web/index2.jsp">
+		<li class="special_link"><a href="http://localhost:8000/Food-diy-Web/main/Start" target="_blank">
 			<i class="fa fa-home"></i><span class="nav-label">Fooddiy-Order</span></a>
 		</li>
 	</ul>

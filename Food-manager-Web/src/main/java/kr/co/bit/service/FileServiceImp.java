@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -11,7 +12,9 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,9 +38,9 @@ public class FileServiceImp implements FileService{
 	private static String userFolderPath = userDir + formattedDate;
 	
 	// <File Service>
-	// File 저장
+	// File 업로드
 	@Override
-	public String save(HttpServletRequest request, int boardNo) {
+	public String uploadFile(HttpServletRequest request, int boardNo) {
 
 		String fileOX = "X";
 
@@ -115,6 +118,32 @@ public class FileServiceImp implements FileService{
             }
         }
         return fileOX;
+	}
+	// File 다운로드
+	@Override
+	public void downloadFile(HttpServletResponse response, int boardNo) throws Exception {
+		
+		// 해당 파일 불러오기
+		FileVO fileVO = fileDAO.selectOne(boardNo);
+	    String fileOriName = fileVO.getFileOriName();
+	    String filePath = fileVO.getFilePath();
+	    double fileSize = fileVO.getFileSize();
+	    String contentType = fileVO.getContentType();
+	     
+	    byte fileByte[] = FileUtils.readFileToByteArray(new File(adminDir + filePath));
+	     
+	    response.setContentType("application/octet-stream");
+	    response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(fileOriName,"UTF-8")+"\";");
+	    response.setHeader("Content-Transfer-Encoding", "binary");
+	    response.setHeader("Content-Type", contentType);
+        response.setHeader("Content-Length", ""+ fileSize);
+        response.setHeader("Pragma", "no-cache;");
+        response.setHeader("Expires", "-1;");
+        
+	    response.getOutputStream().write(fileByte);
+	    response.getOutputStream().flush();
+	    response.getOutputStream().close();
+
 	}
 	// File 수정
 	@Override

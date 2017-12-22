@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.junit.runners.Parameterized.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,7 +79,7 @@ public class NoticeController {
 		System.out.println(noticeVO.toString());
 		
 		// fileVO 저장
-		fileOX = fileService.save(request, noticeVO.getNo());
+		fileOX = fileService.uploadFile(request, noticeVO.getNo());
 		System.out.println("fileOX : " + fileOX);
 		
 		// 파일 저장했으면,
@@ -122,6 +122,18 @@ public class NoticeController {
 		mav.addObject("cn", "\n");
 		
 		return mav;
+	}
+	// file 다운로드
+	@RequestMapping(value="/downloadFile.do", method=RequestMethod.GET)
+	public String download(@RequestParam(value="no") int boardNo, HttpServletResponse response) {
+		
+		try {
+			fileService.downloadFile(response, boardNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "";
 	}
 	// Notice 수정 폼
 	// ex) community/subway/noticeEditForm.do?no=15
@@ -168,7 +180,7 @@ public class NoticeController {
 		// 기존 파일 X
 		if (noticeVO_NEW.getFileOX().equals("X")) {
 			// fileVO 저장
-			fileOX = fileService.save(request, noticeVO_NEW.getNo());
+			fileOX = fileService.uploadFile(request, noticeVO_NEW.getNo());
 			System.out.println("fileOX : " + fileOX);
 			/* NoticeBoardVO */
 			// -> 파일 저장했으면,
@@ -183,9 +195,10 @@ public class NoticeController {
 			}
 		}
 		// 기존 파일 O
-		String filePath = fileService.selectOneFile(noticeVO_NEW.getNo()).getFilePath();
-		System.out.println("기존 파일의 파일주소 : " + filePath);
 		if (noticeVO_NEW.getFileOX().equals("O")) {
+			// 기존 파일의 파일 주소
+			String filePath = fileService.selectOneFile(noticeVO_NEW.getNo()).getFilePath();
+			System.out.println("기존 파일의 파일주소 : " + filePath);
 			// fileVO 수정
 			fileOX = fileService.modifyFile(request, noticeVO_NEW.getNo());
 			System.out.println("수정 fileOX : " + fileOX);

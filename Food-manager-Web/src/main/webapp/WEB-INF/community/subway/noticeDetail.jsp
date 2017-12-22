@@ -136,18 +136,17 @@
 												<c:if test="${ not empty fileVO }">
 													<div class="text-left">
 														<i class="fa fa-file"></i>&nbsp;
-														<a href="#">
-															<span class="text-muted">${ fileVO.fileOriName } (${ fileVO.fileSize }KB)</span>
+														<a onclick="action('F', ${ noticeVO.no })">
+															<span class="text-muted fileName">${ fileVO.fileOriName }</span>
 														</a>
+															<span class="text-muted"> (${ fileVO.fileSize }KB)</span>
 													</div>
 												</c:if>
 												<hr>
 												<div class="col-md-12">
 													<div class="pull-right">
-													<c:if test="${ loginVO.branch eq noticeVO.writer }">
 														<button class="btn btn-default" type="button" onclick="action('E', ${ noticeVO.no })"><i class="fa fa-edit"></i>&nbsp;&nbsp;수정</button>
 														<button class="btn btn-default" type="button" onclick="action('D', ${ noticeVO.no })"><i class="fa fa-trash"></i>&nbsp;&nbsp;삭제</button>
-													</c:if>
 														<button class="btn btn-default" type="button" onclick="action('L', ${ noticeVO.no })"><i class="fa fa-list"></i>&nbsp;&nbsp;목록</button>
 													</div>
 												</div>
@@ -196,6 +195,14 @@
 				$('#typeLabel').attr("class","label label-danger");
 				$('#typeLabel').html("보도자료");
 			}
+			
+			// 파일명 호버 효과
+			$(".fileName").hover( function () { 
+				$(this).css('text-decoration', 'underline');
+			}, function () { 
+				$(this).css('text-decoration', 'none');
+			} );
+
 		    
 		});
 		
@@ -217,6 +224,10 @@
 			case 'L':
 				// Notice 리스트
 				location.href = '${ pageContext.request.contextPath}/community/subway/noticeList.do';
+				break;
+			case 'F':
+				// File 다운로드
+				location.href = '${ pageContext.request.contextPath}/community/subway/downloadFile.do?no=' + no;
 				break;
 			default:
 				break;
