@@ -81,6 +81,9 @@ public class OrderManagementController {
 
 		List<OrderVO> todayOrderList = service.selectByToday(today);
 
+		System.out.println(todayOrderList.get(0));
+		System.out.println(todayOrderList.get(0));
+		System.out.println(todayOrderList.get(0));
 		// 세부메뉴로 변환
 		todayOrderList = Order.splitDetailOrderList(todayOrderList);
 
