@@ -186,6 +186,8 @@
 	
 	<!-- dataTables -->
 	<script src="${ pageContext.request.contextPath }/resources/js/plugins/dataTables/datatables.min.js"></script>
+    <!-- FooTable -->
+    <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
 	
     <!-- Custom and plugin javascript -->
     <script src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
@@ -194,8 +196,6 @@
 	<!-- iCheck -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/iCheck/icheck.min.js"></script>
 	
-    <!-- FooTable -->
-    <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
     
     <!-- Page-Level Scripts -->
     <script type="text/javascript">
