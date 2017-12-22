@@ -57,6 +57,12 @@
  		order by eve_start asc
 	</select>
 	
+	<!-- 주문 건수 -->
+	<select id="mainC" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select COUNT(reg_at) from (select * from t_order where sto_name = #{branch} order by reg_at desc)
+		where to_char(reg_at, 'yy/mm/dd') = #{date}
+	</select>
+	
 	<!-- claim -->
 	<!-- <select id="mainQ" resultMap="Map_qnaVO" parameterType="java.lang.String">
 	 select * from (select * from (select * from t_claim where CLAIM_STORE = #{branch}) order by reg_at desc)

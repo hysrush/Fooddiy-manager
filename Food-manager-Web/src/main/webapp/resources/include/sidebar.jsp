@@ -17,7 +17,9 @@
 			<li class="nav-header">
 				<div class="dropdown profile-element">
 					<span>
-						<img alt="image" width="40%" class="img-circle" src="${ pageContext.request.contextPath }/resources/img/subway.png" />
+						<a href="${ pageContext.request.contextPath }/main/FirstPage?storeName=${loginVO.branch}">
+							<img alt="image" width="40%" class="img-circle" src="${ pageContext.request.contextPath }/resources/img/subway.png" />
+						</a>
 					</span> 
 				 	<a data-toggle="dropdown" class="dropdown-toggle" href="#">
                        <span class="clear">
@@ -32,7 +34,7 @@
 			</div>
 			<div class="logo-element" id="logo"><span id="fooddiy">Fooddiy-Order</span> Admin+</div>
 		</li>
-		<li class="mainLI"><a href="${ pageContext.request.contextPath }/main/FirstPage"><i
+		<li class="mainLI"><a href="${ pageContext.request.contextPath }/main/FirstPage?storeName=${loginVO.branch}"><i
 				class="fa fa-th-large"></i> <span class="nav-label">Main</span></a></li>
 		<li><a href="#"><i class="fa fa-magic"></i>
 				<span class="nav-label">메인페이지 관리</span><span
