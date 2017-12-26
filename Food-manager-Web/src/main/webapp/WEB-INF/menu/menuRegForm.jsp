@@ -70,7 +70,7 @@
 	                    <div class="ibox">
 	                        <div class="ibox-title">
 	                            <h5>메뉴 등록</h5>
-	                            <div class="ibox-tools">
+	                            <!-- <div class="ibox-tools">
 	                                <a class="collapse-link">
 	                                    <i class="fa fa-chevron-up"></i>
 	                                </a>
@@ -86,7 +86,7 @@
 	                                <a class="close-link">
 	                                    <i class="fa fa-times"></i>
 	                                </a>
-	                            </div>
+	                            </div> -->
 	                        </div>
 	                        <div class="ibox-content">
 	                            <!-- <h2>메뉴 입력</h2> -->
@@ -449,10 +449,14 @@
                     	allergy: {
                     		required: "입력값이 없습니다!",
                     		maxlength: "30자 이내로 입력해주세요",
+                    	},
+                    	imgFileName: {
+                    		required: "이미지가 없습니다!"
                     	}
                     }
                     
-               	});        
+               	});
+        
         
     });    
 </script>

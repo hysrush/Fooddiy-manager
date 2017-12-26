@@ -69,24 +69,7 @@
 	                <div class="col-lg-12">
 	                    <div class="ibox">
 	                        <div class="ibox-title">
-	                            <h5>메뉴 수정</h5>
-	                            <div class="ibox-tools">
-	                                <a class="collapse-link">
-	                                    <i class="fa fa-chevron-up"></i>
-	                                </a>
-	                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-	                                    <i class="fa fa-wrench"></i>
-	                                </a>
-	                                <ul class="dropdown-menu dropdown-user">
-	                                    <li><a href="#">Config option 1</a>
-	                                    </li>
-	                                    <li><a href="#">Config option 2</a>
-	                                    </li>
-	                                </ul>
-	                                <a class="close-link">
-	                                    <i class="fa fa-times"></i>
-	                                </a>
-	                            </div>
+	                            <h5>메뉴 수정</h5>	                            
 	                        </div>
 	                        <div class="ibox-content">
 	                            <!-- <h2>메뉴 입력</h2> -->
@@ -177,18 +160,19 @@
 	                                <h1>이미지</h1>
 	                                <fieldset>
 	                                    <h2>이미지 첨부</h2>
-	                                    <p>파일이름이 30자를 넘을 수 없습니다. (영문은 90자)</p><p>사이즈는 594 x 334 입니다.</p>
+	                                    <p>파일이름이 30자를 넘을 수 없습니다. (영문은 90자)&nbsp;&nbsp;//&nbsp;&nbsp;사이즈는 594 x 334 입니다.</p><p>기존 파일이름은 ${ menuVO.imgFileName } 입니다.</p>
+	                                    <p id="errmsg">이미지를 다시 넣어주세요!</p>
 	                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
 										    <div class="form-control" data-trigger="fileinput">
 										        <i class="glyphicon glyphicon-file fileinput-exists"></i>
-										    <span class="fileinput-filename">${ menuVO.imgFileName }</span>										    
+										    <span class="fileinput-filename"></span>										    
 										    </div>
 										    <span class="input-group-addon btn btn-default btn-file">
 										        <span class="fileinput-new">이미지 선택</span>
-										        <span class="fileinput-exists" onclick="onReq()">변경</span>
+										        <span class="fileinput-exists">변경</span>
 										        <form:input path="imgFileName" type="file" name="imgFileName" id="img" class="required"/>										        
 										    </span>
-										    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" onclick="onReq()">삭제</a>
+										    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">삭제</a>
 										</div>
 	                                </fieldset>
 	                                <h1>완료</h1>
@@ -275,17 +259,8 @@
             forceParse: false,
             calendarWeeks: true,
             autoclose: true
-        });        
+        }); 
         
-        
-        //확인버튼
-        $('.demo2').click(function(){
-            swal({
-                title: "Good job!",
-                text: "You clicked the button!",
-                type: "success"
-            });
-        });
         
         //STEP
         $("#wizard").steps();
@@ -326,19 +301,35 @@
                     });
                 	return false;
                 }
+                /* if (currentIndex === 2 && $('#img').val() == "")
+                {
+                	var next = $(this);
+	                next.click(function(){
+	                	swal({
+	                        title: "",
+	                        text: "이미지가 없습니다!"
+	                    });
+	                });
+	               	return false;   				
+                } */
+                
+                
                 // 유효성 검사를 시작. 거짓 일 경우 STOP
                 return form.valid();
+                
             },
             onStepChanged: function (event, currentIndex, priorIndex)
             {
-            	         	
+                
             },
             onFinishing: function (event, currentIndex)
             {
-                var form = $(this);                
+                var form = $(this);
 				// 비활성 필드 유효성 검사
-                form.validate().settings.ignore = ":disabled";
-                return form.valid();
+                form.validate().settings.ignore = ":disabled";				
+                
+                return form.valid();               
+                
             },
             onFinished: function (event, currentIndex)
             {
@@ -456,28 +447,42 @@
                     	allergy: {
                     		required: "입력값이 없습니다!",
                     		maxlength: "30자 이내로 입력해주세요",
+                    	},
+                    	imgFileName: {
+                    		required: "이미지가 없습니다!"
                     	}
                     }
-               	});
-                	
+               	});                	
+        
+        
+		// 유효성체크 문장 위치 변경		
+		$(document).on('click', 'a', function(){
+			$('#img-error').appendTo('#errmsg');
+		});
+		$(document).on('click', '.btn-file', function(){
+			$('#img-error').appendTo('#errmsg');
+		});
+		
+		// 기존 이미지 파일이름 불러오기
+		/* $('.input-group').removeClass('fileinput-new');
+		$('.input-group').addClass('fileinput-exists');
+		$('#img').removeClass('required'); */
+		
+		
+		
+		
+		
      	// 기존 type값 가져와서 selected 설정해놓기
 		// (실행되는데 문법오류떠서 제일 마지막에 두기)
 		var type = $('#hiddenType').val();
-		$('#selectBox option[value=' + type + ']').prop("selected", true);
-		
-		
-		// 기존 이미지 파일이름 불러오기
-		$('.input-group').removeClass('fileinput-new');
-		$('.input-group').addClass('fileinput-exists');
-		$('#img').removeClass('required');
-		
+		$('#selectBox option[value=' + type + ']').prop("selected", true);		
 		
     });        
     
     // 이미지 변경 없어도 유효성검사 넘어가도록
-    function onReq() {
+    /* function onReq() {
     	$('#img').addClass('required');
-    }        
+    }   */      
    	
    	
 </script>
