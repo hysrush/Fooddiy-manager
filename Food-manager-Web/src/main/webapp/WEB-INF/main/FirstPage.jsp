@@ -66,7 +66,7 @@ table.space th, td{
                           <div class="row" style="border: 2px solid; padding: 5%">
                              <table style="width: 100%;">
                                 <tr>
-                                   <th class="title" colspan="2" style="padding: 3%;">바로가기</th>
+                                   <th class="title" colspan="3" style="padding: 3%;">바로가기</th>
                                 </tr>
                                 <tr>
                                    <th style="padding: 3%">${ loginVO.branch } 점 </th>
@@ -82,7 +82,7 @@ table.space th, td{
 						<div class="row" style="border: 2px solid; padding: 5%">
                              <table style="width: 100%;">
                                 <tr>
-                                   <th colspan="2" class="title" style="padding: 3%;">건의사항</th>
+                                   <th colspan="3" class="title" style="padding: 3%;">건의사항</th>
                                 </tr>
                                 <tr>
                                    <th style="padding:3%" colspan="1">건의 제목</th>
