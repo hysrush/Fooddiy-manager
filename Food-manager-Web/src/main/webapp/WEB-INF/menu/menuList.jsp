@@ -55,7 +55,7 @@
 	
 		    	<div style="margin-left: 20px; margin-right: 20px">
 			    	<h3 style="width: 80%;float: left">${map.count}개의 메뉴가 있습니다.</h3>
-		    		<a class="btn btn-default" tabindex="0" aria-controls="DataTables_Table_0" href="${ pageContext.request.contextPath }/menu/menuBoard.do" style="width: 15%;float: right;">
+		    		<a class="btn btn-default" tabindex="0" aria-controls="DataTables_Table_0" href="${ pageContext.request.contextPath }/menu/menuBoard.do" style="float: right;">
 		    			<span><i class="fa fa-th-list" aria-hidden="true"> 텍스트로 보기</i></span>
 		    		</a>
 		    	</div>        
