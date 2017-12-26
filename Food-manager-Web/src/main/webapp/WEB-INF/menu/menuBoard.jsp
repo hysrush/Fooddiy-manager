@@ -32,6 +32,21 @@
 	.btn-default {
 		text-align: right;
 	}
+	.pace-done{
+		padding-right: 0 !important;
+	}
+	.convType > span {
+		width: 60px;
+	}
+	.label-primary {
+		background-color: #7aa93c;
+	}
+	.dataTables_wrapper {
+		padding-bottom: 0 !important;
+	}
+	#DataTables_Table_0 a {
+		color: gray;
+	}
 </style>
 </head>
 
@@ -121,13 +136,13 @@
 														<input type="checkbox" class="i-checks" id="chkall">														
 													</div>
 													<div class="tooltip-demo">
-														<button type="button" class="btn btn-default" style="float: right;font-size: 14px;padding: 0px 5px" 
-															data-toggle="tooltip" data-placement="top" title="선택삭제" onclick="delRow()"><i class="fa fa-trash"></i></button>
+														<!-- <button type="button" class="btn btn-default" style="float: right;font-size: 14px;padding: 0px 5px" 
+															data-toggle="tooltip" data-placement="top" title="선택삭제" onclick="delRow()"><i class="fa fa-trash"></i></button> -->
 													</div>
 												</th>
 												<th data-hide="phone" data-sort-ignore="true">타입</th>
 												<th data-toggle="true" data-sort-ignore="true">이름</th>
-												<th data-hide="all" data-sort-ignore="true">메뉴소개</th>
+												<!-- <th data-hide="all" data-sort-ignore="true">메뉴소개</th> -->
 												<th data-hide="phone" data-sort-ignore="true">가격</th>
 												<th data-hide="phone" data-sort-ignore="true">등록일</th>
 												<th class="text-right" data-sort-ignore="true">Action</th>
@@ -147,20 +162,19 @@
                  								<td class="convType" width="100px;">
 			                                    	<span class="label label-primary">${ menu.type }</span>
 		                                  		</td>
-												<td>${ menu.name }</td>
-												<td style="word-break:keep-all;">
-													${ menu.detail }
-												</td>
 												<td>
+		                                  			<a onclick="btnClick('V', ${menu.no})">${ menu.name }</a>
+												</td>												
+												<td width="10%" nowrap>
 		                                        	${ menu.price }원
 		                                   		</td>
 												<td width="10%" nowrap>
 													${ menu.regDate }
 												</td>												
-												<td class="text-right">
-													<div class="btn-group tooltip-demo" width="10%" nowrap>
-														<button class="btn-white btn btn-xs" id="view" data-toggle="tooltip" data-placement="top" title="상세보기" onclick="btnClick('V', ${menu.no})">
-															<i class="fa fa-search"></i></button>
+												<td class="text-right" width="100px;">
+													<div class="btn-group tooltip-demo" nowrap>
+														<%-- <button class="btn-white btn btn-xs" id="view" data-toggle="tooltip" data-placement="top" title="상세보기" onclick="btnClick('V', ${menu.no})">
+															<i class="fa fa-search"></i></button> --%>
 														<button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="수정" onclick="btnClick('E', ${menu.no})">
 															<i class="fa fa-edit"></i></button>
 		                                          		<button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="삭제" onclick="btnClick('D', ${menu.no})">
@@ -342,7 +356,7 @@
 					$('#DataTables_Table_0_info').html(text.replace("*", "<br><strong>" + keyupWord + "</strong>와(과) 일치하는 검색결과입니다."));
 				} 
 			});
-			/* 
+			 
 			// 선택삭제 버튼 생성
 			table.button().add( 4, {
 			    text: '<i class="fa fa-trash" aria-hidden="true"> 선택삭제</i>',
@@ -352,9 +366,10 @@
 			} );
 			// 선택삭제 버튼 위치 변경
 			var clone = $('.dt-buttons a').eq(4).clone(true);
-			clone.appendTo('#DataTables_Table_0_paginate').css('float','left');
-			$('.dt-buttons a').eq(4).show();
-			 */
+			//clone.appendTo('#DataTables_Table_0_paginate').css('float','left');
+			$('#DataTables_Table_0_paginate').before(clone).css('float','right');
+			$('.dt-buttons a').eq(4).hide();
+			 
 			// 리스트 변환 버튼 생성
 			table.button().add( 4, {
 				text: '<i class="fa fa-th" aria-hidden="true"> 이미지로 보기</i>',
@@ -362,8 +377,8 @@
 					changeList();
 				}
 			});
-			// 변환버튼 위치 변경			
-			$('dt.button a').eq(5).show();
+			/* // 변환버튼 위치 변경			
+			$('dt.button a').eq(5).show(); */
 
         });
         
@@ -454,7 +469,7 @@
 		function deleteZero() {			
             swal({
                 title: "선택하신 메뉴가 없습니다 :(",
-                text: ""
+                type: "error"
             });	        
 		}
 		﻿
