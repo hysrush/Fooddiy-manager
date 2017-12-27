@@ -21,9 +21,15 @@
 <link href="${ pageContext.request.contextPath }/resources/css/animate.css" rel="stylesheet">
 <link href="${ pageContext.request.contextPath }/resources/css/style.css" rel="stylesheet">
 
+
+<!-- custom -->
+<link href="${ pageContext.request.contextPath }/resources/css/custom.css" rel="stylesheet">
+
+
 <!-- sweetalert js & css -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
 <link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
+
 <style type="text/css">
 	.convType > span {
 		width: 60px;
@@ -67,7 +73,7 @@
 			<div class="wrapper wrapper-content animated fadeInRight ecommerce">
 				<!-- Search box -->
 				<div class="ibox-content m-b-sm border-bottom todayOrderInfo">
-					<div class="row" style="font-size: 20px">
+					<div class="row" >
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label class="control-label" for="type">오늘날짜 : </label>
@@ -144,22 +150,22 @@
 													<c:choose>
 														<c:when test="${ order.orderStatus == '0'}">
 															<td><span class="orderStatus label label-danger">주문취소</span></td>		
-															<td class = "cancel-button"></td>									
+															<td></td>									
 														</c:when>
 														
 														<c:when test="${ order.orderStatus == '1' }">
 															<td><span class="orderStatus label label-primary">대기중</span></td>		
-															<td class = "cancel-button"></td>									
+															<td class = "cancel-button"><button type="button" class="btn btn-outline btn-danger button-cancel">주문취소</button></td>									
 														</c:when>
 														
 														<c:when test="${ order.orderStatus == '2' }">
 															<td><span class="orderStatus label label-warning">주문중</span></td>
-															<td class = "cancel-button"></td>									
+															<td></td>									
 														</c:when>
 														
 														<c:otherwise>
 															<td><span class="orderStatus label label-information">주문완료</span></td>		
-															<td class = "cancel-button"></td>									
+															<td ></td>									
 														</c:otherwise>
 													</c:choose>								
 											</tr>
@@ -239,13 +245,12 @@
 				var status = $('tbody.todayOrderList tr').eq(i).find('.orderStatus').text();
 				
 				if(status != '주문취소') {
-					totalFinalPrice += uncomma($('tbody.todayOrderList tr').eq(i).find('.orderStatus').text())*1;
+					totalFinalPrice += uncomma($('tbody.todayOrderList tr').eq(i).find('.finalPrice').text())*1;
 					++orderCount;
 				}
 			}
 			$('.total-count-order').text(orderCount);
 			$('.total-order-price').text(comma(totalFinalPrice) + "원");
-			
 			
 			// 삭제 alert창
 			function orderCancel(no) {
@@ -271,6 +276,10 @@
 				$(this).click(function() {
 					var no = $(this).parent().siblings('.orderNumber').text();
 					orderCancel(no);
+					$(this).css({
+						'color' : '#ec4758',
+						'background-color' : 'white'
+					});
 				});
 			});
 			

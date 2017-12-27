@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.bit.service.OrderManagementService;
 import kr.co.bit.util.Order;
 import kr.co.bit.vo.DetailOrderVO;
+import kr.co.bit.vo.ManagerVO;
 import kr.co.bit.vo.OrderVO;
 
 @Controller
@@ -33,9 +35,12 @@ public class OrderManagementController {
 
 	// 전제주문내역
 	@RequestMapping(value = "/totalOrderList.do", method = RequestMethod.GET)
-	public ModelAndView totalOrderList(ModelAndView mav) {
-
-		List<OrderVO> totalOrderList = service.selectAll();
+	public ModelAndView totalOrderList(ModelAndView mav, HttpSession session) {
+	
+		ManagerVO loginVO = (ManagerVO)session.getAttribute("loginVO");
+		String branch = loginVO.getBranch();
+		
+		List<OrderVO> totalOrderList = service.selectAll(branch);
 
 		// 세부메뉴 변환
 		totalOrderList = Order.splitDetailOrderList(totalOrderList);
@@ -48,12 +53,16 @@ public class OrderManagementController {
 	// 전체주뭄내역 - 날짜검색
 	@RequestMapping(value = "/totalOrderList.do", method = RequestMethod.POST)
 	public ModelAndView orderListSelectByDate(ModelAndView mav, @RequestParam("type") String type,
-			@RequestParam("date_start") String dateStart, @RequestParam("date_end") String dateEnd) {
+			@RequestParam("date_start") String dateStart, @RequestParam("date_end") String dateEnd, HttpSession session) {
 
+		ManagerVO loginVO = (ManagerVO)session.getAttribute("loginVO");
+		String branch = loginVO.getBranch();
+		
 		// Mybatis에 매개변수 2개를 보내기 위해 map 생성
 		Map<String, String> date = new HashMap<>();
 		date.put("dateStart", dateStart);
 		date.put("dateEnd", dateEnd);
+		date.put("branch", branch);
 
 		List<OrderVO> orderListDate = service.selectByDate(date);
 
@@ -72,18 +81,22 @@ public class OrderManagementController {
 
 	// 오늘주문내역
 	@RequestMapping("/todayOrderList.do")
-	public ModelAndView todayOrderList(ModelAndView mav) {
-
+	public ModelAndView todayOrderList(ModelAndView mav, HttpSession session) {
+		
+		ManagerVO loginVO = (ManagerVO)session.getAttribute("loginVO");
+		String branch = loginVO.getBranch();
+		
 		// 오늘 날짜 구하기
 		String pattern = "yy/MM/dd";
 		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 		String today = sdf.format(new Date()).toString();
 
-		List<OrderVO> todayOrderList = service.selectByToday(today);
+		Map<String, String> date = new HashMap<>();
+		date.put("today", today);
+		date.put("branch", branch);
+		
+		List<OrderVO> todayOrderList = service.selectByToday(date);
 
-		System.out.println(todayOrderList.get(0));
-		System.out.println(todayOrderList.get(0));
-		System.out.println(todayOrderList.get(0));
 		// 세부메뉴로 변환
 		todayOrderList = Order.splitDetailOrderList(todayOrderList);
 
@@ -94,11 +107,19 @@ public class OrderManagementController {
 
 	// 주문취소
 	@RequestMapping(value = "/orderCancel.do", method = RequestMethod.GET)
-	public String cancelOrder(@RequestParam("no") int no, @RequestParam("url") String url, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public String cancelOrder(@RequestParam("no") String no, @RequestParam("url") String url, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
 
+		ManagerVO loginVO = (ManagerVO)session.getAttribute("loginVO");
+		String branch = loginVO.getBranch();
+		
+		Map<String, String> info = new HashMap<>();
+		info.put("no", no);
+		info.put("branch", branch);
+		
+		
 		response.setContentType("text/html;charset=UTF-8");
-		service.cancelOrder(no);
+		service.cancelOrder(info);
 
 		return "redirect:/orderManagement/" + url + ".do";
 
@@ -106,15 +127,29 @@ public class OrderManagementController {
 
 	// 주문완료
 	@RequestMapping(value = "/orderComplete.do", method = RequestMethod.GET)
-	public void completeOrder(@RequestParam("no") int no, HttpServletResponse response) {
-		service.completeOrder(no);
+	public void completeOrder(@RequestParam("no") String no, HttpServletResponse response, HttpSession session) {
+		ManagerVO loginVO = (ManagerVO)session.getAttribute("loginVO");
+		String branch = loginVO.getBranch();
+		
+		Map<String, String> info = new HashMap<>();
+		info.put("no", no);
+		info.put("branch", branch);
+		
+		service.completeOrder(info);
 	}
 
 	// 전체, 오늘주문 상세내용 - 모달
 	@RequestMapping(value = "/todayOrderDetail.do", method = RequestMethod.GET)
-	public ModelAndView orderDetail(ModelAndView mav, @RequestParam("no") int no) {
+	public ModelAndView orderDetail(ModelAndView mav, @RequestParam("no") String no, HttpSession session) {
 
-		OrderVO orderVO = service.selectByNo(no);
+		ManagerVO loginVO = (ManagerVO)session.getAttribute("loginVO");
+		String branch = loginVO.getBranch();
+		
+		Map<String, String> info = new HashMap<>();
+		info.put("no", no);
+		info.put("branch", branch);
+		
+		OrderVO orderVO = service.selectByNo(info);
 
 		String menu = orderVO.getMenu();
 		String[] menus = menu.split("\\|\\|");
@@ -150,9 +185,12 @@ public class OrderManagementController {
 
 	// 현재 주문
 	@RequestMapping(value = "/orderList.do", method = RequestMethod.GET)
-	public ModelAndView orderList(ModelAndView mav) {
-
-		List<OrderVO> currentOrderList = service.selectByorderStatus();
+	public ModelAndView orderList(ModelAndView mav, HttpSession session) {
+		
+		ManagerVO loginVO = (ManagerVO)session.getAttribute("loginVO");
+		String branch = loginVO.getBranch();
+		
+		List<OrderVO> currentOrderList = service.selectByorderStatus(branch);
 
 		// 세부메뉴로 변환
 		currentOrderList = Order.splitDetailOrderList(currentOrderList);
@@ -165,11 +203,15 @@ public class OrderManagementController {
 
 	// ajax 실시간으로 주문정보 불러오기
 	@RequestMapping(value = "/orderList.do", method = RequestMethod.POST)
-	public void orderList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void orderList(HttpServletRequest request, HttpServletResponse response , HttpSession session) throws Exception {
 
+		ManagerVO loginVO = (ManagerVO)session.getAttribute("loginVO");
+		String branch = loginVO.getBranch();
+		
+		
 		response.setContentType("text/html;charset=UTF-8");
 
-		OrderVO orderVO = service.selectAddOneOrder();
+		OrderVO orderVO = service.selectAddOneOrder(branch);
 
 		if (orderVO != null) {
 			JSONObject jsonOneOrder = new JSONObject();

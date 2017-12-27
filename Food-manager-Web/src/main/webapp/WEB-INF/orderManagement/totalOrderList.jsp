@@ -21,6 +21,10 @@
 <link href="${ pageContext.request.contextPath }/resources/css/style.css" rel="stylesheet">
 <link href="${ pageContext.request.contextPath }/resources/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
+<!-- custom -->
+<link href="${ pageContext.request.contextPath }/resources/css/custom.css" rel="stylesheet">
+
+
 <!-- sweetalert js & css -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
@@ -157,7 +161,7 @@
 
 														<c:when test="${ order.orderStatus == '1' }">
 															<td><span class="orderStatus label label-primary">대기중</span></td>
-															<td class="cancel-button"></td>
+															<td class="cancel-button"><button type="button" class="btn btn-outline btn-danger button-cancel">주문취소</button></td>
 														</c:when>
 
 														<c:when test="${ order.orderStatus == '2' }">
@@ -321,6 +325,8 @@
 		        	location.href = '${ pageContext.request.contextPath}/orderManagement/orderCancel.do?no=' + no +"&url=totalOrderList";
 				});
 			  });
+			
+			
 	   }
 	   
         $(document).ready(function() {
@@ -383,6 +389,10 @@
 					var no = $(this).parent().siblings('.orderNumber').text();
 					orderCancel(no);
 				});
+				$(this).css({
+					'color' : '#ec4758',
+					'background-color' : 'white'
+				});
 			});
 			
 			// 데이터테이블 생성 & 옵션 변경
@@ -427,7 +437,7 @@
                             $(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
                     	}
                     }
-            });
+            ]});
 			// 데이터테이블 검색입력 시, 단어 추출 작업
 			$('#DataTables_Table_0_filter input').keyup(function() {
 				var keyupWord = $(this).val();

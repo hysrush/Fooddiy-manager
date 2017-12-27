@@ -1,9 +1,9 @@
 @CHARSET "UTF-8";
 
 
- td .button-cancel {
- 	font-size : 10px;
- 	padding: 3px 8px;
+ td.cancel-button button.button-cancel {
+ 	font-size : 10px !important;
+ 	padding: 3px 8px !important;
  }
  
  .todayOrderInfo .row .form-group label {

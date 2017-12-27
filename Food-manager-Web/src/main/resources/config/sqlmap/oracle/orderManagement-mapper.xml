@@ -25,69 +25,70 @@
   	</resultMap>
 	
 
-	<select id="selectAllOrder" resultMap="Map_OrderVO">
+	<select id="selectAllOrder" parameterType="String" resultMap="Map_OrderVO">
 		<include refid="selectAll"/>
+		where sto_name = #{branch}
   	</select>
   	
   	<select id="selectByDate" parameterType="java.util.Map" resultMap="Map_OrderVO">
   		<include refid="selectAll"/>
-  		where  to_char(reg_at, 'yyyy-mm-dd') between #{dateStart} and #{dateEnd}
-<!--   		where  to_date(reg_at, 'yyyy-mm-dd') between to_date(#{dateStart},'yyyy-mm-dd') and to_date(#{dateEnd}, 'yyyy-mm-dd') -->
+  		where  to_char(reg_at, 'yyyy-mm-dd') between #{dateStart} and #{dateEnd} and sto_name = #{branch}
   	</select>
 	
-	<select id="selectByToday" parameterType="String" resultMap="Map_OrderVO">
+	<select id="selectByToday" parameterType="java.util.Map" resultMap="Map_OrderVO">
 		<include refid="selectAll"/>
-		where to_char(reg_at, 'yy/mm/dd') = #{today} 
+		where to_char(reg_at, 'yy/mm/dd') = #{today} and sto_name = #{branch}
 		order by order_no desc
   	</select>
 	
-	<select id="selectByNo"  parameterType="int" resultMap="Map_OrderVO">
+	<select id="selectByNo"  parameterType="java.util.Map" resultMap="Map_OrderVO">
 		<include refid="selectAll"/>
-		where order_no = #{no}
+		where order_no = #{no} and sto_name = #{branch}
   	</select>
   	
-	<select id="selectByOrderStatus" resultMap="Map_OrderVO">
+	<select id="selectByOrderStatus" parameterType="String" resultMap="Map_OrderVO">
 		select  order_no, sto_name, user_id, order_orderPrice, order_finalPrice, order_menu, 
 		order_eat_type, order_payment, order_status, to_char(reg_at, 'DY HH24:MI:SS') as reg_at
 		
-		from ( select *  from t_order order by order_no asc)
+		from ( select *  from t_order where sto_name = #{branch} order by order_no asc)
 		
 		where order_status in (1, 2) <![CDATA[ AND ROWNUM <= 4 ]]>
   	</select>	  		
   	
-  	<select id = "selectAddOneOrder" resultMap="Map_OrderVO">
+  	<select id = "selectAddOneOrder" parameterType="String" resultMap="Map_OrderVO">
   		select  order_no, sto_name, user_id, order_orderPrice, order_finalPrice, order_menu, 
 		order_eat_type, order_payment, order_status, to_char(reg_at, 'DY HH24:MI:SS') as reg_at
 		
-		from ( select *  from t_order order by order_no asc)
+		from ( select *  from t_order  where sto_name = #{branch} order by order_no asc)
 		
 		where order_status = 1 <![CDATA[ AND ROWNUM <= 1 ]]>
   	</select>	
   		
-	<!-- 쥬문취소 -->
-	<update id="cancelOrder" parameterType="int">
-		update t_order set order_status = 0 where order_no = #{no} 
-	</update>
-
-	<!-- 주문완료 -->
-	<update id="completeOrder" parameterType="int">
-		update t_order set order_status = 3 where order_no = #{no} 
-	</update>
-	
-	
 	<!-- 주문준비 -->
-	<update id="updateOrderStatus">
+	<update id="updateOrderStatus" parameterType="String">
 		update t_order
 		set order_status = 2
 		where rowid in (select rowid from (select rowid, row_number() over(order by order_no asc) rn, order_no
-		from (select * from t_order where order_status in (1,2))) where <![CDATA[  rn <= 4 ]]>)
+		from (select * from t_order where order_status in (1,2)and sto_name = #{branch}  )) where <![CDATA[  rn <= 4 ]]>)
 	</update>
 	
 	<!-- 추가되는 주문 상태변경 -->
-	<update id="updateAddOneOrderSataus">
+	<update id="updateAddOneOrderSataus" parameterType="String">
 		update t_order
 		set order_status = 2
 		where rowid in (select rowid from (select rowid, row_number() over(order by order_no asc) rn, order_no
-		from (select * from t_order where order_status = 1)) where <![CDATA[  rn <= 1 ]]>)
+		from (select * from t_order where order_status = 1 and sto_name = #{branch})) where <![CDATA[  rn <= 1 ]]>)
 	</update>
+	
+	
+		<!-- 쥬문취소 -->
+	<update id="cancelOrder" parameterType="java.util.Map">
+		update t_order set order_status = 0 where order_no = #{no} and sto_name = #{branch}
+	</update>
+
+	<!-- 주문완료 -->
+	<update id="completeOrder" parameterType="java.util.Map">
+		update t_order set order_status = 3 where order_no = #{no} and sto_name = #{branch}
+	</update>
+	
 </mapper>

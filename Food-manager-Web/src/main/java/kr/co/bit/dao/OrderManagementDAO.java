@@ -7,13 +7,13 @@ import kr.co.bit.vo.ManagerVO;
 import kr.co.bit.vo.OrderVO;
 
 public interface OrderManagementDAO {
-	public List<OrderVO> selectAll();
+	public List<OrderVO> selectAll(String branch);
 	public List<OrderVO> selectByDate(Map<String, String> date);
-	public List<OrderVO> selectByToday(String today);
-	public OrderVO selectByNo(int no);
-	public List<OrderVO> selectByOrderStatus();
-	public OrderVO selectAddOneOrder();
-	public void cancelOrder(int no);
-	public void completeOrder(int no);
+	public List<OrderVO> selectByToday(Map<String, String> date);
+	public OrderVO selectByNo(Map<String, String> info);
+	public List<OrderVO> selectByOrderStatus(String branch);
+	public OrderVO selectAddOneOrder(String branch);
+	public void cancelOrder(Map<String, String> info);
+	public void completeOrder(Map<String, String> info);
 	public int selectTodayMain(ManagerVO m);
 }

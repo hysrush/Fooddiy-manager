@@ -17,8 +17,8 @@ public class OrderManagementServiceImp  implements OrderManagementService{
 	OrderManagementDAO dao;
 	
 	@Override
-	public List<OrderVO> selectAll() {
-		List<OrderVO> allOrderList = dao.selectAll();
+	public List<OrderVO> selectAll(String branch) {
+		List<OrderVO> allOrderList = dao.selectAll(branch);
 		return allOrderList;
 	}
 	
@@ -30,37 +30,37 @@ public class OrderManagementServiceImp  implements OrderManagementService{
 	}
 	
 	@Override
-	public List<OrderVO> selectByToday(String today) {
-		List<OrderVO> orderListToday = dao.selectByToday(today);
+	public List<OrderVO> selectByToday(Map<String, String> date) {
+		List<OrderVO> orderListToday = dao.selectByToday(date);
 		return orderListToday;
 	}
 	
 	@Override
-	public OrderVO selectByNo(int no) {
+	public OrderVO selectByNo(Map<String, String> info) {
 		
-		OrderVO orderVO = dao.selectByNo(no);
+		OrderVO orderVO = dao.selectByNo(info);
 		return orderVO;
 	}
 	
 	@Override
-	public List<OrderVO> selectByorderStatus() {
-		List<OrderVO> orderList = dao.selectByOrderStatus();
+	public List<OrderVO> selectByorderStatus(String branch) {
+		List<OrderVO> orderList = dao.selectByOrderStatus(branch);
 		return orderList;
 	}
 	
 	@Override
-	public OrderVO selectAddOneOrder() {
-		OrderVO orderVO = dao.selectAddOneOrder();
+	public OrderVO selectAddOneOrder(String branch) {
+		OrderVO orderVO = dao.selectAddOneOrder(branch);
 		return orderVO;
 	}
 	@Override
-	public void cancelOrder(int no) {
-		dao.cancelOrder(no);
+	public void cancelOrder(Map<String, String> info) {
+		dao.cancelOrder(info);
 	}
 	
 	@Override
-	public void completeOrder(int no) {
-		dao.completeOrder(no);
+	public void completeOrder(Map<String, String> info) {
+		dao.completeOrder(info);
 	}
 	
 	//메인 페이지 주문 건수

@@ -19,9 +19,9 @@ public class OderManagementDAOImp  implements OrderManagementDAO{
 	private String url = "kr.co.bit.dao.OrderManagementDAO.";
 	
 	
-	public List<OrderVO> selectAll() {
+	public List<OrderVO> selectAll(String branch) {
 		
-		List<OrderVO> allOrderList = session.selectList(url + "selectAllOrder");
+		List<OrderVO> allOrderList = session.selectList(url + "selectAllOrder", branch);
 		return allOrderList;
 	}
 	@Override
@@ -30,43 +30,40 @@ public class OderManagementDAOImp  implements OrderManagementDAO{
 		List<OrderVO> orderListDate = session.selectList(url + "selectByDate", date);
 		return orderListDate;
 	}
-	public List<OrderVO> selectByToday(String today) {
-		List<OrderVO> orderListToday = session.selectList(url + "selectByToday", today);
+	public List<OrderVO> selectByToday(Map<String, String> date) {
+		List<OrderVO> orderListToday = session.selectList(url + "selectByToday", date);
 		return orderListToday;
 	}
 	
-	public OrderVO selectByNo(int no) {
-		OrderVO orderList = session.selectOne(url + "selectByNo", no);
+	public OrderVO selectByNo(Map<String, String> info) {
+		OrderVO orderList = session.selectOne(url + "selectByNo", info);
 		return  orderList;
 	}
 	@Override
-	public List<OrderVO> selectByOrderStatus() {
+	public List<OrderVO> selectByOrderStatus(String branch) {
 		
 		//주문검색 - 대기중이거나 준비중인 상품 검색
-		List<OrderVO> orderList = session.selectList(url + "selectByOrderStatus");
+		List<OrderVO> orderList = session.selectList(url + "selectByOrderStatus", branch);
 		
 		//주문 상태업데이트
-		session.update(url + "updateOrderStatus"); 
+		session.update(url + "updateOrderStatus", branch); 
 		
 		return orderList;
 	}
-	
 	@Override
-	public OrderVO selectAddOneOrder() {
-		OrderVO orderVO = session.selectOne(url + "selectAddOneOrder");
-		session.update(url + "updateAddOneOrderSataus");
+	public OrderVO selectAddOneOrder(String branch) {
+		OrderVO orderVO = session.selectOne(url + "selectAddOneOrder", branch);
+		session.update(url + "updateAddOneOrderSataus", branch);
 		return orderVO;
 	}
 	@Override
-	public void cancelOrder(int no) {
-		session.update(url + "cancelOrder", no);
+	public void cancelOrder(Map<String, String> info) {
+		session.update(url + "cancelOrder", info);
 	}
-	
 	@Override
-	public void completeOrder(int no) {
-		session.update(url + "completeOrder", no);
+	public void completeOrder(Map<String, String> info) {
+		session.update(url + "completeOrder", info);
 	}
-	
 	//메인 페이지 주문 건수
 	@Override
 	public int selectTodayMain(ManagerVO m) {
