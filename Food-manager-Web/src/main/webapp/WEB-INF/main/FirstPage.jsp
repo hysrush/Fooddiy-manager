@@ -103,7 +103,7 @@ table.space th, td{
 				<!-- 두번째 -->
 				<div class="col-md-4" style="margin: 1% 1% 1% 2.3%;">
 					<div class="row">
-						<div class="row" style="border: 2px solid; padding: 5%">
+						<div class="row" style="border: 2px solid; border-color: white; padding: 5%">
 							<table style="width: 100%;" class="space">
 								<tr>
                                    <th class="title" style="padding: 2%; width: 40%; font-size: 20px;">[ TODAY 현황 ]</th>
