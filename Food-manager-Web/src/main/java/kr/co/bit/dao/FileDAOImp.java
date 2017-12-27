@@ -1,6 +1,7 @@
 package kr.co.bit.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class FileDAOImp implements FileDAO {
 	}
 	// File 보기
 	@Override
-	public FileVO selectOne(int boardNo) {
-		FileVO fileDetail = sqlSession.selectOne(url + "selectOneFile", boardNo);
+	public FileVO selectOne(Map<String, Object> fileMap) {
+		FileVO fileDetail = sqlSession.selectOne(url + "selectOneFile", fileMap);
 		return fileDetail;
 	}
 	// File 수정
@@ -34,8 +35,8 @@ public class FileDAOImp implements FileDAO {
 	}
 	// File 삭제
 	@Override
-	public void delete(int no) {
-		sqlSession.delete(url + "removeFile", no);
+	public void delete(Map<String, Object> fileMap) {
+		sqlSession.delete(url + "removeFile", fileMap);
 	}
 	// File 다중 삭제
 	@Override

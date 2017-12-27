@@ -32,9 +32,17 @@
 	</select>
 	
 	<!-- 번호별 File 조회 -->
-	<select id="selectOneFile" parameterType="int" resultMap="Map_fileVO" >
+	<select id="selectOneFile" parameterType="java.util.Map" resultMap="Map_fileVO" >
 		<include refid="selectAll_file"/>
 		WHERE borad_no = #{boardNo}
+		<choose>
+			<when test='#{name}.equals("noticeFile")'>
+				AND file_name = <![CDATA[ 'noticeFile' ]]>
+			</when>
+			<when test='#{name}.equals("claimFile")'>
+				AND file_name = <![CDATA[ 'claimFile' ]]>
+			</when>
+		</choose>
 	</select>
 	
 	<!-- File 등록 -->
@@ -51,18 +59,42 @@
 		SET file_name = #{name}, file_ori = #{fileOriName}, file_save = #{fileSaveName}, 
 			file_size = #{fileSize}, file_path = #{filePath}, file_type = #{contentType}
 		WHERE borad_no = #{boardNo}
+			<choose>
+				<when test='#{name}.equals("noticeFile")'>
+					AND file_name = <![CDATA[ 'noticeFile' ]]>;
+				</when>
+				<when test='#{name}.equals("claimFile")'>
+					AND file_name = <![CDATA[ 'claimFile' ]]>;
+				</when>
+			</choose>
 	</update>
 	
 	<!-- File 삭제 -->
-	<delete id="removeFile" parameterType="int" >
+	<delete id="removeFile" parameterType="java.util.Map" >
 		DELETE FROM t_file
 		WHERE borad_no = #{boardNo}
+		<choose>
+			<when test='#{name}.equals("noticeFile")'>
+				AND file_name = <![CDATA[ 'noticeFile' ]]>
+			</when>
+			<when test='#{name}.equals("claimFile")'>
+				AND file_name = <![CDATA[ 'claimFile' ]]>
+			</when>
+		</choose>
 	</delete>
 	
 	<!-- File 다중 삭제 -->
 	<delete id="removeFileSome" parameterType="java.util.List">
 		DELETE FROM t_file
-		WHERE borad_no IN
+		<choose>
+			<when test='#{name}.equals("noticeFile")'>
+				WHERE file_name = <![CDATA[ 'noticeFile' ]]>
+			</when>
+			<when test='#{name}.equals("claimFile")'>
+				WHERE file_name = <![CDATA[ 'claimFile' ]]>
+			</when>
+		</choose>
+		AND borad_no = #{boardNo} IN
 			<foreach item="item" index="index" collection="list" open="(" close=")" separator="," >
        			#{item}
  			</foreach>

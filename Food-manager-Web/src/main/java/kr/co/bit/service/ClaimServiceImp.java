@@ -39,10 +39,25 @@ public class ClaimServiceImp implements ClaimService {
 	public void modifyClaim(ClaimBoardVO claimVO) {
 		claimDAO.update(claimVO);
 	}
+	// Claim fileOX : O - 파일있음
+	@Override
+	public void updateFileOX_O(int no) {
+		claimDAO.FileOX_O(no);
+	}
+	// Claim fileOX : X - 파일없음
+	@Override
+	public void updateFileOX_X(int no) {
+		claimDAO.FileOX_X(no);
+	}
 	// Claim 글 삭제
 	@Override
 	public void removeClaim(int no) {
 		claimDAO.delete(no);
+	}
+	// Claim 글 다중 삭제
+	@Override
+	public void removeClaimSome(List<Integer> list) {
+		claimDAO.deleteSome(list);
 	}
 	// Claim 조회수 증가
 	@Override

@@ -2,7 +2,9 @@ package kr.co.bit.control;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -111,9 +113,12 @@ public class NoticeController {
 
 		// file 존재하면,
 		if (noticeVO.getFileOX().equals("O")) {
-			System.out.println("Test");
+			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
+			Map<String, Object> fileMap = new HashMap<>();
+			fileMap.put("boardNo", no);
+			fileMap.put("name", "noticeFile");
 			// 해당 번호에 맞는 fileVO 읽어오기
-			FileVO fileVO = fileService.selectOneFile(no);
+			FileVO fileVO = fileService.selectOneFile(fileMap);
 			mav.addObject("fileVO", fileVO);
 		}
 
@@ -128,7 +133,11 @@ public class NoticeController {
 	public String download(@RequestParam(value="no") int boardNo, HttpServletResponse response) {
 		
 		try {
-			fileService.downloadFile(response, boardNo);
+			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
+			Map<String, Object> fileMap = new HashMap<>();
+			fileMap.put("boardNo", boardNo);
+			fileMap.put("name", "noticeFile");
+			fileService.downloadFile(response, fileMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -144,15 +153,19 @@ public class NoticeController {
 		NoticeBoardVO noticeVO = noticeService.selectOneNotice(no);
 		// 공유영역에 등록
 		model.addAttribute("noticeVO", noticeVO);
-		// Form에서 가져온 Data를 QnaBoardVO 객체 형태로 저장
+		// Form에서 가져온 Data를 NoticeBoardVO 객체 형태로 저장
 		NoticeBoardVO noticeVO_NEW = new NoticeBoardVO();
 		// 공유영역에 등록
 		model.addAttribute("noticeVO_NEW", noticeVO_NEW);
 		
 		// file 존재하면,
 		if (noticeVO.getFileOX().equals("O")) {
+			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
+			Map<String, Object> fileMap = new HashMap<>();
+			fileMap.put("boardNo", no);
+			fileMap.put("name", "noticeFile");
 			// 해당 번호에 맞는 fileVO 읽어오기
-			FileVO fileVO = fileService.selectOneFile(no);
+			FileVO fileVO = fileService.selectOneFile(fileMap);
 			model.addAttribute("fileVO", fileVO);
 		}
 
@@ -196,8 +209,12 @@ public class NoticeController {
 		}
 		// 기존 파일 O
 		if (noticeVO_NEW.getFileOX().equals("O")) {
+			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
+			Map<String, Object> fileMap = new HashMap<>();
+			fileMap.put("boardNo", noticeVO_NEW.getNo());
+			fileMap.put("name", "noticeFile");
 			// 기존 파일의 파일 주소
-			String filePath = fileService.selectOneFile(noticeVO_NEW.getNo()).getFilePath();
+			String filePath = fileService.selectOneFile(fileMap).getFilePath();
 			System.out.println("기존 파일의 파일주소 : " + filePath);
 			// fileVO 수정
 			fileOX = fileService.modifyFile(request, noticeVO_NEW.getNo());
@@ -219,7 +236,7 @@ public class NoticeController {
 					// fileOX -> X 업데이트
 					noticeService.updateFileOX_X(noticeVO_NEW.getNo());
 					// 파일 삭제
-					fileService.removeFile(noticeVO_NEW.getNo());
+					fileService.removeFile(fileMap);
 				}
 			}
 		}
@@ -232,8 +249,12 @@ public class NoticeController {
 		
 		// file 존재하면,
 		if (noticeService.selectOneNotice(no).getFileOX().equals("O")) { 
+			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
+			Map<String, Object> fileMap = new HashMap<>();
+			fileMap.put("boardNo", no);
+			fileMap.put("name", "noticeFile");
 			// 번호에 해당하는 Notice 파일 삭제
-			fileService.removeFile(no);
+			fileService.removeFile(fileMap);
 			// 번호에 해당하는 Notice 글 삭제
 			noticeService.removeNotice(no);
 		} else {
@@ -262,17 +283,21 @@ public class NoticeController {
 				list.add(num);
 				// file 존재하면,
 				if (noticeService.selectOneNotice(num).getFileOX().equals("O")) { 
+					// Mybatis에 매개변수 2개를 보내기 위해 map 생성
+					Map<String, Object> fileMap = new HashMap<>();
+					fileMap.put("boardNo", num);
+					fileMap.put("name", "noticeFile");
 					/* 실제 저장된 파일 삭제 */
 					// 사용자
 					String userPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice" 
-										+ File.separator + fileService.selectOneFile(num).getFilePath();
+										+ File.separator + fileService.selectOneFile(fileMap).getFilePath();
 					File file = new File(userPath);
 					if(file.exists() == true){
 						file.delete();
 					}
 					// 관리자
 					String adminPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice"
-										+ File.separator + fileService.selectOneFile(num).getFilePath();
+										+ File.separator + fileService.selectOneFile(fileMap).getFilePath();
 					File file2 = new File(adminPath);
 					if(file2.exists() == true){
 						file2.delete();

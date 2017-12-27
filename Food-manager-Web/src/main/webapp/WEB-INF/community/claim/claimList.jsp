@@ -57,7 +57,7 @@
        	<!-- 페이지 header -->
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>Subway소식 관리</h2>
+                <h2>1:1문의 관리</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="${ pageContext.request.contextPath}/FirstPage.jsp">Home</a>
@@ -66,7 +66,7 @@
                         <a>커뮤니티 관리</a>
                     </li>
                     <li class="active">
-                        <strong>Subway소식 관리</strong>
+                        <strong>1:1문의 관리</strong>
                     </li>
                 </ol>
             </div>
@@ -81,14 +81,13 @@
                     <div class="tabs-container">
 						<ul class="nav nav-tabs">
 						    <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-list"></i>리스트</a></li>
-						    <li class=""><a href="${ pageContext.request.contextPath}/community/subway/noticeWriteForm.do"><i class="fa fa-save"></i>등록</a></li>
 						    <!-- <li class=""><a href="#"><i class="fa fa-edit"></i>수정</a></li> -->
 						</ul>
 						<div class="tab-content">
-							<!-- 첫번째 Tab : 서브웨이소식 리스트 -->
+							<!-- 첫번째 Tab : 1:1문의 리스트 -->
 							<div id="tab-1" class="tab-pane active">
 							    <div class="panel-body">
-                                   	<h2>Subway소식 리스트</h2>
+                                   	<h2>1:1문의 리스트</h2>
 									<div class="ibox">
 										<div class="ibox-content">
 											<div class="table-responsive">
@@ -109,33 +108,33 @@
 													 </tr>
 													</thead>
 					                                <tbody>
-					                                <c:forEach items="${ noticeList }" var="notice">
-						                                <tr class="noticeList">
+					                                <c:forEach items="${ claimList }" var="claim">
+						                                <tr class="claimList">
 						                                	<td>
 																<input type="checkbox" class="i-checks" name="chk">
-																<div style="display: none">${ notice.no }</div>
+																<div style="display: none">${ claim.no }</div>
 															</td>
 						                                    <td class="convType" width="100px;">
-							                                    <span class="label label-primary">${ notice.type }</span>
+							                                    <span class="label label-primary">${ claim.type }</span>
 						                                    </td>
 						                                    <td>
-						                                        <a onclick="action('V', ${notice.no})">${ notice.title }</a> 
+						                                        <a onclick="action('V', ${claim.no})">${ claim.title }</a> 
 						                                    </td>
 						                                    <td width="10%" nowrap>
-						                                        ${ notice.writer }점
+						                                        ${ claim.writer }
 						                                    </td>
 						                                    <td width="10%" nowrap>
-						                                        ${ notice.regDate }
+						                                        ${ claim.regDate }
 						                                    </td>
 						                                    <td width="50px;" nowrap>
-						                                        ${ notice.viewCnt }
+						                                        ${ claim.viewCnt }
 						                                    </td>
 						                                    <td class="text-right" width="100px;" >
 						                                        <div class="btn-group tooltip-demo" nowrap>
 						                                            <button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="수정" 
-						                                            		onclick="action('E', ${notice.no})"><i class="fa fa-edit"></i></button>
+						                                            		onclick="action('E', ${claim.no})"><i class="fa fa-edit"></i></button>
 						                                            <button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="삭제" 
-						                                            		onclick="action('D', ${notice.no})"><i class="fa fa-trash"></i></button>
+						                                            		onclick="action('D', ${claim.no})"><i class="fa fa-trash"></i></button>
 						                                        </div>
 						                                    </td>
 						                                </tr>
@@ -147,12 +146,12 @@
                    					</div>
 								</div>
 							</div>
-							<!-- 두번째 Tab : 서브웨이소식 등록 -->
+							<!-- 두번째 Tab : 1:1문의 등록 -->
 							<div id="tab-2" class="tab-pane">
 							    <div class="panel-body">
 							    </div>
 							</div>
-							<!-- 세번째 Tab : 서브웨이소식 수정 -->
+							<!-- 세번째 Tab : 1:1문의 수정 -->
 							<!-- <div id="tab-3" class="tab-pane">
 							    <div class="panel-body">
 							    </div>
@@ -204,21 +203,33 @@
 			// sidebar li & ul 클래스 active
 			$('.communityLI').addClass("active");
 			$('.communityLI > ul').addClass("in");
-			$('.noticeLI').addClass("active");
+			$('.claimLI').addClass("active");
 		    
 			// footable 시작
 			$('.footable').footable();
 		    
-			// QnA 타입별 라벨 클래스명 & 텍스트 변경
-			for(var i = 0; i < $('.noticeList').length; ++i) {    	
-				var noticeType  = $('.noticeList').eq(i).find('.label');
-				if(noticeType.text() == 'A'){
-					noticeType.attr("class","label label-primary");
-					noticeType.html("공지사항");
+			// Claim 타입별 라벨 클래스명 & 텍스트 변경
+			for(var i = 0; i < $('.claimList').length; ++i) {    	
+				var claimType  = $('.claimList').eq(i).find('.label');
+				if(claimType.text() == 'I'){
+					claimType.attr("class","label label-primary");
+					claimType.html("문의");
 				}
-				else if(noticeType.text() == 'B'){
-					noticeType.attr("class","label label-danger");
-					noticeType.html("보도자료");
+				else if(claimType.text() == 'P'){
+					claimType.attr("class","label label-danger");
+					claimType.html("칭찬");
+				}
+				else if(claimType.text() == 'S'){
+					claimType.attr("class","label label-warning");
+					claimType.html("제안");
+				}
+				else if(claimType.text() == 'C'){
+					claimType.attr("class","label label-success");
+					claimType.html("불만");
+				}
+				else if(claimType.text() == 'X'){
+					claimType.attr("class","label label-plain");
+					claimType.html("기타");
 				}
 			}
 			
@@ -326,19 +337,19 @@
 			
 		});
 		
-		// Notice action 함수
+		// Claim action 함수
 		function action(type, no) {
 			switch (type) {
 			case 'V':
-				// Notice 디테일
-			    location.href = '${ pageContext.request.contextPath}/community/subway/noticeDetail.do?no=' + no;
+				// Claim 디테일
+			    location.href = '${ pageContext.request.contextPath}/community/claim/claimDetail.do?no=' + no;
 				break;
 			case 'E':
-				// Notice 수정
-				location.href = '${ pageContext.request.contextPath}/community/subway/noticeEditForm.do?no=' + no;
+				// Claim 수정
+				location.href = '${ pageContext.request.contextPath}/community/claim/claimEditForm.do?no=' + no;
 				break;
 			case 'D':
-				// Notice 삭제
+				// Claim 삭제
 				deleteNotice(no);
 				break;
 			default:
@@ -360,7 +371,7 @@
 		        swal("삭제되었습니다!", "", "success");
 		        // OK 누르면 삭제 실행
 		        $('.confirm').click(function () {
-		        	location.href = '${ pageContext.request.contextPath}/community/subway/noticeDelete.do?no=' + no;
+		        	location.href = '${ pageContext.request.contextPath}/community/claim/claimDelete.do?no=' + no;
 				});
 		    });
 		}
@@ -401,7 +412,7 @@
 		        swal("삭제되었습니다!", "", "success");
 		        // OK 누르면 삭제 실행
 		        $('.confirm').click(function () {
-		        	location.href = '${ pageContext.request.contextPath}/community/subway/noticeDeleteSome.do?nums=' + nums;
+		        	location.href = '${ pageContext.request.contextPath}/community/claim/claimDeleteSome.do?nums=' + nums;
 				});
 		    });
 		}

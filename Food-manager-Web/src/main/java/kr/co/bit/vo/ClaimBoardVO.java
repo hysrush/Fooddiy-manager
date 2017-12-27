@@ -1,5 +1,9 @@
 package kr.co.bit.vo;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class ClaimBoardVO {
 	
 	private int no;
@@ -12,13 +16,17 @@ public class ClaimBoardVO {
 	private String phone1;		// User Phone
 	private String phone2;
 	private String phone3;
-	
-	private String file;		// 파일
 	private String visitDate;	// 방문일
 	private String visitStore;	// 방문 매장명
 	
+	private String fileOX;	// 파일 유 'O'/ 무 'X'
 	private String regDate;
 	private int viewCnt;
+	// ********************************************
+	// DB에 저장 안하고 쓰는 것들
+	private List<MultipartFile> claimFile;  //첨부파일임.
+	private String temp;
+	// ********************************************
 	
 	public int getNo() {
 		return no;
@@ -104,18 +112,31 @@ public class ClaimBoardVO {
 	public void setViewCnt(int viewCnt) {
 		this.viewCnt = viewCnt;
 	}
-	public String getFile() {
-		return file;
+	public String getFileOX() {
+		return fileOX;
 	}
-	public void setFile(String file) {
-		this.file = file;
+	public void setFileOX(String fileOX) {
+		this.fileOX = fileOX;
+	}
+	public String getTemp() {
+		return temp;
+	}
+	public void setTemp(String temp) {
+		this.temp = temp;
+	}
+	public List<MultipartFile> getClaimFile() {
+		return claimFile;
+	}
+	public void setClaimFile(List<MultipartFile> claimFile) {
+		this.claimFile = claimFile;
 	}
 	@Override
 	public String toString() {
-		return "ClaimBoardVO [no=" + no + ", title=" + title + ", content=" + content + ", type=" + type + ", file="
-				+ file + ", writer=" + writer + ", emailID=" + emailID + ", emailDomain=" + emailDomain + ", phone1="
-				+ phone1 + ", phone2=" + phone2 + ", phone3=" + phone3 + ", visitDate=" + visitDate + ", visitStore="
-				+ visitStore + ", regDate=" + regDate + ", viewCnt=" + viewCnt + "]";
+		return "ClaimBoardVO [no=" + no + ", title=" + title + ", content=" + content + ", type=" + type + ", writer="
+				+ writer + ", emailID=" + emailID + ", emailDomain=" + emailDomain + ", phone1=" + phone1 + ", phone2="
+				+ phone2 + ", phone3=" + phone3 + ", visitDate=" + visitDate + ", visitStore=" + visitStore
+				+ ", fileOX=" + fileOX + ", regDate=" + regDate + ", viewCnt=" + viewCnt + ", claimFile=" + claimFile
+				+ "]";
 	}
 	
 }

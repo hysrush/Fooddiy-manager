@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,34 +31,23 @@ public class FileServiceImp implements FileService{
 	private FileDAO fileDAO;
 	
 	// 실제 파일 저장 경로
-	private static String adminDir = "C:\\Users\\bit-user\\git\\Fooddiy-manager\\Food-manager-Web\\src\\main\\webapp\\upload\\notice";
-	private static String userDir = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice";
-	private static String formattedDate = "\\" + new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date());
+	private static String adminDir = "C:\\Users\\bit-user\\git\\Fooddiy-manager\\Food-manager-Web\\src\\main\\webapp\\upload";
+	private static String userDir = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload";
+	private String formattedDate;
 	// 폴더 경로
-	private static String adminFolderPath = adminDir + formattedDate;
-	private static String userFolderPath = userDir + formattedDate;
+	private String adminFolderPath;
+	private String userFolderPath;
 	
 	// <File Service>
 	// File 업로드
 	@Override
 	public String uploadFile(HttpServletRequest request, int boardNo) {
-
+		
 		String fileOX = "X";
 
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
 	    Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
 	    MultipartFile multipartFile = null;
-	    // 파일 생성
-	    // 1) 관리자
-		File adminFile = new File(adminFolderPath);
-        if(adminFile.exists() == false){		// 파일이 존재하지 않는다면
-            adminFile.mkdirs();				// 해당 디렉토리를 만든다. 하위폴더까지 한꺼번에 만든다.
-        }
-        // 2) 사용자
-        File userFile = new File(userFolderPath);
-        if(userFile.exists() == false){		// 파일이 존재하지 않는다면
-        	userFile.mkdirs();				// 해당 디렉토리를 만든다. 하위폴더까지 한꺼번에 만든다.
-        }
         
         while(iterator.hasNext()){
             multipartFile = multipartHttpServletRequest.getFile(iterator.next());
@@ -65,7 +55,46 @@ public class FileServiceImp implements FileService{
             if(multipartFile.isEmpty() == false){
             	// multipartFile에서 필요로하는 요소 가져오기
             	String name = multipartFile.getName();
-            	String fileOriName = multipartFile.getOriginalFilename();
+                // 이름에 따라, 파일 경로 생성
+                if (name.equals("noticeFile")) {
+                	// 날짜 폴더 생성
+                	this.formattedDate = "\\notice\\" + new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date());
+                	// 폴더 경로
+                	this.adminFolderPath = adminDir + formattedDate;
+                	this.userFolderPath = userDir + formattedDate;
+                	
+                	// 파일 생성
+                	// 1) 관리자
+                	File adminFile = new File(adminFolderPath);
+                	if(adminFile.exists() == false){		// 파일이 존재하지 않는다면
+                		adminFile.mkdirs();				// 해당 디렉토리를 만든다. 하위폴더까지 한꺼번에 만든다.
+                	}
+                	// 2) 사용자
+                	File userFile = new File(userFolderPath);
+                	if(userFile.exists() == false){		// 파일이 존재하지 않는다면
+                		userFile.mkdirs();				// 해당 디렉토리를 만든다. 하위폴더까지 한꺼번에 만든다.
+                	}
+				} else if (name.equals("claimFile")) {
+					// 날짜 폴더 생성
+					this.formattedDate = "\\claim\\" + new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date());
+					// 폴더 경로
+                	this.adminFolderPath = adminDir + formattedDate;
+                	this.userFolderPath = userDir + formattedDate;
+                	
+					// 파일 생성
+					// 1) 관리자
+					File adminFile = new File(adminFolderPath);
+					if(adminFile.exists() == false){		// 파일이 존재하지 않는다면
+						adminFile.mkdirs();				// 해당 디렉토리를 만든다. 하위폴더까지 한꺼번에 만든다.
+					}
+					// 2) 사용자
+					File userFile = new File(userFolderPath);
+					if(userFile.exists() == false){		// 파일이 존재하지 않는다면
+						userFile.mkdirs();				// 해당 디렉토리를 만든다. 하위폴더까지 한꺼번에 만든다.
+					}
+					
+				}
+                String fileOriName = multipartFile.getOriginalFilename();
             	String uuid = UUID.randomUUID().toString(); // 중복될 일이 거의 없다.
             	String fileSaveName = uuid + "_" + fileOriName;
                 long fileSize = multipartFile.getSize();
@@ -121,10 +150,10 @@ public class FileServiceImp implements FileService{
 	}
 	// File 다운로드
 	@Override
-	public void downloadFile(HttpServletResponse response, int boardNo) throws Exception {
+	public void downloadFile(HttpServletResponse response, Map<String, Object> fileMap) throws Exception {
 		
 		// 해당 파일 불러오기
-		FileVO fileVO = fileDAO.selectOne(boardNo);
+		FileVO fileVO = fileDAO.selectOne(fileMap);
 	    String fileOriName = fileVO.getFileOriName();
 	    String filePath = fileVO.getFilePath();
 	    double fileSize = fileVO.getFileSize();
@@ -154,24 +183,52 @@ public class FileServiceImp implements FileService{
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest)request;
 	    Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
 	    MultipartFile multipartFile = null;
-	    
-	    // 파일 생성
-	    // 1) 관리자
-		File adminFile = new File(adminFolderPath);
-        if(adminFile.exists() == false){		// 파일이 존재하지 않는다면
-            adminFile.mkdirs();				// 해당 디렉토리를 만든다. 하위폴더까지 한꺼번에 만든다.
-        }
-        // 2) 사용자
-        File userFile = new File(userFolderPath);
-        if(userFile.exists() == false){		// 파일이 존재하지 않는다면
-        	userFile.mkdirs();				// 해당 디렉토리를 만든다. 하위폴더까지 한꺼번에 만든다.
-        }
 		
 		 while(iterator.hasNext()){
             multipartFile = multipartHttpServletRequest.getFile(iterator.next());
             if(multipartFile.isEmpty() == false){
             	// multipartFile에서 필요로하는 요소 가져오기
             	String name = multipartFile.getName();
+            	 // 이름에 따라, 파일 경로 생성
+                if (name.equals("noticeFile")) {
+                	// 날짜 폴더 생성
+                	this.formattedDate = "\\notice\\" + new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date());
+                	// 폴더 경로
+                	this.adminFolderPath = adminDir + formattedDate;
+                	this.userFolderPath = userDir + formattedDate;
+                	
+                	// 파일 생성
+                	// 1) 관리자
+                	File adminFile = new File(adminFolderPath);
+                	if(adminFile.exists() == false){		// 파일이 존재하지 않는다면
+                		adminFile.mkdirs();				// 해당 디렉토리를 만든다. 하위폴더까지 한꺼번에 만든다.
+                	}
+                	// 2) 사용자
+                	File userFile = new File(userFolderPath);
+                	if(userFile.exists() == false){		// 파일이 존재하지 않는다면
+                		userFile.mkdirs();				// 해당 디렉토리를 만든다. 하위폴더까지 한꺼번에 만든다.
+                	}
+					
+				} else if (name.equals("claimFile")) {
+					// 날짜 폴더 생성
+					this.formattedDate = "\\claim\\" + new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date());
+					// 폴더 경로
+                	this.adminFolderPath = adminDir + formattedDate;
+                	this.userFolderPath = userDir + formattedDate;
+                	
+					// 파일 생성
+					// 1) 관리자
+					File adminFile = new File(adminFolderPath);
+					if(adminFile.exists() == false){		// 파일이 존재하지 않는다면
+						adminFile.mkdirs();				// 해당 디렉토리를 만든다. 하위폴더까지 한꺼번에 만든다.
+					}
+					// 2) 사용자
+					File userFile = new File(userFolderPath);
+					if(userFile.exists() == false){		// 파일이 존재하지 않는다면
+						userFile.mkdirs();				// 해당 디렉토리를 만든다. 하위폴더까지 한꺼번에 만든다.
+					}
+					
+				}
             	String fileOriName = multipartFile.getOriginalFilename();
             	String uuid = UUID.randomUUID().toString(); // 중복될 일이 거의 없다.
             	String fileSaveName = uuid + "_" + fileOriName;
@@ -229,9 +286,9 @@ public class FileServiceImp implements FileService{
 	}
 	// File 조회	
 	@Override
-	public FileVO selectOneFile(int boardNo) {
+	public FileVO selectOneFile(Map<String, Object> fileMap) {
 		// 게시판 번호에 해당하는 파일 가져오기
-		FileVO fileDetail = fileDAO.selectOne(boardNo);
+		FileVO fileDetail = fileDAO.selectOne(fileMap);
 		double sizeLong = fileDetail.getFileSize();
 		double size = Math.round((sizeLong/(double)1024)*10)/10.0; 	//소숫점 첫째자리 까지 표시
 		
@@ -240,25 +297,25 @@ public class FileServiceImp implements FileService{
 		
 		return fileDetail;
 	}
-	// File 삭제
+		// File 삭제
 	@Override
-	public void removeFile(int no) {
+	public void removeFile(Map<String, Object> fileMap) {
 		// 실제 저장 파일 삭제
-		deleteFile(no);
+		deleteFile(fileMap);
 		// DB 삭제 
-		fileDAO.delete(no);
+		fileDAO.delete(fileMap);
 	}
 	// 실제 저장된 파일 삭제 (번호용)
 	@Override
-	public void deleteFile(int no) {
+	public void deleteFile(Map<String, Object> fileMap) {
 		// 관리자
-		String adminPath = adminDir + File.separator + fileDAO.selectOne(no).getFilePath();
+		String adminPath = adminDir + File.separator + fileDAO.selectOne(fileMap).getFilePath();
 		File file2 = new File(adminPath);
 		if(file2.exists() == true){
 			file2.delete();
 		}
 		// 사용자
-		String userPath = userFolderPath + File.separator + fileDAO.selectOne(no).getFilePath();
+		String userPath = userDir + File.separator + fileDAO.selectOne(fileMap).getFilePath();
 		File file = new File(userPath);
 		if(file.exists() == true){
 			file.delete();

@@ -59,7 +59,7 @@
        	<!-- 페이지 header -->
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-10">
-                <h2>Subway소식 관리</h2>
+                <h2>1:1문의 관리</h2>
                 <ol class="breadcrumb">
                     <li>
                         <a href="${ pageContext.request.contextPath}/FirstPage.jsp">Home</a>
@@ -68,7 +68,7 @@
                         <a>커뮤니티 관리</a>
                     </li>
                     <li class="active">
-                        <strong>Subway소식 관리</strong>
+                        <strong>1:1문의 관리</strong>
                     </li>
                 </ol>
             </div>
@@ -82,44 +82,43 @@
                 <div class="col-lg-12">
                     <div class="tabs-container">
 						<ul class="nav nav-tabs">
-						    <li class=""><a href="${ pageContext.request.contextPath}/community/subway/noticeList.do"><i class="fa fa-list"></i>리스트</a></li>
-						    <li class=""><a href="${ pageContext.request.contextPath}/community/subway/noticeWriteForm.do"><i class="fa fa-save"></i>등록</a></li>
+						    <li class=""><a href="${ pageContext.request.contextPath}/community/claim/claimList.do"><i class="fa fa-list"></i>리스트</a></li>
 						    <li class="active"><a data-toggle="tab" href="#tab-3"><i class="fa fa-search"></i>보기</a></li>
 						</ul>
                         <div class="tab-content">
-							<!-- 첫번째 Tab : 서브웨이소식 리스트 -->
+							<!-- 첫번째 Tab : 1:1문의 리스트 -->
                             <div id="tab-1" class="tab-pane">
                                 <div class="panel-body">
                                 </div>
                             </div>
-                            <!-- 두번째 Tab : 서브웨이소식 등록 -->
+                            <!-- 두번째 Tab : 1:1문의 등록 -->
                             <div id="tab-2" class="tab-pane">
                                 <div class="panel-body">
                                 </div>
                             </div>
-                            <!-- 세번째 Tab : 서브웨이소식 보기 -->
+                            <!-- 세번째 Tab : 1:1문의 보기 -->
                             <div id="tab-3" class="tab-pane active">
                                 <div class="panel-body">
 			                    	<div class="ibox">
-				                    	<h2>Subway소식 보기</h2>
+				                    	<h2>1:1문의 보기</h2>
 										<div class="ibox-content">
 		                                	<div class="col-lg-10 col-lg-offset-1">
 												<div class="text-center">
-													<span class="label label-primary" id="typeLabel">${ noticeVO.type }</span>
+													<span class="label label-primary" id="typeLabel">${ claimVO.type }</span>
 												</div>
 												<div class="text-center article-title">
-													<h3>${ noticeVO.title }</h3>
+													<h3>${ claimVO.title }</h3>
 												</div>
 												<div class="row">
 													<div class="col-md-12">
 														<span class="text-muted"><i class="fa fa-user-circle"></i>
-															${ noticeVO.writer }점
+															${ claimVO.writer }
 														</span>
 														<span class="text-muted float-right"><i class="fa fa-eye"></i>
-															${ noticeVO.viewCnt } views
+															${ claimVO.viewCnt } views
 														</span>
 														<span class="text-muted float-right"><i class="fa fa-clock-o"></i>
-															${ noticeVO.regDate }&nbsp;&nbsp;&nbsp;
+															${ claimVO.regDate }&nbsp;&nbsp;&nbsp;
 														</span>
 													</div>
 												</div>
@@ -131,12 +130,12 @@
 												</c:if>
 												<p class="content list-group-item-text">
 													<!-- 자동 단락 나누기 (jstl - fn) -->
-													${ fn:replace(noticeVO.content, cn, br) }
+													${ fn:replace(claimVO.content, cn, br) }
 												</p>
 												<c:if test="${ not empty fileVO }">
 													<div class="text-left">
 														<i class="fa fa-file"></i>&nbsp;
-														<a onclick="action('F', ${ noticeVO.no })">
+														<a onclick="action('F', ${ claimVO.no })">
 															<span class="text-muted fileName">${ fileVO.fileOriName }</span>
 														</a>
 															<span class="text-muted"> (${ fileVO.fileSize }KB)</span>
@@ -145,9 +144,9 @@
 												<hr>
 												<div class="col-md-12">
 													<div class="pull-right">
-														<button class="btn btn-default" type="button" onclick="action('E', ${ noticeVO.no })"><i class="fa fa-edit"></i>&nbsp;&nbsp;수정</button>
-														<button class="btn btn-default" type="button" onclick="action('D', ${ noticeVO.no })"><i class="fa fa-trash"></i>&nbsp;&nbsp;삭제</button>
-														<button class="btn btn-default" type="button" onclick="action('L', ${ noticeVO.no })"><i class="fa fa-list"></i>&nbsp;&nbsp;목록</button>
+														<button class="btn btn-default" type="button" onclick="action('E', ${ claimVO.no })"><i class="fa fa-edit"></i>&nbsp;&nbsp;수정</button>
+														<button class="btn btn-default" type="button" onclick="action('D', ${ claimVO.no })"><i class="fa fa-trash"></i>&nbsp;&nbsp;삭제</button>
+														<button class="btn btn-default" type="button" onclick="action('L', ${ claimVO.no })"><i class="fa fa-list"></i>&nbsp;&nbsp;목록</button>
 													</div>
 												</div>
 											</div>
@@ -184,16 +183,28 @@
 			// sidebar li & ul 클래스 active
 			$('.communityLI').addClass("active");
 			$('.communityLI > ul').addClass("in");
-			$('.noticeLI').addClass("active");
+			$('.claimLI').addClass("active");
 			
-			// 타입별 라벨 클래스명 & 텍스트 변경
-			if($('#typeLabel').text() == 'A'){
+			// Claim 타입별 라벨 클래스명 & 텍스트 변경
+			if($('#typeLabel').text() == 'I'){
 				$('#typeLabel').attr("class","label label-primary");
-				$('#typeLabel').html("공지사항");
+				$('#typeLabel').html("문의");
 			}
-			else if($('#typeLabel').text() == 'B'){
+			else if($('#typeLabel').text() == 'P'){
 				$('#typeLabel').attr("class","label label-danger");
-				$('#typeLabel').html("보도자료");
+				$('#typeLabel').html("칭찬");
+			}
+			else if($('#typeLabel').text() == 'S'){
+				$('#typeLabel').attr("class","label label-warning");
+				$('#typeLabel').html("제안");
+			}
+			else if($('#typeLabel').text() == 'C'){
+				$('#typeLabel').attr("class","label label-success");
+				$('#typeLabel').html("불만");
+			}
+			else if($('#typeLabel').text() == 'X'){
+				$('#typeLabel').attr("class","label label-plain");
+				$('#typeLabel').html("기타");
 			}
 			
 			// 파일명 호버 효과
@@ -206,28 +217,28 @@
 		    
 		});
 		
-		// Notice action 함수
+		// Claim action 함수
 		function action(type, no) {
 			switch (type) {
 			case 'V':
-				// Notice 디테일
-			    location.href = '${ pageContext.request.contextPath}/community/subway/noticeDetail.do?no=' + no;
+				// Claim 디테일
+			    location.href = '${ pageContext.request.contextPath}/community/claim/claimDetail.do?no=' + no;
 				break;
 			case 'E':
-				// Notice 수정
-				location.href = '${ pageContext.request.contextPath}/community/subway/noticeEditForm.do?no=' + no;
+				// Claim 수정
+				location.href = '${ pageContext.request.contextPath}/community/claim/claimEditForm.do?no=' + no;
 				break;
 			case 'D':
-				// Notice 삭제
+				// Claim 삭제
 				deleteNotice(no);
 				break;
 			case 'L':
-				// Notice 리스트
-				location.href = '${ pageContext.request.contextPath}/community/subway/noticeList.do';
+				// Claim 리스트
+				location.href = '${ pageContext.request.contextPath}/community/claim/claimList.do';
 				break;
 			case 'F':
 				// File 다운로드
-				location.href = '${ pageContext.request.contextPath}/community/subway/downloadFile.do?no=' + no;
+				location.href = '${ pageContext.request.contextPath}/community/claim/downloadFile.do?no=' + no;
 				break;
 			default:
 				break;
@@ -248,7 +259,7 @@
 		        swal("삭제되었습니다!", "", "success");
 		        // OK 누르면 삭제 실행
 		        $('.confirm').click(function () {
-		        	location.href = '${ pageContext.request.contextPath}/community/subway/noticeDelete.do?no=' + no;
+		        	location.href = '${ pageContext.request.contextPath}/community/claim/claimDelete.do?no=' + no;
 				});
 		    });
 		}

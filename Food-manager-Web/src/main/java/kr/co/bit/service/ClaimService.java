@@ -13,7 +13,10 @@ public interface ClaimService {
 	ClaimBoardVO selectOneClaim(int no);
 	void insertClaim(ClaimBoardVO claimVO);
 	void modifyClaim(ClaimBoardVO claimVO);
+	void updateFileOX_O(int no);
+	void updateFileOX_X(int no);
 	void removeClaim(int no);
+	void removeClaimSome(List<Integer> list);
 	void updateViewcntClaim(int no, HttpSession session);
 	List<ClaimBoardVO> selectClaim(String id);
 }

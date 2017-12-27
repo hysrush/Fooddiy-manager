@@ -12,7 +12,10 @@ public interface ClaimDAO {
 	ClaimBoardVO selectOne(int no);
 	void insert(ClaimBoardVO claimVO);
 	void update(ClaimBoardVO claimVO);
+	void FileOX_O(int no);
+	void FileOX_X(int no);
 	void delete(int no);
+	void deleteSome(List<Integer> list);
 	void addViewcnt(int no);
 	List<ClaimBoardVO> selectClaim(String id);
 }

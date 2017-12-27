@@ -9,11 +9,11 @@
 	
 	<!-- sql 저장 : 전체 조회 -->
   	<sql id="selectAll_claim">
-		SELECT claim_no, claim_title, claim_content, claim_type, claim_file,
+		SELECT claim_no, claim_title, claim_content, claim_type,
 				user_id, user_emailID, user_emailDomain,
 				user_phone1, user_phone2, user_phone3,
 				to_char(claim_date, 'yy-mm-dd') as claim_date, claim_store,
-				view_cnt, to_char(reg_at, 'yy-mm-dd') as reg_at
+				file_type, view_cnt, to_char(reg_at, 'yy-mm-dd') as reg_at
 		FROM t_claim
 	</sql>
 	
@@ -23,7 +23,6 @@
   		<result column="claim_title" property="title"/>
   		<result column="claim_content" property="content"/>
   		<result column="claim_type" property="type"/>
-  		<result column="claim_file" property="file"/>
   		<result column="user_id" property="writer"/>
   		<result column="user_emailID" property="emailID"/>
   		<result column="user_emailDomain" property="emailDomain"/>
@@ -32,6 +31,7 @@
   		<result column="user_phone3" property="phone3"/>
   		<result column="claim_date" property="visitDate"/>
   		<result column="claim_store" property="visitStore"/>
+  		<result column="file_type" property="fileOX"/>
   		<result column="view_cnt" property="viewCnt"/>
   		<result column="reg_at" property="regDate"/>
   	</resultMap>
@@ -49,23 +49,42 @@
 	</select>
 	
 	<!-- Claim 글 등록 -->
-	<insert id="insertClaim" parameterType="claimVO">
-		INSERT INTO t_claim(claim_no, claim_title, claim_content, claim_type, claim_file,
+	<insert id="insertClaim" parameterType="claimVO" useGeneratedKeys="true" keyProperty="claim_no">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT seq_t_claim_no.nextval FROM DUAL
+		</selectKey>
+		INSERT INTO t_claim(claim_no, claim_title, claim_content, claim_type,
 							user_id, user_emailID, user_emailDomain,
-							user_phone1, user_phone2, user_phone3, claim_date, claim_store)
-		VALUES(seq_t_claim_no.nextval, #{title}, #{content}, #{type}, #{file, jdbcType=VARCHAR},
+							user_phone1, user_phone2, user_phone3,
+							claim_date, claim_store, file_type)
+		VALUES(#{no}, #{title}, #{content}, #{type}, #{file, jdbcType=VARCHAR},
 				#{writer}, #{emailID}, #{emailDomain},
 				#{phone1}, #{phone2}, #{phone3},
-				#{visitDate, jdbcType=DATE}, #{visitStore, jdbcType=VARCHAR})
+				#{visitDate, jdbcType=DATE}, #{visitStore, jdbcType=VARCHAR}, #{fileOX})
 	</insert>
 	
 	<!-- Claim 글 수정 -->
 	<update id="modifyClaim" parameterType="claimVO">
 		UPDATE t_claim
-		SET claim_title = #{title}, claim_content = #{content}, claim_type = #{type}, claim_file = #{file},
+		SET claim_title = #{title}, claim_content = #{content}, claim_type = #{type},
 			user_emailID = #{emailID}, user_emailDomain = #{emailDomain},
 			user_phone1 = #{phone1}, user_phone2 = #{phone2}, user_phone3 = #{phone3},
-			claim_date = #{visitDate}, claim_store = #{visitStore}
+			claim_date = #{visitDate}, claim_store = #{visitStore},
+			file_type = #{fileOX}, reg_at = #{regDate}
+		WHERE claim_no = #{no}
+	</update>
+	
+	<!-- Claim fileOX : O - 파일있음 -->
+	<update id="updateFileOX_O" parameterType="int">
+		UPDATE t_claim
+		SET file_type = <![CDATA[ 'O' ]]>
+		WHERE claim_no = #{no}
+	</update>
+	
+	<!-- Claim fileOX : X - 파일없음 -->
+	<update id="updateFileOX_X" parameterType="int">
+		UPDATE t_claim
+		SET file_type = <![CDATA[ 'X' ]]>
 		WHERE claim_no = #{no}
 	</update>
 	
@@ -73,6 +92,15 @@
 	<delete id="removeClaim" parameterType="int" >
 		DELETE FROM t_claim
 		WHERE claim_no = #{no}
+	</delete>
+	
+	<!-- Claim 다중 삭제 -->
+	<delete id="removeClaimSome" parameterType="java.util.List">
+		DELETE FROM t_claim
+		WHERE claim_no IN
+			<foreach item="item" index="index" collection="list" open="(" close=")" separator="," >
+       			#{item}
+ 			</foreach>
 	</delete>
 	
 	<!-- Claim 조회수 증가 -->

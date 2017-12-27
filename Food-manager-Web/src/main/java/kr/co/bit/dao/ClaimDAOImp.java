@@ -38,10 +38,25 @@ public class ClaimDAOImp implements ClaimDAO {
 	public void update(ClaimBoardVO claimVO) {
 		sqlSession.update(url + "modifyClaim", claimVO);
 	}
+	// Claim fileOX : O - 파일있음
+	@Override
+	public void FileOX_O(int no) {
+		sqlSession.update(url + "updateFileOX_O", no);
+	}
+	// Claim fileOX : X - 파일없음
+	@Override
+	public void FileOX_X(int no) {
+		sqlSession.update(url + "updateFileOX_X", no);
+	}
 	// Claim 글 삭제
 	@Override
 	public void delete(int no) {
 		sqlSession.delete(url + "removeClaim", no);
+	}
+	// Claim 글 다중 삭제
+	@Override
+	public void deleteSome(List<Integer> list) {
+		sqlSession.delete(url + "removeClaimSome", list);
 	}
 	// Claim 조회수 증가
 	@Override
