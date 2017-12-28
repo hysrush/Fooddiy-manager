@@ -169,7 +169,7 @@
                             <label style="font-size: 25px" class="control-label" for="product_name"><strong>회원 검색</strong></label>
           
             <!-- <a href="#"> <span style="height:30px; width:94px; font-size: 14px" class=" label label-primary">회원 랭킹보기</span></a> -->
-            <button style="margin-left:5%; border-color:white; height:30px; width: 114px; font-size: 14px" type="button" class="label label-primary">회원 랭킹보기</button> 
+           <!--  <button style="margin-left:5%; border-color:white; height:30px; width: 114px; font-size: 14px" type="button" class="label label-primary">회원 랭킹보기</button> --> 
                       
                 <div class="row">
                     <!-- <div class="col-sm-4">
@@ -184,12 +184,13 @@
                             <input type="text" id="membername" name="membername" value="" placeholder="Member Name" class="form-control">
                         </div>
                     </div>
-                    <div class="col-sm-2" style=" padding-left:60px; padding-right: 2px">
+                   <!--  <div class="col-sm-2" style=" padding-left:60px; padding-right: 2px">
                         <div class="form-group">
                             <label class="control-label" for="price">포인트 검색</label>
                             <input type="text" id="price" name="price" value="" placeholder="Member Name" class="form-control">
                         </div>
-                    </div><br/>
+                    </div> -->
+                    <br/>
                    <!-- <div class="col-sm-4">
                         <div class="form-group">
                             <label class="control-label" for="status">Status</label>
@@ -212,12 +213,10 @@
                                 <thead> 
                                 <tr style="font-size: 17px">
                                     <th style="width:150px"><span>이름</span></th>
-                                    <th style="width:300px">생년월일</th>
+                                    <th style="width:250px">생년월일</th>
                                     <th style="width:130px">성별</th>
-                                    <th>PHONE</th>
+                                    <th  style="width:150px">PHONE</th>
                                     <th style="width:300px">메일</th>
-                                    <th style="width:130px" >등급</th>
-                                    <th>스탬프</th>
 
                                 </tr>
                                 </thead>
@@ -225,41 +224,13 @@
                                 <c:forEach items="${ memberList }" var="user">
                                 <tr style="font-size: 14px">
                                 <td><a onclick="modalD('${user.id}')">${ user.id }</a></td>
-                                <td>${ user.name }</td>
                                 <td>${ user.birth }</td>
                                 <td>${ user.sex }</td>
                                 <td>${ user.phone }</td>
                                 <td>${ user.email }</td>
-                                <td>${ user.grade }</td>
                              </tr>
                                 </c:forEach>
-                                   <%-- 
-                                 <tr> 
-                                    <td>
-                               			<a href="#" data-toggle="modal" data-target="#myModal4">류대현</a>
-                                    </td>
-                                    <td>
-                                        1993년 05월 26일
-                                    </td>
-                                    <td>
-                                       	 여성
-                                    </td>
-                                    <td>
-                                        010-1234-1234
-                                    </td>
-                                    <td>
-                                        dreaming@naver.com
-                                    </td>
-                                    <td>
-                                        VIP
-                                    </td>
-                                    <td>
-                                       	 2,000 P.
-                                    </td>
-                                    <td>
-                                		도장 도장 도장 도장
-                                    </td> 
-                                    </tr> --%>
+                             
                                 </tbody>
                                 <tfoot>
                                 <tr>
