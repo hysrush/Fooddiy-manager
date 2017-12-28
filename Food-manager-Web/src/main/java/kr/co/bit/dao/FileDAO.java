@@ -9,8 +9,9 @@ public interface FileDAO {
 	
 	// File DAO
 	void insert(FileVO fileVO);
-	FileVO selectOne(Map<String, Object> fileMap);
+	FileVO selectOne(int no);
+	List<FileVO> selectList(Map<String, Object> fileMap);
 	void update(FileVO fileVO);
-	void delete(Map<String, Object> fileMap);
+	void delete(int no);
 	void deleteSome(List<Integer> list);
 }

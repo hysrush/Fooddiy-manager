@@ -14,11 +14,12 @@ public interface FileService {
 	
 	// File Service
 	String uploadFile(HttpServletRequest request, int boardNo);
-	void downloadFile(HttpServletResponse response, Map<String, Object> fileMap) throws Exception;
+	void downloadFile(HttpServletResponse response, int no) throws Exception;
 	String modifyFile(HttpServletRequest request, int boardNo);
-	FileVO selectOneFile(Map<String, Object> fileMap);
-	void removeFile(Map<String, Object> fileMap);
+	FileVO selectOneFile(int no);
+	List<FileVO> selectFileList(Map<String, Object> fileMap);
+	void removeFile(int no);
 	void removeFileSome(List<Integer> list);
-	void deleteFile(Map<String, Object> fileMap);
+	void deleteFile(int no);
 	void deleteFile(String filePath);
 }

@@ -32,17 +32,16 @@
 	</select>
 	
 	<!-- 번호별 File 조회 -->
-	<select id="selectOneFile" parameterType="java.util.Map" resultMap="Map_fileVO" >
+	<select id="selectOneFile" parameterType="int" resultMap="Map_fileVO" >
+		<include refid="selectAll_file"/>
+		WHERE file_no = #{no}
+	</select>
+	
+	<!-- 번호별 File 리스트 조회 -->
+	<select id="selectFileList" parameterType="java.util.Map" resultMap="Map_fileVO" >
 		<include refid="selectAll_file"/>
 		WHERE borad_no = #{boardNo}
-		<choose>
-			<when test='#{name}.equals("noticeFile")'>
-				AND file_name = <![CDATA[ 'noticeFile' ]]>
-			</when>
-			<when test='#{name}.equals("claimFile")'>
-				AND file_name = <![CDATA[ 'claimFile' ]]>
-			</when>
-		</choose>
+		AND file_name LIKE '%${name}%'
 	</select>
 	
 	<!-- File 등록 -->
@@ -56,44 +55,22 @@
 	<!-- File 수정 -->
 	<update id="modifyFile" parameterType="fileVO">
 		UPDATE t_file
-		SET file_name = #{name}, file_ori = #{fileOriName}, file_save = #{fileSaveName}, 
+		SET file_ori = #{fileOriName}, file_save = #{fileSaveName}, 
 			file_size = #{fileSize}, file_path = #{filePath}, file_type = #{contentType}
 		WHERE borad_no = #{boardNo}
-			<choose>
-				<when test='#{name}.equals("noticeFile")'>
-					AND file_name = <![CDATA[ 'noticeFile' ]]>;
-				</when>
-				<when test='#{name}.equals("claimFile")'>
-					AND file_name = <![CDATA[ 'claimFile' ]]>;
-				</when>
-			</choose>
+		AND file_name LIKE '%${name}%'
 	</update>
 	
 	<!-- File 삭제 -->
-	<delete id="removeFile" parameterType="java.util.Map" >
+	<delete id="removeFile" parameterType="int" >
 		DELETE FROM t_file
-		WHERE borad_no = #{boardNo}
-		<choose>
-			<when test='#{name}.equals("noticeFile")'>
-				AND file_name = <![CDATA[ 'noticeFile' ]]>
-			</when>
-			<when test='#{name}.equals("claimFile")'>
-				AND file_name = <![CDATA[ 'claimFile' ]]>
-			</when>
-		</choose>
+		WHERE file_no = #{no}
 	</delete>
 	
 	<!-- File 다중 삭제 -->
 	<delete id="removeFileSome" parameterType="java.util.List">
 		DELETE FROM t_file
-		<choose>
-			<when test='#{name}.equals("noticeFile")'>
-				WHERE file_name = <![CDATA[ 'noticeFile' ]]>
-			</when>
-			<when test='#{name}.equals("claimFile")'>
-				WHERE file_name = <![CDATA[ 'claimFile' ]]>
-			</when>
-		</choose>
+		WHERE file_name LIKE '%${name}%'
 		AND borad_no = #{boardNo} IN
 			<foreach item="item" index="index" collection="list" open="(" close=")" separator="," >
        			#{item}

@@ -153,8 +153,8 @@ public class ClaimController {
 			fileMap.put("boardNo", no);
 			fileMap.put("name", "claimFile");
 			// 해당 번호에 맞는 fileVO 읽어오기
-			FileVO fileVO = fileService.selectOneFile(fileMap);
-			mav.addObject("fileVO", fileVO);
+			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			mav.addObject("fileList",fileList);
 		}
 
 		// 줄바꿈 
@@ -165,18 +165,12 @@ public class ClaimController {
 	}
 	// file 다운로드
 	@RequestMapping(value="/downloadFile.do", method=RequestMethod.GET)
-	public void download(@RequestParam(value="no") int boardNo, HttpServletResponse response) {
-		
+	public void download(@RequestParam(value="no") int no, HttpServletResponse response) {
 		try {
-			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
-			Map<String, Object> fileMap = new HashMap<>();
-			fileMap.put("boardNo", boardNo);
-			fileMap.put("name", "claimFile");
-			fileService.downloadFile(response, fileMap);
+			fileService.downloadFile(response, no);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	// Claim 수정 폼
 	// ex) community/claim/claimEditForm.do?no=15
@@ -199,8 +193,8 @@ public class ClaimController {
 			fileMap.put("boardNo", no);
 			fileMap.put("name", "claimFile");
 			// 해당 번호에 맞는 fileVO 읽어오기
-			FileVO fileVO = fileService.selectOneFile(fileMap);
-			model.addAttribute("fileVO", fileVO);
+			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			model.addAttribute("fileList", fileList);
 		}
 
 		return "community/claim/claimEditForm";
@@ -247,30 +241,34 @@ public class ClaimController {
 			Map<String, Object> fileMap = new HashMap<>();
 			fileMap.put("boardNo", claimVO_NEW.getNo());
 			fileMap.put("name", "claimFile");
-			// 기존 파일의 파일 주소
-			String filePath = fileService.selectOneFile(fileMap).getFilePath();
-			System.out.println("기존 파일의 파일주소 : " + filePath);
-			// fileVO 수정
-			fileOX = fileService.modifyFile(request, claimVO_NEW.getNo());
-			System.out.println("수정 fileOX : " + fileOX);
-			/* ClaimBoardVO */
-			// -> 파일 저장했으면,
-			if (fileOX.equals("O")) {
-				// fileOX -> O 업데이트
-				claimService.updateFileOX_O(claimVO_NEW.getNo());
-				// 수정 전 파일 삭제
-				fileService.deleteFile(filePath);
-			}
-			// -> 파일 저장 안 했으면,
-			if (fileOX.equals("X")){
-				if (claimVO_NEW.getTemp().equals("YES")) {
+			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			for (FileVO fileVO : fileList) {
+				// 기존 파일의 파일 주소
+				String filePath = fileVO.getFilePath();
+				System.out.println("기존 파일의 파일주소 : " + filePath);
+				// fileVO 수정
+				fileOX = fileService.modifyFile(request, fileVO.getNo());
+				System.out.println("수정 fileOX : " + fileOX);
+				
+				/* ClaimBoardVO */
+				// -> 파일 저장했으면,
+				if (fileOX.equals("O")) {
 					// fileOX -> O 업데이트
-					claimService.updateFileOX_O(claimVO_NEW.getNo());
-				} else {
-					// fileOX -> X 업데이트
-					claimService.updateFileOX_X(claimVO_NEW.getNo());
-					// 파일 삭제
-					fileService.removeFile(fileMap);
+					claimService.updateFileOX_O(fileVO.getNo());
+					// 수정 전 파일 삭제
+					fileService.deleteFile(filePath);
+				}
+				// -> 파일 저장 안 했으면,
+				if (fileOX.equals("X")){
+					if (claimVO_NEW.getTemp().equals("YES")) {
+						// fileOX -> O 업데이트
+						claimService.updateFileOX_O(fileVO.getNo());
+					} else {
+						// fileOX -> X 업데이트
+						claimService.updateFileOX_X(fileVO.getNo());
+						// 파일 삭제
+						fileService.removeFile(fileVO.getNo());
+					}
 				}
 			}
 		}
@@ -287,10 +285,13 @@ public class ClaimController {
 			Map<String, Object> fileMap = new HashMap<>();
 			fileMap.put("boardNo", no);
 			fileMap.put("name", "claimFile");
-			// 번호에 해당하는 Claim 파일 삭제
-			fileService.removeFile(fileMap);
-			// 번호에 해당하는 Claim 글 삭제
-			claimService.removeClaim(no);
+			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			for (FileVO fileVO : fileList) {
+				// 번호에 해당하는 Claim 파일 삭제
+				fileService.removeFile(fileVO.getNo());
+				// 번호에 해당하는 Claim 글 삭제
+				claimService.removeClaim(fileVO.getNo());
+			}
 		} else {
 			// 번호에 해당하는 Claim 글 삭제
 			claimService.removeClaim(no);
@@ -324,14 +325,14 @@ public class ClaimController {
 					/* 실제 저장된 파일 삭제 */
 					// 사용자
 					String userPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice" 
-										+ File.separator + fileService.selectOneFile(fileMap).getFilePath();
+										+ File.separator + fileService.selectFileList(fileMap).get(i).getFilePath();
 					File file = new File(userPath);
 					if(file.exists() == true){
 						file.delete();
 					}
 					// 관리자
 					String adminPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice"
-										+ File.separator + fileService.selectOneFile(fileMap).getFilePath();
+										+ File.separator + fileService.selectFileList(fileMap).get(i).getFilePath();
 					File file2 = new File(adminPath);
 					if(file2.exists() == true){
 						file2.delete();

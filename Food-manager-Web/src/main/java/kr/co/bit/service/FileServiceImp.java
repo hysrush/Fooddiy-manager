@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -150,10 +151,10 @@ public class FileServiceImp implements FileService{
 	}
 	// File 다운로드
 	@Override
-	public void downloadFile(HttpServletResponse response, Map<String, Object> fileMap) throws Exception {
+	public void downloadFile(HttpServletResponse response, int no) throws Exception {
 		
 		// 해당 파일 불러오기
-		FileVO fileVO = fileDAO.selectOne(fileMap);
+		FileVO fileVO = fileDAO.selectOne(no);
 	    String fileOriName = fileVO.getFileOriName();
 	    String filePath = fileVO.getFilePath();
 	    double fileSize = fileVO.getFileSize();
@@ -286,9 +287,9 @@ public class FileServiceImp implements FileService{
 	}
 	// File 조회	
 	@Override
-	public FileVO selectOneFile(Map<String, Object> fileMap) {
+	public FileVO selectOneFile(int no) {
 		// 게시판 번호에 해당하는 파일 가져오기
-		FileVO fileDetail = fileDAO.selectOne(fileMap);
+		FileVO fileDetail = fileDAO.selectOne(no);
 		double sizeLong = fileDetail.getFileSize();
 		double size = Math.round((sizeLong/(double)1024)*10)/10.0; 	//소숫점 첫째자리 까지 표시
 		
@@ -297,25 +298,41 @@ public class FileServiceImp implements FileService{
 		
 		return fileDetail;
 	}
-		// File 삭제
+	// File List 조회
 	@Override
-	public void removeFile(Map<String, Object> fileMap) {
+	public List<FileVO> selectFileList(Map<String, Object> fileMap) {
+		// 게시판 번호에 해당하는 파일 가져오기
+		List<FileVO> fileList = fileDAO.selectList(fileMap);
+		
+		for (FileVO fileVO : fileList) {
+			System.out.println(fileVO.toString());
+			double sizeLong = fileVO.getFileSize();
+			double size = Math.round((sizeLong/(double)1024)*10)/10.0; 	//소숫점 첫째자리 까지 표시
+			System.out.println(size);
+			fileVO.setFileSize(size);
+		}
+		
+		return fileList;
+	}
+	// File 삭제
+	@Override
+	public void removeFile(int no) {
 		// 실제 저장 파일 삭제
-		deleteFile(fileMap);
+		deleteFile(no);
 		// DB 삭제 
-		fileDAO.delete(fileMap);
+		fileDAO.delete(no);
 	}
 	// 실제 저장된 파일 삭제 (번호용)
 	@Override
-	public void deleteFile(Map<String, Object> fileMap) {
+	public void deleteFile(int no) {
 		// 관리자
-		String adminPath = adminDir + File.separator + fileDAO.selectOne(fileMap).getFilePath();
+		String adminPath = adminDir + File.separator + fileDAO.selectOne(no).getFilePath();
 		File file2 = new File(adminPath);
 		if(file2.exists() == true){
 			file2.delete();
 		}
 		// 사용자
-		String userPath = userDir + File.separator + fileDAO.selectOne(fileMap).getFilePath();
+		String userPath = userDir + File.separator + fileDAO.selectOne(no).getFilePath();
 		File file = new File(userPath);
 		if(file.exists() == true){
 			file.delete();

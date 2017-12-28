@@ -118,8 +118,8 @@ public class NoticeController {
 			fileMap.put("boardNo", no);
 			fileMap.put("name", "noticeFile");
 			// 해당 번호에 맞는 fileVO 읽어오기
-			FileVO fileVO = fileService.selectOneFile(fileMap);
-			mav.addObject("fileVO", fileVO);
+			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			mav.addObject("fileList",fileList);
 		}
 
 		// 줄바꿈 
@@ -130,19 +130,12 @@ public class NoticeController {
 	}
 	// file 다운로드
 	@RequestMapping(value="/downloadFile.do", method=RequestMethod.GET)
-	public String download(@RequestParam(value="no") int boardNo, HttpServletResponse response) {
-		
+	public void download(@RequestParam(value="no") int no, HttpServletResponse response) {
 		try {
-			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
-			Map<String, Object> fileMap = new HashMap<>();
-			fileMap.put("boardNo", boardNo);
-			fileMap.put("name", "noticeFile");
-			fileService.downloadFile(response, fileMap);
+			fileService.downloadFile(response, no);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return "";
 	}
 	// Notice 수정 폼
 	// ex) community/subway/noticeEditForm.do?no=15
@@ -165,8 +158,8 @@ public class NoticeController {
 			fileMap.put("boardNo", no);
 			fileMap.put("name", "noticeFile");
 			// 해당 번호에 맞는 fileVO 읽어오기
-			FileVO fileVO = fileService.selectOneFile(fileMap);
-			model.addAttribute("fileVO", fileVO);
+			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			model.addAttribute("fileList", fileList);
 		}
 
 		return "community/subway/noticeEditForm";
@@ -213,30 +206,34 @@ public class NoticeController {
 			Map<String, Object> fileMap = new HashMap<>();
 			fileMap.put("boardNo", noticeVO_NEW.getNo());
 			fileMap.put("name", "noticeFile");
-			// 기존 파일의 파일 주소
-			String filePath = fileService.selectOneFile(fileMap).getFilePath();
-			System.out.println("기존 파일의 파일주소 : " + filePath);
-			// fileVO 수정
-			fileOX = fileService.modifyFile(request, noticeVO_NEW.getNo());
-			System.out.println("수정 fileOX : " + fileOX);
-			/* NoticeBoardVO */
-			// -> 파일 저장했으면,
-			if (fileOX.equals("O")) {
-				// fileOX -> O 업데이트
-				noticeService.updateFileOX_O(noticeVO_NEW.getNo());
-				// 수정 전 파일 삭제
-				fileService.deleteFile(filePath);
-			}
-			// -> 파일 저장 안 했으면,
-			if (fileOX.equals("X")){
-				if (noticeVO_NEW.getTemp().equals("YES")) {
+			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			for (FileVO fileVO : fileList) {
+				// 기존 파일의 파일 주소
+				String filePath = fileVO.getFilePath();
+				System.out.println("기존 파일의 파일주소 : " + filePath);
+				// fileVO 수정
+				fileOX = fileService.modifyFile(request, fileVO.getNo());
+				System.out.println("수정 fileOX : " + fileOX);
+				
+				/* NoticeBoardVO */
+				// -> 파일 저장했으면,
+				if (fileOX.equals("O")) {
 					// fileOX -> O 업데이트
-					noticeService.updateFileOX_O(noticeVO_NEW.getNo());
-				} else {
-					// fileOX -> X 업데이트
-					noticeService.updateFileOX_X(noticeVO_NEW.getNo());
-					// 파일 삭제
-					fileService.removeFile(fileMap);
+					noticeService.updateFileOX_O(fileVO.getNo());
+					// 수정 전 파일 삭제
+					fileService.deleteFile(filePath);
+				}
+				// -> 파일 저장 안 했으면,
+				if (fileOX.equals("X")){
+					if (noticeVO_NEW.getTemp().equals("YES")) {
+						// fileOX -> O 업데이트
+						noticeService.updateFileOX_O(fileVO.getNo());
+					} else {
+						// fileOX -> X 업데이트
+						noticeService.updateFileOX_X(fileVO.getNo());
+						// 파일 삭제
+						fileService.removeFile(fileVO.getNo());
+					}
 				}
 			}
 		}
@@ -253,10 +250,13 @@ public class NoticeController {
 			Map<String, Object> fileMap = new HashMap<>();
 			fileMap.put("boardNo", no);
 			fileMap.put("name", "noticeFile");
-			// 번호에 해당하는 Notice 파일 삭제
-			fileService.removeFile(fileMap);
-			// 번호에 해당하는 Notice 글 삭제
-			noticeService.removeNotice(no);
+			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			for (FileVO fileVO : fileList) {
+				// 번호에 해당하는 notice 파일 삭제
+				fileService.removeFile(fileVO.getNo());
+				// 번호에 해당하는 notice 글 삭제
+				noticeService.removeNotice(fileVO.getNo());
+			}
 		} else {
 			// 번호에 해당하는 Notice 글 삭제
 			noticeService.removeNotice(no);
@@ -290,14 +290,14 @@ public class NoticeController {
 					/* 실제 저장된 파일 삭제 */
 					// 사용자
 					String userPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice" 
-										+ File.separator + fileService.selectOneFile(fileMap).getFilePath();
+										+ File.separator + fileService.selectFileList(fileMap).get(i).getFilePath();
 					File file = new File(userPath);
 					if(file.exists() == true){
 						file.delete();
 					}
 					// 관리자
 					String adminPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice"
-										+ File.separator + fileService.selectOneFile(fileMap).getFilePath();
+										+ File.separator + fileService.selectFileList(fileMap).get(i).getFilePath();
 					File file2 = new File(adminPath);
 					if(file2.exists() == true){
 						file2.delete();

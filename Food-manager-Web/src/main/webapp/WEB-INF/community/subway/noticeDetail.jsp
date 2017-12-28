@@ -124,23 +124,27 @@
 													</div>
 												</div>
 												<hr>
-												<c:if test="${ not empty fileVO }">
-													<div class="text-center">
-														<img id="fileImg" alt="첨부파일" src="${ pageContext.request.contextPath}/upload/${ fileVO.filePath }">
-													</div>
+												<c:if test="${ not empty fileList }">
+													<c:forEach items="${ fileList }" var="file">
+														<div class="text-center">
+															<img id="fileImg" alt="첨부파일" src="${ pageContext.request.contextPath}/upload/${ file.filePath }">
+														</div>
+													</c:forEach>
 												</c:if>
 												<p class="content list-group-item-text">
 													<!-- 자동 단락 나누기 (jstl - fn) -->
 													${ fn:replace(noticeVO.content, cn, br) }
 												</p>
-												<c:if test="${ not empty fileVO }">
-													<div class="text-left">
-														<i class="fa fa-file"></i>&nbsp;
-														<a onclick="action('F', ${ noticeVO.no })">
-															<span class="text-muted fileName">${ fileVO.fileOriName }</span>
-														</a>
-															<span class="text-muted"> (${ fileVO.fileSize }KB)</span>
-													</div>
+												<c:if test="${ not empty fileList }">
+													<c:forEach items="${ fileList }" var="file">
+														<div class="text-left">
+															<i class="fa fa-file"></i>&nbsp;
+															<a onclick="action('F', ${ file.no })">
+																<span class="text-muted fileName">${ file.fileOriName }</span>
+															</a>
+																<span class="text-muted"> (${ file.fileSize }KB)</span>
+														</div>
+													</c:forEach>
 												</c:if>
 												<hr>
 												<div class="col-md-12">

@@ -42,8 +42,17 @@
 		padding: 20px 30px 30px 20px;
 		font-size: 14px !important;
 	}
-	#fileImg {
-		max-width: 700px;
+	.fileImg {
+		padding: 10px;
+		max-width: 200px;
+		max-height: 200px;
+	}
+	.plusIcon {
+		position:absolute;
+		margin: 30px;
+		top:15px;
+		left:30px;
+		z-index:100;
 	}
 </style>
 </head>
@@ -123,23 +132,42 @@
 													</div>
 												</div>
 												<hr>
-												<c:if test="${ not empty fileVO }">
-													<div class="text-center">
-														<img id="fileImg" alt="첨부파일" src="${ pageContext.request.contextPath}/upload/${ fileVO.filePath }">
-													</div>
-												</c:if>
 												<p class="content list-group-item-text">
 													<!-- 자동 단락 나누기 (jstl - fn) -->
 													${ fn:replace(claimVO.content, cn, br) }
 												</p>
-												<c:if test="${ not empty fileVO }">
-													<div class="text-left">
-														<i class="fa fa-file"></i>&nbsp;
-														<a onclick="action('F', ${ claimVO.no })">
-															<span class="text-muted fileName">${ fileVO.fileOriName }</span>
-														</a>
-															<span class="text-muted"> (${ fileVO.fileSize }KB)</span>
-													</div>
+												<!-- 첨부파일 -->
+												<c:if test="${ not empty fileList }">
+												<table class="text-center table table-bordered">
+													<tr id="totalImg">
+														<th colspan="4" style="background-color: #eee">첨부파일</th>
+													</tr>
+													<tr>
+														<c:forEach items="${ fileList }" var="file">
+														<th>
+															<div class="col-md-12 text-left">
+																<i class="fa fa-file"></i>&nbsp;
+																<a onclick="action('F', ${ file.no })">
+																	<span class="text-muted fileName">${ file.fileOriName }</span>
+																</a>
+																	<span class="text-muted"> (${ file.fileSize }KB)</span>
+															</div>
+														</th>
+														</c:forEach>
+													</tr>
+													<tr>
+														<c:forEach items="${ fileList }" var="file">
+														<td>
+															<div class="col-md-12">
+																<a href="${ pageContext.request.contextPath}/upload/${ file.filePath }" target="_blank">
+																	<img class="text-center fileImg" alt="첨부파일" src="${ pageContext.request.contextPath}/upload/${ file.filePath }">
+																	<img class="plusIcon" src="${ pageContext.request.contextPath}/resources/img/icons/round-add-button.png">
+																</a>
+															</div>
+														</td>
+														</c:forEach>
+													</tr>
+												</table>
 												</c:if>
 												<hr>
 												<div class="col-md-12">
@@ -213,6 +241,16 @@
 			}, function () { 
 				$(this).css('text-decoration', 'none');
 			} );
+			
+			// 이미지 호버 효과
+			$('.plusIcon').hide();
+			$(".fileImg").each(function () {
+				$(this).hover( function () { 
+					$(this).siblings('.plusIcon').show();
+				}, function () { 
+					$(this).siblings('.plusIcon').hide();
+				} );
+			});
 
 		    
 		});
@@ -263,6 +301,7 @@
 				});
 		    });
 		}
+
 	</script>
     </body>
 </html>

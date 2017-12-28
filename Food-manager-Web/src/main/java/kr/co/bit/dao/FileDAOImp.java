@@ -22,11 +22,17 @@ public class FileDAOImp implements FileDAO {
 	public void insert(FileVO fileVO) {
 		sqlSession.insert(url + "insertFile", fileVO);
 	}
-	// File 보기
+	// File 보기 (파일번호)
 	@Override
-	public FileVO selectOne(Map<String, Object> fileMap) {
-		FileVO fileDetail = sqlSession.selectOne(url + "selectOneFile", fileMap);
+	public FileVO selectOne(int no) {
+		FileVO fileDetail = sqlSession.selectOne(url + "selectOneFile", no);
 		return fileDetail;
+	}
+	// File 리스트 보기
+	@Override
+	public List<FileVO> selectList(Map<String, Object> fileMap) {
+		List<FileVO> fileList = sqlSession.selectList(url +"selectFileList", fileMap);
+		return fileList;
 	}
 	// File 수정
 	@Override
@@ -35,8 +41,8 @@ public class FileDAOImp implements FileDAO {
 	}
 	// File 삭제
 	@Override
-	public void delete(Map<String, Object> fileMap) {
-		sqlSession.delete(url + "removeFile", fileMap);
+	public void delete(int no) {
+		sqlSession.delete(url + "removeFile", no);
 	}
 	// File 다중 삭제
 	@Override
