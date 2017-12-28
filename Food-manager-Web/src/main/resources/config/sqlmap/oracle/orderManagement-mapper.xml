@@ -81,7 +81,7 @@
 	</update>
 	
 	
-		<!-- 쥬문취소 -->
+	<!-- 주문취소 -->
 	<update id="cancelOrder" parameterType="java.util.Map">
 		update t_order set order_status = 0 where order_no = #{no} and sto_name = #{branch}
 	</update>
