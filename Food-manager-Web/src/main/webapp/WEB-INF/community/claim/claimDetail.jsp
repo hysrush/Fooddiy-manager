@@ -140,7 +140,7 @@
 												<c:if test="${ not empty fileList }">
 												<table class="text-center table table-bordered">
 													<tr id="totalImg">
-														<th colspan="4" style="background-color: #eee">첨부파일</th>
+														<th colspan="5" style="background-color: #eee">첨부파일</th>
 													</tr>
 													<tr>
 														<c:forEach items="${ fileList }" var="file">
