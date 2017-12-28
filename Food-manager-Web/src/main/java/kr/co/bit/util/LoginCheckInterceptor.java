@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import kr.co.bit.vo.UserVO;
+import kr.co.bit.vo.ManagerVO;
 
 public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {  
@@ -22,7 +22,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
         }
         
         // 세션에 올려진 로그인 객체를 확인
-        UserVO user = (UserVO)session.getAttribute("loginVO");        
+        ManagerVO user = (ManagerVO)session.getAttribute("loginVO");        
   
         if (user == null) {        	
         	session.invalidate();

@@ -139,5 +139,20 @@
             <mvc:mapping path="/orderManagement/orderList.do" />
             <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
         </mvc:interceptor>
+        <!-- 자주묻는질문관리 -->
+		<mvc:interceptor>  
+            <mvc:mapping path="/qna/qnaWriteForm.do" />
+            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
+        </mvc:interceptor>
+        <!-- subway소식관리 -->
+		<mvc:interceptor>  
+            <mvc:mapping path="/subway/noticeWriteForm.do" />
+            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
+        </mvc:interceptor>
+        <!-- 1:1문의관리 -->
+		<mvc:interceptor>  
+            <mvc:mapping path="/community/claim/claimList.do" />
+            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
+        </mvc:interceptor>
 	</mvc:interceptors>
 </beans>
