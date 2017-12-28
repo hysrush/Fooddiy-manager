@@ -116,4 +116,28 @@
 		<mvc:jsp prefix="/WEB-INF/" suffix=".jsp" /><!-- 주소는 prefix를 시작으로 하고, 확장자는 꼭 .jsp여야 함 -->
 	</mvc:view-resolvers>
 	
+	
+	<!-- 로그인 체크하는 인터셉터 -->
+	<mvc:interceptors>
+		<!-- 프로필 -->
+		<mvc:interceptor>  
+            <mvc:mapping path="/sign/profile" />
+            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
+        </mvc:interceptor>
+        <!-- 전체주문내역 -->
+		<mvc:interceptor>  
+            <mvc:mapping path="/orderManagement/totalOrderList.do" />
+            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
+        </mvc:interceptor>
+        <!-- TODAY주문 -->
+		<mvc:interceptor>  
+            <mvc:mapping path="/orderManagement/todayOrderList.do" />
+            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
+        </mvc:interceptor>
+        <!-- 주문내용 -->
+		<mvc:interceptor>  
+            <mvc:mapping path="/orderManagement/orderList.do" />
+            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
+        </mvc:interceptor>
+	</mvc:interceptors>
 </beans>
