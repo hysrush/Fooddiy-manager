@@ -247,43 +247,5 @@ public class MenuController {
 	}
 	
 	
-/*	// '주문하기'선택 후 매장화면으로	
-	@RequestMapping(value="/findStore.do", method=RequestMethod.POST)
-	public String Session(HttpSession session, String name, String price, String size, String pic) {
-		
-		UserVO user = (UserVO)session.getAttribute("loginVO");		
-		String id = user.getId();
-		
-		// Form에서 가져온 Data를 CartVO 객체형태로 저장
-		CartVO cartVO = new CartVO();
-		
-		cartVO.setName(name);
-		cartVO.setPrice(price);
-		cartVO.setSize(size);
-		cartVO.setPic(pic);
-		cartVO.setId(id);
-	
-		System.out.println(cartVO);
-		
-		
-        StoreVO storeVO = (StoreVO)session.getAttribute("storeVO");
-        if (storeVO == null) {  
-        	return "/store/findStore";
-        }
-        else {
-        	return "/menu/select_ingredients";
-        }
-		
-		//ModelAndView  mav = new ModelAndView();
-		//mav.setViewName("menu/select_ingredients");
-		//mav.addObject("cartVO", cartVO);
-		
-		
-		// return cartVO;				
-	}
-	
-*/
-	
-	
 }	
 
