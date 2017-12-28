@@ -63,7 +63,7 @@ table.space th, td{
                 <div class="row  border-bottom white-bg dashboard-header">
                     <div class="col-md-3" style="margin: 1%">
                        <div class="row">
-                          <div class="row" style="border: 2px solid; padding: 5%">
+                          <div class="row" style="border: 2px solid; padding: 2%">
                              <table style="width: 100%;">
                                 <tr>
                                    <th class="title" colspan="3" style="padding: 3%;">바로가기</th>
@@ -79,7 +79,7 @@ table.space th, td{
 								</tr>
                              </table>
 						</div><br/>
-						<div class="row" style="border: 2px solid; padding: 5%">
+						<div class="row" style="border: 2px solid; padding: 2%">
                              <table style="width: 100%;">
                                 <tr>
                                    <th colspan="3" class="title" style="padding: 3%;">건의사항</th>
@@ -103,7 +103,7 @@ table.space th, td{
 				<!-- 두번째 -->
 				<div class="col-md-4" style="margin: 1% 1% 1% 2.3%;">
 					<div class="row">
-						<div class="row" style="border: 2px solid; border-color: white; padding: 5%">
+						<div class="row" style="border: 2px solid; padding: 2%">
 							<table style="width: 100%;" class="space">
 								<tr>
                                    <th class="title" style="padding: 2%; width: 40%; font-size: 20px;">[ TODAY 현황 ]</th>
@@ -162,7 +162,7 @@ table.space th, td{
 			</div>
 			<!-- 3번재 줄 -->
 			<div class="col-md-3" style="margin: 1%">
-				<div class="row" style="border: 2px solid; padding: 5%">
+				<div class="row" style="border: 2px solid; padding: 2%">
 					<table style="width: 100%;">
 						<tr>
 							<th class="title" style="padding: 3%"><strong>공지사항</strong></th>
@@ -182,7 +182,7 @@ table.space th, td{
                      </c:forEach>
                   </table>
 				</div><br/>
-				<div class="row" style="border: 2px solid; padding: 5%">
+				<div class="row" style="border: 2px solid; padding: 2%">
 					<table style="width: 100%;">
 						<tr>
 							<th class="title" colspan="2" style="padding: 3%;">이벤트 사항</th>
