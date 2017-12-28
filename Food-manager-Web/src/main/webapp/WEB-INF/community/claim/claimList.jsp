@@ -131,7 +131,7 @@
 						                                    </td>
 						                                    <td class="text-right" width="100px;" >
 						                                        <div class="btn-group tooltip-demo" nowrap>
-						                                            <button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="수정" 
+						                                            <button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="답변" 
 						                                            		onclick="action('E', ${claim.no})"><i class="fa fa-edit"></i></button>
 						                                            <button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="삭제" 
 						                                            		onclick="action('D', ${claim.no})"><i class="fa fa-trash"></i></button>
