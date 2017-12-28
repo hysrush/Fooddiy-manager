@@ -119,10 +119,10 @@
 													</c:forEach>
 					                                </tbody>
 												</table>
-												<div align="right">		
+												<%-- <div align="right">		
 														
 														<a href = "${ pageContext.request.contextPath}/event/eventWrite.do"><input type = "button" value="글 등록 "/></a>
-													</div>
+													</div> --%>
 											</div>
 				                        </div>
                    					</div>

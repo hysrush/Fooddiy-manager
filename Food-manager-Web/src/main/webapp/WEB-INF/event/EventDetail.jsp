@@ -107,10 +107,10 @@
 
 				<div class="col-md-12">
 
-					<input type="button" onclick="doAction('U')" value="수정 " />&nbsp;&nbsp;
-					<input type="button" onclick="doAction('D')" value="삭제 " />&nbsp;&nbsp;
+					<input type="button" class="btn btn-primary btn-rounded" onclick="doAction('U')" value="수정 " />&nbsp;&nbsp;
+					<input type="button" class="btn btn-primary btn-rounded" onclick="doAction('D')" value="삭제 " />&nbsp;&nbsp;
 
-					<input type="button" onclick="doAction('L')" value="목록">
+					<input type="button" class="btn btn-primary btn-rounded" onclick="doAction('L')" value="목록">
 
 				</div>
 			</div>
