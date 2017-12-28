@@ -86,7 +86,8 @@
 													     <th style="width:5%">게시물 번호</th>
 													     <th style="width:5%">작성자</th>
 													     <th style="width:20%">사진</th>
-													     <th style="width:45%"> 제목</th>
+													     <th style="width:25%"> 제목</th>
+													     <th style="width:20%"> 등록일</th>
 													     <th style="width:20%">추천수</th>
 													     <th style="width:10%">Action</th>
 													 </tr>
@@ -108,13 +109,16 @@
 						                                    <td style="word-break:keep-all;">
 						                                        ${ snsVO.title }
 						                                    </td>
+						                                    <td style="word-break:keep-all;">
+						                                        ${ snsVO.regDate }
+						                                    </td>
 						                                    <td width="10%" nowrap>
 						                                        ${snsVO.like }
 						                                    </td>
 						                                    <td class="text-right">
 						                                        <div class="btn-group" width="10%" nowrap>
-						                                            <button class="btn-white btn btn-xs" id="view" onclick="action('V', ${snsVO.no})"><i class="fa fa-search"></i></button>
-						                                            <button class="btn-white btn btn-xs" onclick="action('E', ${snsVO.no})"><i class="fa fa-edit"></i></button>
+						                                           <%--  <button class="btn-white btn btn-xs" id="view" onclick="action('V', ${snsVO.no})"><i class="fa fa-search"></i></button>
+						                                            <button class="btn-white btn btn-xs" onclick="action('E', ${snsVO.no})"><i class="fa fa-edit"></i></button> --%>
 						                                            <button class="btn-white btn btn-xs" onclick="action('D', ${snsVO.no})"><i class="fa fa-trash"></i></button>
 						                                        </div>
 						                                    </td>
