@@ -119,40 +119,46 @@
 	
 	<!-- 로그인 체크하는 인터셉터 -->
 	<mvc:interceptors>
+        <!-- Main -->
+		<mvc:interceptor><mvc:mapping path="/main/FirstPage"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
 		<!-- 프로필 -->
-		<mvc:interceptor>  
-            <mvc:mapping path="/sign/profile" />
-            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
-        </mvc:interceptor>
-        <!-- 전체주문내역 -->
-		<mvc:interceptor>  
-            <mvc:mapping path="/orderManagement/totalOrderList.do" />
-            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
-        </mvc:interceptor>
-        <!-- TODAY주문 -->
-		<mvc:interceptor>  
-            <mvc:mapping path="/orderManagement/todayOrderList.do" />
-            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
-        </mvc:interceptor>
-        <!-- 주문내용 -->
-		<mvc:interceptor>  
-            <mvc:mapping path="/orderManagement/orderList.do" />
-            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
-        </mvc:interceptor>
-        <!-- 자주묻는질문관리 -->
-		<mvc:interceptor>  
-            <mvc:mapping path="/qna/qnaWriteForm.do" />
-            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
-        </mvc:interceptor>
-        <!-- subway소식관리 -->
-		<mvc:interceptor>  
-            <mvc:mapping path="/subway/noticeWriteForm.do" />
-            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
-        </mvc:interceptor>
-        <!-- 1:1문의관리 -->
-		<mvc:interceptor>  
-            <mvc:mapping path="/community/claim/claimList.do" />
-            <bean class="kr.co.bit.util.LoginCheckInterceptor" />  
-        </mvc:interceptor>
+		<mvc:interceptor><mvc:mapping path="/sign/profile"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- 메뉴관리 -->
+		<mvc:interceptor><mvc:mapping path="/menu/menuBoard.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- 메뉴리스트 -->
+		<mvc:interceptor><mvc:mapping path="/menu/list.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- 메뉴등록 -->
+		<mvc:interceptor><mvc:mapping path="/menu/menuRegister.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- 전체주문내역 -->
+		<mvc:interceptor><mvc:mapping path="/orderManagement/totalOrderList.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- TODAY주문 -->
+		<mvc:interceptor><mvc:mapping path="/orderManagement/todayOrderList.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- 주문내용 -->
+		<mvc:interceptor><mvc:mapping path="/orderManagement/orderList.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- 회원목록 -->
+		<mvc:interceptor><mvc:mapping path="/member/memberList.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- 이벤트관리 -->
+		<mvc:interceptor><mvc:mapping path="/event/eventPage.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- 이벤트등록 -->
+		<mvc:interceptor><mvc:mapping path="/event/eventWrite.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- 자주묻는질문관리 -->
+		<mvc:interceptor><mvc:mapping path="/community/qna/qnaList.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- 자주묻는질문등록 -->
+		<mvc:interceptor><mvc:mapping path="/community/qna/qnaWriteForm.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- 자주묻는질문수정 -->
+		<mvc:interceptor><mvc:mapping path="/community/qna/qnaEditForm.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- subway소식관리 -->
+		<mvc:interceptor><mvc:mapping path="/community/subway/noticeList.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- subway소식등록 -->
+		<mvc:interceptor><mvc:mapping path="/community/subway/noticeWriteForm.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- subway소식수정 -->
+		<mvc:interceptor><mvc:mapping path="/community/subway/noticeEditForm.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- 1:1문의관리 -->
+		<mvc:interceptor><mvc:mapping path="/community/claim/claimList.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- sns관리 -->
+		<mvc:interceptor><mvc:mapping path="/community/sns/snsPage.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		<!-- sns상세 -->
+		<mvc:interceptor><mvc:mapping path="/community/sns/snsDetail.do"/><bean class="kr.co.bit.util.LoginCheckInterceptor"/></mvc:interceptor>
+		
 	</mvc:interceptors>
 </beans>
