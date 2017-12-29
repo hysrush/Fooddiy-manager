@@ -5,6 +5,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.bit.dao.StoreDAO">
 
+	<!-- sql 저장 : 전체 조회 -->
+  	<sql id="selectAll_store">
+		SELECT sto_no, sto_name, sto_phone, sto_addr, to_char(reg_at, 'yy-mm-dd') as reg_at
+		FROM t_store
+	</sql>
 
 
 	<resultMap type ="storeVO" id="Map_StoreVO">
@@ -26,11 +31,6 @@
   		<result column = "loc_name" property = "locationName"/> 
   			
   	</resultMap>
-  	
-  	
-  	
-  	
-  	
   	
   	<!--  시 데이터 불러오기  -->
 		<select id ="selectCity" resultMap="Map_CityVO">
@@ -64,13 +64,10 @@
 		</select>
 		
 		
-		
 	<!--  매장데이터 전체 불러오기  -->		
 		<select id = "selectStoreAll" resultMap="Map_StoreVO">
-		SELECT STO_NO, STO_NAME, STO_PHONE, STO_ADDR 
-			FROM T_STORE
-			ORDER BY STO_NO DESC
-		
+			<include refid="selectAll_store"/>
+			ORDER BY sto_no DESC
 		</select>
 		
 		<select id="selectByNo" parameterType="int" resultMap="Map_StoreVO" >

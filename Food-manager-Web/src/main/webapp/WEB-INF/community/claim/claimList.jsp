@@ -100,7 +100,7 @@
 															</div>
 														</th>
 													     <th data-hide="phone" data-sort-ignore="true">타입</th>
-													     <th data-toggle="true" data-sort-ignore="true">제목</th>
+													     <th data-toggle="phone" data-sort-ignore="true">제목</th>
 													     <th data-hide="phone" data-sort-ignore="true">작성자</th>
 													     <th data-hide="phone" data-sort-ignore="true">등록일</th>
 													     <th data-hide="phone" data-sort-ignore="true">조회</th>
@@ -216,15 +216,15 @@
 					claimType.html("문의");
 				}
 				else if(claimType.text() == 'P'){
-					claimType.attr("class","label label-danger");
+					claimType.attr("class","label label-warning");
 					claimType.html("칭찬");
 				}
 				else if(claimType.text() == 'S'){
-					claimType.attr("class","label label-warning");
+					claimType.attr("class","label label-success");
 					claimType.html("제안");
 				}
 				else if(claimType.text() == 'C'){
-					claimType.attr("class","label label-success");
+					claimType.attr("class","label label-danger");
 					claimType.html("불만");
 				}
 				else if(claimType.text() == 'X'){
@@ -296,7 +296,6 @@
                 // 버튼 옵션
                 buttons: [
                     {extend: 'copy', text: '<i class="fa fa-copy" aria-hidden="true"> Copy</i>'},
-                    //{extend: 'csv'},
                     {extend: 'excel', title: 'ExcelFile', text: '<i class="fa fa-file-excel-o" aria-hidden="true"> Excel</i>'},
                     {extend: 'pdf', title: 'PdfFile', text: '<i class="fa fa-file-pdf-o" aria-hidden="true"> Pdf</i>'},
                     {extend: 'print', text: '<i class="fa fa-print" aria-hidden="true"> Print</i>',

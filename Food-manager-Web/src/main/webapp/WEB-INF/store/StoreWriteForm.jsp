@@ -81,18 +81,37 @@
 										<fieldset class="form-horizontal" aria-hidden="false">
                             				<h2>Q&A 등록</h2>
 											<div class="ibox-content">
-											<%-- 	<div class="form-group">
+												<div class="form-group">
 													<div class="col-sm-8">
-														<label class="control-label" for="type">타입 *</label>
-														<form:select path="type" name="type" id="type" class="form-control required" aria-required="true">
-															<form:option value="F">푸디오더</form:option>
-															<form:option value="P">포인트</form:option>
-															<form:option value="O">주문</form:option>
-															<form:option value="M">회원정보</form:option>
-															<form:option value="X">기타</form:option>
-														</form:select>
+														<!-- 주소로 찾기 -->
+														<div id="AddressSearch" class="tab-pane active">
+															<section class="modalSection section section-default">
+																<div class="form-group mt-md">
+																	<label for="selectAddress1" class="col-sm-1 control-label">시/도</label>
+																	<div class="col-sm-11">
+																		<select class="form-control" id ="sido">
+																			<option value="" selected="selected" disabled= "disabled">시,도 를 선택해주세요 </option>
+																			  <c:forEach var="city" items="${ cityList }" varStatus="i">
+																			  		<option value="${city.cityNo}">${ city.cityName }</option>																		    
+																			  </c:forEach>
+																		</select>
+																	</div>
+																</div>
+																<div class="form-group mt-md">
+																	<label for="locationNo" class="col-sm-1 control-label">구/군</label>
+																	<div class="col-sm-11">
+																		<form:select path="locationNo" class="form-control" id="gugun">
+																			<option value="" selected="selected">구,군 을 선택해주세요 </option>
+																			 	<c:forEach var="location" items="${ locationList }" varStatus="i">
+																					<option value="${ location.locationNo }" >${ location.locationName }</option>
+																			  </c:forEach>
+																		</form:select>
+																	</div>
+																</div>
+															</section>
+														</div>
 													</div>
-												</div> --%>
+												</div>
 													<div class="form-group">
 												<div class="col-sm-8">
 													<label class="control-label" for="storeName">매장명</label>
@@ -163,14 +182,17 @@
     <!-- FooTable -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
     
+    <!-- js -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
     <!-- Page-Level Scripts -->
     <script type="text/javascript">
 		$(document).ready(function() {
 			
 			// sidebar li & ul 클래스 active
-			$('.communityLI').addClass("active");
-			$('.communityLI > ul').addClass("in");
-			$('.qnaLI').addClass("active");
+			$('.eventLI').addClass("active");
+			$('.eventLI > ul').addClass("in");
+			$('.storeLI').addClass("active");
 			
 			// 서밋버튼 이벤트
 	       	$('#storeSubmit').click(function () {
@@ -182,6 +204,30 @@
 			        $('#storeForm').submit();
 			    });
 			});
+			
+	       	$("#sido").change(function(){
+	    		
+	    		// 1. Parameter setting
+	    		var sido = $("#sido").val();
+	    		console.log( "선택된 값1 : " + $("#sido").val() );
+	    		// 2. ajax call
+	    		$.ajax({
+	                  url : "./sido",
+	                  type: "post",
+	                  data : { "sido" : sido },
+	                  success : function(responseData){
+	                      			var data = JSON.parse(responseData);
+	                      			
+	                      			// 3. result setting
+	      				          	$('#gugun').empty();
+	    	  				        $('#gugun').append('<option value="" selected="selected">구,군 을 선택해주세요 </option>');
+	      				          	for(var i = 0 ; i < data.guList.length ; i++){
+	      				          		$('#gugun').append('<option value="'+ data.guList[i].LOC_NO + '">' + data.guList[i].LOC_NAME + '</option>');	
+	      				          	} 	
+	                  }
+	              });
+	    	});
+			
 		});
 	</script>
 	</body>

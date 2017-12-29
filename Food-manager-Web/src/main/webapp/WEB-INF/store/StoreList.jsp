@@ -17,7 +17,8 @@
 	<link href="${ pageContext.request.contextPath }/resources/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <!-- FooTable -->
     <link href="${ pageContext.request.contextPath }/resources/css/plugins/footable/footable.core.css" rel="stylesheet">
-	
+	<!-- iCheck -->
+	<link href="${ pageContext.request.contextPath }/resources/css/plugins/iCheck/custom.css" rel="stylesheet">
 	<!-- sweetalert js & css -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script> 
 	<link rel="stylesheet" href="https://wfolly.firebaseapp.com/node_modules/sweetalert/dist/sweetalert.css">
@@ -84,17 +85,27 @@
 												<table class="datatable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="25">
 													<thead>
 													 <tr>
+													 	<th data-hide="phone" data-sort-ignore="true" width="55px;">
+															<div class ="total-select" >
+																<input type="checkbox" class="i-checks" id="chkall">														
+															</div>
+														</th>
 													     <th style="width:5%">매장번호</th>
 													     <th style="width:20%">매장명</th>
 													     <th style="width:45%">매장 주소</th>
 													     <th style="width:20%">매장 전화번호</th>
+													     <th style="width:20%">등록일</th>
 													     <th style="width:10%">Action</th>
 													 </tr>
 													</thead>
 					                                <tbody>
 					                                <c:forEach items="${ storeList }" var="store">
 						                                <tr class="storeList">
-						                                    <td class="convType" width="100px;">
+						                                	<td>
+																<input type="checkbox" class="i-checks" name="chk">
+																<div style="display: none">${ claim.no }</div>
+															</td>
+						                                    <td class="convType" width="50px;">
 							                                    <span class="label label-primary">${ store.storeNo }</span>
 						                                    </td>
 						                                    <td>
@@ -106,18 +117,21 @@
 						                                    <td width="10%" nowrap>
 						                                        ${ store.storePhone }
 						                                    </td>
+						                                    <td width="10%" nowrap>
+						                                        ${ store.regDate }
+						                                    </td>
 						                                    <td class="text-right">
 						                                        <div class="btn-group" width="10%" nowrap>
-						                                            <button class="btn-white btn btn-xs" id="view" onclick="action('V', ${store.storeNo})"><i class="fa fa-search"></i></button>
-						                                            <button class="btn-white btn btn-xs" onclick="action('E', ${store.storeNo})"><i class="fa fa-edit"></i></button>
-						                                            <button class="btn-white btn btn-xs" onclick="action('D', ${store.storeNo})"><i class="fa fa-trash"></i></button>
+						                                        	<button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="수정" 
+						                                            		onclick="action('E', ${claim.no})"><i class="fa fa-edit"></i></button>
+						                                            <button class="btn-white btn btn-xs" data-toggle="tooltip" data-placement="top" title="삭제" 
+						                                            		onclick="action('D', ${claim.no})"><i class="fa fa-trash"></i></button>
 						                                        </div>
 						                                    </td>
 						                                </tr>
 													</c:forEach>
 					                                </tbody>
 												</table>
-												<%-- <a href = "${ pageContext.request.contextPath}/store/storeWrite.do"><input type = "button" value="매장 추가"/></a> --%>
 											</div>
 				                        </div>
                    					</div>
@@ -167,6 +181,9 @@
     <script src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/pace/pace.min.js"></script>
 	
+	<!-- iCheck -->
+    <script src="${ pageContext.request.contextPath }/resources/js/plugins/iCheck/icheck.min.js"></script>
+	
     <!-- FooTable -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
     
@@ -183,8 +200,30 @@
 			
 			// footable 시작
 			$('.footable').footable();
-		    
 			
+			// 체크박스
+			$('.i-checks').iCheck({
+	            checkboxClass: 'icheckbox_square-green',
+	            radioClass: 'iradio_square-green',
+	        });
+			
+			// 체크박스 전체 선택
+			var start = 4;
+			$('#chkall').on('ifChecked', function(){
+				$('.icheckbox_square-green').addClass("checked");
+			});
+			$('#chkall').on('ifUnchecked', function(){
+				$('.icheckbox_square-green').removeClass("checked");
+			});
+			
+			// 체크박스 초기화
+			$(document).on('change', '.input-sm', function(){
+				$('.icheckbox_square-green').removeClass("checked");
+			});
+			$(document).on('click', '.pagination', function(){
+				$('.icheckbox_square-green').removeClass("checked");
+			});
+		    
 			// 데이터테이블 생성 & 옵션 변경
 			$('.footable').css("width","100%");
 			$('.dataTables-example').DataTable({
@@ -211,10 +250,16 @@
                     	"sNext": ">>"
                       }
                 },
+                "iDisplayLength": -1,
+                // 우선순위 Sort
+                "aaSorting": [[ 5, "desc" ]], // Sort by first column descending
+                // 컬럼 Sort 없애기
+                "aoColumnDefs": [
+                    { "bSortable": false, "aTargets": [ 0 ] }
+                ],
                 // 버튼 옵션
                 buttons: [
                     {extend: 'copy'},
-                    {extend: 'csv'},
                     {extend: 'excel', title: 'ExcelFile'},
                     {extend: 'pdf', title: 'PdfFile'},
                     {extend: 'print',
@@ -239,6 +284,19 @@
 				} 
 			});
 			
+			// 선택삭제 버튼 생성
+			table.button().add( 4, {
+			    text: '<i class="fa fa-trash" aria-hidden="true"> 선택삭제</i>',
+			    action: function () {
+			    	delRow();
+			    }
+			} );
+			// 선택삭제 버튼 위치 변경
+			var clone = $('.dt-buttons a').eq(4).clone(true);
+			//clone.appendTo('#DataTables_Table_0_paginate').css('float','left');
+			$('#DataTables_Table_0_paginate').before(clone).css('float','right');
+			$('.dt-buttons a').eq(4).hide();
+			
 		});
 		
 		// QnA action 함수
@@ -260,6 +318,55 @@
 				break;
 			}
 	    }
+		
+		// 체크박스 선택삭제
+		var cnt = 0;
+		var nums = "";
+		function delRow() {﻿
+			cnt = 0;
+			nums = "";
+			$('.checked').each(function() {
+				cnt++;
+				nums += $(this).next().text() + ",";
+			});
+			if($('.icheckbox_square-green').eq(0).hasClass('checked')){
+				cnt--;
+			}
+			if(cnt != 0){
+				deleteRow(nums, cnt);
+			}
+			else{
+				deleteZero();
+			}
+		}
+		
+		// 선택삭제 alert 확인창
+		function deleteRow(nums, cnt) {
+			swal({
+		        title: "선택 삭제",
+		        text: cnt + "개의 게시물을 삭제하시겠습니까?",
+		        type: "warning",
+		        showCancelButton: true,
+		        cancelButtonText: "취소",
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "삭제",
+		        closeOnConfirm: false
+		    }, function () {
+		        swal("삭제되었습니다!", "", "success");
+		        // OK 누르면 삭제 실행
+		        $('.confirm').click(function () {
+		        	location.href = '${ pageContext.request.contextPath}/community/claim/claimDeleteSome.do?nums=' + nums;
+				});
+		    });
+		}
+		
+		// 선택한 메뉴 없을 때 alert
+		function deleteZero() {			
+            swal({
+                title: "선택한 게시물이 없습니다!",
+              	type: "error"
+            });	        
+		}
 		
 		// 삭제 alert창
 		function deleteQnA(no) {
