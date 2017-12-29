@@ -192,16 +192,38 @@ table.space th, td{
                         <tr>
 							<td width="60%" style="padding: 3%">
 								<c:choose>
-									<c:when test="${fn:length(n.title) > 20}">
-										<a href="${ pageContext.request.contextPath }/community/subway/noticeDetail.do?no=${n.no}">
-											<c:out value="${fn:substring(n.title,0,19)}"/>....
-										</a>
+									<c:when test="${ n.type eq 'A' }">
+										<c:choose>
+											<c:when test="${fn:length(n.title) > 20}">
+												<strong>[공지사항]&nbsp;</strong>
+												<a href="${ pageContext.request.contextPath }/community/subway/noticeDetail.do?no=${n.no}">
+													<c:out value="${fn:substring(n.title,0,19)}"/>....
+												</a>
+											</c:when>
+											<c:otherwise>
+												<strong>[공지사항]&nbsp;</strong>
+												<a href="${ pageContext.request.contextPath }/community/subway/noticeDetail.do?no=${n.no}">
+													<c:out value="${n.title}"/>
+												</a>
+											</c:otherwise>
+										</c:choose>
 									</c:when>
 									<c:otherwise>
-										<a href="${ pageContext.request.contextPath }/community/subway/noticeDetail.do?no=${n.no}">
-											<c:out value="${n.title}"/>
-										</a>
-									</c:otherwise> 
+										<c:choose>
+											<c:when test="${fn:length(n.title) > 20}">
+												<strong>[보도자료]&nbsp;</strong>
+												<a href="${ pageContext.request.contextPath }/community/subway/noticeDetail.do?no=${n.no}">
+													<c:out value="${fn:substring(n.title,0,19)}"/>....
+												</a>
+											</c:when>
+											<c:otherwise>
+												<strong>[보도자료]&nbsp;</strong>
+												<a href="${ pageContext.request.contextPath }/community/subway/noticeDetail.do?no=${n.no}">
+													<c:out value="${n.title}"/>
+												</a>
+											</c:otherwise>
+										</c:choose>
+									</c:otherwise>
 								</c:choose>
                            	</td>
                            <th style="font-weight: normal;">${ n.regDate }</th>
