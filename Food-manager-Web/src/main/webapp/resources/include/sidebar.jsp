@@ -61,8 +61,8 @@
 				class="nav-label">이벤트 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
 				<li class="eventLI2"><a href="${ pageContext.request.contextPath }/event/eventPage.do">이벤트 관리</a></li>
-				<li class="storeLI"><a href="${ pageContext.request.contextPath }/store/storeList.do">매장 찾기 관리</a></li>
-			</ul></li>
+			</ul>
+		</li>
 		<li class="communityLI"><a href="#"><i class="fa fa-desktop"></i> <span
 				class="nav-label">커뮤니티 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
@@ -71,6 +71,12 @@
 				<li class="claimLI"><a href="${ pageContext.request.contextPath }/community/claim/claimList.do">1:1문의 관리</a></li>
 				<li class="snsLI"><a href="${pageContext.request.contextPath }/community/sns/snsPage.do">SNS게시판 관리</a></li>
 			</ul></li>
+		<li class="storeLI"><a href="#"><i class="fa fa-group"></i>
+			<span class="nav-label">매장찾기 관리</span><span class="fa arrow"></span></a>
+			<ul class="nav nav-second-level collapse">
+				<li class="storeLI2"><a href="${ pageContext.request.contextPath }/store/storeList.do">매장 찾기 관리</a></li>
+			</ul>
+		</li>
 		<!-- <li><a href="#"><i class="fa fa-globe"></i> <span
 				class="nav-label">마이페이지 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
@@ -79,7 +85,7 @@
 				<li><a href="agile_board.html">나만의메뉴 관리</a></li>
 				<li><a href="timeline_2.html">나의문의사항 관리</a></li>
 			</ul></li> -->
-		<li><a href="#"><i class="fa fa-bar-chart-o"></i> <span
+		<!-- <li><a href="#"><i class="fa fa-bar-chart-o"></i> <span
 				class="nav-label">통계 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
 				<li><a href="ecommerce_products_grid.html">회원 분석</a></li>
@@ -93,7 +99,8 @@
 				<li><a href="form_basic.html">사원 리스트</a></li>
 				<li><a href="form_advanced.html">사원 등록</a></li>
 				<li><a href="form_editors.html">출결 관리</a></li>
-			</ul></li>
+			</ul></li> -->
+		
 		<li class="special_link"><a href="http://localhost:8000/Food-diy-Web/main/Start" target="_blank">
 			<i class="fa fa-home"></i><span class="nav-label">Fooddiy-Order</span></a>
 		</li>

@@ -185,9 +185,9 @@
 			
 			
 			// sidebar li & ul 클래스 active
-			$('.eventLI').addClass("active");
-			$('.eventLI > ul').addClass("in");
 			$('.storeLI').addClass("active");
+			$('.storeLI > ul').addClass("in");
+			$('.storeLI2').addClass("active");
 			
 			// footable 시작
 			$('.footable').footable();
