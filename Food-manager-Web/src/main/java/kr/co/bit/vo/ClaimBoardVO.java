@@ -20,8 +20,8 @@ public class ClaimBoardVO {
 	private String visitStore;	// 방문 매장명
 	
 	private String fileOX;	// 파일 유 'O'/ 무 'X'
+	private String repOX;	// 답변 유 'O'/ 무 'X'
 	private String regDate;
-	private int viewCnt;
 	// ********************************************
 	// DB에 저장 안하고 쓰는 것들
 	private List<MultipartFile> claimFile;  //첨부파일임.
@@ -106,12 +106,6 @@ public class ClaimBoardVO {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public int getViewCnt() {
-		return viewCnt;
-	}
-	public void setViewCnt(int viewCnt) {
-		this.viewCnt = viewCnt;
-	}
 	public String getFileOX() {
 		return fileOX;
 	}
@@ -130,13 +124,18 @@ public class ClaimBoardVO {
 	public void setClaimFile(List<MultipartFile> claimFile) {
 		this.claimFile = claimFile;
 	}
+	public String getRepOX() {
+		return repOX;
+	}
+	public void setRepOX(String repOX) {
+		this.repOX = repOX;
+	}
 	@Override
 	public String toString() {
 		return "ClaimBoardVO [no=" + no + ", title=" + title + ", content=" + content + ", type=" + type + ", writer="
 				+ writer + ", emailID=" + emailID + ", emailDomain=" + emailDomain + ", phone1=" + phone1 + ", phone2="
 				+ phone2 + ", phone3=" + phone3 + ", visitDate=" + visitDate + ", visitStore=" + visitStore
-				+ ", fileOX=" + fileOX + ", regDate=" + regDate + ", viewCnt=" + viewCnt + ", claimFile=" + claimFile
-				+ "]";
+				+ ", fileOX=" + fileOX + ", repOX=" + repOX + ", regDate=" + regDate + ", claimFile=" + claimFile + "]";
 	}
 	
 }

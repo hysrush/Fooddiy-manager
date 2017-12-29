@@ -300,9 +300,9 @@ public class FileServiceImp implements FileService{
 	}
 	// File List 조회
 	@Override
-	public List<FileVO> selectFileList(Map<String, Object> fileMap) {
+	public List<FileVO> selectFileList(int boardNo, String name) {
 		// 게시판 번호에 해당하는 파일 가져오기
-		List<FileVO> fileList = fileDAO.selectList(fileMap);
+		List<FileVO> fileList = fileDAO.selectList(boardNo, name);
 		
 		for (FileVO fileVO : fileList) {
 			System.out.println(fileVO.toString());

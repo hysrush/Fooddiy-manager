@@ -1,5 +1,6 @@
 package kr.co.bit.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,12 @@ public class FileDAOImp implements FileDAO {
 	}
 	// File 리스트 보기
 	@Override
-	public List<FileVO> selectList(Map<String, Object> fileMap) {
+	public List<FileVO> selectList(int boardNo, String name) {
+		// Mybatis에 매개변수 2개를 보내기 위해 map 생성
+		Map<String, Object> fileMap = new HashMap<>();
+		fileMap.put("boardNo", boardNo);
+		fileMap.put("name", name);
+		
 		List<FileVO> fileList = sqlSession.selectList(url +"selectFileList", fileMap);
 		return fileList;
 	}

@@ -28,7 +28,6 @@ import kr.co.bit.service.FileService;
 import kr.co.bit.vo.CityVO;
 import kr.co.bit.vo.ClaimBoardVO;
 import kr.co.bit.vo.FileVO;
-import kr.co.bit.vo.NoticeBoardVO;
 import kr.co.bit.vo.StoreVO;
 import kr.co.bit.vo.UserVO;
 
@@ -46,9 +45,9 @@ public class ClaimController {
 	// <Claim 컨트롤러>
 	// Claim 전체보기
 	@RequestMapping("/claimList.do")
-	public ModelAndView listAll() {
+	public ModelAndView listAll(@RequestParam(value="id", required=false) String id) {
 		
-		List<ClaimBoardVO> claimList = claimService.selectAllClaim();
+		List<ClaimBoardVO> claimList = claimService.selectClaim(id);
 		
 		ModelAndView mav = new ModelAndView();
 		//setViewName : 어떤 페이지를 보여줄것인가
@@ -127,16 +126,13 @@ public class ClaimController {
 		String path = session.getServletContext().getRealPath("/");
 		System.out.println("■path:::"+path);
 		
-		return "redirect:/community/claim/claimList.do";
+		return "redirect:/community/claim/claimWriteForm.do";
 	}
 	
 	// Claim 글 상세내용 조회 & 게시글 조회수 증가 처리
 	// ex) community/claimDetail.do?no=15
 	@RequestMapping(value="/claimDetail.do", method=RequestMethod.GET)
 	public ModelAndView detail(@RequestParam("no") int no, HttpSession session) {
-		
-		// 조회수 증가 x, 사용자단의 조회수만 가져온다
-		//claimService.updateViewcntClaim(no, session);
 		
 		ClaimBoardVO claimVO = claimService.selectOneClaim(no);
 		
@@ -148,12 +144,8 @@ public class ClaimController {
 		
 		// file 존재하면,
 		if (claimVO.getFileOX().equals("O")) {
-			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
-			Map<String, Object> fileMap = new HashMap<>();
-			fileMap.put("boardNo", no);
-			fileMap.put("name", "claimFile");
 			// 해당 번호에 맞는 fileVO 읽어오기
-			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			List<FileVO> fileList = fileService.selectFileList(no, "claimFile");
 			mav.addObject("fileList",fileList);
 		}
 
@@ -166,11 +158,13 @@ public class ClaimController {
 	// file 다운로드
 	@RequestMapping(value="/downloadFile.do", method=RequestMethod.GET)
 	public void download(@RequestParam(value="no") int no, HttpServletResponse response) {
+		
 		try {
 			fileService.downloadFile(response, no);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 	// Claim 수정 폼
 	// ex) community/claim/claimEditForm.do?no=15
@@ -188,12 +182,8 @@ public class ClaimController {
 		
 		// file 존재하면,
 		if (claimVO.getFileOX().equals("O")) {
-			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
-			Map<String, Object> fileMap = new HashMap<>();
-			fileMap.put("boardNo", no);
-			fileMap.put("name", "claimFile");
 			// 해당 번호에 맞는 fileVO 읽어오기
-			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			List<FileVO> fileList = fileService.selectFileList(no, "claimFile");
 			model.addAttribute("fileList", fileList);
 		}
 
@@ -237,11 +227,8 @@ public class ClaimController {
 		}
 		// 기존 파일 O
 		if (claimVO_NEW.getFileOX().equals("O")) {
-			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
-			Map<String, Object> fileMap = new HashMap<>();
-			fileMap.put("boardNo", claimVO_NEW.getNo());
-			fileMap.put("name", "claimFile");
-			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			// 해당 번호에 맞는 fileVO 읽어오기
+			List<FileVO> fileList = fileService.selectFileList(claimVO_NEW.getNo(), "claimFile");
 			for (FileVO fileVO : fileList) {
 				// 기존 파일의 파일 주소
 				String filePath = fileVO.getFilePath();
@@ -281,17 +268,14 @@ public class ClaimController {
 		
 		// file 존재하면,
 		if (claimService.selectOneClaim(no).getFileOX().equals("O")) { 
-			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
-			Map<String, Object> fileMap = new HashMap<>();
-			fileMap.put("boardNo", no);
-			fileMap.put("name", "claimFile");
-			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			// 해당 번호에 맞는 fileVO 읽어오기
+			List<FileVO> fileList = fileService.selectFileList(no, "claimFile");
 			for (FileVO fileVO : fileList) {
 				// 번호에 해당하는 Claim 파일 삭제
 				fileService.removeFile(fileVO.getNo());
-				// 번호에 해당하는 Claim 글 삭제
-				claimService.removeClaim(fileVO.getNo());
 			}
+			// 번호에 해당하는 Claim 글 삭제
+			claimService.removeClaim(no);
 		} else {
 			// 번호에 해당하는 Claim 글 삭제
 			claimService.removeClaim(no);
@@ -318,21 +302,17 @@ public class ClaimController {
 				list.add(num);
 				// file 존재하면,
 				if (claimService.selectOneClaim(num).getFileOX().equals("O")) { 
-					// Mybatis에 매개변수 2개를 보내기 위해 map 생성
-					Map<String, Object> fileMap = new HashMap<>();
-					fileMap.put("boardNo", num);
-					fileMap.put("name", "claimFile");
 					/* 실제 저장된 파일 삭제 */
 					// 사용자
-					String userPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice" 
-										+ File.separator + fileService.selectFileList(fileMap).get(i).getFilePath();
+					String userPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload" 
+										+ File.separator + fileService.selectFileList(num, "claimFile").get(i).getFilePath();
 					File file = new File(userPath);
 					if(file.exists() == true){
 						file.delete();
 					}
 					// 관리자
-					String adminPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice"
-										+ File.separator + fileService.selectFileList(fileMap).get(i).getFilePath();
+					String adminPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload"
+										+ File.separator + fileService.selectFileList(num, "claimFile").get(i).getFilePath();
 					File file2 = new File(adminPath);
 					if(file2.exists() == true){
 						file2.delete();
