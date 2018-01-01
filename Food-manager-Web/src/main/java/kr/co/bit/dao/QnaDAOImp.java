@@ -48,5 +48,10 @@ public class QnaDAOImp implements QnaDAO {
 	public void deleteSome(List<Integer> list) {
 		sqlSession.delete(url + "removeQnASome", list);
 	}
+	// 메인 화면에 QNA표시
+	@Override
+	public List<QnaBoardVO> selectQnaMain() {
+		return sqlSession.selectList("kr.co.bit.main.mainQ");
+	}
 	
 }

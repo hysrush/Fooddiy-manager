@@ -92,20 +92,20 @@ table.space th, td{
                                 </tr>
 									<c:forEach items="${ qna }" var="q">
 									<tr>
-										<c:choose>
-										<c:when test="${fn:length(q.title) > 20}">
-											<td style="padding:3%" title="${ s.title }">
-												<c:out value="${fn:substring(s.title,0,19)}"/>....
+									<c:choose>
+										<c:when test="${fn:length(q.question) > 10}">
+											<td style="padding:3%; font-weight: normal;" title="${ q.question }">
+												<a href="${ pageContext.request.contextPath }/community/claim/claimList.do"><c:out value="${fn:substring(q.question,0,6)}"/>....</a>
 											</td>
 										</c:when>
 										<c:otherwise>
-											<td colspan="2" style="padding:3%" title="${ s.title }">
-												<c:out value="${q.title}"/>
-											</td>
+											<th style="padding:3%; font-weight: normal;" title="${ q.question }">
+												<a href="${ pageContext.request.contextPath }/community/claim/claimList.do"><c:out value="${q.question}"/></a>
+											</th>
 										</c:otherwise> 
 									</c:choose>
-	                              <td>${ q.startDate }</td>
-	                              <td>${ q.endDate }</td>
+	                              <th style="font-weight: normal;">${ q.answer }</th>
+	                              <th style="font-weight: normal;">${ q.regDate }</th>
 								</tr>
 								</c:forEach>
 							</table>

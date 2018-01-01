@@ -29,11 +29,11 @@
   	 
   	<!-- QNA -->
   	<resultMap type="qnaVO" id="Map_qnaVO">
-  		<result column="qna_no" property="no"/>
-  		<result column="qna_q" property="question"/>
-  		<result column="qna_a" property="answer"/>
-  		<result column="qna_type" property="type"/>
-  		<result column="reg_at" property="regDate"/>
+  		<result column="claim_no" property="no"/>
+  		<result column="claim_title" property="question"/>
+  		<result column="user_id" property="answer"/>
+  		<result column="claim_type" property="type"/>
+  		<result column="claim_date" property="regDate"/>
   	</resultMap>
 	
 	<!-- main 페이지에 공지사항 ** mapper에서 쿼리문 내에 부등식이 있을 경우 <![CDATA[ 내용 ]]>을 이용한다. 부등식이라고 인식해 주는 태그-->
@@ -64,12 +64,13 @@
 	</select>
 	
 	<!-- claim -->
-	<!-- <select id="mainQ" resultMap="Map_qnaVO" parameterType="java.lang.String">
-	 select * from (select * from (select * from t_claim where CLAIM_STORE = #{branch}) order by reg_at desc)
+	<select id="mainQ" resultMap="Map_qnaVO" parameterType="java.lang.String">
+	 select claim_no, user_id, claim_title, claim_type, TO_CHAR(claim_date, 'YY-MM-DD') as claim_date 
+	 from (select * from t_claim order by reg_at desc)
 	<![CDATA[
 		where rownum <=5
  	]]>
-	</select> -->
+	</select>
 	
 	
 	

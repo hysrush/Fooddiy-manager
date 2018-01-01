@@ -17,6 +17,7 @@ import kr.co.bit.service.QnaService;
 import kr.co.bit.vo.EventBoardVO;
 import kr.co.bit.vo.ManagerVO;
 import kr.co.bit.vo.NoticeBoardVO;
+import kr.co.bit.vo.QnaBoardVO;
 
 @RequestMapping("/main")
 @Controller
@@ -33,12 +34,15 @@ public class MainController {
 	
 	@RequestMapping("/FirstPage")
 	public String mainPage(Model model, @RequestParam(value="storeName", required=false) String storeName) {
-		
+//		
+//		if(storeName.equals("")) {
+//			return "redirect:/login.jsp";
+//		}
 		List<EventBoardVO> eventList = eventService.selectEventMain();
 		List<NoticeBoardVO> noticeList = noticeService.selectNoticeMain();
-		System.out.println(storeName);
-		/*List<QnaBoardVO> qnaList = qnaService.selectQnaMain(storeName);*/
+		List<QnaBoardVO> qnaList = qnaService.selectQnaMain();
 		
+		System.out.println(qnaList.toString());
 		Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
         /*System.out.println("현재날짜 : "+ sdf.format(d));*/
@@ -65,7 +69,7 @@ public class MainController {
 		
 		model.addAttribute("event", eventList);
 		model.addAttribute("notice", noticeList);
-		/*model.addAttribute("qna", qnaList);*/
+		model.addAttribute("qna", qnaList);
 		model.addAttribute("count", todyNum);
 		
 		return "main/FirstPage";
