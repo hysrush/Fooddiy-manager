@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MenuList</title>
+<title>| Fooddiy-Order Admin+ |</title>	
 
 <link href="${ pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.css" rel="stylesheet">

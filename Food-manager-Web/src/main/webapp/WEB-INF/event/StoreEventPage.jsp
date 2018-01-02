@@ -8,7 +8,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">	
 
-		<title> | 매장별 EVENT |  </title>	
+		<title>| Fooddiy-Order Admin+ |</title>	
 
 		<meta name="keywords" content="HTML5 Template" />
 		<meta name="description" content="Porto - Responsive HTML5 Template">
