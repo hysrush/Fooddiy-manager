@@ -52,10 +52,10 @@
 				<li class="todayOrderList"><a href="${pageContext.request.contextPath}/orderManagement/todayOrderList.do">TODAY 주문</a></li>
 				<li class="orderList"><a href="${pageContext.request.contextPath}/orderManagement/orderList.do">주문 내용</a></li>
 			</ul></li>
-		<li><a href="#"><i class="fa fa-user-circle"></i> <span
+		<li class="memberLI"><a href="#"><i class="fa fa-user-circle"></i> <span
 				class="nav-label">회원 관리</span><span class="fa arrow"></span></a>
 			<ul class="nav nav-second-level collapse">
-				<li><a href="${ pageContext.request.contextPath }/member/memberList.do">회원 리스트</a></li>
+				<li  class="memberLI2"><a href="${ pageContext.request.contextPath }/member/memberList.do">회원 리스트</a></li>
 			</ul></li> 
 		<li class="eventLI"><a href="#"><i class="fa fa-star"></i> <span
 				class="nav-label">이벤트 관리</span><span class="fa arrow"></span></a>

@@ -325,6 +325,14 @@
     <!-- Page-Level Scripts -->
     <script>
         $(document).ready(function() {
+        	
+    		
+			// sidebar li & ul 클래스 active
+			$('.memberLI').addClass("active");
+			$('.memberLI > ul').addClass("in");
+			$('.memberLI2').addClass("active");
+				    
+			
 
             $('.footable').footable();
             
