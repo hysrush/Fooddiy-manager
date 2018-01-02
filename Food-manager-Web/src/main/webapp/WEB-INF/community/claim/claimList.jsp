@@ -103,7 +103,6 @@
 													     <th data-toggle="phone" data-sort-ignore="true">제목</th>
 													     <th data-hide="phone" data-sort-ignore="true">회원ID</th>
 													     <th data-hide="phone" data-sort-ignore="true">등록일</th>
-													     <th data-hide="phone" data-sort-ignore="true">조회</th>
 													     <th class="text-right" data-sort-ignore="true">Action</th>
 													 </tr>
 													</thead>
@@ -125,9 +124,6 @@
 						                                    </td>
 						                                    <td width="10%" nowrap>
 						                                        ${ claim.regDate }
-						                                    </td>
-						                                    <td width="50px;" nowrap>
-						                                        ${ claim.viewCnt }
 						                                    </td>
 						                                    <td class="text-right" width="100px;" >
 						                                        <div class="btn-group tooltip-demo" nowrap>
@@ -342,8 +338,9 @@
 			    location.href = '${ pageContext.request.contextPath}/community/claim/claimDetail.do?no=' + no;
 				break;
 			case 'E':
-				// Claim 수정
-				location.href = '${ pageContext.request.contextPath}/community/claim/claimEditForm.do?no=' + no;
+				// Claim 답변
+				alert("준비중입니다..!");
+				//location.href = '${ pageContext.request.contextPath}/community/claim/claimEditForm.do?no=' + no;
 				break;
 			case 'D':
 				// Claim 삭제

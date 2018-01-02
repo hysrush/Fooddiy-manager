@@ -120,12 +120,13 @@
 												</div>
 												<div class="row">
 													<div class="col-md-12">
+														<!-- 작성자 -->
 														<span class="text-muted"><i class="fa fa-user-circle"></i>
 															${ claimVO.writer }
 														</span>
-														<span class="text-muted float-right"><i class="fa fa-eye"></i>
-															${ claimVO.viewCnt } views
-														</span>
+														<!-- 답변 여부 -->
+														<span class="label label-primary" id="repType">${ claimVO.repOX }</span>
+														<!-- 등록일 -->
 														<span class="text-muted float-right"><i class="fa fa-clock-o"></i>
 															${ claimVO.regDate }&nbsp;&nbsp;&nbsp;
 														</span>
@@ -286,6 +287,16 @@
 				$('#typeLabel').html("기타");
 			}
 			
+			// Claim rep타입별 라벨 클래스명 & 텍스트 변경
+			if($('#repType').text() == 'X'){
+				$('#repType').attr("class","label label-repX float-right");
+				$('#repType').html("접수완료");
+			}
+			else if($('#repType').text() == 'O'){
+				$('#repType').attr("class","label label-repO float-right");
+				$('#repType').html("답변완료");
+			}
+			
 			// 파일명 호버 효과
 			$(".fileName").hover( function () { 
 				$(this).css('text-decoration', 'underline');
@@ -314,8 +325,9 @@
 			    location.href = '${ pageContext.request.contextPath}/community/claim/claimDetail.do?no=' + no;
 				break;
 			case 'E':
-				// Claim 수정
-				location.href = '${ pageContext.request.contextPath}/community/claim/claimEditForm.do?no=' + no;
+				// Claim 답변
+				alert("준비중입니다..!");
+				//location.href = '${ pageContext.request.contextPath}/community/claim/claimEditForm.do?no=' + no;
 				break;
 			case 'D':
 				// Claim 삭제

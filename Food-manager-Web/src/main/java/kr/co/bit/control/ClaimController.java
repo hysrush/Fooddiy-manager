@@ -45,9 +45,9 @@ public class ClaimController {
 	// <Claim 컨트롤러>
 	// Claim 전체보기
 	@RequestMapping("/claimList.do")
-	public ModelAndView listAll(@RequestParam(value="id", required=false) String id) {
+	public ModelAndView listAll() {
 		
-		List<ClaimBoardVO> claimList = claimService.selectClaim(id);
+		List<ClaimBoardVO> claimList = claimService.selectAllClaim();
 		
 		ModelAndView mav = new ModelAndView();
 		//setViewName : 어떤 페이지를 보여줄것인가
