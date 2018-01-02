@@ -101,7 +101,7 @@
 														</th>
 													     <th data-hide="phone" data-sort-ignore="true">타입</th>
 													     <th data-toggle="phone" data-sort-ignore="true">제목</th>
-													     <th data-hide="phone" data-sort-ignore="true">작성자</th>
+													     <th data-hide="phone" data-sort-ignore="true">회원ID</th>
 													     <th data-hide="phone" data-sort-ignore="true">등록일</th>
 													     <th data-hide="phone" data-sort-ignore="true">조회</th>
 													     <th class="text-right" data-sort-ignore="true">Action</th>
@@ -187,15 +187,13 @@
 	<script src="${ pageContext.request.contextPath }/resources/js/plugins/dataTables/datatables.min.js"></script>
     <!-- FooTable -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
+	<!-- iCheck -->
+    <script src="${ pageContext.request.contextPath }/resources/js/plugins/iCheck/icheck.min.js"></script>
 	
     <!-- Custom and plugin javascript -->
     <script src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/pace/pace.min.js"></script>
 	
-	<!-- iCheck -->
-    <script src="${ pageContext.request.contextPath }/resources/js/plugins/iCheck/icheck.min.js"></script>
-	
-    
     <!-- Page-Level Scripts -->
     <script type="text/javascript">
 		$(document).ready(function() {
@@ -349,7 +347,7 @@
 				break;
 			case 'D':
 				// Claim 삭제
-				deleteNotice(no);
+				deleteClaim(no);
 				break;
 			default:
 				break;
@@ -357,7 +355,7 @@
 	    }
 		
 		// 삭제 alert창
-		function deleteNotice(no) {
+		function deleteClaim(no) {
 			swal({
 		        title: "정말 삭제하시겠습니까?",
 		        type: "warning",

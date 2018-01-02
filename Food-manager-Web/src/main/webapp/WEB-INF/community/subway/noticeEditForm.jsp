@@ -129,19 +129,21 @@
 												<div class="col-sm-12">
 													<label class="control-label" for="content">파일첨부</label>
 													<c:choose>
-											        	<c:when test="${ not empty fileVO }">
-															<div class="fileinput input-group fileinput-exists" data-provides="fileinput">
-															    <div class="form-control" data-trigger="fileinput">
-															        <i class="glyphicon glyphicon-file fileinput-exists"></i>
-															    <span class="fileinput-filename">${ fileVO.fileOriName }</span>
-															    </div>
-															    <span class="input-group-addon btn btn-default btn-file">
-															        <span class="fileinput-new">파일 선택</span>
-															        <span class="fileinput-exists">변경</span>
-															        <form:input path="noticeFile" type="file" id="noticeFile"/>
-															    </span>
-															    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">삭제</a>
-															</div>
+											        	<c:when test="${ not empty fileList }">
+											        		<c:forEach items="${ fileList }" var="file">
+																<div class="fileinput input-group fileinput-exists" data-provides="fileinput">
+																    <div class="form-control" data-trigger="fileinput">
+																        <i class="glyphicon glyphicon-file fileinput-exists"></i>
+																    <span class="fileinput-filename">${ file.fileOriName }</span>
+																    </div>
+																    <span class="input-group-addon btn btn-default btn-file">
+																        <span class="fileinput-new">파일 선택</span>
+																        <span class="fileinput-exists">변경</span>
+																        <form:input path="noticeFile" type="file" id="noticeFile"/>
+																    </span>
+																    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">삭제</a>
+																</div>
+															</c:forEach>
 											        	</c:when>
 											        	<c:otherwise>
 															<div class="fileinput fileinput-new input-group" data-provides="fileinput">

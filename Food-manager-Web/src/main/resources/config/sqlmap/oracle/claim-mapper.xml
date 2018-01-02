@@ -13,7 +13,7 @@
 				user_id, user_emailID, user_emailDomain,
 				user_phone1, user_phone2, user_phone3,
 				to_char(claim_date, 'yy-mm-dd') as claim_date, claim_store,
-				file_type, view_cnt, to_char(reg_at, 'yy-mm-dd') as reg_at
+				file_type, rep_type, to_char(reg_at, 'yy-mm-dd') as reg_at
 		FROM t_claim
 	</sql>
 	
@@ -32,7 +32,7 @@
   		<result column="claim_date" property="visitDate"/>
   		<result column="claim_store" property="visitStore"/>
   		<result column="file_type" property="fileOX"/>
-  		<result column="view_cnt" property="viewCnt"/>
+  		<result column="rep_type" property="repOX"/>
   		<result column="reg_at" property="regDate"/>
   	</resultMap>
 	
@@ -57,13 +57,13 @@
 							user_id, user_emailID, user_emailDomain,
 							user_phone1, user_phone2, user_phone3,
 							claim_date, claim_store, file_type)
-		VALUES(#{no}, #{title}, #{content}, #{type}, #{file, jdbcType=VARCHAR},
+		VALUES(#{no}, #{title}, #{content}, #{type},
 				#{writer}, #{emailID}, #{emailDomain},
 				#{phone1}, #{phone2}, #{phone3},
 				#{visitDate, jdbcType=DATE}, #{visitStore, jdbcType=VARCHAR}, #{fileOX})
 	</insert>
 	
-	<!-- Claim 글 수정 -->
+	<!-- Claim 글 수정 (사용자) -->
 	<update id="modifyClaim" parameterType="claimVO">
 		UPDATE t_claim
 		SET claim_title = #{title}, claim_content = #{content}, claim_type = #{type},
@@ -103,13 +103,6 @@
  			</foreach>
 	</delete>
 	
-	<!-- Claim 조회수 증가 -->
-	<update id="updateViewcntClaim" parameterType="int">
-        UPDATE t_claim
-        SET view_cnt = view_cnt + 1
-        WHERE claim_no = #{no}
-    </update>
-    
     <!-- id에 맞는 claim 목록 가져오기 -->
     <select id="selectClaim" resultMap="Map_claimVO" parameterType="java.lang.String">
 		<include refid="selectAll_claim"/>

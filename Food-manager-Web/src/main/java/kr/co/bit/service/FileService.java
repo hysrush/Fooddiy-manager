@@ -17,7 +17,7 @@ public interface FileService {
 	void downloadFile(HttpServletResponse response, int no) throws Exception;
 	String modifyFile(HttpServletRequest request, int boardNo);
 	FileVO selectOneFile(int no);
-	List<FileVO> selectFileList(Map<String, Object> fileMap);
+	List<FileVO> selectFileList(int boardNo, String name);
 	void removeFile(int no);
 	void removeFileSome(List<Integer> list);
 	void deleteFile(int no);

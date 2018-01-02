@@ -105,7 +105,7 @@
 																<input type="checkbox" class="i-checks" name="chk">
 																<div style="display: none">${ claim.no }</div>
 															</td>
-						                                    <td class="convType" width="50px;">
+						                                    <td class="convType" width="7%">
 							                                    <span class="label label-primary">${ store.storeNo }</span>
 						                                    </td>
 						                                    <td>
@@ -159,15 +159,6 @@
 	</div>
 	</div>
         
-	<!-- 모달들 -->
-	<div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content animated fadeIn">
-				<!-- 모달내용 -->
-			</div>
-		</div>
-	</div>
-
 	<!-- Mainly scripts -->
     <script src="${ pageContext.request.contextPath }/resources/js/jquery-3.1.1.min.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
@@ -176,6 +167,8 @@
 	
 	<!-- dataTables -->
 	<script src="${ pageContext.request.contextPath }/resources/js/plugins/dataTables/datatables.min.js"></script>
+    <!-- FooTable -->
+    <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
 	
     <!-- Custom and plugin javascript -->
     <script src="${ pageContext.request.contextPath }/resources/js/inspinia.js"></script>
@@ -184,8 +177,6 @@
 	<!-- iCheck -->
     <script src="${ pageContext.request.contextPath }/resources/js/plugins/iCheck/icheck.min.js"></script>
 	
-    <!-- FooTable -->
-    <script src="${ pageContext.request.contextPath }/resources/js/plugins/footable/footable.all.min.js"></script>
     
     <!-- Page-Level Scripts -->
     <script type="text/javascript">
@@ -194,9 +185,9 @@
 			
 			
 			// sidebar li & ul 클래스 active
-			$('.eventLI').addClass("active");
-			$('.eventLI > ul').addClass("in");
 			$('.storeLI').addClass("active");
+			$('.storeLI > ul').addClass("in");
+			$('.storeLI2').addClass("active");
 			
 			// footable 시작
 			$('.footable').footable();

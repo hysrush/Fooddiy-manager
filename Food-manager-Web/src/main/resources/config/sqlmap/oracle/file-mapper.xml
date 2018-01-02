@@ -70,8 +70,7 @@
 	<!-- File 다중 삭제 -->
 	<delete id="removeFileSome" parameterType="java.util.List">
 		DELETE FROM t_file
-		WHERE file_name LIKE '%${name}%'
-		AND borad_no = #{boardNo} IN
+		WHERE borad_no IN
 			<foreach item="item" index="index" collection="list" open="(" close=")" separator="," >
        			#{item}
  			</foreach>

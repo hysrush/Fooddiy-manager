@@ -132,6 +132,57 @@
 													</div>
 												</div>
 												<hr>
+												<!-- 방문일 / 방문매장명 -->
+												<c:choose>
+													<c:when test="${ not empty claimVO.visitDate && not empty claimVO.visitStore }">
+													<table class="text-center table table-bordered">
+														<tr id="totalImg">
+															<th colspan="4" style="background-color: #eee">1:1문의 정보</th>
+														</tr>
+														<tr id="totalImg">
+															<td colspan="4">
+																<table class="table table-bordered text-center" style="margin-bottom: 0px">
+																	<tr>
+																		<th width="130px"><i class="fa fa-building"></i> 방문매장</th>
+																		<td>${ claimVO.visitStore }점</td>
+																		<th width="130px"><i class="fa fa-calendar-o"></i> 방문일</th>
+																		<td>${ claimVO.visitDate }</td>
+																	</tr>
+																	<tr>
+																		<th><i class="fa fa-send"></i> 답변 메일</th>
+																		<td colspan="3">${ claimVO.emailID }@${ claimVO.emailDomain }</td>
+																	</tr>
+																	<tr>
+																		<th><i class="fa fa-phone"></i> 연락처</th>
+																		<td colspan="3">${ claimVO.phone1 }-${ claimVO.phone2 }-${ claimVO.phone3 }</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+													</c:when>
+													<c:otherwise>
+													<table class="text-center table table-bordered">
+														<tr id="totalImg">
+															<th colspan="4" style="background-color: #eee">1:1문의 정보</th>
+														</tr>
+														<tr id="totalImg">
+															<td colspan="4">
+																<table class="table table-bordered text-center" style="margin-bottom: 0px">
+																	<tr>
+																		<th><i class="fa fa-calendar-o"></i> 답변 메일</th>
+																		<td colspan="3">${ claimVO.emailID }@${ claimVO.emailDomain }</td>
+																	</tr>
+																	<tr>
+																		<th><i class="fa fa-calendar-o"></i> 연락처</th>
+																		<td colspan="3">${ claimVO.phone1 }-${ claimVO.phone2 }-${ claimVO.phone3 }</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+													</c:otherwise>
+												</c:choose>
 												<p class="content list-group-item-text">
 													<!-- 자동 단락 나누기 (jstl - fn) -->
 													${ fn:replace(claimVO.content, cn, br) }
@@ -172,7 +223,7 @@
 												<hr>
 												<div class="col-md-12">
 													<div class="pull-right">
-														<button class="btn btn-default" type="button" onclick="action('E', ${ claimVO.no })"><i class="fa fa-edit"></i>&nbsp;&nbsp;수정</button>
+														<button class="btn btn-default" type="button" onclick="action('E', ${ claimVO.no })"><i class="fa fa-edit"></i>&nbsp;&nbsp;답변</button>
 														<button class="btn btn-default" type="button" onclick="action('D', ${ claimVO.no })"><i class="fa fa-trash"></i>&nbsp;&nbsp;삭제</button>
 														<button class="btn btn-default" type="button" onclick="action('L', ${ claimVO.no })"><i class="fa fa-list"></i>&nbsp;&nbsp;목록</button>
 													</div>

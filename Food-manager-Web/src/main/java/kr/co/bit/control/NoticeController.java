@@ -113,12 +113,8 @@ public class NoticeController {
 
 		// file 존재하면,
 		if (noticeVO.getFileOX().equals("O")) {
-			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
-			Map<String, Object> fileMap = new HashMap<>();
-			fileMap.put("boardNo", no);
-			fileMap.put("name", "noticeFile");
 			// 해당 번호에 맞는 fileVO 읽어오기
-			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			List<FileVO> fileList = fileService.selectFileList(no, "noticeFile");
 			mav.addObject("fileList",fileList);
 		}
 
@@ -153,12 +149,8 @@ public class NoticeController {
 		
 		// file 존재하면,
 		if (noticeVO.getFileOX().equals("O")) {
-			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
-			Map<String, Object> fileMap = new HashMap<>();
-			fileMap.put("boardNo", no);
-			fileMap.put("name", "noticeFile");
 			// 해당 번호에 맞는 fileVO 읽어오기
-			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			List<FileVO> fileList = fileService.selectFileList(no, "noticeFile");
 			model.addAttribute("fileList", fileList);
 		}
 
@@ -202,11 +194,8 @@ public class NoticeController {
 		}
 		// 기존 파일 O
 		if (noticeVO_NEW.getFileOX().equals("O")) {
-			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
-			Map<String, Object> fileMap = new HashMap<>();
-			fileMap.put("boardNo", noticeVO_NEW.getNo());
-			fileMap.put("name", "noticeFile");
-			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			// 해당 번호에 맞는 fileVO 읽어오기
+			List<FileVO> fileList = fileService.selectFileList(noticeVO_NEW.getNo(), "noticeFile");
 			for (FileVO fileVO : fileList) {
 				// 기존 파일의 파일 주소
 				String filePath = fileVO.getFilePath();
@@ -246,11 +235,8 @@ public class NoticeController {
 		
 		// file 존재하면,
 		if (noticeService.selectOneNotice(no).getFileOX().equals("O")) { 
-			// Mybatis에 매개변수 2개를 보내기 위해 map 생성
-			Map<String, Object> fileMap = new HashMap<>();
-			fileMap.put("boardNo", no);
-			fileMap.put("name", "noticeFile");
-			List<FileVO> fileList = fileService.selectFileList(fileMap);
+			// 해당 번호에 맞는 fileVO 읽어오기
+			List<FileVO> fileList = fileService.selectFileList(no, "noticeFile");
 			for (FileVO fileVO : fileList) {
 				// 번호에 해당하는 notice 파일 삭제
 				fileService.removeFile(fileVO.getNo());
@@ -283,21 +269,17 @@ public class NoticeController {
 				list.add(num);
 				// file 존재하면,
 				if (noticeService.selectOneNotice(num).getFileOX().equals("O")) { 
-					// Mybatis에 매개변수 2개를 보내기 위해 map 생성
-					Map<String, Object> fileMap = new HashMap<>();
-					fileMap.put("boardNo", num);
-					fileMap.put("name", "noticeFile");
 					/* 실제 저장된 파일 삭제 */
 					// 사용자
 					String userPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice" 
-										+ File.separator + fileService.selectFileList(fileMap).get(i).getFilePath();
+										+ File.separator + fileService.selectFileList(num, "noticeFile").get(i).getFilePath();
 					File file = new File(userPath);
 					if(file.exists() == true){
 						file.delete();
 					}
 					// 관리자
 					String adminPath = "C:\\Users\\bit-user\\git\\Fooddiy\\Food-diy-Web\\src\\main\\webapp\\upload\\notice"
-										+ File.separator + fileService.selectFileList(fileMap).get(i).getFilePath();
+										+ File.separator + fileService.selectFileList(num, "noticeFile").get(i).getFilePath();
 					File file2 = new File(adminPath);
 					if(file2.exists() == true){
 						file2.delete();
