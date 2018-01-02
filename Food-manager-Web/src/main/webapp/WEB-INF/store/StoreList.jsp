@@ -82,7 +82,7 @@
 									<div class="ibox">
 										<div class="ibox-content">
 											<div class="table-responsive">
-												<table class="datatable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="25">
+												<table class="datatable table table-stripped toggle-arrow-tiny dataTables-example" data-page-size="100">
 													<thead>
 													 <tr>
 													 	<th data-hide="phone" data-sort-ignore="true" width="55px;">
@@ -295,7 +295,7 @@
 			var clone = $('.dt-buttons a').eq(4).clone(true);
 			//clone.appendTo('#DataTables_Table_0_paginate').css('float','left');
 			$('#DataTables_Table_0_paginate').before(clone).css('float','right');
-			$('.dt-buttons a').eq(4).hide();
+			$('.dt-buttons a').eq(4).show();
 			
 		});
 		
